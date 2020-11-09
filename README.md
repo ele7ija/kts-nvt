@@ -1,2 +1,3 @@
 # kts-nvt
-Projekat iz predmeta NVT i KST (7 semestar)
+
+[Low fidelity prototype](https://balsamiq.cloud/s2ntpg/p2izoaj/r795F)
