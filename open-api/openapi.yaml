@@ -1,0 +1,389 @@
+swagger: '2.0'
+info:
+  description: |
+    This documents specifies the RESTful API of Cultural Offerings project.
+    Link to the soruce: https://github.com/ele7ija/kts-nvt
+  version: 1.0.0
+  title: Cultural Offerings
+# host: petstore.swagger.io
+# basePath: /v2
+tags:
+- name: culturalOffering
+  description: Operations involving cultural offerings
+
+- name: user
+  description: Operations about user
+
+paths:
+  /culturalOffering/{id}:
+    get:
+      tags:
+      - culturalOffering
+      summary: Get a cultural offering
+      operationId: getCulturalOfferingByID
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: id
+        in: path
+#       description: 
+        required: true
+        type: string
+      responses:
+        200:
+          description: Successfully listed a cultural offering
+          schema:
+            $ref: '#/definitions/CulturalOffering'
+        400:
+          description: Invalid id supplied
+        404:
+          description: Cultural offering not found
+    delete:
+      tags:
+      - culturalOffering
+      summary: Deletes a cultural offering
+      operationId: deleteCulturalOffering
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        200:
+          description: Cultural offering deleted
+        400:
+          description: Invalid ID supplied
+        404:
+          description:  not found
+  /culturalOffering/{id}/uploadImage:
+    post:
+      tags:
+      - culturalOffering
+      summary: Uploads an image of this cultural offering
+      operationId: uploadImageCulturalOffering
+      consumes:
+      - multipart/form-data
+      produces:
+      - application/json
+      parameters:
+      - name: id
+        in: path
+        description: ID of cultural offering to update
+        required: true
+        type: string
+      - name: file
+        in: formData
+        description: file to upload
+        required: true
+        type: file
+      responses:
+        200:
+          description: Image added to the Cultural Offering
+          schema:
+            $ref: '#/definitions/CulturalOffering'
+  /culturalOffering:
+    post:
+      tags:
+      - culturalOffering
+      summary: Create a cultural offering
+      operationId: createCulturalOffering
+      produces: 
+      - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            $ref: '#/definitions/CulturalOffering'
+      responses:
+        200:
+          description: Successfully created
+          schema:
+            type: object
+            $ref: '#/definitions/CulturalOffering'
+        400: 
+          description: Invalid input
+    put:
+      tags:
+      - culturalOffering
+      summary: Update a cultural offering
+      operationId: updateCulturalOffering
+      produces: 
+      - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            $ref: '#/definitions/CulturalOffering'
+      responses:
+        200:
+          description: Successfully updated
+          schema:
+            type: object
+            $ref: '#/definitions/CulturalOffering'
+        400: 
+          description: Invalid input
+
+  /user:
+    post:
+      tags:
+      - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - in: body
+        name: body
+        description: Created user object
+        required: true
+        schema:
+          $ref: '#/definitions/AbstractUser'
+      responses:
+        200:
+          description: successful operation
+  /user/login:
+    get:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
+      produces:
+      - application/json
+      - application/xml
+      parameters:
+      - name: username
+        in: query
+        description: The user name for login
+        required: true
+        type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: string
+        400:
+          description: Invalid username/password supplied
+  /user/logout:
+    get:
+      tags:
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        default:
+          description: successful operation
+  /user/{username}:
+    get:
+      tags:
+      - user
+      summary: Get user by user name
+      operationId: getUserByName
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: path
+        description: The usernname that needs to be fetched.
+        required: true
+        type: string
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/AbstractUser'
+        400:
+          description: Invalid username supplied
+        404:
+          description: User not found
+    put:
+      tags:
+      - user
+      summary: Update a user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: path
+        description: name that need to be updated
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: Updated user object
+        required: true
+        schema:
+          $ref: '#/definitions/AbstractUser'
+      responses:
+        400:
+          description: Invalid user supplied
+        404:
+          description: User not found
+    delete:
+      tags:
+      - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters:
+      - name: username
+        in: path
+        description: The name that needs to be deleted
+        required: true
+        type: string
+      responses:
+        400:
+          description: Invalid username supplied
+        404:
+          description: User not found
+
+definitions:
+  CulturalOffering:
+    type: object
+    properties:
+      name:
+        type: string
+      images:
+        type: array
+        items: 
+          type: string
+      description:
+        type: string
+      location:
+        type: object
+        $ref: '#/definitions/Location'
+      type:
+        type: object
+        $ref: '#/definitions/CulturalOfferingType'
+      subtype:
+        type: object
+        $ref: '#/definitions/CulturalOfferingSubtype'
+      comments:
+        type: array
+        items:
+          $ref: '#/definitions/Comment'
+      ratings:
+        type: array
+        items:
+          $ref: '#/definitions/Rating'
+      newsletters:
+        type: array
+        items:
+          $ref: '#/definitions/Newsletter'
+      subscriptions:
+        type: array
+        items:
+          $ref: '#/definitions/Subscription'
+  Comment:
+    type: object
+    properties:
+      text:
+        type: string
+      date:
+        type: string
+        format: date-time
+      images:
+        type: array
+        items:
+          type: string
+  Rating:
+    type: object
+    properties:
+      value:
+        type: integer
+      date:
+        type: string
+        format: date-time
+  Location:
+    type: object
+    properties:
+      longitude:
+        type: number
+      latitude:
+        type: number
+      name:
+        type: string
+  CulturalOfferingType:
+    type: object
+    properties:
+      name:
+        type: string
+      icon:
+        type: string
+      # subtypes:
+      #   type: object
+      #   $ref: '#/definitions/CulturalOfferingSubtype'
+  CulturalOfferingSubtype:
+    type: object
+    properties:
+      name:
+        type: string
+  Subscription:
+    type: object
+    properties:
+      date:
+        type: string
+        format: date-time
+      culturaloffering:
+        type: object
+        $ref: '#/definitions/CulturalOffering'
+      user: 
+        type: object
+        $ref: '#/definitions/AbstractUser'
+  Newsletter:
+    type: object
+    properties:
+      culturaloffering:
+        type: object
+        $ref: '#/definitions/CulturalOffering'
+      user: 
+        type: object
+        $ref: '#/definitions/AbstractUser'
+  AbstractUser:
+    type: object
+    properties:
+      firstName:
+        type: string
+      lastName:
+        type: string
+      username:
+        type: string
+      password:
+        type: string
+      subscriptions:
+        type: array
+        items:
+          $ref: '#/definitions/Subscription'
+      newsletters: 
+        type: array
+        items:
+          $ref: '#/definitions/Newsletter'
+
+
+
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+basePath: /nvt-kts/cultural-offering/1.0.0
+# schemes:
+#  - https
+#  - http
