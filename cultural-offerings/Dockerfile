@@ -1,3 +1,13 @@
+#*** Windows line endings removal stage ***
+FROM ubuntu:latest as purge
+
+RUN apt-get update && apt-get install -y dos2unix
+
+COPY wait-for-it.sh .
+
+RUN dos2unix /wait-for-it.sh && apt-get --purge remove -y dos2unix && rm -rf /var/lib/apt/lists/*
+
+
 #*** Build Stage for Spring boot application image ***
 
 #---------------------------------------------------------------
@@ -17,7 +27,7 @@ WORKDIR /app
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
-COPY wait-for-it.sh .
+COPY --from=purge ./wait-for-it.sh .
 
 #---------------------------------------------------------------
 #Mark .mvnw file as executable
