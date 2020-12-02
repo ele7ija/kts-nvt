@@ -2,12 +2,13 @@ package ftn.ktsnvt.culturalofferings.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.ktsnvt.culturalofferings.model.Image;
@@ -18,19 +19,18 @@ public class ImageService implements ServiceInterface<Image> {
 	
 	@Autowired
 	private ImageRepository imageRepository;
-
+	
 	@Override
-	public List<Image> findAll() {
-		// this method should be optional or replaced with findAll(Pageable pageable)
-		return null;
-	}
+    public Page<Image> findAll(Pageable pageable) {
+        return imageRepository.findAll(pageable);
+    }
 
 	@Override
 	public Image findOne(Long id) {
 		return imageRepository.findById(id).orElse(null);
 	}
 	
-	public Image findByName(String name) {
+	public Image findName(String name) {
 		return imageRepository.findByName(name).orElse(null);
 	}
 

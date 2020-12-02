@@ -16,11 +16,11 @@ public class RatingService implements ServiceInterface<Rating> {
     @Autowired
     private RatingRepository ratingRepository;
 
-    @Override
     public List<Rating> findAll() {
         return ratingRepository.findAll();
     }
 
+    @Override
     public Page<Rating> findAll(Pageable pageable) {
         return ratingRepository.findAll(pageable);
     }
@@ -39,7 +39,7 @@ public class RatingService implements ServiceInterface<Rating> {
     public Rating update(Rating entity, Long id) throws Exception {
         Rating existingRating =  ratingRepository.findById(id).orElse(null);
         if(existingRating == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Rating with given id doesn't exist");
         }
         return ratingRepository.save(existingRating);
     }
@@ -52,7 +52,7 @@ public class RatingService implements ServiceInterface<Rating> {
     public void delete(Long id) throws Exception {
         Rating existingRating = ratingRepository.findById(id).orElse(null);
         if(existingRating == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Rating with given id doesn't exist");
         }
         ratingRepository.delete(existingRating);
     }

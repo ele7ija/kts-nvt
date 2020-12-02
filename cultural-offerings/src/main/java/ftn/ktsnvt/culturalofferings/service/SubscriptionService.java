@@ -16,11 +16,11 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
 
-    @Override
     public List<Subscription> findAll() {
         return subscriptionRepository.findAll();
     }
 
+    @Override
     public Page<Subscription> findAll(Pageable pageable) {
         return subscriptionRepository.findAll(pageable);
     }
@@ -39,7 +39,7 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
     public Subscription update(Subscription entity, Long id) throws Exception {
         Subscription existingSubscription =  subscriptionRepository.findById(id).orElse(null);
         if(existingSubscription == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Subscription with given id doesn't exist");
         }
         return subscriptionRepository.save(existingSubscription);
     }
@@ -52,7 +52,7 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
     public void delete(Long id) throws Exception {
         Subscription existingSubscription = subscriptionRepository.findById(id).orElse(null);
         if(existingSubscription == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Subscription with given id doesn't exist");
         }
         subscriptionRepository.delete(existingSubscription);
     }
