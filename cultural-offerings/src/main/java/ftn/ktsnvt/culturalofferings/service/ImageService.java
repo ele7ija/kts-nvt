@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.zip.DataFormatException;
@@ -11,46 +12,42 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import ftn.ktsnvt.culturalofferings.model.Image;
+import ftn.ktsnvt.culturalofferings.model.ImageModel;
 import ftn.ktsnvt.culturalofferings.repository.ImageRepository;
 
+
 @Service
-public class ImageService implements ServiceInterface<Image> {
+public class ImageService {
 	
 	@Autowired
-	private ImageRepository imageRepository;
-	
-	@Override
-    public Page<Image> findAll(Pageable pageable) {
+	ImageRepository imageRepository;
+
+	public Page<ImageModel> findAll(Pageable pageable) {
         return imageRepository.findAll(pageable);
     }
 
-	@Override
-	public Image findOne(Long id) {
+	public ImageModel findOne(Long id) {
 		return imageRepository.findById(id).orElse(null);
 	}
 	
-	public Image findName(String name) {
+	public ImageModel findName(String name) {
 		return imageRepository.findByName(name).orElse(null);
 	}
 
-	@Override
-	public Image create(Image entity) throws Exception {
+	public ImageModel create(ImageModel entity) throws Exception {
 		return imageRepository.save(entity);	
 	}
 
-	@Override
-	public Image update(Image entity, Long id) throws Exception {
-		Image existingImage = imageRepository.findById(id).orElse(null);
+	public ImageModel update(ImageModel entity, Long id) throws Exception {
+		ImageModel existingImage = imageRepository.findById(id).orElse(null);
         if(existingImage == null){
             throw new Exception("Image with given id doesn't exist");
         }
         return imageRepository.save(existingImage);
 	}
 
-	@Override
 	public void delete(Long id) throws Exception {
-		Image existingImage = imageRepository.findById(id).orElse(null);
+		ImageModel existingImage = imageRepository.findById(id).orElse(null);
         if(existingImage == null){
             throw new Exception("Image with given id doesn't exist");
         }
@@ -100,6 +97,13 @@ public class ImageService implements ServiceInterface<Image> {
 		
 		return outputStream.toByteArray();
 	}
+
+	
+
+	
+	
+
+	
 
 
 

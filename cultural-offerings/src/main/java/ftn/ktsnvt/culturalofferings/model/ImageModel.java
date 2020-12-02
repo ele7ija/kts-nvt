@@ -1,18 +1,20 @@
 package ftn.ktsnvt.culturalofferings.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class Image {
+@Entity
+public class ImageModel {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	// 
-	@Column(name = "name", nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String name;
 	
 	@Column(nullable = false)
@@ -23,9 +25,9 @@ public class Image {
 	@Column(length = 1000, nullable = false)
 	private byte[] picByte;
 	 
-	public Image() {}
+	public ImageModel() {}
 	
-	public Image(Long id, String name, String type, byte[] picByte) {
+	public ImageModel(Long id, String name, String type, byte[] picByte) {
 		super();
 		this.id = id;
 		this.name = name;

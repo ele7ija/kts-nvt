@@ -14,7 +14,7 @@ import java.util.List;
 public class CulturalOfferingTypeService implements ServiceInterface<CulturalOfferingType> {
 
     @Autowired
-    private CulturalOfferingTypeRepository culturalOfferingTypeRepository;
+    public CulturalOfferingTypeRepository culturalOfferingTypeRepository;
 
     public List<CulturalOfferingType> findAll() {
         return culturalOfferingTypeRepository.findAll();
@@ -31,12 +31,12 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
     }
     
     public CulturalOfferingType findName(String name) {
-    	return culturalOfferingTypeRepository.findByName(name).orElse(null);
+    	return culturalOfferingTypeRepository.findByTypeName(name).orElse(null);
     }
 
     @Override
     public CulturalOfferingType create(CulturalOfferingType entity) throws Exception {
-    	if(culturalOfferingTypeRepository.findByName(entity.getTypeName()) != null){
+    	if(culturalOfferingTypeRepository.findByTypeName(entity.getTypeName()) != null){
             throw new Exception("Cultural offering type name already exists");
         }
         return culturalOfferingTypeRepository.save(entity);

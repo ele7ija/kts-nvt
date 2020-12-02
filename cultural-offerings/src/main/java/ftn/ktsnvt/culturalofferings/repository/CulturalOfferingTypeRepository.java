@@ -10,6 +10,6 @@ import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 @Repository
 public interface CulturalOfferingTypeRepository extends JpaRepository<CulturalOfferingType, Long> {
 
-	Optional<CulturalOfferingType> findByName(String name);
+	Optional<CulturalOfferingType> findByTypeName(String name);
 	
 }
