@@ -1,5 +1,7 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,24 +33,30 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
     }
 
     @Override
-    public CulturalOfferingSubType create(CulturalOfferingSubType entity) throws Exception {
+    public CulturalOfferingSubType create(CulturalOfferingSubType entity) {
         return culturalOfferingSubtypeRepository.save(entity);
     }
 
     @Override
-    public CulturalOfferingSubType update(CulturalOfferingSubType entity, Long id) throws Exception {
+    public CulturalOfferingSubType update(CulturalOfferingSubType entity, Long id) {
         CulturalOfferingSubType existingCulturalOfferingSubType =  culturalOfferingSubtypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingSubType == null){
-            throw new Exception("Cultural offering subtype with given id doesn't exist");
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingSubType.class
+            );
         }
         return culturalOfferingSubtypeRepository.save(existingCulturalOfferingSubType);
     }
 
     @Override
-    public void delete(Long id) throws Exception {
+    public void delete(Long id) {
         CulturalOfferingSubType existingCulturalOfferingSubType = culturalOfferingSubtypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingSubType == null){
-            throw new Exception("Cultural offering subtype with given id doesn't exist");
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingSubType.class
+            );
         }
         culturalOfferingSubtypeRepository.delete(existingCulturalOfferingSubType);
     }

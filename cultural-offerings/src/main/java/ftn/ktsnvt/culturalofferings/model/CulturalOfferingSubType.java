@@ -17,6 +17,11 @@ public class CulturalOfferingSubType {
 
     public CulturalOfferingSubType(){}
 
+    public CulturalOfferingSubType(String subTypeName, CulturalOfferingType culturalOfferingType) {
+        this.subTypeName = subTypeName;
+        this.culturalOfferingType = culturalOfferingType;
+    }
+
     public Long getId() {
         return id;
     }
