@@ -1,37 +1,17 @@
 package ftn.ktsnvt.culturalofferings.dto;
-
-import java.util.Set;
-
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class CulturalOfferingTypeDTO {
 
-	private Long id;
-	
-	@NotBlank(message = "Name cannot be empty.") 
+	@NotBlank(message = "Cultural offering type name cannot be empty")
 	private String typeName;
-	
-	// unique image name
-	private String iconName;
-	
-	private Set<String> culturalOfferingSubtypes;
-	
-	public CulturalOfferingTypeDTO() {}
 
-	public CulturalOfferingTypeDTO(Long id, @NotBlank(message = "Name cannot be empty.")  String typeName, 
-			String icon, Set<String> culturalOfferingSubtypes) {
-		this.id = id;
+	private List<Long> imageIds;
+
+	public CulturalOfferingTypeDTO(String typeName, List<Long> imageIds) {
 		this.typeName = typeName;
-		this.iconName = icon;
-		this.culturalOfferingSubtypes = culturalOfferingSubtypes;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+		this.imageIds = imageIds;
 	}
 
 	public String getTypeName() {
@@ -42,20 +22,11 @@ public class CulturalOfferingTypeDTO {
 		this.typeName = typeName;
 	}
 
-	public String getIconName() {
-		return iconName;
+	public List<Long> getImageIds() {
+		return imageIds;
 	}
 
-	public void setIconName(String iconName) {
-		this.iconName = iconName;
+	public void setImageIds(List<Long> imageIds) {
+		this.imageIds = imageIds;
 	}
-
-	public Set<String> getCulturalOfferingSubtypes() {
-		return culturalOfferingSubtypes;
-	}
-
-	public void setCulturalOfferingSubtypes(Set<String> culturalOfferingSubtypes) {
-		this.culturalOfferingSubtypes = culturalOfferingSubtypes;
-	}
-	
 }

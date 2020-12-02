@@ -20,6 +20,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     @Autowired
     private CulturalOfferingSubtypeService culturalOfferingSubtypeService;
 
+    @Autowired
     private CulturalOfferingSubTypeMapper culturalOfferingSubTypeMapper;
 
 

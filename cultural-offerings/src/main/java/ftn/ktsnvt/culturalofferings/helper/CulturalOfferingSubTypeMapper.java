@@ -4,7 +4,9 @@ import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CulturalOfferingSubTypeMapper implements MapperInterface<CulturalOfferingSubType, CulturalOfferingSubTypeDTO>{
 
     @Autowired
