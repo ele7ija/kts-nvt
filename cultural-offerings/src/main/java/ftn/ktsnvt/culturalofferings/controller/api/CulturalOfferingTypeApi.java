@@ -36,4 +36,3 @@ public interface CulturalOfferingTypeApi {
     ResponseEntity<Void> delete(@PathVariable("id") String id);
 
 }
-
