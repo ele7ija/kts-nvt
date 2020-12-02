@@ -60,17 +60,17 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubType> update(CulturalOfferingSubTypeDTO body, Long id) {
-        CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubTypeMapper.toEntity(body);
+    public ResponseEntity<CulturalOfferingType> update(CulturalOfferingTypeDTO body, Long id) {
+        CulturalOfferingType culturalOfferingSubType = culturalOfferingTypeMapper.toEntity(body);
         return new ResponseEntity<>(
-                culturalOfferingSubtypeService.update(culturalOfferingSubType, id),
+                culturalOfferingTypeService.update(culturalOfferingSubType, id),
                 HttpStatus.CREATED
         );
     }
 
     @Override
     public ResponseEntity<Void> delete(Long id) {
-        culturalOfferingSubtypeService.delete(id);
+        culturalOfferingTypeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

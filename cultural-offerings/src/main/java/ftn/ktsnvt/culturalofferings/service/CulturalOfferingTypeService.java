@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,30 +37,29 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
 
     @Override
     public CulturalOfferingType create(CulturalOfferingType entity) {
-    	if(culturalOfferingTypeRepository.findByTypeName(entity.getTypeName()) != null){
-
-        }
         return culturalOfferingTypeRepository.save(entity);
     }
 
     @Override
-    public CulturalOfferingType update(CulturalOfferingType entity, Long id) throws Exception {
+    public CulturalOfferingType update(CulturalOfferingType entity, Long id) {
         CulturalOfferingType existingCulturalOfferingType =  culturalOfferingTypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingType == null){
-            throw new Exception("Cultural offering type with given id doesn't exist");
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingType.class
+            );
         }
         return culturalOfferingTypeRepository.save(existingCulturalOfferingType);
     }
 
-    /*
-    * Kada brišemo kategoriju kulturne ponude (institucija, manifestacija...),
-    * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
-    * */
     @Override
-    public void delete(Long id) throws Exception {
+    public void delete(Long id) {
         CulturalOfferingType existingCulturalOfferingType = culturalOfferingTypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingType == null){
-            throw new Exception("Cultural offering type with given id doesn't exist");
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingType.class
+            );
         }
         culturalOfferingTypeRepository.delete(existingCulturalOfferingType);
     }

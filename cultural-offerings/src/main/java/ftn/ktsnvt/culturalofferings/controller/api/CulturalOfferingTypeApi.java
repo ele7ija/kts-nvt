@@ -30,9 +30,9 @@ public interface CulturalOfferingTypeApi {
     ResponseEntity<CulturalOfferingType> create(@RequestBody CulturalOfferingTypeDTO body);
 
     @RequestMapping(value= "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CulturalOfferingType> update(@RequestBody CulturalOfferingTypeDTO body, @PathVariable("id") String id);
+    ResponseEntity<CulturalOfferingType> update(@RequestBody CulturalOfferingTypeDTO body, @PathVariable("id") Long id);
 
     @RequestMapping(value= "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Void> delete(@PathVariable("id") String id);
+    ResponseEntity<Void> delete(@PathVariable("id") Long id);
 
 }
