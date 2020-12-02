@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,13 +14,20 @@ public class CulturalOfferingType {
     @Column(nullable = false, unique = true)
     private String typeName;
 
-    @Column
-    private String icon;
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn
+    private ImageModel imageModel;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "culturalOfferingType")
     private Set<CulturalOfferingSubType> culturalOfferingSubTypes;
 
     public CulturalOfferingType(){}
+
+    public CulturalOfferingType(String typeName, ImageModel imageModel) {
+        this.typeName = typeName;
+        this.imageModel = imageModel;
+        this.culturalOfferingSubTypes = new HashSet<>();
+    }
 
     public Long getId() {
         return id;
@@ -37,12 +45,12 @@ public class CulturalOfferingType {
         this.typeName = typeName;
     }
 
-    public String getIcon() {
-        return icon;
+    public ImageModel getImageModel() {
+        return imageModel;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setImageModel(ImageModel imageModel) {
+        this.imageModel = imageModel;
     }
 
     public Set<CulturalOfferingSubType> getCulturalOfferingSubTypes() {

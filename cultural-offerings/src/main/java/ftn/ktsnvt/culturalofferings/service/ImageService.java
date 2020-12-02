@@ -3,6 +3,7 @@ package ftn.ktsnvt.culturalofferings.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -27,6 +28,9 @@ public class ImageService {
     }
 
 	public ImageModel findOne(Long id) {
+		/*
+		TODO: baciti EntityNotFoundException u slucaju da nije pronadjeno
+		 */
 		return imageRepository.findById(id).orElse(null);
 	}
 	
