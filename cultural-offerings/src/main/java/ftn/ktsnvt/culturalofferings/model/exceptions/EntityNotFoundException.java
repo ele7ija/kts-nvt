@@ -1,11 +1,5 @@
 package ftn.ktsnvt.culturalofferings.model.exceptions;
 
-<<<<<<< HEAD
-
-import org.springframework.http.HttpStatus;
-
-=======
->>>>>>> main
 public class EntityNotFoundException extends RuntimeException{
 
     private Long id;
