@@ -8,24 +8,24 @@ import javax.persistence.Id;
 public class Image {
 	
 	@Id
-	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "name")
+	// 
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
-	@Column(name = "type")
+	@Column(nullable = false)
 	private String type;
 	
 	// image bytes can have large lengths so we specify a value
 	// which is more than the default length for picByte column
-	 @Column(name = "picByte", length = 1000)
-	 private byte[] picByte;
+	@Column(length = 1000, nullable = false)
+	private byte[] picByte;
 	 
-	 public Image() {}
+	public Image() {}
 	
-	 public Image(Long id, String name, String type, byte[] picByte) {
+	public Image(Long id, String name, String type, byte[] picByte) {
 		super();
 		this.id = id;
 		this.name = name;
