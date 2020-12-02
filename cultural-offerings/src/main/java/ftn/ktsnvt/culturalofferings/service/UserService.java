@@ -16,11 +16,11 @@ public class UserService implements ServiceInterface<User> {
     @Autowired
     private UserRepository userRepository;
 
-    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
+    @Override
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
@@ -39,7 +39,7 @@ public class UserService implements ServiceInterface<User> {
     public User update(User entity, Long id) throws Exception {
         User existingUser =  userRepository.findById(id).orElse(null);
         if(existingUser == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("User with given id doesn't exist");
         }
         return userRepository.save(existingUser);
     }
@@ -52,7 +52,7 @@ public class UserService implements ServiceInterface<User> {
     public void delete(Long id) throws Exception {
         User existingUser = userRepository.findById(id).orElse(null);
         if(existingUser == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("User with given id doesn't exist");
         }
         userRepository.delete(existingUser);
     }

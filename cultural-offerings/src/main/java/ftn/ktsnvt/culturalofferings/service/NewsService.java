@@ -16,11 +16,11 @@ public class NewsService implements ServiceInterface<News> {
     @Autowired
     private NewsRepository newsRepository;
 
-    @Override
     public List<News> findAll() {
         return newsRepository.findAll();
     }
 
+    @Override
     public Page<News> findAll(Pageable pageable) {
         return newsRepository.findAll(pageable);
     }
@@ -39,7 +39,7 @@ public class NewsService implements ServiceInterface<News> {
     public News update(News entity, Long id) throws Exception {
         News existingNews =  newsRepository.findById(id).orElse(null);
         if(existingNews == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("News with given id doesn't exist");
         }
         return newsRepository.save(existingNews);
     }
@@ -52,7 +52,7 @@ public class NewsService implements ServiceInterface<News> {
     public void delete(Long id) throws Exception {
         News existingNews = newsRepository.findById(id).orElse(null);
         if(existingNews == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("News with given id doesn't exist");
         }
         newsRepository.delete(existingNews);
     }

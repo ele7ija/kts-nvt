@@ -14,34 +14,41 @@ import java.util.List;
 public class CulturalOfferingTypeService implements ServiceInterface<CulturalOfferingType> {
 
     @Autowired
-    private CulturalOfferingTypeRepository culturalOfferingSubtypeRepository;
+    public CulturalOfferingTypeRepository culturalOfferingTypeRepository;
 
-    @Override
     public List<CulturalOfferingType> findAll() {
-        return culturalOfferingSubtypeRepository.findAll();
+        return culturalOfferingTypeRepository.findAll();
     }
 
+    @Override
     public Page<CulturalOfferingType> findAll(Pageable pageable) {
-        return culturalOfferingSubtypeRepository.findAll(pageable);
+        return culturalOfferingTypeRepository.findAll(pageable);
     }
 
     @Override
     public CulturalOfferingType findOne(Long id) {
-        return culturalOfferingSubtypeRepository.findById(id).orElse(null);
+        return culturalOfferingTypeRepository.findById(id).orElse(null);
+    }
+    
+    public CulturalOfferingType findName(String name) {
+    	return culturalOfferingTypeRepository.findByTypeName(name).orElse(null);
     }
 
     @Override
     public CulturalOfferingType create(CulturalOfferingType entity) throws Exception {
-        return culturalOfferingSubtypeRepository.save(entity);
+    	if(culturalOfferingTypeRepository.findByTypeName(entity.getTypeName()) != null){
+            throw new Exception("Cultural offering type name already exists");
+        }
+        return culturalOfferingTypeRepository.save(entity);
     }
 
     @Override
     public CulturalOfferingType update(CulturalOfferingType entity, Long id) throws Exception {
-        CulturalOfferingType existingCulturalOfferingType =  culturalOfferingSubtypeRepository.findById(id).orElse(null);
+        CulturalOfferingType existingCulturalOfferingType =  culturalOfferingTypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingType == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Cultural offering type with given id doesn't exist");
         }
-        return culturalOfferingSubtypeRepository.save(existingCulturalOfferingType);
+        return culturalOfferingTypeRepository.save(existingCulturalOfferingType);
     }
 
     /*
@@ -50,10 +57,10 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
     * */
     @Override
     public void delete(Long id) throws Exception {
-        CulturalOfferingType existingCulturalOfferingType = culturalOfferingSubtypeRepository.findById(id).orElse(null);
+        CulturalOfferingType existingCulturalOfferingType = culturalOfferingTypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingType == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Cultural offering type with given id doesn't exist");
         }
-        culturalOfferingSubtypeRepository.delete(existingCulturalOfferingType);
+        culturalOfferingTypeRepository.delete(existingCulturalOfferingType);
     }
 }

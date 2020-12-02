@@ -16,11 +16,11 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
     @Autowired
     private CulturalOfferingSubtypeRepository culturalOfferingSubtypeRepository;
 
-    @Override
     public List<CulturalOfferingSubType> findAll() {
         return culturalOfferingSubtypeRepository.findAll();
     }
 
+    @Override
     public Page<CulturalOfferingSubType> findAll(Pageable pageable) {
         return culturalOfferingSubtypeRepository.findAll(pageable);
     }
@@ -39,20 +39,16 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
     public CulturalOfferingSubType update(CulturalOfferingSubType entity, Long id) throws Exception {
         CulturalOfferingSubType existingCulturalOfferingSubType =  culturalOfferingSubtypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingSubType == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Cultural offering subtype with given id doesn't exist");
         }
         return culturalOfferingSubtypeRepository.save(existingCulturalOfferingSubType);
     }
 
-    /*
-    * Kada brišemo kategoriju kulturne ponude (institucija, manifestacija...),
-    * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
-    * */
     @Override
     public void delete(Long id) throws Exception {
         CulturalOfferingSubType existingCulturalOfferingSubType = culturalOfferingSubtypeRepository.findById(id).orElse(null);
         if(existingCulturalOfferingSubType == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Cultural offering subtype with given id doesn't exist");
         }
         culturalOfferingSubtypeRepository.delete(existingCulturalOfferingSubType);
     }

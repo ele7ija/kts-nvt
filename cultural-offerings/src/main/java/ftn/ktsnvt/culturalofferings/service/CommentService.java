@@ -16,11 +16,11 @@ public class CommentService implements ServiceInterface<Comment> {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Override
     public List<Comment> findAll() {
         return commentRepository.findAll();
     }
 
+    @Override
     public Page<Comment> findAll(Pageable pageable) {
         return commentRepository.findAll(pageable);
     }
@@ -39,20 +39,16 @@ public class CommentService implements ServiceInterface<Comment> {
     public Comment update(Comment entity, Long id) throws Exception {
         Comment existingComment =  commentRepository.findById(id).orElse(null);
         if(existingComment == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Comment with given id doesn't exist");
         }
         return commentRepository.save(existingComment);
     }
 
-    /*
-    * Kada brišemo kategoriju kulturne ponude (institucija, manifestacija...),
-    * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
-    * */
     @Override
     public void delete(Long id) throws Exception {
         Comment existingComment = commentRepository.findById(id).orElse(null);
         if(existingComment == null){
-            throw new Exception("Cultural content category with given id doesn't exist");
+            throw new Exception("Comment with given id doesn't exist");
         }
         commentRepository.delete(existingComment);
     }
