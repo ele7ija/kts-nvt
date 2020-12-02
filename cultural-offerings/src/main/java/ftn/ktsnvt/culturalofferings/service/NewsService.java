@@ -41,7 +41,8 @@ public class NewsService implements ServiceInterface<News> {
         if(existingNews == null){
             throw new Exception("News with given id doesn't exist");
         }
-        return newsRepository.save(existingNews);
+        entity.setId(id);
+        return newsRepository.save(entity);
     }
 
     /*

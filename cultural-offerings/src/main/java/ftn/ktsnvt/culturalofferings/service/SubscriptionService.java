@@ -37,11 +37,12 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
 
     @Override
     public Subscription update(Subscription entity, Long id) throws Exception {
-        Subscription existingSubscription =  subscriptionRepository.findById(id).orElse(null);
+        Subscription existingSubscription = subscriptionRepository.findById(id).orElse(null);
         if(existingSubscription == null){
             throw new Exception("Subscription with given id doesn't exist");
         }
-        return subscriptionRepository.save(existingSubscription);
+        entity.setId(id);
+        return subscriptionRepository.save(entity);
     }
 
     /*
