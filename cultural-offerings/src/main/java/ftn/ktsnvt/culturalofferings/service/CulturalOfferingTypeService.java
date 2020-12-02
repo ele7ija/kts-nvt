@@ -35,9 +35,9 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
     }
 
     @Override
-    public CulturalOfferingType create(CulturalOfferingType entity) throws Exception {
+    public CulturalOfferingType create(CulturalOfferingType entity) {
     	if(culturalOfferingTypeRepository.findByTypeName(entity.getTypeName()) != null){
-            throw new Exception("Cultural offering type name already exists");
+
         }
         return culturalOfferingTypeRepository.save(entity);
     }

@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
@@ -13,10 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+
 import java.util.List;
 
 @Controller
 public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
+
     @Autowired
     private CulturalOfferingTypeService culturalOfferingTypeService;
 
@@ -32,27 +35,26 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
-    public ResponseEntity<Page<CulturalOfferingSubType>> findAll(Pageable pageable) {
-        Page<CulturalOfferingSubType> page = culturalOfferingTypeMapper.findAll(pageable);
-        Page<CulturalOfferingSubType> pageCulturalOfferingSubTypes = new PageImpl<>(page.toList(),page.getPageable(),page.getTotalElements());
+    public ResponseEntity<Page<CulturalOfferingType>> findAll(Pageable pageable){
+        Page<CulturalOfferingType> page = culturalOfferingTypeService.findAll(pageable);
+        Page<CulturalOfferingType> pageCulturalOfferingSubTypes = new PageImpl<>(page.toList(),page.getPageable(),page.getTotalElements());
         return new ResponseEntity<>(pageCulturalOfferingSubTypes, HttpStatus.OK);
 
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubType> get(Long id) {
-        CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.findOne(id);
+    public ResponseEntity<CulturalOfferingType> findOne(Long id) {
+        CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.findOne(id);
         return new ResponseEntity<>(
-                culturalOfferingSubType,
-                culturalOfferingSubType == null ? HttpStatus.NOT_FOUND : HttpStatus.OK
+                culturalOfferingType,
+                culturalOfferingType == null ? HttpStatus.NOT_FOUND : HttpStatus.OK
         );
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubType> create(CulturalOfferingSubTypeDTO body) {
-        CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.create(culturalOfferingSubTypeMapper.toEntity(body));
+    public ResponseEntity<CulturalOfferingType> create(CulturalOfferingTypeDTO body) {
         return new ResponseEntity<>(
-                culturalOfferingSubtypeService.create(culturalOfferingSubType),
+                culturalOfferingTypeService.create(culturalOfferingTypeMapper.toEntity(body)),
                 HttpStatus.CREATED
         );
     }
