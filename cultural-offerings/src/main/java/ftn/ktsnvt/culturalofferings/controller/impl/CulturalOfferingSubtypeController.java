@@ -1,36 +1,64 @@
 package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingSubtypeApi;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
+import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Pageable;
+import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-
-@Controller
+@RestController(value = "/cultural-offerings-subtype")
 public class CulturalOfferingSubtypeController implements CulturalOfferingSubtypeApi {
 
-    private static final Logger log = LoggerFactory.getLogger(CulturalOfferingTypeController.class);
+    @Autowired
+    private CulturalOfferingSubtypeService culturalOfferingSubtypeService;
 
-    private final ObjectMapper objectMapper;
 
-    private final HttpServletRequest request;
-
-    @org.springframework.beans.factory.annotation.Autowired
-    public CulturalOfferingSubtypeController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
+    @Override
+    public ResponseEntity<List<CulturalOfferingSubType>> findAll() {
+        return new ResponseEntity<>(
+                culturalOfferingSubtypeService.findAll(),
+                HttpStatus.OK
+        );
     }
 
+    @Override
+    public ResponseEntity<Page<CulturalOfferingSubType>> findAll(Pageable pageable) {
+        return new ResponseEntity<>(
+                culturalOfferingSubtypeService.findAll(pageable),
+                HttpStatus.OK
+        );
+    }
 
+    @Override
+    public ResponseEntity<CulturalOfferingSubType> get(Long id) {
+        CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.findOne(id);
+        return new ResponseEntity<>(
+                culturalOfferingSubType,
+                culturalOfferingSubType == null ? HttpStatus.NOT_FOUND : HttpStatus.OK
+        );
+    }
+
+    @Override
+    public ResponseEntity<CulturalOfferingSubType> create(CulturalOfferingSubTypeDTO body) {
+        return new ResponseEntity<>(
+                culturalOfferingSubtypeService.create(body);
+        )
+    }
+
+    @Override
+    public ResponseEntity<CulturalOfferingSubType> update(CulturalOfferingSubTypeDTO body, String id) {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<Void> delete(String id) {
+        return null;
+    }
 }
