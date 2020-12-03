@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.aop;
 
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.Error;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

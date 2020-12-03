@@ -14,19 +14,19 @@ import java.util.List;
 public interface CulturalOfferingSubtypeApi {
 
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<List<CulturalOfferingSubType>> findAll();
+    ResponseEntity<List<CulturalOfferingSubTypeDTO>> findAll();
 
     @RequestMapping(value = "/by-page", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Page<CulturalOfferingSubType>> findAll(Pageable pageable);
+    ResponseEntity<Page<CulturalOfferingSubTypeDTO>> findAll(Pageable pageable);
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CulturalOfferingSubType> get(@PathVariable("id") Long id);
+    ResponseEntity<CulturalOfferingSubTypeDTO> get(@PathVariable("id") Long id);
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CulturalOfferingSubType> create(@RequestBody CulturalOfferingSubTypeDTO body);
+    ResponseEntity<CulturalOfferingSubTypeDTO> create(@RequestBody CulturalOfferingSubTypeDTO body);
 
     @RequestMapping(value= "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<CulturalOfferingSubType> update(@RequestBody CulturalOfferingSubTypeDTO body, @PathVariable("id") Long id);
+    ResponseEntity<CulturalOfferingSubTypeDTO> update(@RequestBody CulturalOfferingSubTypeDTO body, @PathVariable("id") Long id);
 
     @RequestMapping(value= "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> delete(@PathVariable("id") Long id);

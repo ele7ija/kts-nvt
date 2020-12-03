@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingTypeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CulturalOfferingTypeService implements ServiceInterface<CulturalOfferingType> {
@@ -27,7 +29,13 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
 
     @Override
     public CulturalOfferingType findOne(Long id) {
-        return culturalOfferingTypeRepository.findById(id).orElse(null);
+        Optional<CulturalOfferingType> optional = culturalOfferingTypeRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingType.class
+            );
+        return optional.get();
     }
     
     public CulturalOfferingType findName(String name) {
@@ -35,32 +43,32 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
     }
 
     @Override
-    public CulturalOfferingType create(CulturalOfferingType entity) throws Exception {
-    	if(culturalOfferingTypeRepository.findByTypeName(entity.getTypeName()) != null){
-            throw new Exception("Cultural offering type name already exists");
-        }
+    public CulturalOfferingType create(CulturalOfferingType entity) {
         return culturalOfferingTypeRepository.save(entity);
     }
 
     @Override
-    public CulturalOfferingType update(CulturalOfferingType entity, Long id) throws Exception {
-        CulturalOfferingType existingCulturalOfferingType =  culturalOfferingTypeRepository.findById(id).orElse(null);
-        if(existingCulturalOfferingType == null){
-            throw new Exception("Cultural offering type with given id doesn't exist");
+    public CulturalOfferingType update(CulturalOfferingType entity, Long id) {
+        Optional<CulturalOfferingType> optional =  culturalOfferingTypeRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingType.class
+            );
         }
-        return culturalOfferingTypeRepository.save(existingCulturalOfferingType);
+        entity.setId(id);
+        return culturalOfferingTypeRepository.save(entity);
     }
 
-    /*
-    * Kada brišemo kategoriju kulturne ponude (institucija, manifestacija...),
-    * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
-    * */
     @Override
-    public void delete(Long id) throws Exception {
-        CulturalOfferingType existingCulturalOfferingType = culturalOfferingTypeRepository.findById(id).orElse(null);
-        if(existingCulturalOfferingType == null){
-            throw new Exception("Cultural offering type with given id doesn't exist");
+    public void delete(Long id) {
+        Optional<CulturalOfferingType> optional = culturalOfferingTypeRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingType.class
+            );
         }
-        culturalOfferingTypeRepository.delete(existingCulturalOfferingType);
+        culturalOfferingTypeRepository.delete(optional.get());
     }
 }
