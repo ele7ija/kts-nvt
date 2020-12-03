@@ -29,6 +29,10 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
     public CulturalOffering findOne(Long id) {
         return culturalOfferingRepository.findById(id).orElse(null);
     }
+    
+    public CulturalOffering findName(String name) {
+        return culturalOfferingRepository.findByName(name).orElse(null);
+    }
 
     @Override
     public CulturalOffering create(CulturalOffering entity) throws Exception {

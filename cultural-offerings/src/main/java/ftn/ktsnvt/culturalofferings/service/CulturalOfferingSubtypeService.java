@@ -31,6 +31,10 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
     public CulturalOfferingSubType findOne(Long id) {
         return culturalOfferingSubtypeRepository.findById(id).orElse(null);
     }
+    
+    public CulturalOfferingSubType findName(String name) {
+    	return culturalOfferingSubtypeRepository.findBySubTypeName(name).orElse(null);
+    }
 
     @Override
     public CulturalOfferingSubType create(CulturalOfferingSubType entity) {

@@ -41,8 +41,39 @@ public class CulturalOffering {
     private CulturalOfferingSubType culturalOfferingSubType;
 
     public CulturalOffering() {}
+    
+    public CulturalOffering(String name, String description, Location location, Set<Rating> ratings,
+			Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news,
+			CulturalOfferingType culturalOfferingType, CulturalOfferingSubType culturalOfferingSubType) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.location = location;
+		this.ratings = ratings;
+		this.comments = comments;
+		this.subscriptions = subscriptions;
+		this.news = news;
+		this.culturalOfferingType = culturalOfferingType;
+		this.culturalOfferingSubType = culturalOfferingSubType;
+	}
 
-    public Long getId() {
+    public CulturalOffering(Long id, String name, String description, Location location, Set<Rating> ratings,
+			Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news,
+			CulturalOfferingType culturalOfferingType, CulturalOfferingSubType culturalOfferingSubType) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.location = location;
+		this.ratings = ratings;
+		this.comments = comments;
+		this.subscriptions = subscriptions;
+		this.news = news;
+		this.culturalOfferingType = culturalOfferingType;
+		this.culturalOfferingSubType = culturalOfferingSubType;
+	}
+
+	public Long getId() {
         return id;
     }
 
