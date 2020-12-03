@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,8 @@ import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.repository.RatingRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RatingService implements ServiceInterface<Rating> {
@@ -23,6 +26,16 @@ public class RatingService implements ServiceInterface<Rating> {
     @Override
     public Page<Rating> findAll(Pageable pageable) {
         return ratingRepository.findAll(pageable);
+    }
+
+    public List<Rating> findAll(List<Long> ratingIds){
+        return ratingIds.stream().map((Long ratingId) -> {
+            Optional<Rating> optional = ratingRepository.findById(ratingId);
+            if(optional.isEmpty()){
+                throw new EntityNotFoundException(ratingId, Rating.class);
+            }
+            return optional.get();
+        }).collect(Collectors.toList());
     }
 
     @Override

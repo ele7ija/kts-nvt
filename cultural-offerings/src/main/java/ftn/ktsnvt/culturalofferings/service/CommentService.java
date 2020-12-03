@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,8 @@ import ftn.ktsnvt.culturalofferings.model.Comment;
 import ftn.ktsnvt.culturalofferings.repository.CommentRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService implements ServiceInterface<Comment> {
@@ -23,6 +26,16 @@ public class CommentService implements ServiceInterface<Comment> {
     @Override
     public Page<Comment> findAll(Pageable pageable) {
         return commentRepository.findAll(pageable);
+    }
+
+    public List<Comment> findAll(List<Long> commentIds){
+        return commentIds.stream().map((Long commentId) -> {
+            Optional<Comment> optional = commentRepository.findById(commentId);
+            if(optional.isEmpty()){
+                throw new EntityNotFoundException(commentId, Comment.class);
+            }
+            return optional.get();
+        }).collect(Collectors.toList());
     }
 
     @Override
