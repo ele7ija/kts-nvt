@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.controller.api;
 
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 
 import org.springframework.http.ResponseEntity;
@@ -10,32 +11,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
-@RequestMapping(value = "/nvt-kts/cultural-offering")
+@RequestMapping(value = "/cultural-offerings")
 public interface CulturalOfferingApi {
-    @RequestMapping(value = "/culturalOffering",
+    @RequestMapping(value = "",
             produces = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<CulturalOffering> createCulturalOffering(@RequestBody CulturalOffering body);
+    ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@RequestBody CulturalOfferingDTO body);
 
 
-    @RequestMapping(value = "/culturalOffering/{id}",
+    @RequestMapping(value = "/{id}",
             produces = { "application/json" },
             method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") String id);
+    ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") Long id);
 
 
-    @RequestMapping(value = "/culturalOffering/{id}",
-            produces = { "application/json", "application/xml" },
+    @RequestMapping(value = "/{id}",
+            produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<CulturalOffering> getCulturalOfferingByID(@PathVariable("id") String id);
+    ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id);
 
 
-    @RequestMapping(value = "/culturalOffering",
+    @RequestMapping(value = "/{id}",
             produces = { "application/json" },
             method = RequestMethod.PUT)
-    ResponseEntity<CulturalOffering> updateCulturalOffering(@RequestBody CulturalOffering body);
-
-
+    ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@RequestBody CulturalOfferingDTO body,  @PathVariable Long id);
+    
     @RequestMapping(value = "/culturalOffering/{id}/uploadImage",
             produces = { "application/json" },
             consumes = { "multipart/form-data" },
