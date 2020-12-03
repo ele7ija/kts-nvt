@@ -41,7 +41,8 @@ public class CommentService implements ServiceInterface<Comment> {
         if(existingComment == null){
             throw new Exception("Comment with given id doesn't exist");
         }
-        return commentRepository.save(existingComment);
+        entity.setId(id);
+        return commentRepository.save(entity);
     }
 
     @Override

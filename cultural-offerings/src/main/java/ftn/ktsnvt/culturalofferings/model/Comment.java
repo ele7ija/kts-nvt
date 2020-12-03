@@ -20,9 +20,8 @@ public class Comment {
     @Temporal(TemporalType.TIME)
     private Date date;
 
-    @Convert(converter = StringListConverter.class)
-    @Column(length = 1024)
-    private List<String> images;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImageModel> images;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private CulturalOffering culturalOffering;
@@ -56,11 +55,11 @@ public class Comment {
         this.date = date;
     }
 
-    public List<String> getImages() {
+    public List<ImageModel> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<ImageModel> images) {
         this.images = images;
     }
 
