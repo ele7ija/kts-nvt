@@ -10,11 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
 import org.springframework.data.domain.Pageable;
-import java.util.List;
 
-@RestController(value = "/cultural-offerings-subtype")
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Controller
 public class CulturalOfferingSubtypeController implements CulturalOfferingSubtypeApi {
 
     @Autowired
@@ -25,44 +27,55 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
 
 
     @Override
-    public ResponseEntity<List<CulturalOfferingSubType>> findAll() {
+    public ResponseEntity<List<CulturalOfferingSubTypeDTO>> findAll() {
         return new ResponseEntity<>(
-                culturalOfferingSubtypeService.findAll(),
+                culturalOfferingSubtypeService
+                        .findAll()
+                        .stream()
+                        .map(x -> culturalOfferingSubTypeMapper.toDto(x))
+                        .collect(Collectors.toList()),
                 HttpStatus.OK
         );
     }
 
     @Override
-    public ResponseEntity<Page<CulturalOfferingSubType>> findAll(Pageable pageable) {
+    public ResponseEntity<Page<CulturalOfferingSubTypeDTO>> findAll(Pageable pageable) {
         Page<CulturalOfferingSubType> page = culturalOfferingSubtypeService.findAll(pageable);
-        Page<CulturalOfferingSubType> pageCulturalOfferingSubTypes = new PageImpl<>(page.toList(),page.getPageable(),page.getTotalElements());
-        return new ResponseEntity<>(pageCulturalOfferingSubTypes, HttpStatus.OK);
+
+        List<CulturalOfferingSubTypeDTO> culturalOfferingSubTypesDTO = page
+                .toList()
+                .stream()
+                .map(x -> culturalOfferingSubTypeMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<CulturalOfferingSubTypeDTO> pageCulturalOfferingSubTypesDTO = new PageImpl<>(culturalOfferingSubTypesDTO,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(pageCulturalOfferingSubTypesDTO, HttpStatus.OK);
 
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubType> get(Long id) {
+    public ResponseEntity<CulturalOfferingSubTypeDTO> get(Long id) {
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.findOne(id);
         return new ResponseEntity<>(
-                culturalOfferingSubType,
-                culturalOfferingSubType == null ? HttpStatus.NOT_FOUND : HttpStatus.OK
+                culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType),
+                HttpStatus.OK
         );
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubType> create(CulturalOfferingSubTypeDTO body) {
+    public ResponseEntity<CulturalOfferingSubTypeDTO> create(CulturalOfferingSubTypeDTO body) {
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.create(culturalOfferingSubTypeMapper.toEntity(body));
         return new ResponseEntity<>(
-                culturalOfferingSubtypeService.create(culturalOfferingSubType),
+                culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType),
                 HttpStatus.CREATED
         );
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubType> update(CulturalOfferingSubTypeDTO body, Long id) {
-        CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubTypeMapper.toEntity(body);
+    public ResponseEntity<CulturalOfferingSubTypeDTO> update(CulturalOfferingSubTypeDTO body, Long id) {
+        CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.update(culturalOfferingSubTypeMapper.toEntity(body), id);
         return new ResponseEntity<>(
-                culturalOfferingSubtypeService.update(culturalOfferingSubType, id),
+                culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType),
                 HttpStatus.CREATED
         );
     }

@@ -12,7 +12,7 @@ public class CulturalOfferingSubType {
     @Column(nullable = false, unique = true)
     private String subTypeName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private CulturalOfferingType culturalOfferingType;
 
     public CulturalOfferingSubType(){}

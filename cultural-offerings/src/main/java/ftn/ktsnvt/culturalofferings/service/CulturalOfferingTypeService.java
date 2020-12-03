@@ -10,6 +10,7 @@ import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingTypeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CulturalOfferingTypeService implements ServiceInterface<CulturalOfferingType> {
@@ -28,7 +29,13 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
 
     @Override
     public CulturalOfferingType findOne(Long id) {
-        return culturalOfferingTypeRepository.findById(id).orElse(null);
+        Optional<CulturalOfferingType> optional = culturalOfferingTypeRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingType.class
+            );
+        return optional.get();
     }
     
     public CulturalOfferingType findName(String name) {
@@ -42,25 +49,26 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
 
     @Override
     public CulturalOfferingType update(CulturalOfferingType entity, Long id) {
-        CulturalOfferingType existingCulturalOfferingType =  culturalOfferingTypeRepository.findById(id).orElse(null);
-        if(existingCulturalOfferingType == null){
+        Optional<CulturalOfferingType> optional =  culturalOfferingTypeRepository.findById(id);
+        if(optional.isEmpty()){
             throw new EntityNotFoundException(
                     id,
                     CulturalOfferingType.class
             );
         }
-        return culturalOfferingTypeRepository.save(existingCulturalOfferingType);
+        entity.setId(id);
+        return culturalOfferingTypeRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
-        CulturalOfferingType existingCulturalOfferingType = culturalOfferingTypeRepository.findById(id).orElse(null);
-        if(existingCulturalOfferingType == null){
+        Optional<CulturalOfferingType> optional = culturalOfferingTypeRepository.findById(id);
+        if(optional.isEmpty()){
             throw new EntityNotFoundException(
                     id,
                     CulturalOfferingType.class
             );
         }
-        culturalOfferingTypeRepository.delete(existingCulturalOfferingType);
+        culturalOfferingTypeRepository.delete(optional.get());
     }
 }

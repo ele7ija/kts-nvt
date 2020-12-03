@@ -18,7 +18,7 @@ public class CulturalOfferingType {
     @JoinColumn
     private ImageModel imageModel;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "culturalOfferingType")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "culturalOfferingType")
     private Set<CulturalOfferingSubType> culturalOfferingSubTypes;
 
     public CulturalOfferingType(){}

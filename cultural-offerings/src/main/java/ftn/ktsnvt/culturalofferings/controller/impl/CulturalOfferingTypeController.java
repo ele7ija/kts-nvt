@@ -1,8 +1,10 @@
 package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
@@ -20,47 +23,60 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     @Autowired
     private CulturalOfferingTypeService culturalOfferingTypeService;
 
+    @Autowired
     private CulturalOfferingTypeMapper culturalOfferingTypeMapper;
 
 
     @Override
-    public ResponseEntity<List<CulturalOfferingType>> findAll() {
+    public ResponseEntity<List<CulturalOfferingTypeDTO>> findAll() {
         return new ResponseEntity<>(
-                culturalOfferingTypeService.findAll(),
+                culturalOfferingTypeService
+                        .findAll()
+                        .stream()
+                        .map(x -> culturalOfferingTypeMapper.toDto(x))
+                        .collect(Collectors.toList()),
                 HttpStatus.OK
         );
     }
 
     @Override
-    public ResponseEntity<Page<CulturalOfferingType>> findAll(Pageable pageable){
+    public ResponseEntity<Page<CulturalOfferingTypeDTO>> findAll(Pageable pageable){
         Page<CulturalOfferingType> page = culturalOfferingTypeService.findAll(pageable);
-        Page<CulturalOfferingType> pageCulturalOfferingSubTypes = new PageImpl<>(page.toList(),page.getPageable(),page.getTotalElements());
-        return new ResponseEntity<>(pageCulturalOfferingSubTypes, HttpStatus.OK);
+
+        List<CulturalOfferingTypeDTO> culturalOfferingTypesDTO = page
+                .toList()
+                .stream()
+                .map(x -> culturalOfferingTypeMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<CulturalOfferingTypeDTO> pageCulturalOfferingTypesDTO = new PageImpl<>(culturalOfferingTypesDTO,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(pageCulturalOfferingTypesDTO, HttpStatus.OK);
 
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingType> findOne(Long id) {
+    public ResponseEntity<CulturalOfferingTypeDTO> findOne(Long id) {
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.findOne(id);
         return new ResponseEntity<>(
-                culturalOfferingType,
-                culturalOfferingType == null ? HttpStatus.NOT_FOUND : HttpStatus.OK
+                culturalOfferingTypeMapper.toDto(culturalOfferingType),
+                HttpStatus.OK
         );
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingType> create(CulturalOfferingTypeDTO body) {
+    public ResponseEntity<CulturalOfferingTypeDTO> create(CulturalOfferingTypeDTO body) {
+        CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.create(culturalOfferingTypeMapper.toEntity(body));
         return new ResponseEntity<>(
-                culturalOfferingTypeService.create(culturalOfferingTypeMapper.toEntity(body)),
+                culturalOfferingTypeMapper.toDto(culturalOfferingType),
                 HttpStatus.CREATED
         );
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingType> update(CulturalOfferingTypeDTO body, Long id) {
-        CulturalOfferingType culturalOfferingSubType = culturalOfferingTypeMapper.toEntity(body);
+    public ResponseEntity<CulturalOfferingTypeDTO> update(CulturalOfferingTypeDTO body, Long id) {
+        CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.update(culturalOfferingTypeMapper.toEntity(body), id);
         return new ResponseEntity<>(
-                culturalOfferingTypeService.update(culturalOfferingSubType, id),
+                culturalOfferingTypeMapper.toDto(culturalOfferingType),
                 HttpStatus.CREATED
         );
     }
