@@ -1,20 +1,26 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.repository.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements ServiceInterface<User> {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -31,29 +37,26 @@ public class UserService implements ServiceInterface<User> {
     }
 
     @Override
-    public User create(User entity) throws Exception {
+    public User create(User entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 
     @Override
-    public User update(User entity, Long id) throws Exception {
-        User existingUser =  userRepository.findById(id).orElse(null);
-        if(existingUser == null){
-            throw new Exception("User with given id doesn't exist");
+    public User update(User entity, Long id) {
+        Optional<User> optional =  userRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(id, User.class);
         }
-        return userRepository.save(existingUser);
+        return userRepository.save(userRepository.save(entity));
     }
 
-    /*
-    * Kada brišemo kategoriju kulturne ponude (institucija, manifestacija...),
-    * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
-    * */
     @Override
-    public void delete(Long id) throws Exception {
-        User existingUser = userRepository.findById(id).orElse(null);
-        if(existingUser == null){
-            throw new Exception("User with given id doesn't exist");
+    public void delete(Long id) {
+        Optional<User> optional =  userRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(id, User.class);
         }
-        userRepository.delete(existingUser);
+        userRepository.delete(optional.get());
     }
 }

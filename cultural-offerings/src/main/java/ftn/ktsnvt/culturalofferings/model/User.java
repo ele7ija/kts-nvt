@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-public abstract class User {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,18 @@ public abstract class User {
 
     public User() {
 
+    }
+
+    public User(String email, String password, String firstName, String lastName, UserRole role, Set<Rating> ratings, Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.ratings = ratings;
+        this.comments = comments;
+        this.subscriptions = subscriptions;
+        this.news = news;
     }
 
     public Long getId() {

@@ -1,50 +1,34 @@
 package ftn.ktsnvt.culturalofferings.controller.api;
-
-import ftn.ktsnvt.culturalofferings.model.User;
-
+import ftn.ktsnvt.culturalofferings.dto.UserDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-@RequestMapping(value = "/nvt-kts/cultural-offering")
+import java.util.List;
+
+@RequestMapping(value = "/users")
 public interface UserApi {
 
-    @RequestMapping(value = "/user",
-        produces = { "application/json", "application/xml" }, 
-        method = RequestMethod.POST)
-    ResponseEntity<Void> createUser(@RequestBody User body);
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<UserDTO>> findAll();
 
+    @RequestMapping(value = "/by-page", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<UserDTO>> findAll(Pageable pageable);
 
-    @RequestMapping(value = "/user/{username}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteUser(@PathVariable("username") String username);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id);
 
+    @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDTO> create(@RequestBody UserDTO body);
 
-    @RequestMapping(value = "/user/{username}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<User> getUserByName(@PathVariable("username") String username);
+    @RequestMapping(value= "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDTO> update(@RequestBody UserDTO body, @PathVariable("id") Long id);
 
-
-    @RequestMapping(value = "/user/login",
-        produces = { "application/json", "application/xml" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<String> loginUser(@RequestParam(value = "username", required = true) String username, @RequestParam(value = "password", required = true) String password);
-
-
-    @RequestMapping(value = "/user/logout",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<Void> logoutUser();
-
-
-    @RequestMapping(value = "/user/{username}",
-        produces = { "application/json" }, 
-        method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUser(@PathVariable("username") String username, @RequestBody User body);
-
+    @RequestMapping(value= "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> delete(@PathVariable("id") Long id);
 }

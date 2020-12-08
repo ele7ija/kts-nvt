@@ -11,6 +11,7 @@ import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingSubtypeRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CulturalOfferingSubtypeService implements ServiceInterface<CulturalOfferingSubType> {
@@ -29,7 +30,13 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
 
     @Override
     public CulturalOfferingSubType findOne(Long id) {
-        return culturalOfferingSubtypeRepository.findById(id).orElse(null);
+        Optional<CulturalOfferingSubType> optional = culturalOfferingSubtypeRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOfferingSubType.class
+            );
+        return optional.get();
     }
     
     public CulturalOfferingSubType findName(String name) {
@@ -43,25 +50,27 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
 
     @Override
     public CulturalOfferingSubType update(CulturalOfferingSubType entity, Long id) {
-        CulturalOfferingSubType existingCulturalOfferingSubType =  culturalOfferingSubtypeRepository.findById(id).orElse(null);
-        if(existingCulturalOfferingSubType == null){
+        Optional<CulturalOfferingSubType> optional =  culturalOfferingSubtypeRepository.findById(id);
+        if(optional.isEmpty()){
             throw new EntityNotFoundException(
                     id,
                     CulturalOfferingSubType.class
             );
         }
-        return culturalOfferingSubtypeRepository.save(existingCulturalOfferingSubType);
+        entity.setId(id);
+        return culturalOfferingSubtypeRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
-        CulturalOfferingSubType existingCulturalOfferingSubType = culturalOfferingSubtypeRepository.findById(id).orElse(null);
-        if(existingCulturalOfferingSubType == null){
+        Optional<CulturalOfferingSubType> optional = culturalOfferingSubtypeRepository.findById(id);
+        System.out.println(optional.get().getId());
+        if(optional.isEmpty()){
             throw new EntityNotFoundException(
                     id,
                     CulturalOfferingSubType.class
             );
         }
-        culturalOfferingSubtypeRepository.delete(existingCulturalOfferingSubType);
+        culturalOfferingSubtypeRepository.deleteById(optional.get().getId());
     }
 }

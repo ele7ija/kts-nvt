@@ -3,10 +3,13 @@ package ftn.ktsnvt.culturalofferings.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +30,13 @@ public class ImageService {
     }
 
 	public ImageModel findOne(Long id) {
-		return imageRepository.findById(id).orElse(null);
+		Optional<ImageModel> optional = imageRepository.findById(id);
+		if(optional.isEmpty())
+			throw new EntityNotFoundException(
+					id,
+					ImageModel.class
+			);
+		return optional.get();
 	}
 	
 	public ImageModel findName(String name) {
