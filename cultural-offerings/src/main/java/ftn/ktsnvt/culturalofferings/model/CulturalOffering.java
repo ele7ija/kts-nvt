@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.model;
 
 import javax.persistence.*;
+
 import java.util.Set;
 
 @Entity
@@ -39,11 +40,14 @@ public class CulturalOffering {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn
     private CulturalOfferingSubType culturalOfferingSubType;
+    
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ImageModel> images;
 
     public CulturalOffering() {}
     
     public CulturalOffering(String name, String description, Location location, Set<Rating> ratings,
-			Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news,
+			Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news, Set<ImageModel> images,
 			CulturalOfferingType culturalOfferingType, CulturalOfferingSubType culturalOfferingSubType) {
 		super();
 		this.name = name;
@@ -55,10 +59,11 @@ public class CulturalOffering {
 		this.news = news;
 		this.culturalOfferingType = culturalOfferingType;
 		this.culturalOfferingSubType = culturalOfferingSubType;
+		this.images = images;
 	}
 
     public CulturalOffering(Long id, String name, String description, Location location, Set<Rating> ratings,
-			Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news,
+			Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news, Set<ImageModel> images,
 			CulturalOfferingType culturalOfferingType, CulturalOfferingSubType culturalOfferingSubType) {
 		super();
 		this.id = id;
@@ -71,6 +76,7 @@ public class CulturalOffering {
 		this.news = news;
 		this.culturalOfferingType = culturalOfferingType;
 		this.culturalOfferingSubType = culturalOfferingSubType;
+		this.images = images;
 	}
 
 	public Long getId() {
@@ -152,4 +158,14 @@ public class CulturalOffering {
     public void setCulturalOfferingSubType(CulturalOfferingSubType culturalOfferingSubType) {
         this.culturalOfferingSubType = culturalOfferingSubType;
     }
+
+	public Set<ImageModel> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<ImageModel> images) {
+		this.images = images;
+	}
+    
+    
 }

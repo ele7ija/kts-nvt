@@ -1,7 +1,9 @@
 package ftn.ktsnvt.culturalofferings.dto;
 
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PositiveOrZero;
 
 
 public class CulturalOfferingDTO {
@@ -28,10 +30,12 @@ public class CulturalOfferingDTO {
     @NotBlank(message = "Cultural offering subtype name cannot be empty")
     private String culturalOfferingSubtypeName;
     
+    private List<Long> imageIds;
+    
     public CulturalOfferingDTO() {}
     
 	public CulturalOfferingDTO(Long id, String name, String description, Long locationId, float longitude, float latitude,
-			String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName) {
+			String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName, List<Long> imageIds) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -42,6 +46,7 @@ public class CulturalOfferingDTO {
 		this.locationName = locationName;
 		this.culturalOfferingTypeName = culturalOfferingTypeName;
 		this.culturalOfferingSubtypeName = culturalOfferingSubtypeName;
+		this.imageIds = imageIds;
 	}
 
 	public CulturalOfferingDTO(String name, String description, float longitude, float latitude,
@@ -126,6 +131,14 @@ public class CulturalOfferingDTO {
 
 	public void setCulturalOfferingSubtypeName(String culturalOfferingSubtypeName) {
 		this.culturalOfferingSubtypeName = culturalOfferingSubtypeName;
+	}
+
+	public List<Long> getImageIds() {
+		return imageIds;
+	}
+
+	public void setImageIds(List<Long> imageIds) {
+		this.imageIds = imageIds;
 	}
 
 }

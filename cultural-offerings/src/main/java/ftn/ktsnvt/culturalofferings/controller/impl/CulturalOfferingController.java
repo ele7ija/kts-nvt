@@ -10,17 +10,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CulturalOfferingController implements CulturalOfferingApi {
@@ -53,6 +57,18 @@ public class CulturalOfferingController implements CulturalOfferingApi {
 
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.CREATED);
     }
+    
+    public ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@RequestBody CulturalOfferingDTO body, 
+    		@PathVariable Long id) {
+    	CulturalOffering culturalOffering;
+        try {
+            culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body), id);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
+    }
 
     public ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") Long id) {
     	try {
@@ -73,16 +89,19 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 
-    public ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@RequestBody CulturalOfferingDTO body, 
-    		@PathVariable Long id) {
-    	CulturalOffering culturalOffering;
-        try {
-            culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body), id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    @Override
+    public ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable) {
+        Page<CulturalOffering> page = culturalOfferingService.findAll(pageable);
 
-        return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
+        List<CulturalOfferingDTO> culturalOfferingDTO = page
+                .toList()
+                .stream()
+                .map(x -> culturalOfferingsMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<CulturalOfferingDTO> pageCulturalOfferingDTO = new PageImpl<>(culturalOfferingDTO, page.getPageable(), page.getTotalElements());
+        return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
+
     }
 
     public ResponseEntity<CulturalOffering> uploadImageCulturalOffering(@PathVariable("id") String id, @RequestPart(value="file", required=true) MultipartFile file) {

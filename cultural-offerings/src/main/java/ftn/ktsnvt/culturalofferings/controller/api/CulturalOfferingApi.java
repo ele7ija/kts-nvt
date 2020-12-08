@@ -3,6 +3,9 @@ package ftn.ktsnvt.culturalofferings.controller.api;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +45,9 @@ public interface CulturalOfferingApi {
             method = RequestMethod.POST)
     ResponseEntity<CulturalOffering> uploadImageCulturalOffering(@PathVariable("id") String id, @RequestPart(value="file", required=true) MultipartFile file);
 
-
+    @RequestMapping(value = "/by-page", 
+    		method = RequestMethod.GET, 
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable);
 }
 
