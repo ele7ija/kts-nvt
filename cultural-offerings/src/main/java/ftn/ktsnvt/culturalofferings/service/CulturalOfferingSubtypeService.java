@@ -38,6 +38,10 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
             );
         return optional.get();
     }
+    
+    public CulturalOfferingSubType findName(String name) {
+    	return culturalOfferingSubtypeRepository.findBySubTypeName(name).orElse(null);
+    }
 
     @Override
     public CulturalOfferingSubType create(CulturalOfferingSubType entity) {

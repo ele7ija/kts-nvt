@@ -34,6 +34,13 @@ public class ImageModel {
 		this.type = type;
 		this.picByte = picByte;
 	}
+	
+	public ImageModel(String name, String type, byte[] picByte) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.picByte = picByte;
+	}
 
 	public Long getId() {
 		return id;
