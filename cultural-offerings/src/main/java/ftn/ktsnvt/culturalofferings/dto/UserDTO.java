@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
+
     @NotBlank(message = "User first name cannot be blank!")
     private String firstName;
 
