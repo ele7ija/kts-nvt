@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ftn.ktsnvt.culturalofferings.model.User;
@@ -17,6 +18,9 @@ public class UserService implements ServiceInterface<User> {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -34,6 +38,7 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public User create(User entity) {
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(entity);
     }
 

@@ -3,8 +3,8 @@ package ftn.ktsnvt.culturalofferings.dto;
 import ftn.ktsnvt.culturalofferings.model.UserRole;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 public class RegisterDTO {
 
@@ -13,7 +13,7 @@ public class RegisterDTO {
     private String email;
 
     @NotBlank(message = "Password must not be blank")
-    @Min(value = 3, message = "Password must be at least 3 characters")
+    @Size(min = 3, message = "Password must be at least 3 characters long")
     private String password;
 
     @NotBlank(message = "First name must not be blank")

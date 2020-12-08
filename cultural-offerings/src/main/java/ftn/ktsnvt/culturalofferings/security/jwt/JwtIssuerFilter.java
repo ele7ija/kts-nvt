@@ -42,7 +42,7 @@ public class JwtIssuerFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
-        System.out.println("*** LOG IN FILTER TRIGGERED ***");
+        System.out.println("*** JWT ISSUER FILTER TRIGGERED ***");
         try {
             EmailAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper()
                     .readValue(request.getInputStream(), EmailAndPasswordAuthenticationRequest.class);

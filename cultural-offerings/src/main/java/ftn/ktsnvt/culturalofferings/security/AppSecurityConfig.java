@@ -61,7 +61,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 
                 .addFilter(new JwtIssuerFilter(authenticationManager(), jwtConfig, secretKey, "/auth/login", "email"))
-                .addFilterAfter(new JwtVerifierFilter(jwtConfig, secretKey), JwtIssuerFilter.class);
+                .addFilterBefore(new JwtVerifierFilter(jwtConfig, secretKey), JwtIssuerFilter.class);
 
     }
 
