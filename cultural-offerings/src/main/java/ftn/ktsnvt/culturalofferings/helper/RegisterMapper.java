@@ -18,6 +18,7 @@ public class RegisterMapper implements MapperInterface<User, RegisterDTO> {
                 dto.getFirstName(),
                 dto.getLastName(),
                 dto.getUserRole() == null ? UserRole.USER : dto.getUserRole(),
+                false,
                 new HashSet<>(),
                 new HashSet<>(),
                 new HashSet<>(),

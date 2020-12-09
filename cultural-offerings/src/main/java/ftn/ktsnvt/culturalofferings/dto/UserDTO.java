@@ -23,6 +23,8 @@ public class UserDTO {
     @NotBlank(message = "User role cannot be blank!")
     private UserRole userRole;
 
+    private boolean enabled;
+
     private List<Long> newsIds;
 
     private List<Long> subscriptionIds;
@@ -31,12 +33,13 @@ public class UserDTO {
 
     private List<Long> ratingIds;
 
-    public UserDTO(String firstName, String lastName, String email, String password, UserRole userRole, List<Long> newsIds, List<Long> subscriptionIds, List<Long> commentIds, List<Long> ratingIds) {
+    public UserDTO(String firstName, String lastName, String email, String password, UserRole userRole, boolean enabled, List<Long> newsIds, List<Long> subscriptionIds, List<Long> commentIds, List<Long> ratingIds) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
+        this.enabled = enabled;
         this.newsIds = newsIds == null ? new ArrayList<>() : newsIds;
         this.subscriptionIds = subscriptionIds == null ? new ArrayList<>() : subscriptionIds;
         this.commentIds = commentIds == null ? new ArrayList<>() : commentIds;
@@ -81,6 +84,14 @@ public class UserDTO {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public List<Long> getNewsIds() {
