@@ -48,4 +48,10 @@ public class ExceptionHandlingAdvice {
                 + ". Message: " + e.getMessage();
         return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(EntityNotFoundByNameException.class)
+    public ResponseEntity<Error> getError(EntityNotFoundByNameException e){
+        String message =  "Entity " + e.getClassObject().getName() + " with id " + e.getName() + " not found! Make sure your request is valid!";
+        return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

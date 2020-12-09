@@ -40,20 +40,28 @@ public class NewsService implements ServiceInterface<News> {
 
     @Override
     public News findOne(Long id) {
-        return newsRepository.findById(id).orElse(null);
+        Optional<News> optional = newsRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    News.class
+            );
+        return optional.get();
     }
 
     @Override
-    public News create(News entity) throws Exception {
+    public News create(News entity) {
         return newsRepository.save(entity);
     }
 
     @Override
-    public News update(News entity, Long id) throws Exception {
-        News existingNews =  newsRepository.findById(id).orElse(null);
-        if(existingNews == null){
-            throw new Exception("News with given id doesn't exist");
-        }
+    public News update(News entity, Long id) {
+        Optional<News> optional = newsRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    News.class
+            );
         entity.setId(id);
         return newsRepository.save(entity);
     }
@@ -63,11 +71,13 @@ public class NewsService implements ServiceInterface<News> {
     * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
     * */
     @Override
-    public void delete(Long id) throws Exception {
-        News existingNews = newsRepository.findById(id).orElse(null);
-        if(existingNews == null){
-            throw new Exception("News with given id doesn't exist");
-        }
-        newsRepository.delete(existingNews);
+    public void delete(Long id) {
+        Optional<News> optional = newsRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    News.class
+            );
+        newsRepository.delete(optional.get());
     }
 }

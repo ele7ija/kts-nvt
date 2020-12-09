@@ -6,9 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundByNameException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CulturalOfferingService implements ServiceInterface<CulturalOffering> {
@@ -27,33 +30,54 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
 
     @Override
     public CulturalOffering findOne(Long id) {
-        return culturalOfferingRepository.findById(id).orElse(null);
+        Optional<CulturalOffering> optional =  culturalOfferingRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOffering.class
+            );
+        }
+        return optional.get();
     }
     
     public CulturalOffering findName(String name) {
-        return culturalOfferingRepository.findByName(name).orElse(null);
+        Optional<CulturalOffering> optional = culturalOfferingRepository.findByName(name);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundByNameException(
+                    name,
+                    CulturalOffering.class
+            );
+        }
+        return optional.get();
     }
 
     @Override
-    public CulturalOffering create(CulturalOffering entity) throws Exception {
+    public CulturalOffering create(CulturalOffering entity) {
         return culturalOfferingRepository.save(entity);
     }
 
     @Override
-    public CulturalOffering update(CulturalOffering entity, Long id) throws Exception {
-        CulturalOffering existingCulturalOffering =  culturalOfferingRepository.findById(id).orElse(null);
-        if(existingCulturalOffering == null){
-            throw new Exception("Cultural offering with given id doesn't exist");
+    public CulturalOffering update(CulturalOffering entity, Long id) {
+        Optional<CulturalOffering> optional =  culturalOfferingRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOffering.class
+            );
         }
-        return culturalOfferingRepository.save(existingCulturalOffering);
+        entity.setId(id);
+        return culturalOfferingRepository.save(entity);
     }
 
     @Override
-    public void delete(Long id) throws Exception {
-        CulturalOffering existingCulturalOffering = culturalOfferingRepository.findById(id).orElse(null);
-        if(existingCulturalOffering == null){
-            throw new Exception("Cultural offering with given id doesn't exist");
+    public void delete(Long id) {
+        Optional<CulturalOffering> optional =  culturalOfferingRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    CulturalOffering.class
+            );
         }
-        culturalOfferingRepository.delete(existingCulturalOffering);
+        culturalOfferingRepository.delete(optional.get());
     }
 }
