@@ -3,9 +3,11 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
+import ftn.ktsnvt.culturalofferings.dto.RegisterDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
+import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +69,14 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingTypeDTO> create(CulturalOfferingTypeDTO body) {
+    public ResponseEntity<CulturalOfferingTypeDTO> create(@Valid CulturalOfferingTypeDTO body, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    CulturalOfferingTypeDTO.class
+            );
+        }
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.create(culturalOfferingTypeMapper.toEntity(body));
         return new ResponseEntity<>(
                 culturalOfferingTypeMapper.toDto(culturalOfferingType),
@@ -73,7 +85,14 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingTypeDTO> update(CulturalOfferingTypeDTO body, Long id) {
+    public ResponseEntity<CulturalOfferingTypeDTO> update(@Valid CulturalOfferingTypeDTO body, BindingResult bindingResult, Long id) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    CulturalOfferingTypeDTO.class
+            );
+        }
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.update(culturalOfferingTypeMapper.toEntity(body), id);
         return new ResponseEntity<>(
                 culturalOfferingTypeMapper.toDto(culturalOfferingType),

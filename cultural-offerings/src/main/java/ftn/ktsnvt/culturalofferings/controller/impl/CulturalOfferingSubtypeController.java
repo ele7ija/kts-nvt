@@ -2,8 +2,10 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingSubtypeApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
+import ftn.ktsnvt.culturalofferings.dto.RegisterDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingSubTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
+import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +67,14 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubTypeDTO> create(CulturalOfferingSubTypeDTO body) {
+    public ResponseEntity<CulturalOfferingSubTypeDTO> create(@Valid CulturalOfferingSubTypeDTO body, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    CulturalOfferingSubTypeDTO.class
+            );
+        }
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.create(culturalOfferingSubTypeMapper.toEntity(body));
         return new ResponseEntity<>(
                 culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType),
@@ -72,7 +83,14 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingSubTypeDTO> update(CulturalOfferingSubTypeDTO body, Long id) {
+    public ResponseEntity<CulturalOfferingSubTypeDTO> update(@Valid CulturalOfferingSubTypeDTO body, BindingResult bindingResult, Long id) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    CulturalOfferingSubTypeDTO.class
+            );
+        }
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.update(culturalOfferingSubTypeMapper.toEntity(body), id);
         return new ResponseEntity<>(
                 culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType),

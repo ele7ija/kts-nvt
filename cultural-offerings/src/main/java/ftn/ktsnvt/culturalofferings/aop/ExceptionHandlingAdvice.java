@@ -39,7 +39,7 @@ public class ExceptionHandlingAdvice {
         String message = "Request body binding failed for entity " + e.getClassObject().getName()
                 + ". Failed field: " + e.getFieldName()
                 + ". Message: " + e.getMessage();
-        return new ResponseEntity<Error>(new Error(message), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Error>(new Error(message), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ModelConstraintViolationException.class)

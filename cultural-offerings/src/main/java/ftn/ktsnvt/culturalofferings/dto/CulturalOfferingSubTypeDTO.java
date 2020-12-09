@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class CulturalOfferingSubTypeDTO {
@@ -8,7 +9,7 @@ public class CulturalOfferingSubTypeDTO {
     @NotBlank(message = "Cultural offering subtype name cannot be empty")
     private String subTypeName;
 
-    @NotBlank(message = "Cultural offering type id must be provided")
+    @NotNull(message = "Cultural offering type id must be provided")
     @Positive(message = "Cultural offering type id must be a positive number")
     private Long typeId;
 
