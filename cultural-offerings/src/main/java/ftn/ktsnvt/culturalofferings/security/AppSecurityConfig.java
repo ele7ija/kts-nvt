@@ -56,6 +56,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/login").permitAll()
                 .antMatchers("/auth/register").permitAll()
+                .antMatchers("/auth/confirm-registration").permitAll()
+                .antMatchers("/auth/resend-token").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -70,7 +72,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         /*
             Custom filters will ignore register endpoint
          */
-        web.ignoring().antMatchers(HttpMethod.POST, "/auth/register");
+        web.ignoring().antMatchers(HttpMethod.POST,
+                "/auth/register", "/auth/confirm-registration", "/auth/resend-token");
     }
 
     @Override

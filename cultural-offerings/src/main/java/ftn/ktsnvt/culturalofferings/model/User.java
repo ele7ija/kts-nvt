@@ -24,6 +24,9 @@ public class User {
 
     private UserRole role;
 
+    @Column
+    private boolean enabled;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<Rating> ratings;
 
@@ -40,12 +43,13 @@ public class User {
 
     }
 
-    public User(String email, String password, String firstName, String lastName, UserRole role, Set<Rating> ratings, Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news) {
+    public User(String email, String password, String firstName, String lastName, UserRole role, boolean enabled, Set<Rating> ratings, Set<Comment> comments, Set<Subscription> subscriptions, Set<News> news) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.enabled = enabled;
         this.ratings = ratings;
         this.comments = comments;
         this.subscriptions = subscriptions;
@@ -98,6 +102,14 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public Set<Rating> getRatings() {
