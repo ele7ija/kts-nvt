@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.controller.api.NewsApi;
 import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
 import ftn.ktsnvt.culturalofferings.helper.NewsMapper;
 import ftn.ktsnvt.culturalofferings.model.News;
+import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.NewsService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,52 +53,38 @@ public class NewsController implements NewsApi {
     }
 
     @Override
-    public ResponseEntity<NewsDTO> createNews(NewsDTO body) {
-        News news;
-        try {
-            news = newsService.create(newsMapper.toEntity(body));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<NewsDTO> createNews(@Valid NewsDTO body, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    News.class
+            );
         }
-        
+        News news = newsService.create(newsMapper.toEntity(body));   
         return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Void> deleteNews(Long id) {
-        try {
-            newsService.delete(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
+        newsService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<NewsDTO> getNewsByID(Long id) {
-        News news;
-        try {
-            news = newsService.findOne(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.CREATED);
+        News news = newsService.findOne(id);
+        return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Page<NewsDTO>> getAllNews(Pageable pageable) {
         Page<News> page;
         Page<NewsDTO> dtopage;
-        try {
-            page = newsService.findAll(pageable);
-            List<NewsDTO> dtos = toNewsDTOList(page.toList());
-            dtopage = new PageImpl<>(dtos,page.getPageable(),page.getTotalElements());
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(dtopage, HttpStatus.CREATED);
+        page = newsService.findAll(pageable);
+        List<NewsDTO> dtos = toNewsDTOList(page.toList());
+        dtopage = new PageImpl<>(dtos,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtopage, HttpStatus.OK);
     }
 
     private List<NewsDTO> toNewsDTOList(List<News> news) {
@@ -106,14 +96,16 @@ public class NewsController implements NewsApi {
     }
 
     @Override
-    public ResponseEntity<NewsDTO> updateNews(NewsDTO body, Long id) {
-        News news = newsMapper.toEntity(body);
-        try {
-            news = newsService.update(news, id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<NewsDTO> updateNews(@Valid NewsDTO body, BindingResult bindingResult, Long id) {
+        if (bindingResult.hasErrors()) {
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    News.class
+            );
         }
-        return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.CREATED);
+        News news = newsService.update(newsMapper.toEntity(body), id);
+        return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
     }
 
     

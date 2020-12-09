@@ -1,8 +1,15 @@
 package ftn.ktsnvt.culturalofferings.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
 public class SubscriptionDTO {
     
+    @NotNull(message = "Cultural offering id must be provided")
+    @Positive(message = "Cultural offering id must be a positive number")
     private Long culturalOffering;
+    @NotNull(message = "User id must be provided")
+    @Positive(message = "User id must be a positive number")
     private Long user;
 
     public SubscriptionDTO() {}
