@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public interface CulturalOfferingApi {
     @RequestMapping(value = "",
             produces = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@RequestBody CulturalOfferingDTO body);
+    ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@RequestBody CulturalOfferingDTO body, BindingResult bindingResult);
 
 
     @RequestMapping(value = "/{id}",
@@ -37,7 +38,7 @@ public interface CulturalOfferingApi {
     @RequestMapping(value = "/{id}",
             produces = { "application/json" },
             method = RequestMethod.PUT)
-    ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@RequestBody CulturalOfferingDTO body,  @PathVariable Long id);
+    ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@RequestBody CulturalOfferingDTO body, BindingResult bindingResult, @PathVariable Long id);
     
     @RequestMapping(value = "/culturalOffering/{id}/uploadImage",
             produces = { "application/json" },

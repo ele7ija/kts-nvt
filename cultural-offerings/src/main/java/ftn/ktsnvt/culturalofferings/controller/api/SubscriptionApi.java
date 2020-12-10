@@ -3,6 +3,7 @@ package ftn.ktsnvt.culturalofferings.controller.api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public interface SubscriptionApi {
     @RequestMapping(value = "",
         produces = { "application/json" }, 
         method = RequestMethod.POST)
-    ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody SubscriptionDTO body);
+    ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody SubscriptionDTO body, BindingResult bindingResult);
 
 
     @RequestMapping(value = "/{id}",
@@ -38,5 +39,5 @@ public interface SubscriptionApi {
     @RequestMapping(value = "/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
-    ResponseEntity<SubscriptionDTO> updateSubscription(@RequestBody SubscriptionDTO body, @PathVariable("id") Long id);
+    ResponseEntity<SubscriptionDTO> updateSubscription(@RequestBody SubscriptionDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
 }

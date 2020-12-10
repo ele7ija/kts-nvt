@@ -43,7 +43,14 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public User findOne(Long id) {
-        return userRepository.findById(id).orElse(null);
+        Optional<User> optional =  userRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    User.class
+            );
+        }
+        return optional.get();
     }
 
     @Override

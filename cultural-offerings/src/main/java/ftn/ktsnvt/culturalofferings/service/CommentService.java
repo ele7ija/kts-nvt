@@ -40,31 +40,41 @@ public class CommentService implements ServiceInterface<Comment> {
 
     @Override
     public Comment findOne(Long id) {
-        return commentRepository.findById(id).orElse(null);
+        Optional<Comment> optional = commentRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                id,
+                Comment.class
+            );
+        return optional.get();
     }
 
     @Override
-    public Comment create(Comment entity) throws Exception {
+    public Comment create(Comment entity) {
         return commentRepository.save(entity);
     }
 
     @Override
-    public Comment update(Comment entity, Long id) throws Exception {
-        Comment existingComment =  commentRepository.findById(id).orElse(null);
-        if(existingComment == null){
-            throw new Exception("Comment with given id doesn't exist");
-        }
+    public Comment update(Comment entity, Long id) {
+        Optional<Comment> optional =  commentRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                id,
+                Comment.class
+            );
         entity.setId(id);
         return commentRepository.save(entity);
     }
 
     @Override
-    public void delete(Long id) throws Exception {
-        Comment existingComment = commentRepository.findById(id).orElse(null);
-        if(existingComment == null){
-            throw new Exception("Comment with given id doesn't exist");
-        }
-        commentRepository.delete(existingComment);
+    public void delete(Long id) {
+        Optional<Comment> optional = commentRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                id,
+                Comment.class
+            );
+        commentRepository.delete(optional.get());
     }
 }
 

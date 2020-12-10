@@ -6,7 +6,7 @@ import ftn.ktsnvt.culturalofferings.dto.UserDTO;
 import ftn.ktsnvt.culturalofferings.helper.UserMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.User;
-
+import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,9 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 @Controller
 public class UserController implements UserApi {
@@ -60,7 +63,14 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserDTO> create(UserDTO body) {
+    public ResponseEntity<UserDTO> create(@Valid UserDTO body, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    User.class
+            );
+        }
         User user = userService.create(userMapper.toEntity(body));
         return new ResponseEntity<>(
                 userMapper.toDto(user),
@@ -69,7 +79,14 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserDTO> update(UserDTO body, Long id) {
+    public ResponseEntity<UserDTO> update(@Valid UserDTO body, BindingResult bindingResult, Long id) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    User.class
+            );
+        }
         User user = userService.update(userMapper.toEntity(body), id);
         return new ResponseEntity<>(
                 userMapper.toDto(user),
