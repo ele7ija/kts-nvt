@@ -1,26 +1,27 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { SignInUser } from 'src/app/model/sign-in-user/sign-in-user';
 import { ApiService } from '../api-service/api.service';
+import { map } from 'rxjs/operators';
+import { SignInService } from '../sign-in-service/sign-in.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // add private _loginService: LoginService
-  constructor(private http: HttpClient, private _apiService: ApiService, private _router: Router) {}
+  private access_token = null;
+  private signInUrl : string = 'http://localhost:8080/api/auth/login';
+
+  constructor(private http: HttpClient, private apiService: ApiService, private signInService: SignInService, private router: Router) {}
 
   headers = new HttpHeaders({
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   });
 
-  private access_token = null;
-  //private apiService: ApiService;
-
-  /*
-  login(user) {
+  signin(user : SignInUser) {
     const loginHeaders = new HttpHeaders({
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -29,21 +30,18 @@ export class AuthService {
       'username' : user.username,
       'password' : user.password
     };
-    return this._apiService.post('http://localhost:8080/auth/login', JSON.stringify(body), loginHeaders)
+    return this.apiService.post(this.signInUrl, JSON.stringify(body), loginHeaders)
       .pipe(map((res) => {
         console.log('Login success');
-        this.access_token = res.accessToken;
+        this.access_token = res.jwt;
       }));
   }
-  */
 
-  /*
   logout() {
-    this._loginService.currentUser = null;
+    this.signInService.changeCurrentUser(null);
     this.access_token = null;
-    this._router.navigate(['/login']);
+    this.router.navigate(['/sign-in']);
   }
-  */
 
   tokenIsPresent() {
     return this.access_token != undefined && this.access_token != null;

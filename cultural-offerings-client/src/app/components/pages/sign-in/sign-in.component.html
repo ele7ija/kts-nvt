@@ -19,7 +19,7 @@
             <mdb-card-body class="mx-4 mt-4">
 
               <!--Body-->
-              <form [formGroup]="signinForm" (ngSubmit)="signIn()">
+              <form [formGroup]="signinForm" (ngSubmit)="signIn()" *ngIf="!submitted">
 
                 <div class="md-form mb-5">
                     <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon>
@@ -53,6 +53,8 @@
                     </div>
 
                 </div>
+
+                <small *ngIf="errorMsg" class="text-danger">{{errorMsg}}</small>
 
                 <div class="d-flex justify-content-center">
                     <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="signinForm.invalid" mdbWavesEffect>Prijava</button>
