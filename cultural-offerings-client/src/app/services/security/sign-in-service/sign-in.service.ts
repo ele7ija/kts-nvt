@@ -12,7 +12,7 @@ export class SignInService {
   // private _getUserInfoUrl = "http://localhost:8080/api/users/returnCurrentUser";
   //private _refresh_token_url = "http://localhost:8080/auth/refresh";
 
-  private currentUser: CurrentUser;
+  private currentUser: CurrentUser = undefined;
 
   constructor(private _apiService: ApiService) { }
 

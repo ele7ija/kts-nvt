@@ -14,7 +14,7 @@ export class AuthService {
   private access_token = null;
   private signInUrl : string = 'http://localhost:8080/api/auth/login';
 
-  constructor(private http: HttpClient, private apiService: ApiService, private signInService: SignInService, private router: Router) {}
+  constructor(private apiService: ApiService, private signInService: SignInService, private router: Router) {}
 
   headers = new HttpHeaders({
     'Accept': 'application/json',

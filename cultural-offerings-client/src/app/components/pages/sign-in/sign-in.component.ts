@@ -16,7 +16,7 @@ export class SignInComponent implements OnInit {
   private emailField: string;
   private passField: string;
 
-  private submitted : boolean = false;
+  submitted : boolean = false;
   private errorMsg : string;
 
   private user : SignInUser;
