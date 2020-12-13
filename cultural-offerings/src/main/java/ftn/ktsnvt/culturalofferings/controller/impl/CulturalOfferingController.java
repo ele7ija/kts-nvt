@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,12 +17,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,45 +51,30 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         this.request = request;
     }
 
-    public ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@RequestBody CulturalOfferingDTO body) {
-    	CulturalOffering culturalOffering;
-        try {
-            culturalOffering = culturalOfferingService.create(culturalOfferingsMapper.toNewEntity(body));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@Valid CulturalOfferingDTO body, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    CulturalOffering.class
+            );
         }
-
+    	CulturalOffering culturalOffering = culturalOfferingService.create(culturalOfferingsMapper.toNewEntity(body));
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.CREATED);
     }
     
-    public ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@RequestBody CulturalOfferingDTO body, 
-    		@PathVariable Long id) {
-    	CulturalOffering culturalOffering;
-        try {
-            culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body), id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@Valid CulturalOfferingDTO body, BindingResult bindingResult, @PathVariable Long id) {
+    	CulturalOffering culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body), id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 
     public ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") Long id) {
-    	try {
-            culturalOfferingService.delete(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+    	culturalOfferingService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id) {
     	CulturalOffering culturalOffering = culturalOfferingService.findOne(id);
-        if(culturalOffering == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 

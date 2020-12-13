@@ -48,19 +48,26 @@ public class ImageService {
 	}
 
 	public ImageModel update(ImageModel entity, Long id) throws Exception {
-		ImageModel existingImage = imageRepository.findById(id).orElse(null);
-        if(existingImage == null){
-            throw new Exception("Image with given id doesn't exist");
-        }
-        return imageRepository.save(existingImage);
+		Optional<ImageModel> optional = imageRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    ImageModel.class
+            );
+		}
+		entity.setId(id);
+        return imageRepository.save(entity);
 	}
 
 	public void delete(Long id) throws Exception {
-		ImageModel existingImage = imageRepository.findById(id).orElse(null);
-        if(existingImage == null){
-            throw new Exception("Image with given id doesn't exist");
-        }
-        imageRepository.delete(existingImage);
+		Optional<ImageModel> optional = imageRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new EntityNotFoundException(
+                    id,
+                    ImageModel.class
+            );
+		}
+        imageRepository.delete(optional.get());
 	}
 	
 	// compress the image bytes before storing it in the database

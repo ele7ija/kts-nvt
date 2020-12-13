@@ -40,20 +40,28 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
 
     @Override
     public Subscription findOne(Long id) {
-        return subscriptionRepository.findById(id).orElse(null);
+        Optional<Subscription> optional = subscriptionRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    Subscription.class
+            );
+        return optional.get();
     }
 
     @Override
-    public Subscription create(Subscription entity) throws Exception {
+    public Subscription create(Subscription entity) {
         return subscriptionRepository.save(entity);
     }
 
     @Override
-    public Subscription update(Subscription entity, Long id) throws Exception {
-        Subscription existingSubscription = subscriptionRepository.findById(id).orElse(null);
-        if(existingSubscription == null){
-            throw new Exception("Subscription with given id doesn't exist");
-        }
+    public Subscription update(Subscription entity, Long id) {
+        Optional<Subscription> optional = subscriptionRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    Subscription.class
+            );
         entity.setId(id);
         return subscriptionRepository.save(entity);
     }
@@ -63,11 +71,13 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
     * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
     * */
     @Override
-    public void delete(Long id) throws Exception {
-        Subscription existingSubscription = subscriptionRepository.findById(id).orElse(null);
-        if(existingSubscription == null){
-            throw new Exception("Subscription with given id doesn't exist");
-        }
-        subscriptionRepository.delete(existingSubscription);
+    public void delete(Long id) {
+        Optional<Subscription> optional = subscriptionRepository.findById(id);
+        if(optional.isEmpty())
+            throw new EntityNotFoundException(
+                    id,
+                    Subscription.class
+            );
+        subscriptionRepository.delete(optional.get());
     }
 }

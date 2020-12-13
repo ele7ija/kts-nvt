@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.controller.api.SubscriptionApi;
 import ftn.ktsnvt.culturalofferings.dto.SubscriptionDTO;
 import ftn.ktsnvt.culturalofferings.helper.SubscriptionMapper;
 import ftn.ktsnvt.culturalofferings.model.Subscription;
+import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.SubscriptionService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,12 +17,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,52 +52,38 @@ public class SubscriptionController implements SubscriptionApi {
     }
 
     @Override
-    public ResponseEntity<SubscriptionDTO> createSubscription(SubscriptionDTO body) {
-        Subscription subscription;
-        try {
-            subscription = subscriptionService.create(mapper.toEntity(body));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<SubscriptionDTO> createSubscription(@Valid SubscriptionDTO body, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    Subscription.class
+            );
         }
-        
+        Subscription subscription = subscriptionService.create(mapper.toEntity(body));
         return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.CREATED);
     }
 
     @Override
     public ResponseEntity<Void> deleteSubscription(Long id) {
-        try {
-            subscriptionService.delete(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        subscriptionService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<SubscriptionDTO> getSubscriptionByID(Long id) {
-        Subscription subscription;
-        try {
-            subscription = subscriptionService.findOne(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.CREATED);
+        Subscription subscription = subscriptionService.findOne(id);
+        return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Page<SubscriptionDTO>> getAllSubscriptions(Pageable pageable) {
         Page<Subscription> page;
         Page<SubscriptionDTO> dtopage;
-        try {
-            page = subscriptionService.findAll(pageable);
-            List<SubscriptionDTO> dtos = toSubscriptionDTOList(page.toList());
-            dtopage = new PageImpl<>(dtos,page.getPageable(),page.getTotalElements());
-        }
-        catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(dtopage, HttpStatus.CREATED);
+        page = subscriptionService.findAll(pageable);
+        List<SubscriptionDTO> dtos = toSubscriptionDTOList(page.toList());
+        dtopage = new PageImpl<>(dtos,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(dtopage, HttpStatus.OK);
     }
 
     private List<SubscriptionDTO> toSubscriptionDTOList(List<Subscription> subscriptions) {
@@ -105,14 +95,16 @@ public class SubscriptionController implements SubscriptionApi {
     }
 
     @Override
-    public ResponseEntity<SubscriptionDTO> updateSubscription(SubscriptionDTO dto, Long id) {
-        Subscription subscription = mapper.toEntity(dto);
-        try {
-            subscription = subscriptionService.update(subscription, id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<SubscriptionDTO> updateSubscription(@Valid SubscriptionDTO dto, BindingResult bindingResult, Long id) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    Subscription.class
+            );
         }
-        return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.CREATED);
+        Subscription subscription = subscriptionService.update(mapper.toEntity(dto), id);
+        return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.OK);
     }
 
 
