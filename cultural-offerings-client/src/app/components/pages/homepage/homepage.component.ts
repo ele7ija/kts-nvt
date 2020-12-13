@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/services/security/auth-service/auth.service';
+import { SignInService } from 'src/app/services/security/sign-in-service/sign-in.service';
 
 @Component({
   selector: 'app-homepage',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService, private signInService: SignInService) { }
 
   ngOnInit(): void {
+  }
+
+  logoutUser(){
+    this.authService.logout();
   }
 
 }
