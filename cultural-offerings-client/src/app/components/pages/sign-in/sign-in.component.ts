@@ -48,7 +48,7 @@ export class SignInComponent implements OnInit {
     this.authService.signin(this.user)
       .subscribe(data => {
         this.router.navigate(['/homepage']);
-        console.log(`Korisnik ${this.user.username} je uspesno pristupio sistemu.`);
+        console.log(`Korisnik ${this.user.email} je uspesno pristupio sistemu.`);
       },
       error => {
         this.submitted = false;

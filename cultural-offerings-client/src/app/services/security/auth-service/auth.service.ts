@@ -27,7 +27,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
     const body = {
-      'username' : user.username,
+      'email' : user.password,
       'password' : user.password
     };
     return this.apiService.post(this.signInUrl, JSON.stringify(body), loginHeaders)
