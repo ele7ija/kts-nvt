@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignInUser } from 'src/app/model/sign-in-user/sign-in-user';
 import { ApiService } from '../api-service/api.service';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { SignInService } from '../sign-in-service/sign-in.service';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,18 @@ export class AuthService {
       'email' : user.password,
       'password' : user.password
     };
-    return this.apiService.post(this.signInUrl, JSON.stringify(body), loginHeaders)
-      .pipe(map((res) => {
+    return this.apiService.post(this.signInUrl, JSON.stringify(body), loginHeaders).pipe(
+      map((res) => {
         console.log('Login success');
         this.access_token = res.jwt;
-      }));
+        return true;
+      }),
+      catchError(err => {
+        // Handle errors here
+        console.log(err);
+        return of (false);
+      })
+      );
   }
 
   logout() {

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SignInUser } from 'src/app/model/sign-in-user/sign-in-user';
 import { AuthService } from 'src/app/services/security/auth-service/auth.service';
 import { SignInService } from 'src/app/services/security/sign-in-service/sign-in.service';
+import { of } from 'rxjs';
+
 
 @Component({
   selector: 'app-sign-in',
@@ -54,6 +56,7 @@ export class SignInComponent implements OnInit {
         this.submitted = false;
         this.signinForm.reset();
         this.errorMsg = 'Uneli ste pogresnu email adresu ili lozinku.';
+        console.log("ovde se desilo, ipak error");
       });
 
   }
