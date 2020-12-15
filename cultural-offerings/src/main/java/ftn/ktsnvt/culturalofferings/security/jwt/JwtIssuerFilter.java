@@ -21,6 +21,7 @@ import java.util.Date;
 /*
 * ONLY CALLED FOR URL SPECIFIED VIA loginUrl !!!
 * */
+
 public class JwtIssuerFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;

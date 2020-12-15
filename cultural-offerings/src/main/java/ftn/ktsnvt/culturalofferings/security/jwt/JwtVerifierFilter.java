@@ -72,7 +72,8 @@ public class JwtVerifierFilter extends OncePerRequestFilter {
 
             response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
         } catch (JwtException e) {
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Token " + token + " cannot be trusted");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
         }
 
         filterChain.doFilter(request, response);
