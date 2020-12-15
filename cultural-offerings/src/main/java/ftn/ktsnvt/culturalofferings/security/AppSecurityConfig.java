@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.crypto.SecretKey;
 
@@ -60,6 +61,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/resend-token").permitAll()
                 .anyRequest().authenticated()
 
+                .and()
+
+                .cors()
                 .and()
 
                 .addFilter(new JwtIssuerFilter(authenticationManager(), jwtConfig, secretKey, "/auth/login", "email"))
