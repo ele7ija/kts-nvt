@@ -72,7 +72,7 @@ public class JwtVerifierFilter extends OncePerRequestFilter {
 
             response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
         } catch (JwtException e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
 
