@@ -36,11 +36,6 @@ export class AuthService {
         console.log('Login success');
         this.access_token = res.jwt;
         return true;
-      }),
-      catchError(err => {
-        // Handle errors here
-        console.log(err);
-        return of (false);
       })
       );
   }

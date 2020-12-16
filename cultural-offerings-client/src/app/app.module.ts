@@ -10,7 +10,8 @@ import { HomepageComponent } from './components/pages/homepage/homepage.componen
 import { ApiService } from './services/security/api-service/api.service';
 import { AuthService } from './services/security/auth-service/auth.service';
 import { SignInService } from './services/security/sign-in-service/sign-in.service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './interceptor/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     MDBBootstrapModule.forRoot()
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
     ApiService,
     AuthService,
     SignInService

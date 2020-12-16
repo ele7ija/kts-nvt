@@ -57,9 +57,10 @@ export class ApiService {
     });
 
     return this.http.request(req).pipe(filter(response => response instanceof HttpResponse))
-      .pipe(map((response: HttpResponse<any>) => response.body))
-      .pipe(catchError(error => this.checkError(error)));
+      .pipe(map((response: HttpResponse<any>) => response.body));
+      //.pipe(catchError(error => this.checkError(error)));
   }
+
 
   // Display error if logged in, otherwise redirect to IDP
   private checkError(error: any): any {

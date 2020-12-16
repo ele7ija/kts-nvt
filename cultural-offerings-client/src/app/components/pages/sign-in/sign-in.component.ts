@@ -47,8 +47,8 @@ export class SignInComponent implements OnInit {
 
     this.user = this.signInService.setUser(this.signinForm.value['emailField'], this.signinForm.value['passField']);
 
-    this.authService.signin(this.user)
-      .subscribe(data => {
+    this.authService.signin(this.user).subscribe(
+      data => {
         this.router.navigate(['/homepage']);
         console.log(`Korisnik ${this.user.email} je uspesno pristupio sistemu.`);
       },
@@ -56,7 +56,6 @@ export class SignInComponent implements OnInit {
         this.submitted = false;
         this.signinForm.reset();
         this.errorMsg = 'Uneli ste pogresnu email adresu ili lozinku.';
-        console.log("ovde se desilo, ipak error");
       });
 
   }
