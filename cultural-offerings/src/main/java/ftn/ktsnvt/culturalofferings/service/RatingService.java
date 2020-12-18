@@ -76,6 +76,7 @@ public class RatingService {
         return mapper.toDTO(rating);
     }
 
+
     public RatingDTO create(RatingDTO dto, String userEmail) throws Exception {
         CulturalOffering culturalOffering = culturalOfferingService.findOne(dto.getCulturalOfferingId());
         User user = userService.findByEmail(userEmail);
@@ -95,6 +96,7 @@ public class RatingService {
                 ratingUpdateDTO.getCulturalOfferingId());
         var user = userService.findOne(ratingUpdateDTO.getUserId());
 
+        // update entity
         Rating newRating = mapper.toEntity(ratingUpdateDTO, culturalOffering, user);
         newRating.setId(id);
 
