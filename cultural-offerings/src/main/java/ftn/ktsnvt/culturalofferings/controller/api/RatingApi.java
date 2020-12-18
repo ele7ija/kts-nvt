@@ -29,5 +29,5 @@ public interface RatingApi {
     ResponseEntity<RatingDTO> update(@RequestBody RatingDTO body, BindingResult bindingResult, @PathVariable("id") Long id) throws Exception;
 
     @DeleteMapping(value= "/{id}")
-    ResponseEntity<Void> delete(@PathVariable("id") Long id);
+    ResponseEntity<Void> delete(@PathVariable("id") Long id) throws Exception;
 }

@@ -90,9 +90,10 @@ public class RatingService {
 
     public void delete(Long id) throws Exception {
         Rating existingRating = ratingRepository.findById(id).orElse(null);
-        if (existingRating == null) {
-            throw new Exception("Rating with given id doesn't exist");
-        }
+
+        if (existingRating == null)
+            throw new EntityNotFoundException(id, Rating.class);
+
         ratingRepository.delete(existingRating);
     }
 }

@@ -72,8 +72,10 @@ public class RatingController implements RatingApi {
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long id) {
-        return null;
+    public ResponseEntity<Void> delete(Long id)throws Exception {
+        ratingService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.OK)            ;
     }
 
     private String getUserEmailFromToken(){
