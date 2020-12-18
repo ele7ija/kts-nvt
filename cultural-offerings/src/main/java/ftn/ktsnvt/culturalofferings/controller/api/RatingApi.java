@@ -23,10 +23,10 @@ public interface RatingApi {
     ResponseEntity<RatingDTO> findOne(@PathVariable("id") Long id);
 
     @PostMapping
-    ResponseEntity<RatingDTO> create(Authentication authentication, @RequestBody RatingDTO body, BindingResult bindingResult) throws Exception;
+    ResponseEntity<RatingDTO> create(@RequestBody RatingDTO body, BindingResult bindingResult) throws Exception;
 
     @PutMapping(value= "/{id}")
-    ResponseEntity<RatingDTO> update(@RequestBody RatingDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
+    ResponseEntity<RatingDTO> update(@RequestBody RatingDTO body, BindingResult bindingResult, @PathVariable("id") Long id) throws Exception;
 
     @DeleteMapping(value= "/{id}")
     ResponseEntity<Void> delete(@PathVariable("id") Long id);

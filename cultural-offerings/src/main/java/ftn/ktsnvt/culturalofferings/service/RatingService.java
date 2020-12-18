@@ -53,8 +53,12 @@ public class RatingService {
         }).collect(Collectors.toList());
     }
 
-    public Rating findOne(Long id) {
-        return ratingRepository.findById(id).orElse(null);
+    public RatingDTO findOne(Long id) {
+        Rating rating = ratingRepository.findById(id).orElse(null);
+
+        if(rating == null) throw new EntityNotFoundException(id, Rating.class);
+
+        return mapper.toDTO(rating);
     }
 
     public RatingDTO create(RatingDTO dto, String userEmail) throws Exception {
@@ -68,18 +72,22 @@ public class RatingService {
         return mapper.toDTO(newEntity);
     }
 
-    public Rating update(Rating entity, Long id) throws Exception {
-        Rating existingRating = ratingRepository.findById(id).orElse(null);
-        if (existingRating == null) {
-            throw new Exception("Rating with given id doesn't exist");
-        }
-        return ratingRepository.save(existingRating);
+    public RatingDTO update(Long id, RatingDTO ratingUpdateDTO) throws Exception {
+        // check if that entity with given id exists
+        findOne(id);
+
+        var culturalOffering = culturalOfferingService.findOne(
+                ratingUpdateDTO.getCulturalOfferingId());
+        var user = userService.findOne(ratingUpdateDTO.getUserId());
+
+        Rating newRating = mapper.toEntity(ratingUpdateDTO, culturalOffering, user);
+        newRating.setId(id);
+
+        var updatedRating = ratingRepository.save(newRating);
+
+        return mapper.toDTO(updatedRating);
     }
 
-    /*
-     * Kada brišemo kategoriju kulturne ponude (institucija, manifestacija...),
-     * obrisaće se i svi tipovi te kategorije (muzeji, festivali...).
-     * */
     public void delete(Long id) throws Exception {
         Rating existingRating = ratingRepository.findById(id).orElse(null);
         if (existingRating == null) {

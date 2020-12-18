@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.controller.api.RatingApi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
+import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.service.RatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -47,12 +49,15 @@ public class RatingController implements RatingApi {
 
     @Override
     public ResponseEntity<RatingDTO> findOne(Long id) {
-        return null;
+        RatingDTO result = ratingService.findOne(id);
+
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<RatingDTO> create(Authentication authentication, RatingDTO body, BindingResult bindingResult) throws Exception {
-        String userEmail = (String) authentication.getPrincipal();
+    public ResponseEntity<RatingDTO> create(RatingDTO body, BindingResult bindingResult) throws Exception {
+        String userEmail = this.getUserEmailFromToken();
 
         RatingDTO newRating = ratingService.create(body, userEmail);
 
@@ -60,12 +65,21 @@ public class RatingController implements RatingApi {
     }
 
     @Override
-    public ResponseEntity<RatingDTO> update(RatingDTO body, BindingResult bindingResult, Long id) {
-        return null;
+    public ResponseEntity<RatingDTO> update(RatingDTO body, BindingResult bindingResult, Long id) throws  Exception {
+        RatingDTO updatedRating = ratingService.update(id, body);
+
+        return new ResponseEntity<>(updatedRating, HttpStatus.OK);
     }
 
     @Override
     public ResponseEntity<Void> delete(Long id) {
         return null;
+    }
+
+    private String getUserEmailFromToken(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = (String) authentication.getPrincipal();
+
+        return userEmail;
     }
 }
