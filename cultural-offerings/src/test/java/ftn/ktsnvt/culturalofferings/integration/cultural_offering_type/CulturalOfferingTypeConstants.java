@@ -26,4 +26,6 @@ public class CulturalOfferingTypeConstants {
     static final long DELETE_ENTITY_ID = 13l;
 
     static final String MOCK_USER_EMAIL = "mika.mika@gmail.com";
+
+    static final String NON_EXISTING_ENTITY_TYPE_NAME = "this should not exist";
 }
