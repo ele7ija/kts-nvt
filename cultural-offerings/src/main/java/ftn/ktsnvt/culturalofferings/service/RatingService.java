@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.repository.RatingRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,16 +21,20 @@ import java.util.stream.Collectors;
 @Service
 public class RatingService {
 
-    @Autowired
     private RatingRepository ratingRepository;
 
-    @Autowired
     private RatingMapper mapper;
 
-    @Autowired
     private UserService userService;
-    @Autowired
     private CulturalOfferingService culturalOfferingService;
+
+    @Autowired
+    public RatingService(RatingRepository ratingRepository, RatingMapper mapper, UserService userService, CulturalOfferingService culturalOfferingService) {
+        this.ratingRepository = ratingRepository;
+        this.mapper = mapper;
+        this.userService = userService;
+        this.culturalOfferingService = culturalOfferingService;
+    }
 
     public List<RatingDTO> findAll() {
         var ratings = ratingRepository.findAll();
@@ -42,21 +47,31 @@ public class RatingService {
     }
 
     public List<Rating> findAll(List<Long> ratingIds) {
-        return ratingIds.stream().map((Long ratingId) -> {
-            Optional<Rating> optional = ratingRepository.findById(ratingId);
+        List<Rating> result = new ArrayList<>();
 
-            if (optional.isEmpty()) {
-                throw new EntityNotFoundException(ratingId, Rating.class);
-            }
+        for (Long ratingId : ratingIds) {
+            var rating = this.getEntityById(ratingId);
 
-            return optional.get();
-        }).collect(Collectors.toList());
+            result.add(rating);
+        }
+
+        return result;
+    }
+
+    private Rating getEntityById(Long id){
+        var ratingDTO = findOne(id);
+
+        var culturalOffering = culturalOfferingService.findOne(
+                ratingDTO.getCulturalOfferingId());
+        var user = userService.findOne(ratingDTO.getUserId());
+
+        return mapper.toEntity(ratingDTO, culturalOffering, user);
     }
 
     public RatingDTO findOne(Long id) {
         Rating rating = ratingRepository.findById(id).orElse(null);
 
-        if(rating == null) throw new EntityNotFoundException(id, Rating.class);
+        if (rating == null) throw new EntityNotFoundException(id, Rating.class);
 
         return mapper.toDTO(rating);
     }
@@ -73,7 +88,7 @@ public class RatingService {
     }
 
     public RatingDTO update(Long id, RatingDTO ratingUpdateDTO) throws Exception {
-        // check if that entity with given id exists
+        // check if entity with given id exists
         findOne(id);
 
         var culturalOffering = culturalOfferingService.findOne(
@@ -96,4 +111,6 @@ public class RatingService {
 
         ratingRepository.delete(existingRating);
     }
+
+
 }

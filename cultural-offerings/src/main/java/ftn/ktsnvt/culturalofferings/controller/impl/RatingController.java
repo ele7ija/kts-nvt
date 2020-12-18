@@ -44,6 +44,7 @@ public class RatingController implements RatingApi {
 
     @Override
     public ResponseEntity<Page<RatingDTO>> findAll(Pageable pageable) {
+//        return ratingService.findAll(pageable);
         return null;
     }
 
@@ -65,20 +66,20 @@ public class RatingController implements RatingApi {
     }
 
     @Override
-    public ResponseEntity<RatingDTO> update(RatingDTO body, BindingResult bindingResult, Long id) throws  Exception {
+    public ResponseEntity<RatingDTO> update(RatingDTO body, BindingResult bindingResult, Long id) throws Exception {
         RatingDTO updatedRating = ratingService.update(id, body);
 
         return new ResponseEntity<>(updatedRating, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long id)throws Exception {
+    public ResponseEntity<Void> delete(Long id) throws Exception {
         ratingService.delete(id);
 
-        return new ResponseEntity<>(HttpStatus.OK)            ;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private String getUserEmailFromToken(){
+    private String getUserEmailFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = (String) authentication.getPrincipal();
 
