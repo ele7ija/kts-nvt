@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.ktsnvt.culturalofferings.dto.SubscriptionDTO;
-import ftn.ktsnvt.culturalofferings.model.Subscription;
 
 @RequestMapping(value = "/subscriptions")
 public interface SubscriptionApi {

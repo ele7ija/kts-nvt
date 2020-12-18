@@ -6,14 +6,17 @@ insert into user(id, email, password, first_name, last_name, role, enabled) valu
 insert into image_model(id, name, pic_byte, type) values(1, "Image 1", NULL, "png");
 insert into image_model(id, name, pic_byte, type) values(2, "Image 2", NULL, "png");
 insert into image_model(id, name, pic_byte, type) values(3, "Image 3", NULL, "png");
+insert into image_model(id, name, pic_byte, type) values(4, "Image za brisanje", NULL, "png");
 
 insert into cultural_offering_type(id, type_name, image_model_id) values (10, "Institucija", 1);
 insert into cultural_offering_type(id, type_name, image_model_id) values (11, "Kulturno dobro", 2);
 insert into cultural_offering_type(id, type_name, image_model_id) values (12, "Manifestacija", 3);
+insert into cultural_offering_type(id, type_name, image_model_id) values (13, "Manifestacija za brisanje", 4);
 
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (10, "Muzej", 10);
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (11, "Spomenik", 11);
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (12, "Muzicki festival", 12);
+insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (13, "Muzicki festival za brisanje", 12);
 
 insert into location(id, latitude, longitude, name) values (10, 45.5, 20.0, "Ignjata Pavlasa 10, Novi Sad");
 insert into location(id, latitude, longitude, name) values (11, 45.5, 20.0, "Trg republike BB, Novi Sad");

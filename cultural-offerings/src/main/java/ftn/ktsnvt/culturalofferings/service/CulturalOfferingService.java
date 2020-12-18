@@ -80,4 +80,8 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
         }
         culturalOfferingRepository.delete(optional.get());
     }
+
+    public List<CulturalOffering> findByCulturalOfferingTypeId(Long id) {
+        return culturalOfferingRepository.findAllByCulturalOfferingTypeId(id);
+    }
 }

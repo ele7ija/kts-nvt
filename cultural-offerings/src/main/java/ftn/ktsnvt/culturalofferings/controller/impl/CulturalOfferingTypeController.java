@@ -1,11 +1,8 @@
 package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
-import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
-import ftn.ktsnvt.culturalofferings.dto.RegisterDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
-import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
@@ -30,7 +27,6 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
 
     @Autowired
     private CulturalOfferingTypeMapper culturalOfferingTypeMapper;
-
 
     @Override
     public ResponseEntity<List<CulturalOfferingTypeDTO>> findAll() {
@@ -96,7 +92,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.update(culturalOfferingTypeMapper.toEntity(body), id);
         return new ResponseEntity<>(
                 culturalOfferingTypeMapper.toDto(culturalOfferingType),
-                HttpStatus.CREATED
+                HttpStatus.OK
         );
     }
 

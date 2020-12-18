@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
-import ftn.ktsnvt.culturalofferings.model.News;
 
 @RequestMapping(value = "/news")
 public interface NewsApi {

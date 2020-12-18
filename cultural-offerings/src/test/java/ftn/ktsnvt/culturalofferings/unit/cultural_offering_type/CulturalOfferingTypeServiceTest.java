@@ -1,8 +1,11 @@
-package ftn.ktsnvt.culturalofferings.unit.service;
+package ftn.ktsnvt.culturalofferings.unit.cultural_offering_type;
 
+import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.SQLDeleteEntityException;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingTypeRepository;
+import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,8 +18,14 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+/*
+ CRUD operacije ne moraju da se testiraju za sledecu kontrolnu tacku, ovde samo kao proof of concept
+ */
 
 public class CulturalOfferingTypeServiceTest {
 
@@ -25,6 +34,9 @@ public class CulturalOfferingTypeServiceTest {
 
     @Mock
     private CulturalOfferingTypeRepository culturalOfferingTypeRepository;
+
+    @Mock
+    private CulturalOfferingService culturalOfferingService;
 
     @Before
     public void init() {
@@ -147,7 +159,7 @@ public class CulturalOfferingTypeServiceTest {
     }
 
     @Test
-    public void testDeleteFail(){
+    public void testDeleteFail1(){
         Long id = 5l;
 
         Optional<CulturalOfferingType> culturalOfferingTypeStub = Optional.ofNullable(null);
@@ -160,12 +172,31 @@ public class CulturalOfferingTypeServiceTest {
     }
 
     @Test
+    public void testDeleteFail2(){
+        Long id = 5l;
+
+        Optional<CulturalOfferingType> culturalOfferingTypeStub = Optional.ofNullable(new CulturalOfferingType());
+        List<CulturalOffering> culturalOfferingsStubs = new ArrayList<>();
+        culturalOfferingsStubs.add(new CulturalOffering());
+
+        when(culturalOfferingTypeRepository.findById(id)).thenReturn(culturalOfferingTypeStub);
+        when(culturalOfferingService.findByCulturalOfferingTypeId(id)).thenReturn(culturalOfferingsStubs);
+
+
+        assertThrows(SQLDeleteEntityException.class, () -> culturalOfferingTypeService.delete(id));
+        assertTrue(mockingDetails(culturalOfferingTypeRepository).isMock());
+        verify(culturalOfferingTypeRepository).findById(id);
+    }
+
+    @Test
     public void testDeleteSucceed(){
         Long id = 5l;
 
         Optional<CulturalOfferingType> culturalOfferingTypeStub1 = Optional.ofNullable(new CulturalOfferingType());
+        List<CulturalOffering> culturalOfferingsStubs = new ArrayList<>();
 
         when(culturalOfferingTypeRepository.findById(id)).thenReturn(culturalOfferingTypeStub1);
+        when(culturalOfferingService.findByCulturalOfferingTypeId(id)).thenReturn(culturalOfferingsStubs);
 
         culturalOfferingTypeService.delete(id);
 
