@@ -12,12 +12,14 @@ import { AuthService } from './services/security/auth-service/auth.service';
 import { SignInService } from './services/security/sign-in-service/sign-in.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/token.interceptor';
+import { MustMatchDirective } from './shared/validators/must-match/must-match.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
-    routingComponents
+    routingComponents,
+    MustMatchDirective
   ],
   imports: [
     BrowserModule,
