@@ -1,4 +1,4 @@
-package ftn.ktsnvt.culturalofferings.helper;
+package ftn.ktsnvt.culturalofferings.mapper;
 
 public interface MapperInterface<T,U> {
 

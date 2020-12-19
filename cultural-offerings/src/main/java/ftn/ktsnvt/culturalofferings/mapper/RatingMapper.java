@@ -1,4 +1,4 @@
-package ftn.ktsnvt.culturalofferings.helper;
+package ftn.ktsnvt.culturalofferings.mapper;
 
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;

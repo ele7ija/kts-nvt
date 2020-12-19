@@ -1,7 +1,7 @@
 package ftn.ktsnvt.culturalofferings.service;
 
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
-import ftn.ktsnvt.culturalofferings.helper.RatingMapper;
+import ftn.ktsnvt.culturalofferings.mapper.RatingMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
@@ -15,8 +15,6 @@ import ftn.ktsnvt.culturalofferings.repository.RatingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class RatingService {

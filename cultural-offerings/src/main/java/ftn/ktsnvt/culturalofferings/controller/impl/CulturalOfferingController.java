@@ -2,7 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
-import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingsMapper;
+import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 

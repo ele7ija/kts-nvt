@@ -2,15 +2,14 @@ package ftn.ktsnvt.culturalofferings.dto;
 
 
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 
 public class RatingDTO {
     private Long id;
 
-    @PositiveOrZero
+    @Positive(message = "Value must be greater than zero")
     private int value;
 
-    @Positive
+    @Positive(message = "Id for cultural offering is not valid")
     private Long culturalOfferingId;
 
     private Long userId;

@@ -4,6 +4,8 @@ import ftn.ktsnvt.culturalofferings.controller.api.RatingApi;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
+import ftn.ktsnvt.culturalofferings.helper.CredentialsHelper;
+import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
 import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.service.RatingService;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -52,13 +55,14 @@ public class RatingController implements RatingApi {
     public ResponseEntity<RatingDTO> findOne(Long id) {
         RatingDTO result = ratingService.findOne(id);
 
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<RatingDTO> create(RatingDTO body, BindingResult bindingResult) throws Exception {
-        String userEmail = this.getUserEmailFromToken();
+    public ResponseEntity<RatingDTO> create(@Valid RatingDTO body, BindingResult bindingResult) throws Exception {
+        DTOValidationHelper.validateDTO(bindingResult);
+
+        String userEmail = CredentialsHelper.getUserEmailFromToken();
 
         RatingDTO newRating = ratingService.create(body, userEmail);
 
@@ -67,6 +71,8 @@ public class RatingController implements RatingApi {
 
     @Override
     public ResponseEntity<RatingDTO> update(RatingDTO body, BindingResult bindingResult, Long id) throws Exception {
+        DTOValidationHelper.validateDTO(bindingResult);
+
         RatingDTO updatedRating = ratingService.update(id, body);
 
         return new ResponseEntity<>(updatedRating, HttpStatus.OK);
@@ -77,12 +83,5 @@ public class RatingController implements RatingApi {
         ratingService.delete(id);
 
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    private String getUserEmailFromToken() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = (String) authentication.getPrincipal();
-
-        return userEmail;
     }
 }
