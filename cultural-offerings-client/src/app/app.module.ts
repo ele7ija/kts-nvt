@@ -13,11 +13,11 @@ import { SignInService } from './services/security/sign-in-service/sign-in.servi
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { MustMatchDirective } from './shared/validators/must-match/must-match.directive';
+import { RegisterComponent } from './components/pages/register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomepageComponent,
     routingComponents,
     MustMatchDirective
   ],
