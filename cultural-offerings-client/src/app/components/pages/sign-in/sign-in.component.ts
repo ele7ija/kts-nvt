@@ -45,7 +45,7 @@ export class SignInComponent implements OnInit {
     this.submitted = true;
     this.errorMsg = undefined;
 
-    this.user = this.signInService.setUser(this.signinForm.value['emailField'], this.signinForm.value['passField']);
+    this.user = new SignInUser(this.signinForm.value['emailField'], this.signinForm.value['passField']);
 
     this.authService.signin(this.user).subscribe(
       data => {
