@@ -14,20 +14,20 @@ import java.util.List;
 @RequestMapping(value = "/rating")
 public interface RatingApi {
     @GetMapping
-    ResponseEntity<List<RatingDTO>> findAll();
+    ResponseEntity findAll();
 
     @GetMapping(value = "/by-page")
-    ResponseEntity<Page<RatingDTO>> findAll(Pageable pageable);
+    ResponseEntity findAll(Pageable pageable);
 
     @GetMapping(value = "/{id}")
-    ResponseEntity<RatingDTO> findOne(@PathVariable("id") Long id);
+    ResponseEntity findOne(@PathVariable("id") Long id);
+
+    @PutMapping(value = "/{id}")
+    ResponseEntity update(@RequestBody RatingDTO body, BindingResult bindingResult, @PathVariable("id") Long id) throws Exception;
 
     @PostMapping
-    ResponseEntity<RatingDTO> create(@RequestBody RatingDTO body, BindingResult bindingResult) throws Exception;
+    ResponseEntity create(@RequestBody RatingDTO body, BindingResult bindingResult) throws Exception;
 
-    @PutMapping(value= "/{id}")
-    ResponseEntity<RatingDTO> update(@RequestBody RatingDTO body, BindingResult bindingResult, @PathVariable("id") Long id) throws Exception;
-
-    @DeleteMapping(value= "/{id}")
-    ResponseEntity<Void> delete(@PathVariable("id") Long id) throws Exception;
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity delete(@PathVariable("id") Long id) throws Exception;
 }

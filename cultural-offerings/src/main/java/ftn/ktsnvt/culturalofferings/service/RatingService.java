@@ -7,6 +7,7 @@ import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -39,8 +40,12 @@ public class RatingService {
         return RatingMapper.toDTOs(ratings);
     }
 
-    public Page<Rating> findAll(Pageable pageable) {
-        return ratingRepository.findAll(pageable);
+    public Page<RatingDTO> findAll(Pageable pageable) {
+        var ratingsPage = ratingRepository.findAll(pageable);
+        var ratingsList = ratingsPage.toList();
+        var ratingDTOs = RatingMapper.toDTOs(ratingsList);
+
+        return new PageImpl<>(ratingDTOs, ratingsPage.getPageable(), ratingsPage.getTotalElements());
     }
 
     public List<Rating> findAll(List<Long> ratingIds) {

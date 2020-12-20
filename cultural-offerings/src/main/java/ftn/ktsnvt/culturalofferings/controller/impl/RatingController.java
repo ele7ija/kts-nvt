@@ -2,86 +2,76 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.RatingApi;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
 import ftn.ktsnvt.culturalofferings.helper.CredentialsHelper;
 import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
-import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.service.RatingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import static ftn.ktsnvt.culturalofferings.helper.ResponseHelper.created;
+import static ftn.ktsnvt.culturalofferings.helper.ResponseHelper.ok;
 
 @Controller
 public class RatingController implements RatingApi {
 
-    private static final Logger log = LoggerFactory.getLogger(RatingController.class);
-
-    private final ObjectMapper objectMapper;
-
     private RatingService ratingService;
 
     @Autowired
-    public RatingController(ObjectMapper objectMapper, RatingService ratingService) {
-        this.objectMapper = objectMapper;
+    public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
 
     @Override
-    public ResponseEntity<List<RatingDTO>> findAll() {
+    public ResponseEntity findAll() {
         var ratings = ratingService.findAll();
 
-        return new ResponseEntity<>(ratings, HttpStatus.OK);
+        return ok(ratings);
     }
 
     @Override
-    public ResponseEntity<Page<RatingDTO>> findAll(Pageable pageable) {
-//        return ratingService.findAll(pageable);
-        return null;
+    public ResponseEntity findAll(Pageable pageable) {
+        var ratings = ratingService.findAll(pageable);
+
+        return ok(ratings);
     }
 
     @Override
-    public ResponseEntity<RatingDTO> findOne(Long id) {
+    public ResponseEntity findOne(Long id) {
         RatingDTO result = ratingService.findOne(id);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ok(result);
     }
 
     @Override
-    public ResponseEntity<RatingDTO> create(@Valid RatingDTO body, BindingResult bindingResult) throws Exception {
+    public ResponseEntity create(@Valid RatingDTO body, BindingResult bindingResult) throws Exception {
         DTOValidationHelper.validateDTO(bindingResult);
 
         String userEmail = CredentialsHelper.getUserEmailFromToken();
 
         RatingDTO newRating = ratingService.create(body, userEmail);
 
-        return new ResponseEntity<>(newRating, HttpStatus.CREATED);
+        return created(newRating);
     }
 
     @Override
-    public ResponseEntity<RatingDTO> update(RatingDTO body, BindingResult bindingResult, Long id) throws Exception {
+    public ResponseEntity update(RatingDTO body, BindingResult bindingResult, Long id) throws Exception {
         DTOValidationHelper.validateDTO(bindingResult);
 
         RatingDTO updatedRating = ratingService.update(id, body);
 
-        return new ResponseEntity<>(updatedRating, HttpStatus.OK);
+        return ok(updatedRating);
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long id) throws Exception {
+    public ResponseEntity delete(Long id) throws Exception {
         ratingService.delete(id);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ok();
     }
 }
