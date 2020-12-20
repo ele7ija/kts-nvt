@@ -4,39 +4,31 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import ftn.ktsnvt.culturalofferings.dto.CommentDTO;
 
+import java.util.List;
+
 @RequestMapping(value = "/comments")
 public interface CommentApi {
-    @RequestMapping(value = "",
-        produces = { "application/json" }, 
-        method = RequestMethod.POST)
-    ResponseEntity<CommentDTO> createComment(@RequestBody CommentDTO body, BindingResult bindingResult);
 
+    @GetMapping(value = "/{id}")
+    ResponseEntity findOne(@PathVariable("id") Long id);
 
-    @RequestMapping(value = "/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteComment(@PathVariable("id") Long id);
+    @GetMapping
+    ResponseEntity<List<CommentDTO>> findAll();
 
+    @GetMapping(value = "/by-page")
+    ResponseEntity findAll(Pageable pageable);
 
-    @RequestMapping(value = "/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<CommentDTO> getCommentByID(@PathVariable("id") Long id);
+    @PostMapping
+    ResponseEntity create(@RequestBody CommentDTO body, BindingResult bindingResult);
 
-    @RequestMapping(value = "",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<Page<CommentDTO>> getAllComments(Pageable pageable);
+    @PutMapping(value = "/{id}")
+    ResponseEntity update(@RequestBody CommentDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
 
-    @RequestMapping(value = "/{id}",
-        produces = { "application/json" }, 
-        method = RequestMethod.PUT)
-    ResponseEntity<CommentDTO> updateComments(@RequestBody CommentDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity delete(@PathVariable("id") Long id);
+
 }
