@@ -21,15 +21,13 @@ public class RatingService {
 
     private RatingRepository ratingRepository;
 
-    private RatingMapper mapper;
 
     private UserService userService;
     private CulturalOfferingService culturalOfferingService;
 
     @Autowired
-    public RatingService(RatingRepository ratingRepository, RatingMapper mapper, UserService userService, CulturalOfferingService culturalOfferingService) {
+    public RatingService(RatingRepository ratingRepository, UserService userService, CulturalOfferingService culturalOfferingService) {
         this.ratingRepository = ratingRepository;
-        this.mapper = mapper;
         this.userService = userService;
         this.culturalOfferingService = culturalOfferingService;
     }
@@ -37,7 +35,7 @@ public class RatingService {
     public List<RatingDTO> findAll() {
         var ratings = ratingRepository.findAll();
 
-        return mapper.toDTOs(ratings);
+        return RatingMapper.toDTOs(ratings);
     }
 
     public Page<Rating> findAll(Pageable pageable) {
@@ -63,7 +61,7 @@ public class RatingService {
                 ratingDTO.getCulturalOfferingId());
         var user = userService.findOne(ratingDTO.getUserId());
 
-        return mapper.toEntity(ratingDTO, culturalOffering, user);
+        return RatingMapper.toEntity(ratingDTO, culturalOffering, user);
     }
 
     public RatingDTO findOne(Long id) {
@@ -71,7 +69,7 @@ public class RatingService {
 
         if (rating == null) throw new EntityNotFoundException(id, Rating.class);
 
-        return mapper.toDTO(rating);
+        return RatingMapper.toDTO(rating);
     }
 
 
@@ -79,11 +77,11 @@ public class RatingService {
         CulturalOffering culturalOffering = culturalOfferingService.findOne(dto.getCulturalOfferingId());
         User user = userService.findByEmail(userEmail);
 
-        Rating entity = mapper.toEntity(dto, culturalOffering, user);
+        Rating entity = RatingMapper.toEntity(dto, culturalOffering, user);
 
         Rating newEntity = ratingRepository.save(entity);
 
-        return mapper.toDTO(newEntity);
+        return RatingMapper.toDTO(newEntity);
     }
 
     public RatingDTO update(Long id, RatingDTO ratingUpdateDTO) throws Exception {
@@ -95,12 +93,12 @@ public class RatingService {
         var user = userService.findOne(ratingUpdateDTO.getUserId());
 
         // update entity
-        Rating newRating = mapper.toEntity(ratingUpdateDTO, culturalOffering, user);
+        Rating newRating = RatingMapper.toEntity(ratingUpdateDTO, culturalOffering, user);
         newRating.setId(id);
 
         var updatedRating = ratingRepository.save(newRating);
 
-        return mapper.toDTO(updatedRating);
+        return RatingMapper.toDTO(updatedRating);
     }
 
     public void delete(Long id) throws Exception {

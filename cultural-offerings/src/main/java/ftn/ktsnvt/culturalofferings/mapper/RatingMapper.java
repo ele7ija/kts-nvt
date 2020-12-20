@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 public class RatingMapper {
-
-    public RatingDTO toDTO(Rating newEntity) {
+    public static RatingDTO toDTO(Rating newEntity) {
         return new RatingDTO(
                 newEntity.getId(),
                 newEntity.getValue(),
@@ -21,7 +19,7 @@ public class RatingMapper {
         );
     }
 
-    public Rating toEntity(RatingDTO dto, CulturalOffering culturalOffering, User user) {
+    public static Rating toEntity(RatingDTO dto, CulturalOffering culturalOffering, User user) {
         return new Rating(
                 dto.getId(),
                 dto.getValue(),
@@ -30,9 +28,9 @@ public class RatingMapper {
         );
     }
 
-    public List<RatingDTO> toDTOs(List<Rating> ratings) {
+    public static List<RatingDTO> toDTOs(List<Rating> ratings) {
         return ratings.stream()
-                .map(rating -> this.toDTO(rating))
+                .map(rating -> RatingMapper.toDTO(rating))
                 .collect(Collectors.toList());
     }
 }
