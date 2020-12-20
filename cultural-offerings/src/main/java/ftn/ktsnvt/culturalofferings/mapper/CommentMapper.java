@@ -1,6 +1,5 @@
-package ftn.ktsnvt.culturalofferings.helper;
+package ftn.ktsnvt.culturalofferings.mapper;
 
-import java.beans.JavaBean;
 import java.util.ArrayList;
 import java.util.List;
 
