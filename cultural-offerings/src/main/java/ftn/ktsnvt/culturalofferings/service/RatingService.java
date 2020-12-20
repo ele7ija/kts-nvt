@@ -15,6 +15,7 @@ import ftn.ktsnvt.culturalofferings.repository.RatingRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RatingService {
@@ -43,18 +44,15 @@ public class RatingService {
     }
 
     public List<Rating> findAll(List<Long> ratingIds) {
-        List<Rating> result = new ArrayList<>();
-
-        for (Long ratingId : ratingIds) {
-            var rating = this.getEntityById(ratingId);
-
-            result.add(rating);
-        }
+        List<Rating> result = ratingIds.stream()
+                .map(ratingId -> this.getEntityById(ratingId))
+                .collect(Collectors.toList());
 
         return result;
     }
 
-    private Rating getEntityById(Long id){
+
+    private Rating getEntityById(Long id) {
         var ratingDTO = findOne(id);
 
         var culturalOffering = culturalOfferingService.findOne(

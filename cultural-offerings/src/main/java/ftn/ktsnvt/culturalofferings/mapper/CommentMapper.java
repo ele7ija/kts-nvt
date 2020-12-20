@@ -2,7 +2,10 @@ package ftn.ktsnvt.culturalofferings.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,45 +17,36 @@ import ftn.ktsnvt.culturalofferings.service.ImageService;
 import ftn.ktsnvt.culturalofferings.service.UserService;
 
 @Component
-public class CommentMapper implements MapperInterface<Comment, CommentDTO> {
-    @Autowired
-    CulturalOfferingService culturalOfferingService;
-
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    ImageService imageService;
-
-    @Override
-    public Comment toEntity(CommentDTO dto) {
-        Comment c = new Comment();
-        c.setDate(dto.getDate());
-        c.setText(dto.getText());
-        c.setCulturalOffering(culturalOfferingService.findOne(dto.getCulturalOffering()));
-        c.setUser(userService.findOne(dto.getUser()));
-        List<ImageModel> images = new ArrayList<ImageModel>();
-        for (Long image : dto.getImages()) {
-            ImageModel im = imageService.findOne(image);
-            images.add(im);
-        }
-        c.setImages(images);
-        return c;
+public class CommentMapper {
+    public static Comment toEntity(CommentDTO commentDTO, List<ImageModel> images, CulturalOffering culturalOffering, User user) {
+        return new Comment(
+                commentDTO.getUserId(),
+                commentDTO.getText(),
+                commentDTO.getDate(),
+                images,
+                culturalOffering,
+                user
+        );
     }
 
-    @Override
-    public CommentDTO toDto(Comment entity) {
-        CommentDTO dto = new CommentDTO();
-        dto.setCulturalOffering(entity.getCulturalOffering().getId());
-        dto.setDate(entity.getDate());
-        dto.setText(entity.getText());
-        dto.setUser(entity.getUser().getId());
-        List<Long> images = new ArrayList<Long>();
-        for (ImageModel image : entity.getImages()) {
-            images.add(image.getId());
-        }
-        dto.setImages(images);
-        return dto;
+    public static CommentDTO toDTO(Comment entity) {
+        return new CommentDTO(
+                entity.getId(),
+                entity.getText(),
+                entity.getDate(),
+                entity.getImages()
+                        .stream()
+                        .map(image -> image.getId())
+                        .collect(Collectors.toList()),
+                entity.getCulturalOffering().getId(),
+                entity.getUser().getId()
+        );
     }
-    
+
+    public static List<CommentDTO> toDTOs(List<Comment> comments) {
+        return comments.stream()
+                .map(comment -> CommentMapper.toDTO(comment))
+                .collect(Collectors.toList());
+    }
+
 }

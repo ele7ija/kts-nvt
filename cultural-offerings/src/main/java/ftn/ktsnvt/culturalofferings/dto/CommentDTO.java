@@ -8,19 +8,41 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class CommentDTO {
+    private Long id;
+
     @NotBlank(message = "Comment text cannot be empty")
     private String text;
 
     private Date date;
-    private List<Long> images;
+
+    private List<Long> imageIds;
+
     @NotNull(message = "Cultural offering id must be provided")
     @Positive(message = "Cultural offering id must be a positive number")
-    private Long culturalOffering;
+    private Long culturalOfferingId;
+
     @NotNull(message = "User id must be provided")
     @Positive(message = "User id must be a positive number")
-    private Long user;
+    private Long userId;
 
     public CommentDTO() {}
+
+    public CommentDTO(Long id, @NotBlank(message = "Comment text cannot be empty") String text, Date date, List<Long> images, @NotNull(message = "Cultural offering id must be provided") @Positive(message = "Cultural offering id must be a positive number") Long culturalOffering, @NotNull(message = "User id must be provided") @Positive(message = "User id must be a positive number") Long user) {
+        this.id = id;
+        this.text = text;
+        this.date = date;
+        this.imageIds = images;
+        this.culturalOfferingId = culturalOffering;
+        this.userId = user;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getText() {
         return text;
@@ -38,27 +60,27 @@ public class CommentDTO {
         this.date = date;
     }
 
-    public List<Long> getImages() {
-        return images;
+    public List<Long> getImageIds() {
+        return imageIds;
     }
 
-    public void setImages(List<Long> images) {
-        this.images = images;
+    public void setImageIds(List<Long> imageIds) {
+        this.imageIds = imageIds;
     }
 
-    public Long getCulturalOffering() {
-        return culturalOffering;
+    public Long getCulturalOfferingId() {
+        return culturalOfferingId;
     }
 
-    public void setCulturalOffering(Long culturalOffering) {
-        this.culturalOffering = culturalOffering;
+    public void setCulturalOfferingId(Long culturalOfferingId) {
+        this.culturalOfferingId = culturalOfferingId;
     }
 
-    public Long getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(Long user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
