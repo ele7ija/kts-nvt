@@ -2,7 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CommentApi;
 import ftn.ktsnvt.culturalofferings.dto.CommentDTO;
-import ftn.ktsnvt.culturalofferings.helper.CommentMapper;
+import ftn.ktsnvt.culturalofferings.mapper.CommentMapper;
 import ftn.ktsnvt.culturalofferings.model.Comment;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CommentService;
@@ -18,15 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -2,7 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.SubscriptionApi;
 import ftn.ktsnvt.culturalofferings.dto.SubscriptionDTO;
-import ftn.ktsnvt.culturalofferings.helper.SubscriptionMapper;
+import ftn.ktsnvt.culturalofferings.mapper.SubscriptionMapper;
 import ftn.ktsnvt.culturalofferings.model.Subscription;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.SubscriptionService;
@@ -18,15 +18,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
