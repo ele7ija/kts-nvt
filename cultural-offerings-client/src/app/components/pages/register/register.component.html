@@ -1,0 +1,135 @@
+<div class="background-img">
+    <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+            <section class="form-simple">
+
+                <!--Form with header-->
+                <mdb-card style="width: 28rem;" class="shadow-lg">
+
+                    <!--Header-->
+                    <div class="header pt-3 grey lighten-2">
+
+                        <div class="row d-flex justify-content-start">
+                            <h2 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Registracija korisnika</h2>
+                        </div>
+
+                    </div>
+
+                    <mdb-card-body class="mx-4 mt-4">
+
+                        <!--Body-->
+                        <form [formGroup]="registerForm" (ngSubmit)="register()" *ngIf="!submitted">
+
+                            <div class="md-form mb-5">
+                                <div class="row">
+
+                                    <div class="col">
+                                        <div class="md-form mt-0">
+                                            <mdb-icon fas icon="user" class="prefix grey-text"></mdb-icon>
+                                            <input type="text" id="nameField" name="nameField"
+                                                formControlName="nameField" class="form-control" mdbInput mdbValidate>
+                                            <label for="nameField">Ime</label>
+
+                                            <div
+                                                *ngIf="registerForm.controls.nameField.invalid && (registerForm.controls.nameField.touched || registerForm.controls.nameField.dirty)">
+                                                <small class="text-danger"
+                                                    *ngIf="registerForm.controls.nameField.errors?.required">
+                                                    Obavezno je uneti ime.
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col">
+                                        <div class="md-form mt-0">
+                                            <input type="text" id="surnameField" name="surnameField"
+                                                formControlName="surnameField" class="form-control" mdbInput
+                                                mdbValidate>
+                                            <label for="surnameField">Prezime</label>
+
+                                            <div
+                                                *ngIf="registerForm.controls.surnameField.invalid && (registerForm.controls.surnameField.touched || registerForm.controls.surnameField.dirty)">
+                                                <small class="text-danger"
+                                                    *ngIf="registerForm.controls.surnameField.errors?.required">
+                                                    Obavezno je uneti prezime.
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="md-form mb-5">
+                                <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon>
+                                <input type="email" id="emailField" name="emailField" formControlName="emailField"
+                                    class="form-control" mdbInput mdbValidate>
+                                <label for="emailField">Email</label>
+
+                                <div
+                                    *ngIf="registerForm.controls.emailField.invalid && (registerForm.controls.emailField.touched || registerForm.controls.emailField.dirty)">
+                                    <small class="text-danger"
+                                        *ngIf="registerForm.controls.emailField.errors?.required">
+                                        Obavezno je uneti email adresu.
+                                    </small>
+                                    <small class="text-danger" *ngIf="registerForm.controls.emailField.errors?.email">
+                                        Nije ispravan format email adrese.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="md-form mb-4">
+                                <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
+                                <input type="password" id="passField" name="passField" formControlName="passField"
+                                    class="form-control" mdbInput mdbValidate>
+                                <label for="passField">Lozinka</label>
+
+                                <div
+                                    *ngIf="registerForm.controls.passField.invalid && (registerForm.controls.passField.touched || registerForm.controls.passField.dirty)">
+                                    <small class="text-danger" *ngIf="registerForm.controls.passField.errors?.required">
+                                        Obavezno je uneti lozinku.
+                                    </small>
+                                    <small class="text-danger"
+                                        *ngIf="registerForm.controls.passField.errors?.minlength">
+                                        Minimalna duzina lozinke je 3 karaktera.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="md-form mb-4">
+                                <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
+                                <input type="password" id="confPassField" name="confPassField"
+                                    formControlName="confPassField" class="form-control" mdbInput mdbValidate>
+                                <label for="confPassField">Ponovljena lozinka</label>
+
+                                <div
+                                    *ngIf="registerForm.controls.confPassField.invalid && (registerForm.controls.confPassField.touched || registerForm.controls.confPassField.dirty)">
+                                    <small class="text-danger"
+                                        *ngIf="registerForm.controls.confPassField.errors?.required">
+                                        Obavezno je uneti lozinku.
+                                    </small>
+                                    <small class="text-danger cross-validation-error-message"
+                                        *ngIf="registerForm.controls.confPassField.errors?.mustMatch">
+                                        Lozinke se ne podudaraju.
+                                    </small>
+                                </div>
+                            </div>
+
+                            <small *ngIf="errorMsg" class="text-danger">{{errorMsg}}</small>
+
+                            <div class="d-flex justify-content-center">
+                                <button mdbBtn color="default" class="waves-light" type="submit"
+                                    [disabled]="registerForm.invalid" mdbWavesEffect>Prijava</button>
+                            </div>
+
+                        </form>
+
+                        <small *ngIf="successMsg" class="text-success"> {{successMsg}} </small>
+
+                    </mdb-card-body>
+
+                </mdb-card>
+                <!--/Form with header-->
+            </section>
+        </div>
+    </div>
+</div>

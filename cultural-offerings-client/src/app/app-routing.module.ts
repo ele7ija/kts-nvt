@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
 import { HomepageComponent } from './components/pages/homepage/homepage.component';
+import { RegisterComponent } from './components/pages/register/register.component';
 import { SignInComponent } from './components/pages/sign-in/sign-in.component';
 
 const routes: Routes = [
@@ -9,6 +10,7 @@ const routes: Routes = [
   { path: 'homepage', component: HomepageComponent },
   { path: 'error404', component: NotFoundComponent},
   { path: 'sign-in', component: SignInComponent},
+  { path: 'register', component: RegisterComponent},
   { path: '**', redirectTo: '/error404' }
 ];
 
@@ -22,5 +24,6 @@ export class AppRoutingModule { }
 export const routingComponents = [
   HomepageComponent,
   NotFoundComponent,
-  SignInComponent
+  SignInComponent,
+  RegisterComponent
 ]
