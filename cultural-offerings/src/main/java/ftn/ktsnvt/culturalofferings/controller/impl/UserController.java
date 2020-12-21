@@ -1,7 +1,10 @@
 package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.UserApi;
+import ftn.ktsnvt.culturalofferings.dto.ChangePasswordDTO;
+import ftn.ktsnvt.culturalofferings.dto.ChangeUserDataDTO;
 import ftn.ktsnvt.culturalofferings.dto.UserDTO;
+import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
 import ftn.ktsnvt.culturalofferings.mapper.UserMapper;
 import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
@@ -97,4 +100,25 @@ public class UserController implements UserApi {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    
+    @Override
+    public ResponseEntity<Void> changePassword(@Valid ChangePasswordDTO body, BindingResult bindingResult) {
+		DTOValidationHelper.validateDTO(bindingResult);
+		userService.changePassword(body.getOldPassword(), body.getNewPassword());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+	@Override
+	public ResponseEntity<Void> changeUserData(ChangeUserDataDTO body, BindingResult bindingResult) {
+		DTOValidationHelper.validateDTO(bindingResult);
+		userService.ChangePersonalData(body.getFirstName(), body.getLastName());
+        return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<ChangeUserDataDTO> getUserData() {
+		ChangeUserDataDTO dto = userService.getUserData();
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+
 }

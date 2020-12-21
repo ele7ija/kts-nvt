@@ -60,4 +60,11 @@ public class ExceptionHandlingAdvice {
         String message = "Error deleting entity of class " + e.getClassObject().getName() + " due to existing reference of type " + e.getReferencedClassObject().getName();
         return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    
+    @ExceptionHandler(PasswordsNotMatchException.class)
+    public ResponseEntity<Error> getError(PasswordsNotMatchException e){
+    	String message = "Wrong current password. Changing password denied for user with email:" + e.getEmail();
+    	return new ResponseEntity<Error>(new Error(message), HttpStatus.BAD_REQUEST);
+    }
+    
 }
