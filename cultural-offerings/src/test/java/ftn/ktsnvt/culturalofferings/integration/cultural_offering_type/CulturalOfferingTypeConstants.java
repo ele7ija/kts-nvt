@@ -25,7 +25,8 @@ public class CulturalOfferingTypeConstants {
     static final long ENTITY_ID_WITH_REFERENCES = 12l;
     static final long DELETE_ENTITY_ID = 13l;
 
-    static final String MOCK_USER_EMAIL = "mika.mika@gmail.com";
+    static final String READ_AUTHORITY = "CULTURAL_OFFERING_TYPE:read";
+    static final String WRITE_AUTHORITY = "CULTURAL_OFFERING_TYPE:write";
 
     static final String NON_EXISTING_ENTITY_TYPE_NAME = "this should not exist";
 }

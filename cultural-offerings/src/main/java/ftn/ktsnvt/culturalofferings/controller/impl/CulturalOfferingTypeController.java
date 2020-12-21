@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
 import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
+import ftn.ktsnvt.culturalofferings.model.UserPermission;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -29,6 +32,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     private CulturalOfferingTypeMapper culturalOfferingTypeMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
     public ResponseEntity<List<CulturalOfferingTypeDTO>> findAll() {
         return new ResponseEntity<>(
                 culturalOfferingTypeService
@@ -41,6 +45,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
     public ResponseEntity<Page<CulturalOfferingTypeDTO>> findAll(Pageable pageable){
         Page<CulturalOfferingType> page = culturalOfferingTypeService.findAll(pageable);
 
@@ -56,6 +61,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
     public ResponseEntity<CulturalOfferingTypeDTO> findOne(Long id) {
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.findOne(id);
         return new ResponseEntity<>(
@@ -64,7 +70,10 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
         );
     }
 
+    public static final String pera = "pera";
+
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:write')")
     public ResponseEntity<CulturalOfferingTypeDTO> create(@Valid CulturalOfferingTypeDTO body, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -81,6 +90,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:write')")
     public ResponseEntity<CulturalOfferingTypeDTO> update(@Valid CulturalOfferingTypeDTO body, BindingResult bindingResult, Long id) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -97,6 +107,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:write')")
     public ResponseEntity<Void> delete(Long id) {
         culturalOfferingTypeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

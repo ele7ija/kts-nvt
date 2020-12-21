@@ -2,8 +2,6 @@ package ftn.ktsnvt.culturalofferings.integration.cultural_offering_type;
 
 import ftn.ktsnvt.culturalofferings.TestUtil;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
-import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
-import ftn.ktsnvt.culturalofferings.model.ImageModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -53,7 +50,7 @@ public class CulturalOfferingTypeControllerTest {
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = READ_AUTHORITY)
     public void findAllTest() throws Exception {
         mockMvc.perform(get("/cultural-offerings-types"))
                 .andExpect(status().isOk())
@@ -61,14 +58,14 @@ public class CulturalOfferingTypeControllerTest {
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = READ_AUTHORITY)
     public void findOneTestFail() throws Exception {
         mockMvc.perform(get("/cultural-offerings-types/{id}", NON_EXISTENT_ENTITY_ID))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = READ_AUTHORITY)
     public void findOneTestSucceed() throws Exception {
         mockMvc.perform(get("/cultural-offerings-types/{id}", EXISTING_ENTITY_ID))
                 .andExpect(status().isOk())
@@ -76,10 +73,27 @@ public class CulturalOfferingTypeControllerTest {
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = READ_AUTHORITY)
     @Transactional
     @Rollback(true)
-    public void createTest() throws Exception {
+    public void createTestFail() throws Exception {
+        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
+        culturalOfferingTypeDTO.setTypeName(NEW_ENTITY_TYPE_NAME);
+        culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
+
+        mockMvc.perform(
+                post("/cultural-offerings-types")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.json(culturalOfferingTypeDTO))
+        )
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(authorities = WRITE_AUTHORITY)
+    @Transactional
+    @Rollback(true)
+    public void createTestSucceed() throws Exception {
         CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
         culturalOfferingTypeDTO.setTypeName(NEW_ENTITY_TYPE_NAME);
         culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
@@ -94,7 +108,7 @@ public class CulturalOfferingTypeControllerTest {
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
     @Rollback(true)
     public void updateTestFail1() throws Exception {
@@ -111,7 +125,7 @@ public class CulturalOfferingTypeControllerTest {
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
     @Rollback(true)
     public void updateTestFail2() throws Exception {
@@ -129,7 +143,7 @@ public class CulturalOfferingTypeControllerTest {
 
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
     @Rollback(true)
     public void updateTestSucceed() throws Exception {
@@ -147,16 +161,25 @@ public class CulturalOfferingTypeControllerTest {
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
     @Rollback(true)
-    public void deleteTestFail() throws Exception {
+    public void deleteTestFail1() throws Exception {
         mockMvc.perform(delete("/cultural-offerings-types/{id}", NON_EXISTENT_ENTITY_ID))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    @WithMockUser(MOCK_USER_EMAIL)
+    @WithMockUser(authorities = WRITE_AUTHORITY)
+    @Transactional
+    @Rollback(true)
+    public void deleteTestFail2() throws Exception {
+        mockMvc.perform(delete("/cultural-offerings-types/{id}", ENTITY_ID_WITH_REFERENCES))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser(authorities = {READ_AUTHORITY, WRITE_AUTHORITY})
     @Transactional
     @Rollback(true)
     public void deleteTestSucceed() throws Exception {
