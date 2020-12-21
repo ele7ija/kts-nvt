@@ -84,4 +84,8 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
     public List<CulturalOffering> findByCulturalOfferingTypeId(Long id) {
         return culturalOfferingRepository.findAllByCulturalOfferingTypeId(id);
     }
+
+    public List<CulturalOffering> findByCulturalOfferingSubTypeId(Long id) {
+        return culturalOfferingRepository.findAllByCulturalOfferingSubTypeId(id);
+    }
 }

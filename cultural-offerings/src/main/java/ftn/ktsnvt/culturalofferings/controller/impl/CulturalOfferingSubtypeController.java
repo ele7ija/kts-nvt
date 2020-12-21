@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
 
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<List<CulturalOfferingSubTypeDTO>> findAll() {
         return new ResponseEntity<>(
                 culturalOfferingSubtypeService
@@ -42,6 +44,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<Page<CulturalOfferingSubTypeDTO>> findAll(Pageable pageable) {
         Page<CulturalOfferingSubType> page = culturalOfferingSubtypeService.findAll(pageable);
 
@@ -57,6 +60,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<CulturalOfferingSubTypeDTO> get(Long id) {
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.findOne(id);
         return new ResponseEntity<>(
@@ -66,6 +70,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:write')")
     public ResponseEntity<CulturalOfferingSubTypeDTO> create(@Valid CulturalOfferingSubTypeDTO body, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -82,6 +87,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:write')")
     public ResponseEntity<CulturalOfferingSubTypeDTO> update(@Valid CulturalOfferingSubTypeDTO body, BindingResult bindingResult, Long id) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -93,11 +99,12 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.update(culturalOfferingSubTypeMapper.toEntity(body), id);
         return new ResponseEntity<>(
                 culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType),
-                HttpStatus.CREATED
+                HttpStatus.OK
         );
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:write')")
     public ResponseEntity<Void> delete(Long id) {
         culturalOfferingSubtypeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);

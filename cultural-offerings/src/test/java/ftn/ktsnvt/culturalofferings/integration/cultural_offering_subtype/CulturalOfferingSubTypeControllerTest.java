@@ -1,6 +1,7 @@
-package ftn.ktsnvt.culturalofferings.integration.cultural_offering_type;
+package ftn.ktsnvt.culturalofferings.integration.cultural_offering_subtype;
 
 import ftn.ktsnvt.culturalofferings.TestUtil;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,22 +15,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-
+import static ftn.ktsnvt.culturalofferings.integration.cultural_offering_subtype.CulturalOfferingSubTypeConstants.*;
 import static org.hamcrest.CoreMatchers.is;
-import static ftn.ktsnvt.culturalofferings.integration.cultural_offering_type.CulturalOfferingTypeConstants.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("classpath:test.properties")
-public class CulturalOfferingTypeControllerTest {
-
+public class CulturalOfferingSubTypeControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
@@ -45,14 +45,14 @@ public class CulturalOfferingTypeControllerTest {
 
     @Test
     public void findAllFailForbidden() throws Exception {
-        mockMvc.perform(get("/cultural-offerings-types"))
+        mockMvc.perform(get("/cultural-offering-subtypes"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     @WithMockUser(authorities = READ_AUTHORITY)
     public void findAllTest() throws Exception {
-        mockMvc.perform(get("/cultural-offerings-types"))
+        mockMvc.perform(get("/cultural-offering-subtypes"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(LIST_SIZE)));
     }
@@ -60,31 +60,29 @@ public class CulturalOfferingTypeControllerTest {
     @Test
     @WithMockUser(authorities = READ_AUTHORITY)
     public void findOneTestFail() throws Exception {
-        mockMvc.perform(get("/cultural-offerings-types/{id}", NON_EXISTENT_ENTITY_ID))
+        mockMvc.perform(get("/cultural-offering-subtypes/{id}", NON_EXISTENT_ENTITY_ID))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(authorities = READ_AUTHORITY)
     public void findOneTestSucceed() throws Exception {
-        mockMvc.perform(get("/cultural-offerings-types/{id}", EXISTING_ENTITY_ID))
+        mockMvc.perform(get("/cultural-offering-subtypes/{id}", EXISTING_ENTITY_ID))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.typeName", is(EXISTING_ENTITY_TYPE_NAME)));
+                .andExpect(jsonPath("$.subTypeName", is(EXISTING_ENTITY_SUB_TYPE_NAME)));
     }
 
     @Test
     @WithMockUser(authorities = READ_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void createTestFail() throws Exception {
-        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
-        culturalOfferingTypeDTO.setTypeName(NEW_ENTITY_TYPE_NAME);
-        culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(NEW_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
-                post("/cultural-offerings-types")
+                post("/cultural-offering-subtypes")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(TestUtil.json(culturalOfferingTypeDTO))
+                        .content(TestUtil.json(culturalOfferingSubTypeDTO))
         )
                 .andExpect(status().isForbidden());
     }
@@ -92,51 +90,45 @@ public class CulturalOfferingTypeControllerTest {
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void createTestSucceed() throws Exception {
-        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
-        culturalOfferingTypeDTO.setTypeName(NEW_ENTITY_TYPE_NAME);
-        culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(NEW_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
-                    post("/cultural-offerings-types")
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(TestUtil.json(culturalOfferingTypeDTO))
-                )
+                post("/cultural-offering-subtypes")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.json(culturalOfferingSubTypeDTO))
+        )
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.typeName", is(NEW_ENTITY_TYPE_NAME)));
+                .andExpect(jsonPath("$.subTypeName", is(NEW_ENTITY_SUB_TYPE_NAME)));
     }
 
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void updateTestFail1() throws Exception {
-        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
-        culturalOfferingTypeDTO.setTypeName(UPDATE_ENTITY_TYPE_NAME);
-        culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
-                put("/cultural-offerings-types/{id}", NON_EXISTENT_ENTITY_ID)
+                put("/cultural-offering-types/{id}", NON_EXISTENT_ENTITY_ID)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(TestUtil.json(culturalOfferingTypeDTO))
-                )
+                        .content(TestUtil.json(culturalOfferingSubTypeDTO))
+        )
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void updateTestFail2() throws Exception {
-        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
-        culturalOfferingTypeDTO.setTypeName(UPDATE_ENTITY_TYPE_NAME);
-        culturalOfferingTypeDTO.setImageId(123456l);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_SUB_TYPE_NAME, 123456l);
 
         mockMvc.perform(
-                put("/cultural-offerings-types/{id}", UPDATE_ENTITY_ID)
+                put("/cultural-offering-subtypes/{id}", EXISTING_ENTITY_ID)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(TestUtil.json(culturalOfferingTypeDTO))
+                        .content(TestUtil.json(culturalOfferingSubTypeDTO))
         )
                 .andExpect(status().isNotFound());
     }
@@ -145,50 +137,47 @@ public class CulturalOfferingTypeControllerTest {
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void updateTestSucceed() throws Exception {
-        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
-        culturalOfferingTypeDTO.setTypeName(UPDATE_ENTITY_TYPE_NAME);
-        culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
-                put("/cultural-offerings-types/{id}", UPDATE_ENTITY_ID)
+                put("/cultural-offering-subtypes/{id}", UPDATE_ENTITY_ID)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(TestUtil.json(culturalOfferingTypeDTO))
+                        .content(TestUtil.json(culturalOfferingSubTypeDTO))
         )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.typeName", is(UPDATE_ENTITY_TYPE_NAME)));
+                .andExpect(jsonPath("$.subTypeName", is(UPDATE_ENTITY_SUB_TYPE_NAME)));
     }
 
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void deleteTestFail1() throws Exception {
-        mockMvc.perform(delete("/cultural-offerings-types/{id}", NON_EXISTENT_ENTITY_ID))
+        mockMvc.perform(delete("/cultural-offering-subtypes/{id}", NON_EXISTENT_ENTITY_ID))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void deleteTestFail2() throws Exception {
-        mockMvc.perform(delete("/cultural-offerings-types/{id}", ENTITY_ID_WITH_REFERENCES))
+        mockMvc.perform(delete("/cultural-offering-subtypes/{id}", ENTITY_ID_WITH_REFERENCES))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     @WithMockUser(authorities = {READ_AUTHORITY, WRITE_AUTHORITY})
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void deleteTestSucceed() throws Exception {
-        mockMvc.perform(get("/cultural-offerings-types/{id}", DELETE_ENTITY_ID))
+        mockMvc.perform(get("/cultural-offering-subtypes/{id}", DELETE_ENTITY_ID))
                 .andExpect(status().isOk());
-        mockMvc.perform(delete("/cultural-offerings-types/{id}", DELETE_ENTITY_ID))
+        mockMvc.perform(delete("/cultural-offering-subtypes/{id}", DELETE_ENTITY_ID))
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/cultural-offerings-types/{id}", DELETE_ENTITY_ID))
+        mockMvc.perform(get("/cultural-offering-subtypes/{id}", DELETE_ENTITY_ID))
                 .andExpect(status().isNotFound());
     }
-
 }
