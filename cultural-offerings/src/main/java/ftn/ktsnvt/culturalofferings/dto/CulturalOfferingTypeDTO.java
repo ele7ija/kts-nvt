@@ -9,6 +9,8 @@ public class CulturalOfferingTypeDTO {
 
 	private Long imageId;
 
+	public CulturalOfferingTypeDTO(){}
+
 	public CulturalOfferingTypeDTO(String typeName, Long imageId) {
 		this.typeName = typeName;
 		this.imageId = imageId;

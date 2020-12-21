@@ -2,6 +2,8 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.RatingApi;
 
+import org.springframework.stereotype.Controller;
+
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
 import ftn.ktsnvt.culturalofferings.helper.CredentialsHelper;
 import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
@@ -9,7 +11,6 @@ import ftn.ktsnvt.culturalofferings.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
 import javax.validation.Valid;

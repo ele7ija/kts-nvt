@@ -1,6 +1,8 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.SQLDeleteEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,9 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
 
     @Autowired
     public CulturalOfferingTypeRepository culturalOfferingTypeRepository;
+
+    @Autowired
+    public CulturalOfferingService culturalOfferingService;
 
     public List<CulturalOfferingType> findAll() {
         return culturalOfferingTypeRepository.findAll();
@@ -69,6 +74,13 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
                     CulturalOfferingType.class
             );
         }
+
+        List<CulturalOffering> culturalOfferings = culturalOfferingService.findByCulturalOfferingTypeId(id);
+        if(!culturalOfferings.isEmpty())
+            throw new SQLDeleteEntityException(
+                    CulturalOfferingType.class,
+                    CulturalOffering.class
+            );
         culturalOfferingTypeRepository.delete(optional.get());
     }
 }

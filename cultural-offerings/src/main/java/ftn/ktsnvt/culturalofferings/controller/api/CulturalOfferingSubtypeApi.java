@@ -1,7 +1,6 @@
 package ftn.ktsnvt.culturalofferings.controller.api;
 
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
-import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

@@ -54,4 +54,10 @@ public class ExceptionHandlingAdvice {
         String message =  "Entity " + e.getClassObject().getName() + " with id " + e.getName() + " not found! Make sure your request is valid!";
         return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(SQLDeleteEntityException.class)
+    public ResponseEntity<Error> getError(SQLDeleteEntityException e){
+        String message = "Error deleting entity of class " + e.getClassObject().getName() + " due to existing reference of type " + e.getReferencedClassObject().getName();
+        return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
