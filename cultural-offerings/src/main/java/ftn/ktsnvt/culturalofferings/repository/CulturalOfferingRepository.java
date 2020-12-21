@@ -15,5 +15,7 @@ public interface CulturalOfferingRepository extends JpaRepository<CulturalOfferi
 	Optional<CulturalOffering> findByName(String name);
 
     List<CulturalOffering> findAllByCulturalOfferingTypeId(Long id);
+
+    List<CulturalOffering> findAllByCulturalOfferingSubTypeId(Long id);
 }
 
