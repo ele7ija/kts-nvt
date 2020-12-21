@@ -2,7 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
-import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingsMapper;
+import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;

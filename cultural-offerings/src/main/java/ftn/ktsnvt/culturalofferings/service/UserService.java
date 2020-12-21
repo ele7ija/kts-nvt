@@ -43,14 +43,20 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public User findOne(Long id) {
-        Optional<User> optional =  userRepository.findById(id);
-        if(optional.isEmpty()){
+        Optional<User> optional = userRepository.findById(id);
+        if (optional.isEmpty()) {
             throw new EntityNotFoundException(
                     id,
                     User.class
             );
         }
         return optional.get();
+    }
+
+    public User findByEmail(String userEmail) {
+        User user = userRepository.findByEmail(userEmail);
+
+        return user;
     }
 
     @Override
@@ -63,8 +69,8 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public User update(User entity, Long id) {
-        Optional<User> optional =  userRepository.findById(id);
-        if(optional.isEmpty()){
+        Optional<User> optional = userRepository.findById(id);
+        if (optional.isEmpty()) {
             throw new EntityNotFoundException(id, User.class);
         }
         return userRepository.save(userRepository.save(entity));
@@ -72,8 +78,8 @@ public class UserService implements ServiceInterface<User> {
 
     @Override
     public void delete(Long id) {
-        Optional<User> optional =  userRepository.findById(id);
-        if(optional.isEmpty()){
+        Optional<User> optional = userRepository.findById(id);
+        if (optional.isEmpty()) {
             throw new EntityNotFoundException(id, User.class);
         }
         userRepository.delete(optional.get());
@@ -85,7 +91,7 @@ public class UserService implements ServiceInterface<User> {
         return userRepository.save(verificationToken.getUser());
     }
 
-    public User registerUser(User entity, String url){
+    public User registerUser(User entity, String url) {
         //hash password
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 
@@ -98,7 +104,7 @@ public class UserService implements ServiceInterface<User> {
         //prepare mail content
         String email = entity.getEmail();
         String subject = "Confirm registration";
-        String message = url+"?token="+verificationToken.getToken();
+        String message = url + "?token=" + verificationToken.getToken();
 
         //send mail, async function
         emailService.sendMail(email, subject, message);
@@ -110,10 +116,10 @@ public class UserService implements ServiceInterface<User> {
     public void resendToken(String email, String url) {
         //only send verification email if the user exists and has not been registered
         User user = userRepository.findByEmail(email);
-        if(user == null){
+        if (user == null) {
             throw new UserNotFoundException(email);
         }
-        if(user.isEnabled()){
+        if (user.isEnabled()) {
             throw new UserEmailAlreadyVerifiedException(email);
         }
 
@@ -125,10 +131,12 @@ public class UserService implements ServiceInterface<User> {
 
         //prepare mail content
         String subject = "Confirm registration";
-        String message = url+"?token="+verificationToken.getToken();
+        String message = url + "?token=" + verificationToken.getToken();
 
         //send mail, async function
         emailService.sendMail(email, subject, message);
 
     }
+
+
 }

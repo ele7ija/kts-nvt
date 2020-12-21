@@ -31,6 +31,15 @@ public class Comment {
 
     public Comment() {}
 
+    public Comment(Long id, String text, Date date, List<ImageModel> images, CulturalOffering culturalOffering, User user) {
+        this.id = id;
+        this.text = text;
+        this.date = date;
+        this.images = images;
+        this.culturalOffering = culturalOffering;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }

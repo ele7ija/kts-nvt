@@ -1,6 +1,4 @@
-package ftn.ktsnvt.culturalofferings.helper;
-
-import java.beans.JavaBean;
+package ftn.ktsnvt.culturalofferings.mapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -6,6 +6,7 @@ import { ApiService } from '../api-service/api.service';
 import { catchError, map } from 'rxjs/operators';
 import { SignInService } from '../sign-in-service/sign-in.service';
 import { Observable, of } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ import { Observable, of } from 'rxjs';
 export class AuthService {
 
   private access_token = null;
-  private signInUrl : string = 'http://localhost:8080/api/auth/login';
+  private signInUrl : string = environment.baseUrl + '/auth/login';
 
   constructor(private apiService: ApiService, private signInService: SignInService, private router: Router) {}
 

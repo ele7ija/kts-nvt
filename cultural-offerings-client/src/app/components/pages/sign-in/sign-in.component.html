@@ -1,72 +1,79 @@
 <div class="background-img">
-    <div class="container h-100">
-      <div class="row h-100 justify-content-center align-items-center">
-        <section class="form-simple">
+  <div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+      <section class="form-simple">
 
-          <!--Form with header-->
-          <mdb-card style="width: 28rem;">
+        <!--Form with header-->
+        <mdb-card style="width: 28rem;" class="shadow-lg">
 
-            <!--Header-->
-            <div class="header pt-3 grey lighten-2">
+          <!--Header-->
+          <div class="header pt-3 grey lighten-2">
 
-              <div class="row d-flex justify-content-start">
-                <h2 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Prijava korisnika</h2>
+            <div class="row d-flex justify-content-start">
+              <h2 class="deep-grey-text mt-3 mb-4 pb-1 mx-5">Prijava korisnika</h2>
+            </div>
+
+          </div>
+          <!--Header-->
+
+          <mdb-card-body class="mx-4 mt-4">
+
+            <!--Body-->
+            <form [formGroup]="signinForm" (ngSubmit)="signIn()" *ngIf="!submitted">
+
+              <div class="md-form mb-5">
+                <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon>
+                <input type="email" id="emailField" name="emailField" formControlName="emailField" class="form-control"
+                  mdbInput mdbValidate>
+                <label for="emailField">Email</label>
+
+                <div
+                  *ngIf="signinForm.controls.emailField.invalid && (signinForm.controls.emailField.touched || signinForm.controls.emailField.dirty)">
+                  <small class="text-danger" *ngIf="signinForm.controls.emailField.errors?.required">
+                    Obavezno je uneti email adresu.
+                  </small>
+                  <small class="text-danger" *ngIf="signinForm.controls.emailField.errors?.email">
+                    Nije ispravan format email adrese.
+                  </small>
+                </div>
               </div>
 
-            </div>
-            <!--Header-->
+              <div class="md-form mb-4">
+                <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
+                <input type="password" id="passField" name="passField" formControlName="passField" class="form-control"
+                  mdbInput mdbValidate>
+                <label for="passField">Lozinka</label>
 
-            <mdb-card-body class="mx-4 mt-4">
-
-              <!--Body-->
-              <form [formGroup]="signinForm" (ngSubmit)="signIn()" *ngIf="!submitted">
-
-                <div class="md-form mb-5">
-                    <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon>
-                    <input type="email" id="emailField" name="emailField" formControlName="emailField" class="form-control"
-                           mdbInput mdbValidate>
-                    <label for="emailField">Email</label>
-
-                    <div *ngIf="signinForm.controls.emailField.invalid && (signinForm.controls.emailField.touched || signinForm.controls.emailField.dirty)">
-                        <small class="text-danger" *ngIf="signinForm.controls.emailField.errors?.required">
-                            Obavezno je uneti email adresu.
-                        </small>
-                        <small class="text-danger" *ngIf="signinForm.controls.emailField.errors?.email">
-                            Nije ispravan format email adrese.
-                        </small>
-                    </div>
+                <div
+                  *ngIf="signinForm.controls.passField.invalid && (signinForm.controls.passField.touched || signinForm.controls.passField.dirty)">
+                  <small class="text-danger" *ngIf="signinForm.controls.passField.errors?.required">
+                    Obavezno je uneti lozinku.
+                  </small>
+                  <small class="text-danger" *ngIf="signinForm.controls.passField.errors?.minlength">
+                    Minimalna duzina lozinke je 3 karaktera.
+                  </small>
                 </div>
 
-                <div class="md-form mb-4">
-                    <mdb-icon fas icon="lock" class="prefix grey-text"></mdb-icon>
-                    <input type="password" id="passField" name="passField" formControlName="passField" class="form-control"
-                           mdbInput mdbValidate>
-                    <label for="passField">Lozinka</label>
+              </div>
 
-                    <div *ngIf="signinForm.controls.passField.invalid && (signinForm.controls.passField.touched || signinForm.controls.passField.dirty)">
-                        <small class="text-danger" *ngIf="signinForm.controls.passField.errors?.required">
-                            Obavezno je uneti lozinku.
-                        </small>
-                        <small class="text-danger" *ngIf="signinForm.controls.passField.errors?.minlength">
-                            Minimalna duzina lozinke je 3 karaktera.
-                        </small>
-                    </div>
+              <small *ngIf="errorMsg" class="text-danger">{{errorMsg}}</small>
 
-                </div>
+              <div class="d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="signinForm.invalid"
+                  mdbWavesEffect>Prijava</button>
+              </div>
 
-                <small *ngIf="errorMsg" class="text-danger">{{errorMsg}}</small>
+              <div class="d-flex justify-content-center py-2">
+                <p> Nemate korisnicki nalog? <a routerLink="/register"> Registrujte se ovde. </a> </p>
+              </div>
 
-                <div class="d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="signinForm.invalid" mdbWavesEffect>Prijava</button>
-                </div>
+            </form>
 
-              </form>
+          </mdb-card-body>
 
-            </mdb-card-body>
-
-          </mdb-card>
-          <!--/Form with header-->
-        </section>
-      </div>
+        </mdb-card>
+        <!--/Form with header-->
+      </section>
     </div>
   </div>
+</div>

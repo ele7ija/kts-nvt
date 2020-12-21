@@ -2,7 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.NewsApi;
 import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
-import ftn.ktsnvt.culturalofferings.helper.NewsMapper;
+import ftn.ktsnvt.culturalofferings.mapper.NewsMapper;
 import ftn.ktsnvt.culturalofferings.model.News;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.NewsService;

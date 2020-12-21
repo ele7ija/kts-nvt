@@ -2,9 +2,8 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
-import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
+import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
-import ftn.ktsnvt.culturalofferings.model.UserPermission;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

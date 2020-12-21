@@ -1,7 +1,7 @@
 package ftn.ktsnvt.culturalofferings.unit.cultural_offering_type;
 
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
-import ftn.ktsnvt.culturalofferings.helper.CulturalOfferingTypeMapper;
+import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.ImageModel;
 import ftn.ktsnvt.culturalofferings.service.ImageService;

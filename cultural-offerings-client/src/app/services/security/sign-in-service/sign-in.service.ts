@@ -56,9 +56,4 @@ export class SignInService {
     this.currentUser.lastName = surname;
   }
 
-  setUser(email: string, password: string) : SignInUser {
-    return new SignInUser(email, password);
-  }
-
-
 }
