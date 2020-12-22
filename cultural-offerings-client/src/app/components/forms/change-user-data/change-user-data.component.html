@@ -1,0 +1,61 @@
+<mdb-card style="width: 30rem;" class="mx-4 my-4">
+    <mdb-card-body>
+
+        <mdb-card-title class="d-flex flex-center">
+            <h2>
+                <mdb-icon fas icon="user" class="flex-center text-default px-1 py-1 fa-2x"></mdb-icon>
+                <p class="text-muted"> Izmena licnih podataka </p>
+            </h2>
+        </mdb-card-title>
+
+        <hr>
+
+        <mdb-card-text>
+            <label>
+                <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon> &nbsp;
+                Email adresa: {{user?.email}}
+            </label>
+        </mdb-card-text>
+
+        <hr>
+
+        <mdb-card-text>
+            <form [formGroup]="userDataForm" (ngSubmit)="changeUserData()" *ngIf="!submitted">
+
+
+
+                <div class="md-form mb-4">
+                    <input type="text" id="nameField" name="nameField" formControlName="nameField" class="form-control"
+                        mdbInput mdbValidate>
+                    <label for="nameField">Ime</label>
+
+                    <div
+                        *ngIf="userDataForm.controls.nameField.invalid && (userDataForm.controls.nameField.touched || userDataForm.controls.nameField.dirty)">
+                        <small class="text-danger" *ngIf="userDataForm.controls.nameField.errors?.required">
+                            Obavezno je uneti ime.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="md-form mb-4">
+                    <input type="text" id="surnameField" name="surnameField" formControlName="surnameField"
+                        class="form-control" mdbInput mdbValidate>
+                    <label for="surnameField">Prezime</label>
+
+                    <div
+                        *ngIf="userDataForm.controls.surnameField.invalid && (userDataForm.controls.surnameField.touched || userDataForm.controls.surnameField.dirty)">
+                        <small class="text-danger" *ngIf="userDataForm.controls.surnameField.errors?.required">
+                            Obavezno je uneti prezime.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="userDataForm.invalid"
+                        mdbWavesEffect>Sacuvaj izmene</button>
+                </div>
+
+            </form>
+        </mdb-card-text>
+    </mdb-card-body>
+</mdb-card>
