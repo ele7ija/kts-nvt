@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.service;
 
 import ftn.ktsnvt.culturalofferings.model.VerificationToken;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.PasswordsNotMatchException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.UserEmailAlreadyVerifiedException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import ftn.ktsnvt.culturalofferings.dto.ChangeUserDataDTO;
+import ftn.ktsnvt.culturalofferings.helper.CredentialsHelper;
 import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.repository.UserRepository;
 
@@ -138,5 +141,41 @@ public class UserService implements ServiceInterface<User> {
 
     }
 
+    public void changePassword(String oldPassword, String newPassword) {
+    	// get email from Security Context
+        String email = CredentialsHelper.getUserEmailFromToken();
+        User user = findByEmail(email);
+        
+        // check if provided old password matches saved old password
+        // if true set new password
+        if(passwordEncoder.matches(oldPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+        }
+        else {
+        	 throw new PasswordsNotMatchException(email);
+        }
+    }
+    
+    public void ChangePersonalData(String firstName, String lastName) {
+    	// get email from Security Context
+        String email = CredentialsHelper.getUserEmailFromToken();
+        User user = findByEmail(email);
+        
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        userRepository.save(user);
+    }
+    
+    public ChangeUserDataDTO getUserData() {
+    	// get email from Security Context
+        String email = CredentialsHelper.getUserEmailFromToken();
+        User user = findByEmail(email);
+        
+        return new ChangeUserDataDTO(
+        			user.getFirstName(),
+        			user.getLastName()
+        		);
+    }
 
 }

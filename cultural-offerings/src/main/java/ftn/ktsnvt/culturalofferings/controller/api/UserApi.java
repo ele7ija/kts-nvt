@@ -1,5 +1,7 @@
 package ftn.ktsnvt.culturalofferings.controller.api;
 
+import ftn.ktsnvt.culturalofferings.dto.ChangePasswordDTO;
+import ftn.ktsnvt.culturalofferings.dto.ChangeUserDataDTO;
 import ftn.ktsnvt.culturalofferings.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +35,14 @@ public interface UserApi {
 
     @RequestMapping(value= "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> delete(@PathVariable("id") Long id);
+    
+    @RequestMapping(value= "/change-user-password", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> changePassword(@RequestBody ChangePasswordDTO body, BindingResult bindingResult);
+    
+    @RequestMapping(value= "/change-user-data", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Void> changeUserData(@RequestBody ChangeUserDataDTO body, BindingResult bindingResult);
+    
+    @RequestMapping(value= "/get-user-data", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ChangeUserDataDTO> getUserData();
+    
 }
