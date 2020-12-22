@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   logout() {
-    this.signInService.changeCurrentUser(null);
+    this.signInService.changeUserData(null);
     this.access_token = null;
     this.router.navigate(['/sign-in']);
   }
