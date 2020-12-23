@@ -48,8 +48,16 @@
                     </div>
                 </div>
 
+                <!--
+                    Disable button in cases:
+                    - form has errors
+                    - form fields are not touched by user
+                    - form fields are touched but values are not changed
+                -->
+
                 <div class="d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="userDataForm.invalid || !userDataForm.touched"
+                    <button mdbBtn color="default" class="waves-light" type="submit"
+                    [disabled]="userDataForm.invalid || !userDataForm.touched || (userDataForm.valid && userDataForm.pristine)"
                         mdbWavesEffect>Sacuvaj izmene</button>
                 </div>
 

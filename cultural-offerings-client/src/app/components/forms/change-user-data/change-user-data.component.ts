@@ -36,6 +36,9 @@ export class ChangeUserDataComponent implements OnInit {
   }
 
   prefillForm() {
+    /*Patch value will take any matching object key and assign its value to the same
+    form control name but ignore properties that do not match.*/
+
     this.changeUserDataService.getDataRequest().subscribe(
         user => {
         this.user = user;
