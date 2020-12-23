@@ -15,6 +15,8 @@ public class UserConstants {
     public static final String EXISTING_ENTITY_LAST_NAME = "Mika";
     public static final UserRole EXISTING_ENTITY_USER_ROLE = UserRole.USER;
 
+    public static final String NON_EXISTENT_ENTITY_EMAIL = "this email does not exist";
+
     public static final String NEW_ENTITY_TYPE_NAME = "Institucija 2";
 
     public static final long NON_EXISTENT_ENTITY_ID = 12345l;
