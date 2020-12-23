@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { UserData } from 'src/app/model/current-user/current-user';
 import { ChangeUserDataService } from 'src/app/services/security/change-user-data/change-user-data.service';
 import { tap } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/security/auth-service/auth.service';
 
 @Component({
   selector: 'app-change-user-data',
@@ -20,7 +21,10 @@ export class ChangeUserDataComponent implements OnInit {
   user: UserData;
   private initialFormValues : UserData;
 
-  constructor(private formBuilder: FormBuilder, private changeUserDataService : ChangeUserDataService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private changeUserDataService : ChangeUserDataService,
+    private authService : AuthService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +41,7 @@ export class ChangeUserDataComponent implements OnInit {
         this.user = user;
         this.userDataForm.patchValue(user);
         this.initialFormValues = this.userDataForm.value;
+        this.user.email = this.authService.getEmail();
       },
       error => {
         this.errorMsg = "Greska prilikom dobavljanja podataka. Molimo Vas pokusajte izmenu malo kasnije.";

@@ -8,12 +8,17 @@ import { SignInService } from '../sign-in-service/sign-in.service';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+const TOKEN_KEY = 'jwt-token';
+const EMAIL_KEY = 'user-email';
+const ROLE_KEY = 'user-roles';
+
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
 
-  //private access_token = null;
+// This service to manages token and user information inside Browser’s Session Storage.
+
+export class AuthService {
   private signInUrl : string = environment.baseUrl + '/auth/login';
 
   constructor(private apiService: ApiService, private signInService: SignInService, private router: Router) {}
@@ -31,28 +36,39 @@ export class AuthService {
     return this.apiService.post(this.signInUrl, JSON.stringify(body), this.headers).pipe(
       map((res) => {
         console.log('Login success');
-        //this.access_token = res.jwt;
-        localStorage.setItem('jwtToken', res.jwt);
+        this.saveToken(res.jwt);
+        this.saveEmail(user.email);
         return true;
       })
-      );
+    );
   }
 
   logout() {
-    this.signInService.changeUserData(null);
-    //this.access_token = null;
-    localStorage.removeItem('jwtToken');
+    // delete all current user information by clearing Browser’s Session Storage when logout
+    window.sessionStorage.clear();
     this.router.navigate(['/sign-in']);
   }
 
-  tokenIsPresent() {
-    let token = this.getToken();
-    return token != undefined && token != null;
+  isLoggedIn() : boolean {
+    return this.getToken() ? true : false;
   }
 
-  getToken() {
-    //return this.access_token;
-    return localStorage.getItem('jwtToken');
+  saveToken(token: string): void {
+    window.sessionStorage.removeItem(TOKEN_KEY);
+    window.sessionStorage.setItem(TOKEN_KEY, token);
+  }
+
+  getToken(): string {
+    return sessionStorage.getItem(TOKEN_KEY);
+  }
+
+  saveEmail(email: string): void {
+    window.sessionStorage.removeItem(EMAIL_KEY);
+    window.sessionStorage.setItem(EMAIL_KEY, email);
+  }
+
+  getEmail(): string {
+    return sessionStorage.getItem(EMAIL_KEY);
   }
 
 }
