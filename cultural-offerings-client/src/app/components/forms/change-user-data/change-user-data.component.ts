@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { UserData } from 'src/app/model/current-user/current-user';
 import { ChangeUserDataService } from 'src/app/services/security/change-user-data/change-user-data.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-change-user-data',
@@ -14,31 +16,33 @@ export class ChangeUserDataComponent implements OnInit {
 
   errorMsg : string;
   successMsg: string;
-  user : UserData = new UserData("", "");
-  initialFormValues;
+  //user : UserData = new UserData("", "");
+  user: UserData;
+  private initialFormValues : UserData;
 
   constructor(private formBuilder: FormBuilder, private changeUserDataService : ChangeUserDataService) {
-    this.userDataForm = this.formBuilder.group({
-      "nameField": [this.user.firstName, Validators.required],
-      "surnameField": [this.user.lastName, Validators.required],
-    });
   }
 
   ngOnInit(): void {
+    this.userDataForm = this.formBuilder.group({
+      "firstName": ["", Validators.required],
+      "lastName": ["", Validators.required],
+    });
     this.prefillForm();
   }
 
   prefillForm() {
     this.changeUserDataService.getDataRequest().subscribe(
-      data => {
-        this.user.firstName = data.firstName;
-        this.user.lastName = data.lastName;
+        user => {
+        this.user = user;
+        this.userDataForm.patchValue(user);
         this.initialFormValues = this.userDataForm.value;
       },
       error => {
-        this.errorMsg = "Greska prilikom dobavljanja podataka. Molimo Vas pokusajte izmenu maalo kasnije.";
+        this.errorMsg = "Greska prilikom dobavljanja podataka. Molimo Vas pokusajte izmenu malo kasnije.";
       }
     );
+
   }
 
   changeUserData(): void{
@@ -50,7 +54,7 @@ export class ChangeUserDataComponent implements OnInit {
     this.errorMsg = undefined;
     this.successMsg = undefined;
 
-    this.changeUserDataService.changeDataRequest(this.user).subscribe(
+    this.changeUserDataService.changeDataRequest(this.userDataForm.value).subscribe(
       data => {
         this.successMsg = "Uspesno ste izmenili Vase podatke.";
         this.initialFormValues = this.userDataForm.value;

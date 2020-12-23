@@ -23,33 +23,33 @@
             <form [formGroup]="userDataForm" (ngSubmit)="changeUserData()">
 
                 <div class="md-form mb-4">
-                    <input type="text" id="nameField" name="nameField" formControlName="nameField" class="form-control"
+                    <input type="text" id="firstName" name="firstName" formControlName="firstName" class="form-control"
                         mdbInput mdbValidate>
-                    <label for="nameField">Ime</label>
+                    <label for="firstName">Ime</label>
 
                     <div
-                        *ngIf="userDataForm.controls.nameField.invalid && (userDataForm.controls.nameField.touched || userDataForm.controls.nameField.dirty)">
-                        <small class="text-danger" *ngIf="userDataForm.controls.nameField.errors?.required">
+                        *ngIf="userDataForm.controls.firstName.invalid && (userDataForm.controls.firstName.touched || userDataForm.controls.firstName.dirty)">
+                        <small class="text-danger" *ngIf="userDataForm.controls.firstName.errors?.required">
                             Obavezno je uneti ime.
                         </small>
                     </div>
                 </div>
 
                 <div class="md-form mb-4">
-                    <input type="text" id="surnameField" name="surnameField" formControlName="surnameField"
+                    <input type="text" id="lastName" name="lastName" formControlName="lastName"
                         class="form-control" mdbInput mdbValidate>
-                    <label for="surnameField">Prezime</label>
+                    <label for="lastName">Prezime</label>
 
                     <div
-                        *ngIf="userDataForm.controls.surnameField.invalid && (userDataForm.controls.surnameField.touched || userDataForm.controls.surnameField.dirty)">
-                        <small class="text-danger" *ngIf="userDataForm.controls.surnameField.errors?.required">
+                        *ngIf="userDataForm.controls.lastName.invalid && (userDataForm.controls.lastName.touched || userDataForm.controls.lastName.dirty)">
+                        <small class="text-danger" *ngIf="userDataForm.controls.lastName.errors?.required">
                             Obavezno je uneti prezime.
                         </small>
                     </div>
                 </div>
 
                 <div class="d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="userDataForm.invalid"
+                    <button mdbBtn color="default" class="waves-light" type="submit" [disabled]="userDataForm.invalid || !userDataForm.touched"
                         mdbWavesEffect>Sacuvaj izmene</button>
                 </div>
 

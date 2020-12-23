@@ -24,15 +24,11 @@ export class AuthService {
   });
 
   signin(user : SignInUser) {
-    const loginHeaders = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
     const body = {
       'email' : user.email,
       'password' : user.password
     };
-    return this.apiService.post(this.signInUrl, JSON.stringify(body), loginHeaders).pipe(
+    return this.apiService.post(this.signInUrl, JSON.stringify(body), this.headers).pipe(
       map((res) => {
         console.log('Login success');
         //this.access_token = res.jwt;

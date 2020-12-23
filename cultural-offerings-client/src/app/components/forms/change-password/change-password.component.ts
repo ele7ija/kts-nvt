@@ -13,10 +13,8 @@ export class ChangePasswordComponent implements OnInit {
 
   passwordForm: FormGroup;
 
-  submitted : boolean = false;
   errorMsg : string;
   successMsg : string;
-  request : ChangePassword;
 
   constructor(private formBuilder: FormBuilder, private changePasswordService: ChangePasswordService) {
     this.passwordForm = this.formBuilder.group({
@@ -27,7 +25,6 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   changePassword(): void{
@@ -39,7 +36,9 @@ export class ChangePasswordComponent implements OnInit {
     this.errorMsg = undefined;
     this.successMsg = undefined;
 
-    this.changePasswordService.sendChangePassRequest(this.request).subscribe(
+    let request : ChangePassword = new ChangePassword(this.passwordForm.value['oldPassField'], this.passwordForm.value['passField']);
+
+    this.changePasswordService.sendChangePassRequest(request).subscribe(
       data => {
         this.successMsg = "Uspesno ste izmenili lozinku.";
       },
