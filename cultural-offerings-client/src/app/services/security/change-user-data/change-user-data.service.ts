@@ -19,7 +19,7 @@ export class ChangeUserDataService {
     return this.apiService.get(this.getUrl, this.apiService.headers);
   }
 
-  sendChangeDataRequest(request: UserData) : Observable<any>{
+  changeDataRequest(request: UserData) : Observable<any>{
     return this.apiService.put(this.changerUrl, request);
   }
 

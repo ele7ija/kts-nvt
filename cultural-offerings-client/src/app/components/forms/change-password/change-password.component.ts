@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangePassword } from 'src/app/model/change-password/change-password';
+import { ChangePasswordService } from 'src/app/services/security/change-password/change-password.service';
 import { mustMatchValidator } from 'src/app/shared/validators/must-match/must-match.directive';
 
 @Component({
@@ -12,9 +14,11 @@ export class ChangePasswordComponent implements OnInit {
   passwordForm: FormGroup;
 
   submitted : boolean = false;
-  private errorMsg : string;
+  errorMsg : string;
+  successMsg : string;
+  request : ChangePassword;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private changePasswordService: ChangePasswordService) {
     this.passwordForm = this.formBuilder.group({
       "oldPassField": ["", Validators.required],
       "passField": ["", [Validators.required, Validators.minLength(3)]],
@@ -32,9 +36,17 @@ export class ChangePasswordComponent implements OnInit {
       return;
     }
 
-    // hide form controls when user send request
-    this.submitted = true;
     this.errorMsg = undefined;
+    this.successMsg = undefined;
+
+    this.changePasswordService.sendChangePassRequest(this.request).subscribe(
+      data => {
+        this.successMsg = "Uspesno ste izmenili lozinku.";
+      },
+      error => {
+        this.errorMsg = "Neuspesna izmena lozinke. Pogresno uneta trenutna lozinka.";
+      }
+    );
 
   }
 

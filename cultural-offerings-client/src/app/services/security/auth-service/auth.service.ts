@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  private access_token = null;
+  //private access_token = null;
   private signInUrl : string = environment.baseUrl + '/auth/login';
 
   constructor(private apiService: ApiService, private signInService: SignInService, private router: Router) {}
@@ -35,7 +35,8 @@ export class AuthService {
     return this.apiService.post(this.signInUrl, JSON.stringify(body), loginHeaders).pipe(
       map((res) => {
         console.log('Login success');
-        this.access_token = res.jwt;
+        //this.access_token = res.jwt;
+        localStorage.setItem('jwtToken', res.jwt);
         return true;
       })
       );
@@ -43,16 +44,19 @@ export class AuthService {
 
   logout() {
     this.signInService.changeUserData(null);
-    this.access_token = null;
+    //this.access_token = null;
+    localStorage.removeItem('jwtToken');
     this.router.navigate(['/sign-in']);
   }
 
   tokenIsPresent() {
-    return this.access_token != undefined && this.access_token != null;
+    let token = this.getToken();
+    return token != undefined && token != null;
   }
 
   getToken() {
-    return this.access_token;
+    //return this.access_token;
+    return localStorage.getItem('jwtToken');
   }
 
 }

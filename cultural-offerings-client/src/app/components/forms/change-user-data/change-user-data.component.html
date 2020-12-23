@@ -20,9 +20,7 @@
         <hr>
 
         <mdb-card-text>
-            <form [formGroup]="userDataForm" (ngSubmit)="changeUserData()" *ngIf="!submitted">
-
-
+            <form [formGroup]="userDataForm" (ngSubmit)="changeUserData()">
 
                 <div class="md-form mb-4">
                     <input type="text" id="nameField" name="nameField" formControlName="nameField" class="form-control"
@@ -56,6 +54,10 @@
                 </div>
 
             </form>
+
+            <small *ngIf="successMsg" class="text-success"> {{successMsg}} </small>
+            <small *ngIf="errorMsg" class="text-danger"> {{errorMsg}} </small>
+
         </mdb-card-text>
     </mdb-card-body>
 </mdb-card>
