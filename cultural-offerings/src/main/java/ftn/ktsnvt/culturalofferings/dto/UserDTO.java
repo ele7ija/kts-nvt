@@ -33,6 +33,8 @@ public class UserDTO {
 
     private List<Long> ratingIds;
 
+    public UserDTO(){}
+
     public UserDTO(String firstName, String lastName, String email, String password, UserRole userRole, boolean enabled, List<Long> newsIds, List<Long> subscriptionIds, List<Long> commentIds, List<Long> ratingIds) {
         this.firstName = firstName;
         this.lastName = lastName;
