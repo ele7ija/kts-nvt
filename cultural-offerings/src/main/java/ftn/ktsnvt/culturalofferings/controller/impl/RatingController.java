@@ -22,10 +22,12 @@ import static ftn.ktsnvt.culturalofferings.helper.ResponseHelper.ok;
 public class RatingController implements RatingApi {
 
     private RatingService ratingService;
+    private CredentialsHelper credentialsHelper;
 
     @Autowired
-    public RatingController(RatingService ratingService) {
+    public RatingController(RatingService ratingService, CredentialsHelper credentialsHelper) {
         this.ratingService = ratingService;
+        this.credentialsHelper = credentialsHelper;
     }
 
     @Override
@@ -53,7 +55,7 @@ public class RatingController implements RatingApi {
     public ResponseEntity create(@Valid RatingDTO body, BindingResult bindingResult) throws Exception {
         DTOValidationHelper.validateDTO(bindingResult);
 
-        String userEmail = CredentialsHelper.getUserEmailFromToken();
+        String userEmail = credentialsHelper.getUserEmailFromToken();
 
         RatingDTO newRating = ratingService.create(body, userEmail);
 
