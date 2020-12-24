@@ -40,11 +40,6 @@ public class UserConstants {
     public static final long ENABLE_ENTITY_ID = 5l;
     public static final String ENABLE_ENTITY_EMAIL = "sanja.sanjic@gmail.com";
 
-
-
-    public static final String READ_AUTHORITY = "CULTURAL_OFFERING_TYPE:read";
-    public static final String WRITE_AUTHORITY = "CULTURAL_OFFERING_TYPE:write";
-
-    public static final String NON_EXISTING_ENTITY_TYPE_NAME = "this should not exist";
-
+    public static final String READ_AUTHORITY = "USER:read";
+    public static final String WRITE_AUTHORITY = "USER:write";
 }

@@ -46,7 +46,7 @@ public class ExceptionHandlingAdvice {
     public ResponseEntity<Error> getError(ModelConstraintViolationException e){
         String message = "Model violation for entity " + e.getClassObject().getName()
                 + ". Message: " + e.getMessage();
-        return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<Error>(new Error(message), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundByNameException.class)

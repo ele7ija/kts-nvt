@@ -3,6 +3,7 @@ package ftn.ktsnvt.culturalofferings.dto;
 import ftn.ktsnvt.culturalofferings.model.UserRole;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class UserDTO {
     @NotBlank(message = "User password cannot be blank!")
     private String password;
 
-    @NotBlank(message = "User role cannot be blank!")
+    @NotNull(message = "User role cannot be null!")
     private UserRole userRole;
 
     private boolean enabled;
