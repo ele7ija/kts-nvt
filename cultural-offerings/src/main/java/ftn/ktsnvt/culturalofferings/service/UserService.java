@@ -79,6 +79,7 @@ public class UserService implements ServiceInterface<User> {
         if (optional.isEmpty()) {
             throw new EntityNotFoundException(id, User.class);
         }
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(userRepository.save(entity));
     }
 
