@@ -1,0 +1,71 @@
+<mdb-card style="width: 30rem;" class="mx-4 my-4">
+    <mdb-card-body>
+
+        <mdb-card-title class="d-flex flex-center">
+            <h2>
+                <mdb-icon fas icon="user" class="flex-center text-default px-1 py-1 fa-2x"></mdb-icon>
+                <p class="text-muted"> Izmena licnih podataka </p>
+            </h2>
+        </mdb-card-title>
+
+        <hr>
+
+        <mdb-card-text>
+            <label>
+                <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon> &nbsp;
+                Email adresa: {{user?.email}}
+            </label>
+        </mdb-card-text>
+
+        <hr>
+
+        <mdb-card-text>
+            <form [formGroup]="userDataForm" (ngSubmit)="changeUserData()">
+
+                <div class="md-form mb-4">
+                    <input type="text" id="firstName" name="firstName" formControlName="firstName" class="form-control"
+                        mdbInput mdbValidate>
+                    <label for="firstName">Ime</label>
+
+                    <div
+                        *ngIf="userDataForm.controls.firstName.invalid && (userDataForm.controls.firstName.touched || userDataForm.controls.firstName.dirty)">
+                        <small class="text-danger" *ngIf="userDataForm.controls.firstName.errors?.required">
+                            Obavezno je uneti ime.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="md-form mb-4">
+                    <input type="text" id="lastName" name="lastName" formControlName="lastName"
+                        class="form-control" mdbInput mdbValidate>
+                    <label for="lastName">Prezime</label>
+
+                    <div
+                        *ngIf="userDataForm.controls.lastName.invalid && (userDataForm.controls.lastName.touched || userDataForm.controls.lastName.dirty)">
+                        <small class="text-danger" *ngIf="userDataForm.controls.lastName.errors?.required">
+                            Obavezno je uneti prezime.
+                        </small>
+                    </div>
+                </div>
+
+                <!--
+                    Disable button in cases:
+                    - form has errors
+                    - form fields are not touched by user
+                    - form fields are touched but values are not changed
+                -->
+
+                <div class="d-flex justify-content-center">
+                    <button mdbBtn color="default" class="waves-light" type="submit"
+                    [disabled]="userDataForm.invalid || !userDataForm.touched || (userDataForm.valid && userDataForm.pristine)"
+                        mdbWavesEffect>Sacuvaj izmene</button>
+                </div>
+
+            </form>
+
+            <small *ngIf="successMsg" class="text-success"> {{successMsg}} </small>
+            <small *ngIf="errorMsg" class="text-danger"> {{errorMsg}} </small>
+
+        </mdb-card-text>
+    </mdb-card-body>
+</mdb-card>
