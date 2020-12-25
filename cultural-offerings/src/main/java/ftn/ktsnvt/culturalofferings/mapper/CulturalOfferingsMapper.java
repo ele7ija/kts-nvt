@@ -2,6 +2,9 @@ package ftn.ktsnvt.culturalofferings.mapper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -9,18 +12,23 @@ import org.springframework.stereotype.Component;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
 import ftn.ktsnvt.culturalofferings.model.Comment;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.ImageModel;
 import ftn.ktsnvt.culturalofferings.model.Location;
 import ftn.ktsnvt.culturalofferings.model.News;
 import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.model.Subscription;
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundByNameException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
+import ftn.ktsnvt.culturalofferings.service.ImageService;
 import ftn.ktsnvt.culturalofferings.service.LocationService;
 
 @Component
-public class CulturalOfferingsMapper implements MapperInterface<CulturalOffering, CulturalOfferingDTO>{
+public class CulturalOfferingsMapper{
 
     @Autowired
     private CulturalOfferingService culturalOfferingService;
@@ -33,65 +41,49 @@ public class CulturalOfferingsMapper implements MapperInterface<CulturalOffering
     
     @Autowired
     private CulturalOfferingSubtypeService subtypeService;
+    
+    @Autowired 
+    private ImageService imageService;
 
-    // this method is called when someone edits CulturalOffering
-    // images cannot be changed through changing ids in list
-	@Override
-	public CulturalOffering toEntity(CulturalOfferingDTO dto)  {
-		CulturalOffering offering = culturalOfferingService.findOne(dto.getId());
+	public CulturalOffering toEntity(CulturalOfferingDTO dto, Long id) {
+		Location location = toLocation(dto.getLocationId(), dto.getLongitude(), dto.getLatitude(), dto.getName());
 		
-		/*
-		if(offering == null ) {
-			throw new Exception("Cultural offering with given id doesn't exist");
+		List<ImageModel> imgList = imageService.findAll(dto.getImageIds());
+		Set<ImageModel> imgSet = imgList.stream().collect(Collectors.toSet());
+		
+		CulturalOfferingType type = typeService.findName(dto.getCulturalOfferingTypeName());
+		CulturalOfferingSubType subtype = subtypeService.findName(dto.getCulturalOfferingSubtypeName());
+		check(type, dto.getCulturalOfferingTypeName(), subtype, dto.getCulturalOfferingSubtypeName());
+
+		if(id == null) {
+			//if id is unknown create new CulturalOffering
+			return new CulturalOffering(
+					dto.getName(),
+					dto.getDescription(),
+					location,
+					imgSet,
+					type,
+					subtype
+					);
 		}
 		
-		// if name changes check if it is unique
-		// throws exception if cannot find type
-    	// throws exception if cannot find subtype
-		*/
-		Location location = toLocation(dto.getId(), dto.getLongitude(), dto.getLatitude());
-		
+		// else, update existing CulturalOffering
+		CulturalOffering offering = culturalOfferingService.findOne(id);
 		offering.setName(dto.getName());
 		offering.setDescription(dto.getDescription());
 		offering.setLocation(location);
-		offering.setCulturalOfferingType(typeService.findName(dto.getCulturalOfferingTypeName()));
-		offering.setCulturalOfferingSubType(subtypeService.findName(dto.getCulturalOfferingSubtypeName()));
-		
-		
+		offering.getImages().clear();
+		offering.getImages().addAll(imgSet);
+		offering.setCulturalOfferingType(type);
+		offering.setCulturalOfferingSubType(subtype);
 		return offering;
+		
 	}
-    
-	// this method is called when someone adds CulturalOffering
-    public CulturalOffering toNewEntity(CulturalOfferingDTO dto) {
-    	// warning: possibility of duplicating Locations without checking if location exists
-    	// throws exception if name exists
-    	// throws exception if cannot find type
-    	// throws exception if cannot find subtype
-    	
-    	return new CulturalOffering(
-	    	dto.getName(), 
-			dto.getDescription(), 
-			new Location(dto.getLongitude(), dto.getLatitude(), dto.getLocationName()), 
-			new HashSet<Rating>(),
-			new HashSet<Comment>(), 
-			new HashSet<Subscription>(), 
-			new HashSet<News>(),
-			new HashSet<ImageModel>(),
-			typeService.findName(dto.getCulturalOfferingTypeName()),
-			subtypeService.findName(dto.getCulturalOfferingSubtypeName())
-    	);
-    }
 
-	@Override
 	public CulturalOfferingDTO toDto(CulturalOffering entity) {
 		Location location = entity.getLocation();
-		ArrayList<Long> images = new ArrayList<Long>();
-		for(ImageModel i : entity.getImages()) {
-			images.add(i.getId());
-		}
 		
 		return new CulturalOfferingDTO(
-			entity.getId(), 
 			entity.getName(), 
 			entity.getDescription(), 
 			location.getId(), 
@@ -100,21 +92,41 @@ public class CulturalOfferingsMapper implements MapperInterface<CulturalOffering
 			location.getName(), 
 			entity.getCulturalOfferingType().getTypeName(),
 			entity.getCulturalOfferingSubType().getSubTypeName(),
-			images
+			entity.getImages()
+				.stream()
+	            .map(image -> image.getId())
+	            .collect(Collectors.toList())
 		); 
 	}
 
-    public Location toLocation(Long id, float longitude, float latitude) {
-    	Location location = locationService.findOne(id);
-    	/*
-    	if(location == null) {
-    		throw new Exception("Location with given id doesn't exist");
-    	}*/
+    private Location toLocation(Long id, float longitude, float latitude, String name) {
+    	// if creating new Location
+    	if(id == null) {
+    		Location location = new Location(longitude, latitude, name);
+    		return locationService.create(location);
+    	}
     	
+    	// if updating existing location
+    	Location location = locationService.findOne(id);
+    	
+    	if(location == null) {
+    		throw new EntityNotFoundException(id, Location.class);
+    	}
+
     	location.setLongitude(longitude);
     	location.setLatitude(latitude);
+    	location.setName(name);
     	
-    	return location;
+    	return locationService.update(location, id);
+    }
+    
+    private void check(CulturalOfferingType type, String typeName, CulturalOfferingSubType subtype, String subtypeName) {
+    	if(type == null) {
+    		throw new EntityNotFoundByNameException(typeName, CulturalOfferingType.class);
+    	}
+    	if(subtype == null) {
+    		throw new EntityNotFoundByNameException(subtypeName, CulturalOfferingSubType.class);
+    	}
     }
 
 }
