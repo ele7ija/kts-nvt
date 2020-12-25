@@ -35,6 +35,9 @@ public class UserService implements ServiceInterface<User> {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CredentialsHelper credentialsHelper;
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -76,6 +79,7 @@ public class UserService implements ServiceInterface<User> {
         if (optional.isEmpty()) {
             throw new EntityNotFoundException(id, User.class);
         }
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         return userRepository.save(userRepository.save(entity));
     }
 
@@ -143,7 +147,7 @@ public class UserService implements ServiceInterface<User> {
 
     public void changePassword(String oldPassword, String newPassword) {
     	// get email from Security Context
-        String email = CredentialsHelper.getUserEmailFromToken();
+        String email = credentialsHelper.getUserEmailFromToken();
         User user = findByEmail(email);
         
         // check if provided old password matches saved old password
@@ -159,7 +163,7 @@ public class UserService implements ServiceInterface<User> {
     
     public void ChangePersonalData(String firstName, String lastName) {
     	// get email from Security Context
-        String email = CredentialsHelper.getUserEmailFromToken();
+        String email = credentialsHelper.getUserEmailFromToken();
         User user = findByEmail(email);
         
         user.setFirstName(firstName);
@@ -169,7 +173,7 @@ public class UserService implements ServiceInterface<User> {
     
     public ChangeUserDataDTO getUserData() {
     	// get email from Security Context
-        String email = CredentialsHelper.getUserEmailFromToken();
+        String email = credentialsHelper.getUserEmailFromToken();
         User user = findByEmail(email);
         
         return new ChangeUserDataDTO(

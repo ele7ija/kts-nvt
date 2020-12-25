@@ -2,6 +2,7 @@ insert into user(id, email, password, first_name, last_name, role, enabled) valu
 insert into user(id, email, password, first_name, last_name, role, enabled) values(2, "milan.milan@gmail.com", "$2y$10$/PQ6flYUXDYQUyqUPYB4BeaGfw9EVWest0Qg1s8LBmybjAEiglbIK", "Milan", "Milan", "ADMIN", true);
 insert into user(id, email, password, first_name, last_name, role, enabled) values(3, "pera.pera@gmail.com", "$2y$10$fKJLrmLX5b8DEA2iIV9BJ.attAgPF7boOv63z6.aGh0Bb8YUKavDC", "Pera", "Pera", "SUPER_ADMIN", true);
 insert into user(id, email, password, first_name, last_name, role, enabled) values(4, "ana.ana@gmail.com", "$2a$10$5//2XuWiARzPIzj9z8Vv.uqN2Pv9J..W1rzyLVLKlhaILY4vP/mMi", "Ana", "Ana", "SUPER_ADMIN", true);
+insert into user(id, email, password, first_name, last_name, role, enabled) values(5, "sanja.sanjic@gmail.com", "$2a$10$5//2XuWiARzPIzj9z8Vv.uqN2Pv9J..W1rzyLVLKlhaILY4vP/mMi", "Sanja", "Sanja", "USER", false);
 
 insert into image_model(id, name, pic_byte, type) values(1, "Image 1", NULL, "png");
 insert into image_model(id, name, pic_byte, type) values(2, "Image 2", NULL, "png");
@@ -37,3 +38,5 @@ insert into news(id, date, text, title, cultural_offering_id, user_id) values (1
 insert into subscription(id, cultural_offering_id, user_id) values (10, 10, 1);
 insert into subscription(id, cultural_offering_id, user_id) values (11, 11, 1);
 insert into subscription(id, cultural_offering_id, user_id) values (12, 12, 1);
+
+insert into verification_token(id, expiry_date, token, user_id) values(1, null, "token", 5);

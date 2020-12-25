@@ -12,12 +12,17 @@ import { SignInService } from './services/security/sign-in-service/sign-in.servi
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { MustMatchDirective } from './shared/validators/must-match/must-match.directive';
+import { ChangePasswordComponent } from './components/forms/change-password/change-password.component';
+import { ChangeUserDataComponent } from './components/forms/change-user-data/change-user-data.component';
+import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    MustMatchDirective
+    MustMatchDirective,
+    ChangePasswordComponent,
+    ChangeUserDataComponent
   ],
   imports: [
     BrowserModule,
@@ -29,10 +34,7 @@ import { MustMatchDirective } from './shared/validators/must-match/must-match.di
     MDBBootstrapModule.forRoot()
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
-    ApiService,
-    AuthService,
-    SignInService
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

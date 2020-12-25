@@ -11,7 +11,9 @@ public class TestUtil {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         
-        return mapper.writeValueAsString(object);
+        String temp = mapper.writeValueAsString(object);
+        System.out.println(temp);
+        return temp;
     }
 
 }
