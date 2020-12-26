@@ -34,9 +34,13 @@ insert into comment(id, date, text, cultural_offering_id, user_id) values (12, "
 insert into news(id, date, text, title, cultural_offering_id, user_id) values (10, "2020-12-09 22:03:11.547", "Bice otvoreno do x.x.", "Nova izlozba se otvara", 10, 2);
 insert into news(id, date, text, title, cultural_offering_id, user_id) values (11, "2020-12-09 22:03:11.547", "Neki tekst", "Spomenik je obnovljen", 11, 2);
 insert into news(id, date, text, title, cultural_offering_id, user_id) values (12, "2020-12-09 22:03:11.547", "Festival se ne odrzava ove godine", "Festival otkazan", 11, 2);
+insert into news(id, date, text, title, cultural_offering_id, user_id) values (13, "2020-12-09 22:03:11.547", "Festival se ne odrzava ove godine", "Festival otkazan", 10, 3); -- to update
+insert into news(id, date, text, title, cultural_offering_id, user_id) values (14, "2020-12-09 22:03:11.547", "Festival se ne odrzava ove godine", "Festival otkazan", 10, 3); -- to delete
 
 insert into subscription(id, cultural_offering_id, user_id) values (10, 10, 1);
 insert into subscription(id, cultural_offering_id, user_id) values (11, 11, 1);
 insert into subscription(id, cultural_offering_id, user_id) values (12, 12, 1);
+insert into subscription(id, cultural_offering_id, user_id) values (13, 12, 3); -- to update
+insert into subscription(id, cultural_offering_id, user_id) values (14, 12, 1); -- to delete
 
 insert into verification_token(id, expiry_date, token, user_id) values(1, null, "token", 5);

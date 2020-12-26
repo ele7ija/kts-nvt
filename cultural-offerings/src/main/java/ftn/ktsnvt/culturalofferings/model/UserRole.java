@@ -15,7 +15,9 @@ public enum UserRole {
             NEWS_READ, REVIEW_READ,
             REVIEW_WRITE,
             CULTURAL_OFFERING_TYPE_READ,
-            CULTURAL_OFFERING_SUB_TYPE_READ))),
+            CULTURAL_OFFERING_SUB_TYPE_READ,
+            SUBSCRIPTION_READ,
+            SUBSCRIPTION_WRITE))),
 
     ADMIN(new HashSet<>(Arrays.asList(
             CULTURAL_OFFERING_READ,
@@ -28,7 +30,9 @@ public enum UserRole {
             CULTURAL_OFFERING_TYPE_READ,
             CULTURAL_OFFERING_TYPE_WRITE,
             CULTURAL_OFFERING_SUB_TYPE_READ,
-            CULTURAL_OFFERING_SUB_TYPE_WRITE))),
+            CULTURAL_OFFERING_SUB_TYPE_WRITE,
+            SUBSCRIPTION_READ,
+            SUBSCRIPTION_WRITE))),
 
     SUPER_ADMIN(new HashSet<>(Arrays.asList(
             CULTURAL_OFFERING_READ,
@@ -42,7 +46,9 @@ public enum UserRole {
             CULTURAL_OFFERING_TYPE_READ,
             CULTURAL_OFFERING_TYPE_WRITE,
             CULTURAL_OFFERING_SUB_TYPE_READ,
-            CULTURAL_OFFERING_SUB_TYPE_WRITE)));
+            CULTURAL_OFFERING_SUB_TYPE_WRITE,
+            SUBSCRIPTION_READ,
+            SUBSCRIPTION_WRITE)));
 
     private final Set<UserPermission> permissions;
 

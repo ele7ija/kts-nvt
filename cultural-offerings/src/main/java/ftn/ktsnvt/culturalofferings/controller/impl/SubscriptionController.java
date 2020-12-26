@@ -13,26 +13,31 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
+import javax.print.attribute.standard.PageRanges;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class SubscriptionController implements SubscriptionApi {
 
-    private static final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
+    // private static final Logger log = LoggerFactory.getLogger(SubscriptionController.class);
 
-    private final ObjectMapper objectMapper;
+    // private final ObjectMapper objectMapper;
 
-    private final HttpServletRequest request;
+    // private final HttpServletRequest request;
 
     @Autowired
     private SubscriptionMapper mapper;
@@ -41,12 +46,11 @@ public class SubscriptionController implements SubscriptionApi {
     private SubscriptionService subscriptionService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public SubscriptionController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
+    public SubscriptionController() {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('SUBSCRIPTION:write')")
     public ResponseEntity<SubscriptionDTO> createSubscription(@Valid SubscriptionDTO body, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -60,25 +64,36 @@ public class SubscriptionController implements SubscriptionApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('SUBSCRIPTION:write')")
     public ResponseEntity<Void> deleteSubscription(Long id) {
         subscriptionService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('SUBSCRIPTION:read')")
     public ResponseEntity<SubscriptionDTO> getSubscriptionByID(Long id) {
         Subscription subscription = subscriptionService.findOne(id);
         return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Page<SubscriptionDTO>> getAllSubscriptions(Pageable pageable) {
+    @PreAuthorize("hasAuthority('SUBSCRIPTION:read')")
+    public ResponseEntity<List<SubscriptionDTO>> getAllSubscriptions() {
+        List<Subscription> ss = subscriptionService.findAll();
+        List<SubscriptionDTO> dtos = ss.stream()
+                                        .map(s -> mapper.toDto(s))
+                                        .collect(Collectors.toList());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('SUBSCRIPTION:read')")
+    public ResponseEntity<List<SubscriptionDTO>> getAllSubscriptionsByPage(int pageIndex, int pageSize) {
         Page<Subscription> page;
-        Page<SubscriptionDTO> dtopage;
-        page = subscriptionService.findAll(pageable);
-        List<SubscriptionDTO> dtos = toSubscriptionDTOList(page.toList());
-        dtopage = new PageImpl<>(dtos,page.getPageable(),page.getTotalElements());
-        return new ResponseEntity<>(dtopage, HttpStatus.OK);
+        page = subscriptionService.findAll(PageRequest.of(pageIndex, pageSize));
+        List<SubscriptionDTO> dtos = toSubscriptionDTOList(page.getContent());
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     private List<SubscriptionDTO> toSubscriptionDTOList(List<Subscription> subscriptions) {
@@ -90,6 +105,7 @@ public class SubscriptionController implements SubscriptionApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('SUBSCRIPTION:write')")
     public ResponseEntity<SubscriptionDTO> updateSubscription(@Valid SubscriptionDTO dto, BindingResult bindingResult, Long id) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -101,6 +117,4 @@ public class SubscriptionController implements SubscriptionApi {
         Subscription subscription = subscriptionService.update(mapper.toEntity(dto), id);
         return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.OK);
     }
-
-
 }

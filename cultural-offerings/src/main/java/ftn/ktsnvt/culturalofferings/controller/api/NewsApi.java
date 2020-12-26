@@ -4,12 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
+
+import java.util.List;
 
 @RequestMapping(value = "/news")
 public interface NewsApi {
@@ -30,10 +29,16 @@ public interface NewsApi {
         method = RequestMethod.GET)
     ResponseEntity<NewsDTO> getNewsByID(@PathVariable("id") Long id);
 
-    @RequestMapping(value = "",
+    @RequestMapping(value = "/all",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Page<NewsDTO>> getAllNews(Pageable pageable);
+    ResponseEntity<List<NewsDTO>> getAllNews();
+
+    @RequestMapping(value = "/all/by-page",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<List<NewsDTO>> getAllNewsByPage(@RequestParam("page") int pageIndex,
+                                                   @RequestParam("size") int pageSize);
 
     @RequestMapping(value = "/{id}",
         produces = { "application/json" }, 
