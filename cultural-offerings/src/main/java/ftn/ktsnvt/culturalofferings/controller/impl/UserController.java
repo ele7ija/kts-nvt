@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -33,6 +34,7 @@ public class UserController implements UserApi {
     private UserMapper userMapper;
 
     @Override
+    @PreAuthorize("hasAuthority('USER:read')")
     public ResponseEntity<List<UserDTO>> findAll() {
         return new ResponseEntity<>(
                 userService.findAll().stream().map(x -> userMapper.toDto(x)).collect(Collectors.toList()),
@@ -41,6 +43,7 @@ public class UserController implements UserApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:read')")
     public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
         Page<User> page = userService.findAll(pageable);
 
@@ -55,6 +58,7 @@ public class UserController implements UserApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:read')")
     public ResponseEntity<UserDTO> findOne(Long id) {
         User user = userService.findOne(id);
         return new ResponseEntity<>(
@@ -64,6 +68,7 @@ public class UserController implements UserApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:write')")
     public ResponseEntity<UserDTO> create(@Valid UserDTO body, BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -80,6 +85,7 @@ public class UserController implements UserApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:write')")
     public ResponseEntity<UserDTO> update(@Valid UserDTO body, BindingResult bindingResult, Long id) {
         if(bindingResult.hasErrors()){
             throw new RequestBodyBindingFailedException(
@@ -91,11 +97,12 @@ public class UserController implements UserApi {
         User user = userService.update(userMapper.toEntity(body), id);
         return new ResponseEntity<>(
                 userMapper.toDto(user),
-                HttpStatus.CREATED
+                HttpStatus.OK
         );
     }
 
     @Override
+    @PreAuthorize("hasAuthority('USER:write')")
     public ResponseEntity<Void> delete(Long id) {
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
