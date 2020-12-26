@@ -21,7 +21,8 @@ public class CulturalOfferingConstants {
     static final int TOTAL_PAGES = 2;
     static final int UNREACHABLE_PAGE_NUMBER = 5;
     
-
-
+    static final long EXISTING_LOCATION_ID = 10l;
+    static final String EXISTING_TYPE_NAME = "Kulturno dobro";
+    static final String EXISTING_SUBTYPE_NAME = "Spomenik";    
 	
 }
