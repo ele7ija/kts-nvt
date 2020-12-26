@@ -4,21 +4,24 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 
 public class CulturalOfferingDTO {
 	
-	private Long id;
-	
 	@NotBlank(message = "Cultural offering name cannot be empty")
 	private String name;
 	
+	// can be empty
 	private String description;
 	
 	private Long locationId;
 	
+	@NotNull(message = "Location longitude must be provided")
 	private float longitude;
 
+	@NotNull(message = "Location latitude id must be provided")
     private float latitude;
 
     @NotBlank(message = "Location name cannot be empty")
@@ -34,10 +37,9 @@ public class CulturalOfferingDTO {
     
     public CulturalOfferingDTO() {}
     
-	public CulturalOfferingDTO(Long id, String name, String description, Long locationId, float longitude, float latitude,
+	public CulturalOfferingDTO(String name, String description, Long locationId, float longitude, float latitude,
 			String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName, List<Long> imageIds) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.locationId = locationId;
@@ -47,26 +49,6 @@ public class CulturalOfferingDTO {
 		this.culturalOfferingTypeName = culturalOfferingTypeName;
 		this.culturalOfferingSubtypeName = culturalOfferingSubtypeName;
 		this.imageIds = imageIds;
-	}
-
-	public CulturalOfferingDTO(String name, String description, float longitude, float latitude,
-			String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.longitude = longitude;
-		this.latitude = latitude;
-		this.locationName = locationName;
-		this.culturalOfferingTypeName = culturalOfferingTypeName;
-		this.culturalOfferingSubtypeName = culturalOfferingSubtypeName;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getName() {

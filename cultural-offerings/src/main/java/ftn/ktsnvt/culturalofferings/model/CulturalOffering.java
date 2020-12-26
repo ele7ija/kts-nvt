@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.model;
 
 import javax.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -57,6 +58,21 @@ public class CulturalOffering {
 		this.comments = comments;
 		this.subscriptions = subscriptions;
 		this.news = news;
+		this.culturalOfferingType = culturalOfferingType;
+		this.culturalOfferingSubType = culturalOfferingSubType;
+		this.images = images;
+	}
+    
+    public CulturalOffering(String name, String description, Location location, Set<ImageModel> images,
+			CulturalOfferingType culturalOfferingType, CulturalOfferingSubType culturalOfferingSubType) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.location = location;
+		this.ratings = new HashSet<Rating>();
+		this.comments = new HashSet<Comment>();
+		this.subscriptions = new HashSet<Subscription>();
+		this.news = new HashSet<News>();
 		this.culturalOfferingType = culturalOfferingType;
 		this.culturalOfferingSubType = culturalOfferingSubType;
 		this.images = images;

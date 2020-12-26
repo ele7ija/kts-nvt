@@ -63,8 +63,14 @@ public class ExceptionHandlingAdvice {
     
     @ExceptionHandler(PasswordsNotMatchException.class)
     public ResponseEntity<Error> getError(PasswordsNotMatchException e){
-    	String message = "Wrong current password. Changing password denied for user with email:" + e.getEmail();
+    	String message = "Wrong current password. Changing password denied for user with email: " + e.getEmail();
     	return new ResponseEntity<Error>(new Error(message), HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler(UniqueEntityConstraintViolationException.class)
+    public ResponseEntity<Error> getError(UniqueEntityConstraintViolationException e){
+        String message =  "Entity " + e.getClassObject().getName() + " with name " + e.getName() + " already exists! Make sure your request is valid!";
+        return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
 }

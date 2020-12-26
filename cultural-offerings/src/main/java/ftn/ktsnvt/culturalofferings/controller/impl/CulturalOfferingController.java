@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
+import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
 import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,34 +52,34 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         this.request = request;
     }
 
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
     public ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@Valid CulturalOfferingDTO body, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new RequestBodyBindingFailedException(
-                    bindingResult.getFieldErrors().get(0).getField(),
-                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
-                    CulturalOffering.class
-            );
-        }
-    	CulturalOffering culturalOffering = culturalOfferingService.create(culturalOfferingsMapper.toNewEntity(body));
+    	DTOValidationHelper.validateDTO(bindingResult);
+    	CulturalOffering culturalOffering = culturalOfferingService.create(culturalOfferingsMapper.toEntity(body, null));
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.CREATED);
     }
     
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
     public ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@Valid CulturalOfferingDTO body, BindingResult bindingResult, @PathVariable Long id) {
-    	CulturalOffering culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body), id);
+		DTOValidationHelper.validateDTO(bindingResult);
+    	CulturalOffering culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body, id), id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
     public ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") Long id) {
     	culturalOfferingService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
     public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id) {
     	CulturalOffering culturalOffering = culturalOfferingService.findOne(id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
     public ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable) {
         Page<CulturalOffering> page = culturalOfferingService.findAll(pageable);
 
