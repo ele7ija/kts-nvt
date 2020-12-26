@@ -99,7 +99,7 @@ public class CulturalOfferingsMapper{
 		); 
 	}
 
-    private Location toLocation(Long id, float longitude, float latitude, String name) {
+    public Location toLocation(Long id, float longitude, float latitude, String name) {
     	// if creating new Location
     	if(id == null) {
     		Location location = new Location(longitude, latitude, name);
