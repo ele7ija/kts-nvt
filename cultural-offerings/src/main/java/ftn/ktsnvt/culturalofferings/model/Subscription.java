@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 public class Subscription {
@@ -42,4 +43,15 @@ public class Subscription {
         this.user = user;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Subscription s = (Subscription) o;
+        return Objects.equals(id, s.getId());
+    }
 }

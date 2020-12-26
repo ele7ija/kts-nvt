@@ -13,9 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -30,10 +32,6 @@ public class NewsController implements NewsApi {
 
     private static final Logger log = LoggerFactory.getLogger(NewsController.class);
 
-    private final ObjectMapper objectMapper;
-
-    private final HttpServletRequest request;
-
     @Autowired
     private NewsMapper newsMapper;
 
@@ -41,12 +39,12 @@ public class NewsController implements NewsApi {
     private NewsService newsService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public NewsController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
+    public NewsController() {
+
     }
 
     @Override
+    @PreAuthorize("hasAuthority('NEWS:write')")
     public ResponseEntity<NewsDTO> createNews(@Valid NewsDTO body, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new RequestBodyBindingFailedException(
@@ -60,25 +58,35 @@ public class NewsController implements NewsApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('NEWS:write')")
     public ResponseEntity<Void> deleteNews(Long id) {
         newsService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     @Override
+    @PreAuthorize("hasAuthority('NEWS:read')")
     public ResponseEntity<NewsDTO> getNewsByID(Long id) {
         News news = newsService.findOne(id);
         return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Page<NewsDTO>> getAllNews(Pageable pageable) {
+    @PreAuthorize("hasAuthority('NEWS:read')")
+    public ResponseEntity<List<NewsDTO>> getAllNews() {
+        List<News> news = newsService.findAll();
+        List<NewsDTO> dtos = toNewsDTOList(news);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('NEWS:read')")
+    public ResponseEntity<List<NewsDTO>> getAllNewsByPage(int pageIndex, int pageSize) {
         Page<News> page;
         Page<NewsDTO> dtopage;
-        page = newsService.findAll(pageable);
+        page = newsService.findAll(PageRequest.of(pageIndex, pageSize));
         List<NewsDTO> dtos = toNewsDTOList(page.toList());
-        dtopage = new PageImpl<>(dtos,page.getPageable(),page.getTotalElements());
-        return new ResponseEntity<>(dtopage, HttpStatus.OK);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
     private List<NewsDTO> toNewsDTOList(List<News> news) {
@@ -90,6 +98,7 @@ public class NewsController implements NewsApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('NEWS:write')")
     public ResponseEntity<NewsDTO> updateNews(@Valid NewsDTO body, BindingResult bindingResult, Long id) {
         if (bindingResult.hasErrors()) {
             throw new RequestBodyBindingFailedException(
@@ -101,6 +110,4 @@ public class NewsController implements NewsApi {
         News news = newsService.update(newsMapper.toEntity(body), id);
         return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
     }
-
-    
 }
