@@ -23,6 +23,13 @@ public class CulturalOfferingConstants {
     
     static final long EXISTING_LOCATION_ID = 10l;
     static final String EXISTING_TYPE_NAME = "Kulturno dobro";
-    static final String EXISTING_SUBTYPE_NAME = "Spomenik";    
+    static final String EXISTING_SUBTYPE_NAME = "Spomenik"; 
+    
+    // contrpller constants
+    static final String READ_AUTHORITY = "CULTURAL_OFFERING:read";
+    static final String WRITE_AUTHORITY = "CULTURAL_OFFERING:write";
+    
+    static final String NON_EXISTING_SUBTYPE_NAME = "Rezervat";
+
 	
 }
