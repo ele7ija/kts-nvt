@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/com
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
+import { PageableRequest } from 'src/app/model/pageable-request/pageable-request';
 
 export enum RequestMethod {
   Get = 'GET',
@@ -24,6 +25,11 @@ export class ApiService {
   });
 
   constructor(private http: HttpClient) {
+  }
+
+  getByPage(path: string, pageableRequest: PageableRequest): Observable<any> {
+    return this.get(
+      `${path}?page=${pageableRequest.page}&size=${pageableRequest.size}&sort=${pageableRequest.sort},${pageableRequest.sortOrder}`);
   }
 
   get(path: string, customHeaders?: HttpHeaders): Observable<any> {

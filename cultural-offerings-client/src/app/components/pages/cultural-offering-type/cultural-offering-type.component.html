@@ -1,23 +1,51 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <mat-spinner 
-                *ngIf="isLoading"
-                class="mx-auto my-3"
-            >
-            </mat-spinner>
-            <ul 
-                *ngIf="!isLoading"
-            >
-                <li 
-                    *ngFor="let culturalOfferingType of culturalOfferingTypes"
-                >
-                    {{culturalOfferingType.typeName}}
-                </li>
-            </ul>
-        </div>
-        <div class="col-12">
-            
-        </div>
-    </div>
+<div class="example-container mat-elevation-z8">
+	<div 
+		*ngIf="isLoading || fetchFailure"
+		class="example-loading-shade"
+	>
+		<mat-spinner
+			*ngIf="isLoading">
+		</mat-spinner>
+		<div 
+			*ngIf="fetchFailure"
+			class="example-rate-limit-reached"
+		>
+			Failed to fetch data from the API
+		</div>
+	</div>
+
+	<div class="example-table-container">
+		<table
+			mat-table
+			[dataSource]="culturalOfferingTypes"
+			class="example-table"
+			matSort
+			matSortActive="id"
+			matSortDirection="desc"
+			matSortDisableClear
+		>
+			<!-- ID Column -->
+			<ng-container matColumnDef="id">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+				<td mat-cell *matCellDef="let row">{{row.id}}</td>
+			</ng-container>
+
+			<!-- Type name Column -->
+			<ng-container matColumnDef="typeName">
+				<th mat-header-cell *matHeaderCellDef mat-sort-header>Type name</th>
+				<td mat-cell *matCellDef="let row">{{row.typeName}}</td>
+			</ng-container>
+
+			<!-- Image Id Column -->
+			<ng-container matColumnDef="imageId">
+				<th mat-header-cell *matHeaderCellDef>Image id</th>
+				<td mat-cell *matCellDef="let row">{{row.imageId}}</td>
+			</ng-container>
+
+			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		</table>
+	</div>
+
+	<mat-paginator [length]="totalLength" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>
 </div>

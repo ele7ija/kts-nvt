@@ -16,7 +16,9 @@ import { ChangePasswordComponent } from './components/forms/change-password/chan
 import { ChangeUserDataComponent } from './components/forms/change-user-data/change-user-data.component';
 import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
 import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     ReactiveFormsModule,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
-    MatProgressSpinnerModule
+    
+    //material design components
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
