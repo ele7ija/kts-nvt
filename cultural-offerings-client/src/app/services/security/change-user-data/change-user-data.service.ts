@@ -16,7 +16,7 @@ export class ChangeUserDataService {
 
   // get personal data of logged-in user
   getDataRequest() : Observable<any>{
-    return this.apiService.get(this.getUrl, this.apiService.headers);
+    return this.apiService.get(this.getUrl);
   }
 
   changeDataRequest(request: UserData) : Observable<any>{

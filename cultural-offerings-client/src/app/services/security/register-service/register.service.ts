@@ -14,7 +14,7 @@ export class RegisterService {
   constructor(private apiService: ApiService) { }
 
   sendRegistrationRequest(request: RegisterUser) : Observable<any>{
-    return this.apiService.post(this.registrationUrl, request, this.apiService.headers);
+    return this.apiService.post(this.registrationUrl, request);
   }
 
 }

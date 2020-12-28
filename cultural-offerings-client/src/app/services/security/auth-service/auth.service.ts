@@ -7,10 +7,10 @@ import { catchError, map } from 'rxjs/operators';
 import { SignInService } from '../sign-in-service/sign-in.service';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import jwtDecode from 'jwt-decode';
 
 const TOKEN_KEY = 'jwt-token';
-const EMAIL_KEY = 'user-email';
-const ROLE_KEY = 'user-roles';
+const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 
 @Injectable({
   providedIn: 'root'
@@ -23,21 +23,15 @@ export class AuthService {
 
   constructor(private apiService: ApiService, private signInService: SignInService, private router: Router) {}
 
-  headers = new HttpHeaders({
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  });
-
   signin(user : SignInUser) {
     const body = {
       'email' : user.email,
       'password' : user.password
     };
-    return this.apiService.post(this.signInUrl, JSON.stringify(body), this.headers).pipe(
+    return this.apiService.post(this.signInUrl, JSON.stringify(body)).pipe(
       map((res) => {
         console.log('Login success');
         this.saveToken(res.jwt);
-        this.saveEmail(user.email);
         return true;
       })
     );
@@ -56,19 +50,24 @@ export class AuthService {
   saveToken(token: string): void {
     window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.setItem(TOKEN_KEY, token);
+
+    window.sessionStorage.removeItem(TOKEN_KEY_PARSED);
+    const decodedToken: string = JSON.stringify(jwtDecode(token));
+    window.sessionStorage.setItem(TOKEN_KEY_PARSED, decodedToken);
   }
 
   getToken(): string {
     return sessionStorage.getItem(TOKEN_KEY);
   }
 
-  saveEmail(email: string): void {
-    window.sessionStorage.removeItem(EMAIL_KEY);
-    window.sessionStorage.setItem(EMAIL_KEY, email);
+  getTokenParsed(): string {
+    return sessionStorage.getItem(TOKEN_KEY_PARSED);
   }
 
   getEmail(): string {
-    return sessionStorage.getItem(EMAIL_KEY);
+    return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.email;
   }
+
+  
 
 }
