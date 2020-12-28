@@ -9,7 +9,7 @@ import { CulturalOfferingType } from 'src/app/model/cultural-offering-type/cultu
 })
 export class CulturalOfferingTypeService {
 
-  private endpoint: string = environment.baseUrl + '/auth/cultural-offerings-types'
+  private endpoint: string = environment.baseUrl + '/cultural-offerings-types'
 
   constructor(private apiService: ApiService) {}
 

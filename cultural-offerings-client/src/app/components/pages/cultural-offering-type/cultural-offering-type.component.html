@@ -1,4 +1,23 @@
-<div>
-    TODO
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <mat-spinner 
+                *ngIf="isLoading"
+                class="mx-auto my-3"
+            >
+            </mat-spinner>
+            <ul 
+                *ngIf="!isLoading"
+            >
+                <li 
+                    *ngFor="let culturalOfferingType of culturalOfferingTypes"
+                >
+                    {{culturalOfferingType.typeName}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-12">
+            
+        </div>
+    </div>
 </div>

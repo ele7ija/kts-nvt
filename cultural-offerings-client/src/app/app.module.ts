@@ -16,6 +16,7 @@ import { ChangePasswordComponent } from './components/forms/change-password/chan
 import { ChangeUserDataComponent } from './components/forms/change-user-data/change-user-data.component';
 import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
 import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CulturalOfferingTypeComponent } from './components/pages/cultural-offer
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    MatProgressSpinnerModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
