@@ -79,7 +79,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(authorities = READ_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void createTestFail() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(NEW_ENTITY_EMAIL);
@@ -103,7 +103,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void createTestSucceed() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(NEW_ENTITY_EMAIL);
@@ -129,7 +129,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void updateTestFail1() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(UPDATE_ENTITY_EMAIL);
@@ -153,7 +153,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void updateTestSucceed() throws Exception {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(UPDATE_ENTITY_EMAIL);
@@ -180,7 +180,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void deleteTestFail1() throws Exception {
         mockMvc.perform(delete("/users/{id}", NON_EXISTENT_ENTITY_ID))
                 .andExpect(status().isNotFound());
@@ -189,7 +189,7 @@ public class UserControllerTest {
     @Test
     @WithMockUser(authorities = {READ_AUTHORITY, WRITE_AUTHORITY})
     @Transactional
-    @Rollback(true)
+    @Rollback
     public void deleteTestSucceed() throws Exception {
         mockMvc.perform(get("/users/{id}", DELETE_ENTITY_ID))
                 .andExpect(status().isOk());
