@@ -1,4 +1,5 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { CulturalOfferingTypeService } from '../../../services/cultural-offering-type/cultural-offering-type.service';
@@ -6,18 +7,32 @@ import { CulturalOfferingType } from '../../../model/cultural-offering-type/cult
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import { PageableRequest } from 'src/app/model/pageable-request/pageable-request';
+import { Optional } from 'src/app/model/optional/optional';
 
 @Component({
   selector: 'app-cultural-offering-type',
   templateUrl: './cultural-offering-type.component.html',
-  styleUrls: ['./cultural-offering-type.component.scss']
+  styleUrls: ['./cultural-offering-type.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class CulturalOfferingTypeComponent implements AfterViewInit {
+  //table headers and data
   culturalOfferingTypes: CulturalOfferingType[] = [];
-  displayedColumns: string[] = ['id', 'typeName', 'imageId'];
+  displayedColumns: any[] = [{field: 'id', text: 'ID'}, {field: 'typeName', text: 'Type Name'}, {field: 'Actions', text: 'Actions'}];
+  
+  //pagination and sort logic
   fetchFailure: boolean = false;
   isLoading: boolean = true;
   totalLength: number = 0;
+
+  //row expand logic
+  expandedItem: Optional<CulturalOfferingType> = new Optional<CulturalOfferingType>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -54,5 +69,16 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
         })
       )
       .subscribe(data => this.culturalOfferingTypes = data);
+  }
+
+  getHeadersField(): string[]{
+    return this.displayedColumns.map(x => x.field);
+  }
+
+  toggleRow(element: CulturalOfferingType){
+    if(this.expandedItem.value != element)
+      this.expandedItem.value = element;
+    else
+      this.expandedItem.value = null;
   }
 }
