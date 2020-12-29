@@ -1,19 +1,21 @@
-<form [formGroup]="culturalOfferingTypeForm" (ngSubmit)="change()">
+<form [formGroup]="culturalOfferingTypeForm" (ngSubmit)="update()">
     <div class="container-fluid">
 
         <div class="row mb-4">
             
             <div class="col-4">
-                
-                <div class="row m-3">
-                    <div class="col" style="background-color: aqua; min-height: 200px;">
-                        Image
+                <div class="row mt-3">
+                    <div class="col px-0" style="text-align: center;">
+                        <img *ngIf="retrievedImage" [src]="retrievedImage" class="table-row-expand-image">
+                        <img *ngIf="!retrievedImage && !culturalOfferingType.imageId" src="../../../../assets/images/empty.png" class="table-row-expand-image">
+                        <mat-spinner *ngIf="!retrievedImage && culturalOfferingType.imageId" diameter="50" class="align-to-center"></mat-spinner>
                     </div>
                 </div>
                 
-                <div class="row mx-3">
-                    <div class="col" style="background-color: blueviolet;">
-                        File picker
+                <div class="row">
+                    <div class="col px-0 button-wrap" style="text-align: center;">
+                        <label class ="new-button" for=file [style.width.px]="fileButtonWidth"> Upload image </label>
+                        <input type="file" name="file" id="file" (change)="onFileChanged($event)"/>
                     </div>
                 </div>
             
@@ -57,12 +59,4 @@
         </div>
 
     </div>
-    <!--
-        Disable button in cases:
-        - form has errors
-        - form fields are not touched by user
-        - form fields are touched but values are not changed
-    -->
-
-    
 </form>
