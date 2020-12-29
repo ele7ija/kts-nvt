@@ -1,0 +1,68 @@
+<form [formGroup]="culturalOfferingTypeForm" (ngSubmit)="change()">
+    <div class="container-fluid">
+
+        <div class="row mb-4">
+            
+            <div class="col-4">
+                
+                <div class="row m-3">
+                    <div class="col" style="background-color: aqua; min-height: 200px;">
+                        Image
+                    </div>
+                </div>
+                
+                <div class="row mx-3">
+                    <div class="col" style="background-color: blueviolet;">
+                        File picker
+                    </div>
+                </div>
+            
+            </div>
+            
+            <div class="col-8">
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="md-form">
+                            <input type="text" id="typeName" name="typeName" formControlName="typeName" class="form-control"
+                                mdbInput mdbValidate>
+                            <label for="typeName">Naziv</label>
+                    
+                            <div
+                                *ngIf="culturalOfferingTypeForm.controls.typeName.invalid && (culturalOfferingTypeForm.controls.typeName.touched || culturalOfferingTypeForm.controls.typeName.dirty)">
+                                <small class="text-danger" *ngIf="culturalOfferingTypeForm.controls.typeName.errors?.required">
+                                    Obavezno je uneti naziv.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex justify-content-center">
+                            <button 
+                                mdbBtn 
+                                color="default" 
+                                class="waves-light" 
+                                type="submit"
+                                [disabled]="culturalOfferingTypeForm.invalid || !culturalOfferingTypeForm.touched || (culturalOfferingTypeForm.valid && culturalOfferingTypeForm.pristine)"
+                                mdbWavesEffect
+                            >Sacuvaj izmene</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+
+    </div>
+    <!--
+        Disable button in cases:
+        - form has errors
+        - form fields are not touched by user
+        - form fields are touched but values are not changed
+    -->
+
+    
+</form>

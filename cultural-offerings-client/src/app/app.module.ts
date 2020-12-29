@@ -20,6 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { CultrualOfferingTypeDetailsComponent } from './components/forms/cultrual-offering-type-details/cultrual-offering-type-details.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
     MustMatchDirective,
     ChangePasswordComponent,
     ChangeUserDataComponent,
-    CulturalOfferingTypeComponent
+    CulturalOfferingTypeComponent,
+    CultrualOfferingTypeDetailsComponent
   ],
   imports: [
     BrowserModule,

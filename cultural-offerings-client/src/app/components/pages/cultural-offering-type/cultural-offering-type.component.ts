@@ -24,7 +24,7 @@ import { Optional } from 'src/app/model/optional/optional';
 export class CulturalOfferingTypeComponent implements AfterViewInit {
   //table headers and data
   culturalOfferingTypes: CulturalOfferingType[] = [];
-  displayedColumns: any[] = [{field: 'id', text: 'ID'}, {field: 'typeName', text: 'Type Name'}, {field: 'Actions', text: 'Actions'}];
+  displayedColumns: any[] = [{field: 'id', text: 'ID'}, {field: 'typeName', text: 'Naziv'}, {field: 'Actions', text: 'Akcije'}];
   
   //pagination and sort logic
   fetchFailure: boolean = false;
