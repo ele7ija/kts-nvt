@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -177,20 +178,19 @@ public class CulturalOfferingMapperTest {
 		
 	}
 	
-	/*
+	
 	@Test
     public void toLocationTestIdNull() { 
         Location location = new Location(27l, 20.0f, 45.5f, "Trg republike BB");
-		Location givenLocation = new Location(20.0f, 45.5f, "Trg republike BB");
 		
-		when(locationService.create(givenLocation)).thenReturn(location);	
+		when(locationService.create(Mockito.any(Location.class))).thenReturn(location);	
 
 		Location returnedLocation = mapper.toLocation(null, 20.0f, 45.5f, "Trg republike BB");
 		
 		assertNotNull(returnedLocation);
 		
 	}
-	*/
+	
 	
 	@Test(expected = EntityNotFoundException.class)
     public void toLocationTestFails() {
