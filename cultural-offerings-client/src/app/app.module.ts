@@ -20,8 +20,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CultrualOfferingTypeDetailsComponent } from './components/forms/cultrual-offering-type-details/cultrual-offering-type-details.component';
+import { CulturalOfferingSubtypeChipsComponent } from './components/forms/cultural-offering-subtype-chips/cultural-offering-subtype-chips.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { CultrualOfferingTypeDetailsComponent } from './components/forms/cultrua
     ChangePasswordComponent,
     ChangeUserDataComponent,
     CulturalOfferingTypeComponent,
-    CultrualOfferingTypeDetailsComponent
+    CultrualOfferingTypeDetailsComponent,
+    CulturalOfferingSubtypeChipsComponent
   ],
   imports: [
     BrowserModule,
@@ -47,6 +51,8 @@ import { CultrualOfferingTypeDetailsComponent } from './components/forms/cultrua
     MatPaginatorModule,
     MatSortModule,
     MatIconModule,
+    MatChipsModule,
+    MatFormFieldModule,
     MatProgressSpinnerModule
   ],
   providers: [

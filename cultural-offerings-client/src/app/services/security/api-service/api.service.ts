@@ -40,6 +40,10 @@ export class ApiService {
     return this.request(path, body, RequestMethod.Post, customHeaders);
   }
 
+  postFile(path: string, body: any): Observable<any> {
+    return this.http.post(path, body);
+  }
+
   put(path: string, body: any): Observable<any> {
     return this.request(path, body, RequestMethod.Put);
   }

@@ -65,6 +65,7 @@
 							<app-cultrual-offering-type-details
 								*ngIf="element == expandedItem.value"
 								[culturalOfferingType]="element"
+								(updateLocal)="updateLocal($event)"
 								style="width: 100%;"
 							></app-cultrual-offering-type-details>
 						</div>

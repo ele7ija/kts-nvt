@@ -81,4 +81,11 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
     else
       this.expandedItem.value = null;
   }
+
+  updateLocal(event: CulturalOfferingType){
+    const index = this.culturalOfferingTypes.findIndex((item: CulturalOfferingType) => item.id == event.id);
+    this.culturalOfferingTypes.splice(index, 1, event);
+    this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
+    this.expandedItem.value = null;
+  }
 }
