@@ -14,7 +14,7 @@ public class ImageModel {
 	private Long id;
 	
 	// 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String name;
 	
 	@Column(nullable = false)
@@ -22,7 +22,7 @@ public class ImageModel {
 	
 	// image bytes can have large lengths so we specify a value
 	// which is more than the default length for picByte column
-	@Column(length = 1000, nullable = true)
+	@Column(length = 10000000, nullable = true)
 	private byte[] picByte;
 	 
 	public ImageModel() {}

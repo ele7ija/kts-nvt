@@ -73,8 +73,8 @@ public class CulturalOfferingMapperTest {
         		"Trg republike BB, Novi Sad", "type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
-		CulturalOfferingType type = new CulturalOfferingType("type name", new ImageModel());
-		CulturalOfferingSubType subtype = new CulturalOfferingSubType("subtype name", type);
+		CulturalOfferingType type = new CulturalOfferingType(1l, "type name", new ImageModel(), new HashSet<>());
+		CulturalOfferingSubType subtype = new CulturalOfferingSubType(1l, "subtype name", type);
 		CulturalOffering culturalOffering = new CulturalOffering( "New name", "Some description", location, 
 				new HashSet<ImageModel>(), type, subtype);
 		
@@ -100,8 +100,8 @@ public class CulturalOfferingMapperTest {
         		"Trg republike BB, Novi Sad", "type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
-		CulturalOfferingType type = new CulturalOfferingType("type name", new ImageModel());
-		CulturalOfferingSubType subtype = new CulturalOfferingSubType("subtype name", type);
+		CulturalOfferingType type = new CulturalOfferingType(1l, "type name", new ImageModel(), new HashSet<>());
+		CulturalOfferingSubType subtype = new CulturalOfferingSubType(1l,"subtype name", type);
 		CulturalOffering culturalOffering = new CulturalOffering( "New name", "Some description", location, 
 				new HashSet<ImageModel>(), type, subtype);
 		Long id = 32l;
@@ -130,8 +130,8 @@ public class CulturalOfferingMapperTest {
         		"Trg republike BB, Novi Sad", "wrong type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
-		CulturalOfferingType type = new CulturalOfferingType("type name", new ImageModel());
-		CulturalOfferingSubType subtype = new CulturalOfferingSubType("subtype name", type);
+		CulturalOfferingType type = new CulturalOfferingType(1l, "type name", new ImageModel(), new HashSet<>());
+		CulturalOfferingSubType subtype = new CulturalOfferingSubType(1l,"subtype name", type);
 
 		Long id = 32l;
 		
@@ -147,8 +147,8 @@ public class CulturalOfferingMapperTest {
 	@Test
     public void toDtoTest(){
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
-		CulturalOfferingType type = new CulturalOfferingType("type name", new ImageModel());
-		CulturalOfferingSubType subtype = new CulturalOfferingSubType("subtype name", type);
+		CulturalOfferingType type = new CulturalOfferingType(1l, "type name", new ImageModel(), new HashSet<>());
+		CulturalOfferingSubType subtype = new CulturalOfferingSubType(1l,"subtype name", type);
 		
 		CulturalOffering culturalOffering = new CulturalOffering("Cultural offering", "Description", location, 
 				new HashSet<Rating>(), new HashSet<Comment>(), new HashSet<Subscription>(), new HashSet<News>(),

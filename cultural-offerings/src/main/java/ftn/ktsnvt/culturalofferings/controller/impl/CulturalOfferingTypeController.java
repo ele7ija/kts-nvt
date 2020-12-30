@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingTypeApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeUpdateDTO;
 import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.exceptions.RequestBodyBindingFailedException;
@@ -11,10 +12,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -98,6 +102,23 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
             );
         }
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.update(culturalOfferingTypeMapper.toEntity(body), id);
+        return new ResponseEntity<>(
+                culturalOfferingTypeMapper.toDto(culturalOfferingType),
+                HttpStatus.OK
+        );
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:write')")
+    public ResponseEntity<CulturalOfferingTypeDTO> update2(@Valid CulturalOfferingTypeUpdateDTO body, BindingResult bindingResult, Long id) {
+        if(bindingResult.hasErrors()){
+            throw new RequestBodyBindingFailedException(
+                    bindingResult.getFieldErrors().get(0).getField(),
+                    bindingResult.getFieldErrors().get(0).getDefaultMessage(),
+                    CulturalOfferingTypeUpdateDTO.class
+            );
+        }
+        CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.update(culturalOfferingTypeMapper.toEntityAddSubTypes(body), id);
         return new ResponseEntity<>(
                 culturalOfferingTypeMapper.toDto(culturalOfferingType),
                 HttpStatus.OK

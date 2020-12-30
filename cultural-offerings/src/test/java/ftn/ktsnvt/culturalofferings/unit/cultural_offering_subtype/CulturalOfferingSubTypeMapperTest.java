@@ -33,7 +33,7 @@ public class CulturalOfferingSubTypeMapperTest {
     public void toEntityTest(){
         String typeName = "Name";
         long typeId = 5l;
-        CulturalOfferingSubTypeDTO arg = new CulturalOfferingSubTypeDTO(typeName, typeId);
+        CulturalOfferingSubTypeDTO arg = new CulturalOfferingSubTypeDTO(1l, typeName, typeId);
 
         CulturalOfferingType culturalOfferingTypeStub = new CulturalOfferingType();
         culturalOfferingTypeStub.setId(typeId);

@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -52,7 +53,7 @@ public class CulturalOfferingTypeControllerTest {
         culturalOfferingType.setTypeName("Name");
         culturalOfferingTypesStub.add(culturalOfferingType);
 
-        CulturalOfferingTypeDTO culturalOfferingTypeDTOStub = new CulturalOfferingTypeDTO(culturalOfferingType.getTypeName(), null);
+        CulturalOfferingTypeDTO culturalOfferingTypeDTOStub = new CulturalOfferingTypeDTO(1l, culturalOfferingType.getTypeName(), null, new HashSet<>());
 
         when(culturalOfferingTypeService.findAll()).thenReturn(culturalOfferingTypesStub);
         when(culturalOfferingTypeMapper.toDto(culturalOfferingType)).thenReturn(culturalOfferingTypeDTOStub);

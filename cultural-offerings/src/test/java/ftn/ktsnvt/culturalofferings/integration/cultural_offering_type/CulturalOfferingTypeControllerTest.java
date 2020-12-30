@@ -141,6 +141,24 @@ public class CulturalOfferingTypeControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    @WithMockUser(authorities = WRITE_AUTHORITY)
+    @Transactional
+    @Rollback(true)
+    public void updateTestFail3() throws Exception {
+        CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
+        culturalOfferingTypeDTO.setTypeName("");
+        culturalOfferingTypeDTO.setImageId(123456l);
+
+        mockMvc.perform(
+                put("/cultural-offerings-types/{id}", UPDATE_ENTITY_ID)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(TestUtil.json(culturalOfferingTypeDTO))
+        )
+                .andExpect(status().isBadRequest());
+    }
+
+
 
     @Test
     @WithMockUser(authorities = WRITE_AUTHORITY)

@@ -4,12 +4,15 @@ import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
 import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingTypeMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.ImageModel;
+import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
 import ftn.ktsnvt.culturalofferings.service.ImageService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.HashSet;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -21,6 +24,9 @@ public class CulturalOfferingTypeMapperTest {
 
     @Mock
     ImageService imageService;
+
+    @Mock
+    CulturalOfferingSubtypeService culturalOfferingSubtypeService;
 
     @Before
     public void init(){

@@ -77,7 +77,7 @@ public class CulturalOfferingSubTypeControllerTest {
     @Transactional
     @Rollback
     public void createTestFail() throws Exception {
-        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(NEW_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(null, NEW_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
                 post("/cultural-offering-subtypes")
@@ -92,7 +92,7 @@ public class CulturalOfferingSubTypeControllerTest {
     @Transactional
     @Rollback
     public void createTestSucceed() throws Exception {
-        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(NEW_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(null, NEW_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
                 post("/cultural-offering-subtypes")
@@ -108,7 +108,7 @@ public class CulturalOfferingSubTypeControllerTest {
     @Transactional
     @Rollback
     public void updateTestFail1() throws Exception {
-        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(NON_EXISTENT_ENTITY_ID, UPDATE_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
                 put("/cultural-offering-types/{id}", NON_EXISTENT_ENTITY_ID)
@@ -123,7 +123,7 @@ public class CulturalOfferingSubTypeControllerTest {
     @Transactional
     @Rollback
     public void updateTestFail2() throws Exception {
-        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_SUB_TYPE_NAME, 123456l);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(EXISTING_ENTITY_ID, UPDATE_ENTITY_SUB_TYPE_NAME, 123456l);
 
         mockMvc.perform(
                 put("/cultural-offering-subtypes/{id}", EXISTING_ENTITY_ID)
@@ -139,7 +139,7 @@ public class CulturalOfferingSubTypeControllerTest {
     @Transactional
     @Rollback
     public void updateTestSucceed() throws Exception {
-        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
+        CulturalOfferingSubTypeDTO culturalOfferingSubTypeDTO = new CulturalOfferingSubTypeDTO(UPDATE_ENTITY_ID, UPDATE_ENTITY_SUB_TYPE_NAME, EXISTING_ENTITY_CULTURAL_OFFERING_TYPE_ID);
 
         mockMvc.perform(
                 put("/cultural-offering-subtypes/{id}", UPDATE_ENTITY_ID)

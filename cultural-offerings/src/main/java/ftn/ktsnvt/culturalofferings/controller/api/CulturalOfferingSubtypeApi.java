@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingSubTypeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +32,7 @@ public interface CulturalOfferingSubtypeApi {
     @RequestMapping(value= "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> delete(@PathVariable("id") Long id);
 
+    @RequestMapping(value = "/byTypeId/{typeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<List<CulturalOfferingSubTypeDTO>> getAllByTypeId(@PathVariable("typeId") Long typeId);
 }
 
