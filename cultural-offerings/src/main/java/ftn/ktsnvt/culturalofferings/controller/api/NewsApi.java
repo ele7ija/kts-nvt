@@ -37,7 +37,6 @@ public interface NewsApi {
     @RequestMapping(value = "/all/by-page",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<List<NewsDTO>> getAllNewsByPage(@RequestParam("page") int pageIndex,
     ResponseEntity<Page<NewsDTO>> getAllNewsByPage(@RequestParam("page") int pageIndex,
                                                    @RequestParam("size") int pageSize);
 
@@ -45,5 +44,10 @@ public interface NewsApi {
         produces = { "application/json" }, 
         method = RequestMethod.PUT)
     ResponseEntity<NewsDTO> updateNews(@RequestBody NewsDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
+
+    @RequestMapping(value = "/notify/{id}",
+    produces = { "application/json" }, 
+    method = RequestMethod.POST)
+    ResponseEntity<Boolean> notify(@PathVariable("id") Long id);
 
 }

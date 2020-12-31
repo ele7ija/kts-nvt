@@ -115,7 +115,8 @@ public class NewsController implements NewsApi {
     @Override
     @PreAuthorize("hasAuthority('NEWS:write')")
     public ResponseEntity<Boolean> notify(Long id) {
-
+        Boolean output = newsService.notifyNews(id);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
 }
