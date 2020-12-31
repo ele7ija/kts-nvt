@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundByNameException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
+import ftn.ktsnvt.culturalofferings.model.exceptions.UniqueEntityConstraintViolationException;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingRepository;
 
 import java.util.List;
@@ -32,10 +33,7 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
     public CulturalOffering findOne(Long id) {
         Optional<CulturalOffering> optional =  culturalOfferingRepository.findById(id);
         if(optional.isEmpty()){
-            throw new EntityNotFoundException(
-                    id,
-                    CulturalOffering.class
-            );
+            throw new EntityNotFoundException(id, CulturalOffering.class);
         }
         return optional.get();
     }
@@ -43,16 +41,17 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
     public CulturalOffering findName(String name) {
         Optional<CulturalOffering> optional = culturalOfferingRepository.findByName(name);
         if(optional.isEmpty()){
-            throw new EntityNotFoundByNameException(
-                    name,
-                    CulturalOffering.class
-            );
+            throw new EntityNotFoundByNameException(name, CulturalOffering.class);
         }
         return optional.get();
     }
 
     @Override
     public CulturalOffering create(CulturalOffering entity) {
+    	Optional<CulturalOffering> optional = culturalOfferingRepository.findByName(entity.getName());
+        if(!optional.isEmpty()){
+            throw new UniqueEntityConstraintViolationException(entity.getName(), CulturalOffering.class);
+        } 	
         return culturalOfferingRepository.save(entity);
     }
 
@@ -60,10 +59,7 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
     public CulturalOffering update(CulturalOffering entity, Long id) {
         Optional<CulturalOffering> optional =  culturalOfferingRepository.findById(id);
         if(optional.isEmpty()){
-            throw new EntityNotFoundException(
-                    id,
-                    CulturalOffering.class
-            );
+            throw new EntityNotFoundException(id, CulturalOffering.class);
         }
         entity.setId(id);
         return culturalOfferingRepository.save(entity);
@@ -73,10 +69,7 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
     public void delete(Long id) {
         Optional<CulturalOffering> optional =  culturalOfferingRepository.findById(id);
         if(optional.isEmpty()){
-            throw new EntityNotFoundException(
-                    id,
-                    CulturalOffering.class
-            );
+            throw new EntityNotFoundException(id, CulturalOffering.class);
         }
         culturalOfferingRepository.delete(optional.get());
     }

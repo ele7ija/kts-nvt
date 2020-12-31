@@ -15,6 +15,7 @@ import { MustMatchDirective } from './shared/validators/must-match/must-match.di
 import { ChangePasswordComponent } from './components/forms/change-password/change-password.component';
 import { ChangeUserDataComponent } from './components/forms/change-user-data/change-user-data.component';
 import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
+import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { MyProfileComponent } from './components/pages/my-profile/my-profile.com
     routingComponents,
     MustMatchDirective,
     ChangePasswordComponent,
-    ChangeUserDataComponent
+    ChangeUserDataComponent,
+    CulturalOfferingTypeComponent
   ],
   imports: [
     BrowserModule,

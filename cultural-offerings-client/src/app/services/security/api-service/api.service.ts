@@ -26,17 +26,8 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  get(path: string, args?: any): Observable<any> {
-    const options = {
-      headers: this.headers,
-    };
-
-    if (args) {
-      //options['params'] = serializeNodes(args);
-    }
-
-    return this.http.get(path, options)
-      .pipe(catchError(this.checkError.bind(this)));
+  get(path: string, customHeaders?: HttpHeaders): Observable<any> {
+    return this.request(path, null, RequestMethod.Get, customHeaders);
   }
 
   post(path: string, body: any, customHeaders?: HttpHeaders): Observable<any> {
@@ -56,14 +47,16 @@ export class ApiService {
       headers: custemHeaders || this.headers,
     });
 
-    return this.http.request(req).pipe(filter(response => response instanceof HttpResponse))
-      .pipe(map((response: HttpResponse<any>) => response.body));
-      //.pipe(catchError(error => this.checkError(error)));
+    return this.http.request(req)
+      .pipe(filter(response => response instanceof HttpResponse))
+      .pipe(map((response: HttpResponse<any>) => response.body))
+      .pipe(catchError(error => this.checkError(error)));
   }
 
 
   // Display error if logged in, otherwise redirect to IDP
   private checkError(error: any): any {
+    console.log(error);
     if (error && error.status === 401) {
       // this.redirectIfUnauth(error);
     } else {
