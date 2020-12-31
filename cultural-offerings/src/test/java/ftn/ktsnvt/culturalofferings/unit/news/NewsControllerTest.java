@@ -53,12 +53,16 @@ public class NewsControllerTest {
         NewsDTO dto = new NewsDTO();
         Page<News> page = new PageImpl<>(newsSTUB);
 
+        Page<NewsDTO> dtopage;
+        List<NewsDTO> dtos = toNewsDTOList(newsSTUB);
+        dtopage = new PageImpl<>(dtos);
+
         when(service.findAll(PageRequest.of(0, 10))).thenReturn(page);
         when(mapper.toDto(n)).thenReturn(dto);
 
         mockMvc.perform(get("/news/all/by-page?page=0&size=10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(newsSTUB.size())))
+                .andExpect(jsonPath("$.numberOfElements", is(dtopage.getNumberOfElements())))
         ;
     }
 
@@ -94,6 +98,14 @@ public class NewsControllerTest {
         mockMvc.perform(get("/news/{id}", id))
                 .andExpect(status().isOk())
         ;
+    }
+
+    private List<NewsDTO> toNewsDTOList(List<News> news) {
+        List<NewsDTO> newsDTOS = new ArrayList<>();
+        for (News newsOne : news) {
+            newsDTOS.add(mapper.toDto(newsOne));
+        }
+        return newsDTOS;
     }
 }
 

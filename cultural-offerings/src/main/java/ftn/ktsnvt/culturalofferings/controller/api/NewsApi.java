@@ -38,6 +38,7 @@ public interface NewsApi {
             produces = { "application/json" },
             method = RequestMethod.GET)
     ResponseEntity<List<NewsDTO>> getAllNewsByPage(@RequestParam("page") int pageIndex,
+    ResponseEntity<Page<NewsDTO>> getAllNewsByPage(@RequestParam("page") int pageIndex,
                                                    @RequestParam("size") int pageSize);
 
     @RequestMapping(value = "/{id}",

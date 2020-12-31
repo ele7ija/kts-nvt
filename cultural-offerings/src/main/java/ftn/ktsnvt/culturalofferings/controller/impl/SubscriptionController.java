@@ -89,11 +89,13 @@ public class SubscriptionController implements SubscriptionApi {
 
     @Override
     @PreAuthorize("hasAuthority('SUBSCRIPTION:read')")
-    public ResponseEntity<List<SubscriptionDTO>> getAllSubscriptionsByPage(int pageIndex, int pageSize) {
+    public ResponseEntity<Page<SubscriptionDTO>> getAllSubscriptionsByPage(int pageIndex, int pageSize) {
         Page<Subscription> page;
+        Page<SubscriptionDTO> dtopage;
         page = subscriptionService.findAll(PageRequest.of(pageIndex, pageSize));
         List<SubscriptionDTO> dtos = toSubscriptionDTOList(page.getContent());
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        dtopage = new PageImpl<>(dtos,PageRequest.of(pageIndex, pageSize),page.getTotalElements());
+        return new ResponseEntity<>(dtopage, HttpStatus.OK);
     }
 
     private List<SubscriptionDTO> toSubscriptionDTOList(List<Subscription> subscriptions) {

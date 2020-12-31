@@ -62,9 +62,13 @@ public class SubscriptionControllerUnitTest {
         when(service.findAll(PageRequest.of(0, 10))).thenReturn(page);
         when(mapper.toDto(s)).thenReturn(dto);
 
+        Page<SubscriptionDTO> dtopage;
+        List<SubscriptionDTO> dtos = toSubscriptionDTOList(subscriptionsSTUB);
+        dtopage = new PageImpl<>(dtos);
+
         mockMvc.perform(get("/subscriptions/all/by-page?page=0&size=10"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", is(subscriptionsSTUB.size())))
+                .andExpect(jsonPath("$.numberOfElements", is(dtopage.getNumberOfElements())));
                 ;
     }
 
@@ -100,5 +104,13 @@ public class SubscriptionControllerUnitTest {
         mockMvc.perform(get("/subscriptions/{id}", id))
                 .andExpect(status().isOk())
                 ;
+    }
+
+    private List<SubscriptionDTO> toSubscriptionDTOList(List<Subscription> news) {
+        List<SubscriptionDTO> newsDTOS = new ArrayList<>();
+        for (Subscription newsOne : news) {
+            newsDTOS.add(mapper.toDto(newsOne));
+        }
+        return newsDTOS;
     }
 }

@@ -81,12 +81,13 @@ public class NewsController implements NewsApi {
 
     @Override
     @PreAuthorize("hasAuthority('NEWS:read')")
-    public ResponseEntity<List<NewsDTO>> getAllNewsByPage(int pageIndex, int pageSize) {
+    public ResponseEntity<Page<NewsDTO>> getAllNewsByPage(int pageIndex, int pageSize) {
         Page<News> page;
         Page<NewsDTO> dtopage;
         page = newsService.findAll(PageRequest.of(pageIndex, pageSize));
         List<NewsDTO> dtos = toNewsDTOList(page.toList());
-        return new ResponseEntity<>(dtos, HttpStatus.OK);
+        dtopage = new PageImpl<>(dtos,PageRequest.of(pageIndex, pageSize),page.getTotalElements());
+        return new ResponseEntity<>(dtopage, HttpStatus.OK);
     }
 
     private List<NewsDTO> toNewsDTOList(List<News> news) {
@@ -110,4 +111,11 @@ public class NewsController implements NewsApi {
         News news = newsService.update(newsMapper.toEntity(body), id);
         return new ResponseEntity<>(newsMapper.toDto(news), HttpStatus.OK);
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('NEWS:write')")
+    public ResponseEntity<Boolean> notify(Long id) {
+
+    }
+
 }

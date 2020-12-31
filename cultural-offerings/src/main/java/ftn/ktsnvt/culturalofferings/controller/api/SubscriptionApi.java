@@ -41,7 +41,7 @@ public interface SubscriptionApi {
     @RequestMapping(value = "/all/by-page",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<SubscriptionDTO>> getAllSubscriptionsByPage(@RequestParam("page") int pageIndex,
+    ResponseEntity<Page<SubscriptionDTO>> getAllSubscriptionsByPage(@RequestParam("page") int pageIndex,
                                                                     @RequestParam("size") int pageSize);
 
     @RequestMapping(value = "/{id}",
