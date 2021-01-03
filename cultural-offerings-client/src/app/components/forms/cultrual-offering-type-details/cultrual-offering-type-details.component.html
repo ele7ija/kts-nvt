@@ -5,7 +5,7 @@
             <div class="row pb-3">
                 
                 <div class="col-4">
-                    <div class="row mt-3">
+                    <div class="row" [class.mt-3]="!!culturalOfferingType" [class.mt-n5]="!culturalOfferingType">
                         <div class="col px-0" style="text-align: center;">
                             <img *ngIf="retrievedImage" [src]="retrievedImage" class="table-row-expand-image">
                             <img *ngIf="!retrievedImage && !imageId && !imageLoading" src="../../../../assets/images/empty.png" class="table-row-expand-image">
@@ -16,11 +16,11 @@
                     <div class="row pt-3">
                         <div *ngIf="!retrievedImage" class="col px-0 button-wrap" style="text-align: center;">
                             <label class ="new-button blue-button" for=file [style.width.px]="fileButtonWidth"> Izaberi </label>
-                            <input type="file" name="file" id="file" (change)="onFileChanged($event)"/>
+                            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
                         </div>
                         <div *ngIf="retrievedImage" class="col px-0 button-wrap" style="text-align: start;">
-                            <label class ="new-button ml-3 blue-button" for=file [style.width.px]="fileButtonWidth/2" style="text-align: center;"> Upload image </label>
-                            <input type="file" name="file" id="file" (change)="onFileChanged($event)"/>
+                            <label class ="new-button ml-3 blue-button" for=file [style.width.px]="fileButtonWidth/2" style="text-align: center;"> Promeni </label>
+                            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
                             <button class="new-button red-button borderless" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col">
                             <app-cultural-offering-subtype-chips
-                                [typeId]="culturalOfferingType.id"
+                                [typeId]="culturalOfferingType ? culturalOfferingType.id : null"
                                 [culturalOfferingSubTypes]="culturalOfferingSubtypes"
                                 (change)="changeCulturalOfferingSubtypes($event)"
                             ></app-cultural-offering-subtype-chips>
@@ -63,8 +63,8 @@
                                     class="new-button green-button borderless mt-3"
                                     type="submit"
                                     [disabled]="culturalOfferingTypeForm.invalid"
-                                    (click)="update()"
-                                >Sacuvaj izmene</button>
+                                    (click)="upsert()"
+                                >{{!!culturalOfferingType ? "Sacuvaj izmene" : "Dodaj"}}</button>
                             </div>
                         </div>
                     </div>

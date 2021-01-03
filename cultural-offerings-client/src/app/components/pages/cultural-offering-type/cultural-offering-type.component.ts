@@ -36,6 +36,9 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
   //row expand logic
   expandedItem: Optional<CulturalOfferingType> = new Optional<CulturalOfferingType>();
 
+  //is add form visible?
+  addStarted: boolean = false;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -84,13 +87,23 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
       this.expandedItem.value = element;
     else
       this.expandedItem.value = null;
+    this.addStarted = false;
   }
 
-  updateLocal(event: CulturalOfferingType){
+  upsertLocal(event: CulturalOfferingType){
     const index = this.culturalOfferingTypes.findIndex((item: CulturalOfferingType) => item.id == event.id);
-    this.culturalOfferingTypes.splice(index, 1, event);
+    if(index == -1){
+      //insert
+      //this.culturalOfferingTypes.push(event); ne radimo ovo zbog paginacije
+      this.addStarted = false;
+      this.paginator.firstPage(); //za sada ovako
+      this.totalLength += 1;
+    }else{
+      //update
+      this.culturalOfferingTypes.splice(index, 1, event);
+      this.expandedItem.value = null;
+    }
     this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
-    this.expandedItem.value = null;
   }
 
   async delete(entity: CulturalOfferingType){
@@ -106,9 +119,9 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
         this.paginator.previousPage();
       }
       this.totalLength -= 1;
-      this.showSnackbar('DELETE SUCCESS', `${entity.typeName} has been successfully deleted`, true);
+      this.showSnackbar('USPESNO BRISANJE', `Tip kategorije pod nazivom ${entity.typeName} je uspesno obrisan.`, true);
     }catch({error}){
-      this.showSnackbar('DELETE FAILED', `${error.message}`, false);
+      this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false);
     }
   }
 

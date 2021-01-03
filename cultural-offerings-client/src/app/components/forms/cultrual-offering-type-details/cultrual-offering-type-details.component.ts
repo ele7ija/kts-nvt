@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CulturalOfferingSubtype } from 'src/app/model/cultural-offering-subtype/cultural-offering-subtype';
-import { CulturalOfferingType, CulturalOfferingTypeUpdate } from 'src/app/model/cultural-offering-type/cultural-offering-type';
+import { CulturalOfferingType, CulturalOfferingTypeUpsert } from 'src/app/model/cultural-offering-type/cultural-offering-type';
 import { ListChangeEventType } from 'src/app/model/event/list-change-event-type/list-change-event-type.enum';
 import { ListChangeEvent } from 'src/app/model/event/list-change-event/list-change-event';
 import { ImageModel } from 'src/app/model/image-model/image-model';
@@ -22,7 +22,7 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
   culturalOfferingType!: CulturalOfferingType;
 
   @Output()
-  updateLocal: EventEmitter<CulturalOfferingType> = new EventEmitter<CulturalOfferingType>();
+  upsertLocal: EventEmitter<CulturalOfferingType> = new EventEmitter<CulturalOfferingType>();
 
   culturalOfferingTypeForm: FormGroup;
   errorMsg : string;
@@ -49,7 +49,7 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.culturalOfferingTypeForm = this.formBuilder.group({
-      typeName: [this.culturalOfferingType.typeName, Validators.required],
+      typeName: [this.culturalOfferingType ? this.culturalOfferingType.typeName : '', Validators.required],
     });
     this.fetchImage();
     this.fetchCulturalOfferingSubTypes();
@@ -57,7 +57,7 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
   }
 
   fetchImage(): void {
-    if(this.culturalOfferingType.imageId){
+    if(this.culturalOfferingType && this.culturalOfferingType.imageId){
       this.imageLoading = true;
       this.imageId = this.culturalOfferingType.imageId;
       this.imageService.getById(this.culturalOfferingType.imageId).subscribe((imageModel: ImageModel) => {
@@ -73,10 +73,14 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
   }
 
   fetchCulturalOfferingSubTypes(): void{
-    this.culturalOfferingSubTypeService.getAllByTypeId(this.culturalOfferingType.id)
+    if(this.culturalOfferingType){
+      this.culturalOfferingSubTypeService.getAllByTypeId(this.culturalOfferingType.id)
       .subscribe((culturalOfferingSubtypes: CulturalOfferingSubtype[]) => {
         this.culturalOfferingSubtypes = [...culturalOfferingSubtypes];
       });
+    }else{
+      this.culturalOfferingSubtypes = [];
+    }
   }
 
   calculateFileButtonWidth(path: string){
@@ -132,8 +136,7 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
   }
 
   async getUpdateCulturalOfferingTypePromises(imageModelId: number): Promise<CulturalOfferingType>{
-    console.log(this.culturalOfferingSubtypes);
-    const culturalOfferingType: CulturalOfferingTypeUpdate = {
+    const culturalOfferingType: CulturalOfferingTypeUpsert = {
       id: this.culturalOfferingType.id,
       typeName: this.culturalOfferingTypeForm.value.typeName,
       imageId: imageModelId,
@@ -143,18 +146,52 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
     return this.culturalOfferingTypeService.update(culturalOfferingType).toPromise();
   }
 
+  async getInsertCulturalOfferingTypePromises(imageModelId: number): Promise<CulturalOfferingType>{
+    const culturalOfferingType: CulturalOfferingTypeUpsert = {
+      typeName: this.culturalOfferingTypeForm.value.typeName,
+      imageId: imageModelId,
+      subTypeIds: [],
+      subTypesToAdd: this.culturalOfferingSubtypes.map((item: CulturalOfferingSubtype) => item.subTypeName)
+    };
+    return this.culturalOfferingTypeService.insert(culturalOfferingType).toPromise();
+  }
+
+  upsert(){
+    if(this.culturalOfferingType){
+      this.update();
+    }else{
+      this.insert();
+    }
+  }
+
   async update(): Promise<void> {
     this.loading = true;
     try{
       let uploadedImage: ImageModel = await this.getUploadImagePromise();
       const imageModelId:  number = !!uploadedImage ? uploadedImage.id : null;
       let updatedCulturalOfferingType: CulturalOfferingType = await this.getUpdateCulturalOfferingTypePromises(imageModelId);
-      this.updateLocal.emit(updatedCulturalOfferingType);
-      this.showSnackbar('UPDATE SUCCESS', `${updatedCulturalOfferingType.typeName} has been successfully changed`, true);
+      this.upsertLocal.emit(updatedCulturalOfferingType);
+      this.showSnackbar('USPESNA IZMENA', `Tip kategorije pod nazivom ${updatedCulturalOfferingType.typeName} je uspesno promenjen`, true);
     }catch({error}){
       //show toast
-      this.updateLocal.emit(this.culturalOfferingType);
-      this.showSnackbar('UPDATE FAILED', `${error.message}`, false);
+      this.upsertLocal.emit(this.culturalOfferingType);
+      this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
+    }
+    this.loading = false;
+  }
+
+  async insert(){
+    this.loading = true;
+    try{
+      let uploadedImage: ImageModel = await this.getUploadImagePromise();
+      const imageModelId:  number = !!uploadedImage ? uploadedImage.id : null;
+      let insertedCulturalOfferingType: CulturalOfferingType = await this.getInsertCulturalOfferingTypePromises(imageModelId);
+      this.upsertLocal.emit(insertedCulturalOfferingType);
+      this.showSnackbar('USPESNO DODAVANJE', `Tip kategorije pod nazivom ${insertedCulturalOfferingType.typeName} je uspesno dodat`, true);
+    }catch({error}){
+      //show toast
+      this.upsertLocal.emit(this.culturalOfferingType);
+      this.showSnackbar('NEUSPESNO DODAVANJE', `${error.message}`, false);
     }
     this.loading = false;
   }

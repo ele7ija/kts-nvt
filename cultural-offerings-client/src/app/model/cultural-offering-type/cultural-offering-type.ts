@@ -5,6 +5,6 @@ export class CulturalOfferingType {
   public subTypeIds?: number[];
 }
 
-export class CulturalOfferingTypeUpdate extends CulturalOfferingType {
+export class CulturalOfferingTypeUpsert extends CulturalOfferingType {
   public subTypesToAdd?: string[];
 }
