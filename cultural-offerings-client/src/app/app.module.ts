@@ -23,8 +23,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { CultrualOfferingTypeDetailsComponent } from './components/forms/cultrual-offering-type-details/cultrual-offering-type-details.component';
 import { CulturalOfferingSubtypeChipsComponent } from './components/forms/cultural-offering-subtype-chips/cultural-offering-subtype-chips.component';
+import { SimpleSnackbarComponent } from './components/snackbar/simple-snackbar/simple-snackbar.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { CulturalOfferingSubtypeChipsComponent } from './components/forms/cultur
     ChangeUserDataComponent,
     CulturalOfferingTypeComponent,
     CultrualOfferingTypeDetailsComponent,
-    CulturalOfferingSubtypeChipsComponent
+    CulturalOfferingSubtypeChipsComponent,
+    SimpleSnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { CulturalOfferingSubtypeChipsComponent } from './components/forms/cultur
     MatIconModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}

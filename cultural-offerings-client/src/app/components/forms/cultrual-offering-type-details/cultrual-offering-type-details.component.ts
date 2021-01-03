@@ -8,6 +8,12 @@ import { ImageModel } from 'src/app/model/image-model/image-model';
 import { CulturalOfferingSubtypeService } from 'src/app/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { CulturalOfferingTypeService } from 'src/app/services/cultural-offering-type/cultural-offering-type.service';
 import { ImageService } from 'src/app/services/image/image.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition
+} from '@angular/material/snack-bar';
+import { SimpleSnackbarComponent } from '../../snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
   selector: 'app-cultrual-offering-type-details',
@@ -42,7 +48,8 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
     private formBuilder: FormBuilder, 
     private imageService: ImageService,
     private culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
-    private culturalOfferingTypeService: CulturalOfferingTypeService) { }
+    private culturalOfferingTypeService: CulturalOfferingTypeService,
+    private matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.culturalOfferingTypeForm = this.formBuilder.group({
@@ -140,14 +147,32 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
     return this.culturalOfferingTypeService.update(culturalOfferingType).toPromise();
   }
 
-  
-
   async update(): Promise<void> {
     this.loading = true;
-    let uploadedImage: ImageModel = await this.getUploadImagePromise();
-    const imageModelId:  number = !!uploadedImage ? uploadedImage.id : null;
-    let updatedCulturalOfferingType: CulturalOfferingType = await this.getUpdateCulturalOfferingTypePromises(imageModelId);
+    try{
+      let uploadedImage: ImageModel = await this.getUploadImagePromise();
+      const imageModelId:  number = !!uploadedImage ? uploadedImage.id : null;
+      let updatedCulturalOfferingType: CulturalOfferingType = await this.getUpdateCulturalOfferingTypePromises(imageModelId);
+      this.updateLocal.emit(updatedCulturalOfferingType);
+      this.showSnackbar('UPDATE SUCCESS', `${updatedCulturalOfferingType.typeName} has been successfully changed`, true);
+    }catch(error){
+      //show toast
+      this.updateLocal.emit(this.culturalOfferingType);
+      this.showSnackbar('UPDATE FAILED', `${error.message}`, false);
+    }
     this.loading = false;
-    this.updateLocal.emit(updatedCulturalOfferingType);
+  }
+  showSnackbar(title: string, message: string, success: boolean) {
+    this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 4000,
+      data: {
+        title,
+        message,
+        success,
+      },
+
+    });
   }
 }
