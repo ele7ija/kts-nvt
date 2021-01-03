@@ -66,7 +66,6 @@ export class ApiService {
 
   // Display error if logged in, otherwise redirect to IDP
   private checkError(error: any): any {
-    console.log(error);
     if (error && error.status === 401) {
       // this.redirectIfUnauth(error);
     } else {

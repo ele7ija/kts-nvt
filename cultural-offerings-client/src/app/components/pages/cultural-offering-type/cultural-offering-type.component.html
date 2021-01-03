@@ -42,15 +42,21 @@
 							class="align-right"
 						>
 							<mat-icon 
-								class="expand-icon"
+								class="my-icon pr-1"
 								(click)="toggleRow(element)"
 							>
 								<ng-container
 									*ngIf="expandedItem.value!=element"
-								>chevron_left</ng-container>
+								>edit</ng-container>
 								<ng-container
 									*ngIf="expandedItem.value==element"
 								>expand_more</ng-container>
+							</mat-icon>
+							<mat-icon
+								class="my-icon pl-1"
+								(click)="delete(element)"
+							>
+								delete
 							</mat-icon>
 						</td>
 					</ng-container>

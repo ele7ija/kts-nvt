@@ -8,11 +8,7 @@ import { ImageModel } from 'src/app/model/image-model/image-model';
 import { CulturalOfferingSubtypeService } from 'src/app/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { CulturalOfferingTypeService } from 'src/app/services/cultural-offering-type/cultural-offering-type.service';
 import { ImageService } from 'src/app/services/image/image.service';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition
-} from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SimpleSnackbarComponent } from '../../snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
@@ -155,13 +151,14 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
       let updatedCulturalOfferingType: CulturalOfferingType = await this.getUpdateCulturalOfferingTypePromises(imageModelId);
       this.updateLocal.emit(updatedCulturalOfferingType);
       this.showSnackbar('UPDATE SUCCESS', `${updatedCulturalOfferingType.typeName} has been successfully changed`, true);
-    }catch(error){
+    }catch({error}){
       //show toast
       this.updateLocal.emit(this.culturalOfferingType);
       this.showSnackbar('UPDATE FAILED', `${error.message}`, false);
     }
     this.loading = false;
   }
+
   showSnackbar(title: string, message: string, success: boolean) {
     this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',

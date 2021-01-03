@@ -6,8 +6,10 @@ import { CulturalOfferingTypeService } from '../../../services/cultural-offering
 import { CulturalOfferingType } from '../../../model/cultural-offering-type/cultural-offering-type';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageableRequest } from 'src/app/model/pageable-request/pageable-request';
 import { Optional } from 'src/app/model/optional/optional';
+import { SimpleSnackbarComponent } from '../../snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
   selector: 'app-cultural-offering-type',
@@ -37,7 +39,9 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private culturalOfferingTypeService: CulturalOfferingTypeService) { }
+  constructor(
+    private culturalOfferingTypeService: CulturalOfferingTypeService,
+    private matSnackBar: MatSnackBar) { }
 
   ngAfterViewInit(){
     // If the user changes the sort order, reset back to the first page.
@@ -87,5 +91,38 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
     this.culturalOfferingTypes.splice(index, 1, event);
     this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
     this.expandedItem.value = null;
+  }
+
+  async delete(entity: CulturalOfferingType){
+    try{
+      await this.culturalOfferingTypeService.delete(entity.id).toPromise();
+      const index = this.culturalOfferingTypes.findIndex((item: CulturalOfferingType) => item.id == entity.id);
+      this.culturalOfferingTypes.splice(index, 1);
+      this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
+      if(!this.paginator.hasNextPage() && this.totalLength % this.paginator.pageSize == 0){
+        this.paginator.previousPage();
+      }else{
+        this.paginator.nextPage();
+        this.paginator.previousPage();
+      }
+      this.totalLength -= 1;
+      this.showSnackbar('DELETE SUCCESS', `${entity.typeName} has been successfully deleted`, true);
+    }catch({error}){
+      this.showSnackbar('DELETE FAILED', `${error.message}`, false);
+    }
+  }
+
+  showSnackbar(title: string, message: string, success: boolean) {
+    this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 4000,
+      data: {
+        title,
+        message,
+        success,
+      },
+
+    });
   }
 }

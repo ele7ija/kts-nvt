@@ -21,4 +21,8 @@ export class CulturalOfferingTypeService {
   update(culturalOfferingTypeUpdate: CulturalOfferingTypeUpdate): Observable<CulturalOfferingType>{
     return this.apiService.put(`${this.endpoint}/refreshSubTypes/${culturalOfferingTypeUpdate.id}`, culturalOfferingTypeUpdate);
   }
+
+  delete(id: number): Observable<void>{
+    return this.apiService.delete(`${this.endpoint}/${id}`);
+  }
 }
