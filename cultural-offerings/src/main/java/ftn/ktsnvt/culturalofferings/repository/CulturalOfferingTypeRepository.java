@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +12,6 @@ import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 public interface CulturalOfferingTypeRepository extends JpaRepository<CulturalOfferingType, Long> {
 
 	Optional<CulturalOfferingType> findByTypeName(String name);
-	
+
+	List<CulturalOfferingType> findAllByTypeName(String typeName);
 }

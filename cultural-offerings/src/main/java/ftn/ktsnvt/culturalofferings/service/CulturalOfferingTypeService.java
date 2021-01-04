@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.service;
 
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.SQLDeleteEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingTypeRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CulturalOfferingTypeService implements ServiceInterface<CulturalOfferingType> {
@@ -48,11 +51,17 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
     }
 
     @Override
+    @Transactional
     public CulturalOfferingType create(CulturalOfferingType entity) {
-        return culturalOfferingTypeRepository.save(entity);
+        CulturalOfferingType culturalOfferingType = culturalOfferingTypeRepository.save(entity);
+        entity.getCulturalOfferingSubTypes().forEach(x -> {
+            x.setCulturalOfferingType(culturalOfferingType);
+        });
+        return culturalOfferingType;
     }
 
     @Override
+    @Transactional
     public CulturalOfferingType update(CulturalOfferingType entity, Long id) {
         Optional<CulturalOfferingType> optional =  culturalOfferingTypeRepository.findById(id);
         if(optional.isEmpty()){
@@ -62,6 +71,21 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
             );
         }
         entity.setId(id);
+
+        /*
+            Check if there is a cultural offering with this sub type
+            prevent removal of subtype in that case
+         */
+        List<CulturalOfferingSubType> culturalOfferingSubTypes = optional.get().getCulturalOfferingSubTypes()
+                .stream().filter(x -> !entity.getCulturalOfferingSubTypes().contains(x)).collect(Collectors.toList());
+        culturalOfferingSubTypes.forEach(x-> {
+            List<CulturalOffering> culturalOfferings = culturalOfferingService.findByCulturalOfferingSubTypeId(x.getId());
+            if(!culturalOfferings.isEmpty())
+                throw new SQLDeleteEntityException(
+                        CulturalOfferingSubType.class,
+                        CulturalOffering.class
+                );
+        });
         return culturalOfferingTypeRepository.save(entity);
     }
 
@@ -82,5 +106,9 @@ public class CulturalOfferingTypeService implements ServiceInterface<CulturalOff
                     CulturalOffering.class
             );
         culturalOfferingTypeRepository.delete(optional.get());
+    }
+
+    public List<CulturalOfferingType> findAllByTypeName(String typeName) {
+        return this.culturalOfferingTypeRepository.findAllByTypeName(typeName);
     }
 }

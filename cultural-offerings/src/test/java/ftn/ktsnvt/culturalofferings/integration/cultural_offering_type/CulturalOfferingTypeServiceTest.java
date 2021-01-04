@@ -1,8 +1,10 @@
 package ftn.ktsnvt.culturalofferings.integration.cultural_offering_type;
 
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.SQLDeleteEntityException;
+import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 
 import org.junit.Test;
@@ -19,6 +21,9 @@ import javax.transaction.Transactional;
 
 import static org.junit.Assert.*;
 import static ftn.ktsnvt.culturalofferings.integration.cultural_offering_type.CulturalOfferingTypeConstants.*;
+
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +33,9 @@ public class CulturalOfferingTypeServiceTest {
 
     @Autowired
     private CulturalOfferingTypeService culturalOfferingTypeService;
+
+    @Autowired
+    private CulturalOfferingSubtypeService culturalOfferingSubtypeService;
 
     @Test
     public void findAllTest(){
@@ -60,11 +68,21 @@ public class CulturalOfferingTypeServiceTest {
     @Transactional
     @Rollback(true)
     public void createTest(){
+        String subTypeName = "qweqwfwefwef";
+        CulturalOfferingSubType culturalOfferingSubType = new CulturalOfferingSubType();
+        culturalOfferingSubType.setSubTypeName(subTypeName);
+
         CulturalOfferingType culturalOfferingType = new CulturalOfferingType();
         culturalOfferingType.setTypeName(NEW_ENTITY_TYPE_NAME);
+        culturalOfferingType.setCulturalOfferingSubTypes(new HashSet<>(Arrays.asList(culturalOfferingSubType)));
+
+        culturalOfferingSubtypeService.create(culturalOfferingSubType);
 
         CulturalOfferingType culturalOfferingTypeCreated = culturalOfferingTypeService.create(culturalOfferingType);
         assertEquals(culturalOfferingTypeCreated.getTypeName(), culturalOfferingType.getTypeName());
+        assertEquals(culturalOfferingTypeCreated.getCulturalOfferingSubTypes().size(), 1);
+        assertEquals(culturalOfferingTypeCreated.getCulturalOfferingSubTypes().stream().findFirst().get().getSubTypeName(), subTypeName);
+        assertEquals(culturalOfferingTypeCreated.getCulturalOfferingSubTypes().stream().findFirst().get().getCulturalOfferingType(), culturalOfferingTypeCreated);
     }
 
     @Test
@@ -82,6 +100,8 @@ public class CulturalOfferingTypeServiceTest {
     @Rollback(true)
     public void updateSucceedTest(){
         CulturalOfferingType culturalOfferingType = new CulturalOfferingType();
+        culturalOfferingType.setCulturalOfferingSubTypes(new HashSet<>());
+        culturalOfferingType.getCulturalOfferingSubTypes().addAll(culturalOfferingSubtypeService.getAllByTypeId(UPDATE_ENTITY_ID));
         culturalOfferingType.setId(UPDATE_ENTITY_ID);
         culturalOfferingType.setTypeName(UPDATE_ENTITY_TYPE_NAME);
 

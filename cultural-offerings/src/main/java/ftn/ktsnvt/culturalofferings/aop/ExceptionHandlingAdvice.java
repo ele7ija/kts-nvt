@@ -12,7 +12,7 @@ public class ExceptionHandlingAdvice {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Error> getError(EntityNotFoundException e){
-        String message = "Entity " + e.getClassObject().getName() + " with id " + e.getId() + " not found! Make sure your request is valid!";
+        String message = "Entity " + e.getClassObject().getSimpleName() + " with id " + e.getId() + " not found! Make sure your request is valid!";
         return new ResponseEntity<Error>(new Error(message), HttpStatus.NOT_FOUND);
     }
 
@@ -36,7 +36,7 @@ public class ExceptionHandlingAdvice {
 
     @ExceptionHandler(RequestBodyBindingFailedException.class)
     public ResponseEntity<Error> getError(RequestBodyBindingFailedException e){
-        String message = "Request body binding failed for entity " + e.getClassObject().getName()
+        String message = "Request body binding failed for entity " + e.getClassObject().getSimpleName()
                 + ". Failed field: " + e.getFieldName()
                 + ". Message: " + e.getMessage();
         return new ResponseEntity<Error>(new Error(message), HttpStatus.BAD_REQUEST);
@@ -44,20 +44,20 @@ public class ExceptionHandlingAdvice {
 
     @ExceptionHandler(ModelConstraintViolationException.class)
     public ResponseEntity<Error> getError(ModelConstraintViolationException e){
-        String message = "Model violation for entity " + e.getClassObject().getName()
+        String message = "Model violation for entity " + e.getClassObject().getSimpleName()
                 + ". Message: " + e.getMessage();
         return new ResponseEntity<Error>(new Error(message), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundByNameException.class)
     public ResponseEntity<Error> getError(EntityNotFoundByNameException e){
-        String message =  "Entity " + e.getClassObject().getName() + " with id " + e.getName() + " not found! Make sure your request is valid!";
+        String message =  "Entity " + e.getClassObject().getSimpleName() + " with id " + e.getName() + " not found! Make sure your request is valid!";
         return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(SQLDeleteEntityException.class)
     public ResponseEntity<Error> getError(SQLDeleteEntityException e){
-        String message = "Error deleting entity of class " + e.getClassObject().getName() + " due to existing reference of type " + e.getReferencedClassObject().getName();
+        String message = "Error deleting entity of class " + e.getClassObject().getSimpleName() + " due to existing reference of type " + e.getReferencedClassObject().getSimpleName();
         return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
@@ -69,7 +69,7 @@ public class ExceptionHandlingAdvice {
     
     @ExceptionHandler(UniqueEntityConstraintViolationException.class)
     public ResponseEntity<Error> getError(UniqueEntityConstraintViolationException e){
-        String message =  "Entity " + e.getClassObject().getName() + " with name " + e.getName() + " already exists! Make sure your request is valid!";
+        String message =  "Entity " + e.getClassObject().getSimpleName() + " with name " + e.getName() + " already exists! Make sure your request is valid!";
         return new ResponseEntity<Error>(new Error(message), HttpStatus.INTERNAL_SERVER_ERROR);
     }
     
