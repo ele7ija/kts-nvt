@@ -20,8 +20,8 @@
 				mat-table
 				[dataSource]="culturalOfferingTypes"
 				matSort
-				matSortActive="id"
-				matSortDirection="desc"
+				[matSortActive]="sort ? sort.active : 'id'"
+				[matSortDirection]="sort && sort.direction ? sort.direction : 'asc'"
 				matSortDisableClear
 				multiTemplateDataRows
 				class="mr-3"

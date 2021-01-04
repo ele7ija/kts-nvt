@@ -5,7 +5,7 @@ import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 import { CulturalOfferingTypeService } from '../../../services/cultural-offering-type/cultural-offering-type.service';
 import { CulturalOfferingType } from '../../../model/cultural-offering-type/cultural-offering-type';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, MatSortable} from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PageableRequest } from 'src/app/model/pageable-request/pageable-request';
 import { Optional } from 'src/app/model/optional/optional';
@@ -48,7 +48,9 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
 
   ngAfterViewInit(){
     // If the user changes the sort order, reset back to the first page.
-    this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+    this.sort.sortChange.subscribe(() => {
+      this.paginator.pageIndex = 0;
+    });
 
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(
@@ -96,7 +98,11 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
       //insert
       //this.culturalOfferingTypes.push(event); ne radimo ovo zbog paginacije
       this.addStarted = false;
-      this.paginator.firstPage(); //za sada ovako
+
+      let sortable: MatSortable = this.sort.sortables.get(this.sort.active);
+      this.sort.direction = this.sort.getNextSortDirection(sortable);
+      this.sort.sort(sortable);
+      
       this.totalLength += 1;
     }else{
       //update
@@ -104,6 +110,7 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
       this.expandedItem.value = null;
     }
     this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
+
   }
 
   async delete(entity: CulturalOfferingType){
@@ -112,11 +119,16 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
       const index = this.culturalOfferingTypes.findIndex((item: CulturalOfferingType) => item.id == entity.id);
       this.culturalOfferingTypes.splice(index, 1);
       this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
-      if(!this.paginator.hasNextPage() && this.totalLength % this.paginator.pageSize == 0){
+      if(!this.paginator.hasNextPage() && this.totalLength % this.paginator.pageSize == 1){
         this.paginator.previousPage();
       }else{
-        this.paginator.nextPage();
-        this.paginator.previousPage();
+        if(this.paginator.hasPreviousPage()){
+          this.paginator.previousPage();
+          this.paginator.nextPage();
+        }else{
+          this.paginator.nextPage();
+          this.paginator.previousPage();
+        }
       }
       this.totalLength -= 1;
       this.showSnackbar('USPESNO BRISANJE', `Tip kategorije pod nazivom ${entity.typeName} je uspesno obrisan.`, true);
