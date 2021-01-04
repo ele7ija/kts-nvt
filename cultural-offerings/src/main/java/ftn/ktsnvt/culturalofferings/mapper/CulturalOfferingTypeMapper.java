@@ -1,16 +1,19 @@
 package ftn.ktsnvt.culturalofferings.mapper;
 
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
-import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeUpdateDTO;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeUpsertDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
+import ftn.ktsnvt.culturalofferings.model.exceptions.ModelConstraintViolationException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
+import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import ftn.ktsnvt.culturalofferings.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -22,6 +25,9 @@ public class CulturalOfferingTypeMapper implements MapperInterface<CulturalOffer
 
     @Autowired
     private CulturalOfferingSubtypeService culturalOfferingSubTypeService;
+
+    @Autowired
+    private CulturalOfferingTypeService culturalOfferingTypeService;
 
     @Override
     public CulturalOfferingType toEntity(CulturalOfferingTypeDTO dto) {
@@ -44,7 +50,14 @@ public class CulturalOfferingTypeMapper implements MapperInterface<CulturalOffer
     }
 
     @Transactional
-    public CulturalOfferingType toEntityAddSubTypes(CulturalOfferingTypeUpdateDTO body) {
+    public CulturalOfferingType toEntityAddSubTypes(CulturalOfferingTypeUpsertDTO body) {
+        List<CulturalOfferingType> culturalOfferingTypes = this.culturalOfferingTypeService.findAllByTypeName(body.getTypeName());
+        for(CulturalOfferingType culturalOfferingType : culturalOfferingTypes){
+            if(culturalOfferingType.getId() != body.getId() && culturalOfferingType.getTypeName().equals(body.getTypeName())){
+                throw new ModelConstraintViolationException("Type name already exists", CulturalOfferingType.class);
+            }
+        }
+
         CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
         culturalOfferingTypeDTO.setId(body.getId());
         culturalOfferingTypeDTO.setTypeName(body.getTypeName());
@@ -54,7 +67,11 @@ public class CulturalOfferingTypeMapper implements MapperInterface<CulturalOffer
 
         Set<CulturalOfferingSubType> culturalOfferingSubTypeSet = body.getSubTypesToAdd().stream().map(subTypeName -> {
             CulturalOfferingSubType culturalOfferingSubType = new CulturalOfferingSubType();
-            culturalOfferingSubType.setCulturalOfferingType(culturalOfferingType);
+            if(culturalOfferingType.getId() != null)
+                culturalOfferingSubType.setCulturalOfferingType(culturalOfferingType);
+            if(culturalOfferingSubTypeService.findName(subTypeName) != null){
+                throw new ModelConstraintViolationException("Sub-type name already exists", CulturalOfferingSubType.class);
+            }
             culturalOfferingSubType.setSubTypeName(subTypeName);
             return this.culturalOfferingSubTypeService.create(culturalOfferingSubType);
         }).collect(Collectors.toSet());

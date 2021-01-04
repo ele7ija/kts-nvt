@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.service;
 
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.SQLDeleteEntityException;
 import org.springframework.beans.factory.annotation.Autowired;

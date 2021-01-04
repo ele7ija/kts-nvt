@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -113,7 +114,7 @@ public class CulturalOfferingTypeServiceTest {
     @Test
     public void testCreate(){
         CulturalOfferingType arg = new CulturalOfferingType();
-
+        arg.setCulturalOfferingSubTypes(new HashSet<>());
         CulturalOfferingType culturalOfferingTypeStub = Mockito.mock(CulturalOfferingType.class);
 
         when(culturalOfferingTypeRepository.save(arg)).thenReturn(culturalOfferingTypeStub);
@@ -145,6 +146,7 @@ public class CulturalOfferingTypeServiceTest {
         Long id = 5l;
 
         Optional<CulturalOfferingType> culturalOfferingTypeStub1 = Optional.ofNullable(new CulturalOfferingType());
+        culturalOfferingTypeStub1.get().setCulturalOfferingSubTypes(new HashSet<>());
         CulturalOfferingType culturalOfferingTypeStub2 = new CulturalOfferingType();
 
         when(culturalOfferingTypeRepository.findById(id)).thenReturn(culturalOfferingTypeStub1);

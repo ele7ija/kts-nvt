@@ -17,6 +17,9 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -168,6 +171,8 @@ public class CulturalOfferingTypeControllerTest {
         CulturalOfferingTypeDTO culturalOfferingTypeDTO = new CulturalOfferingTypeDTO();
         culturalOfferingTypeDTO.setTypeName(UPDATE_ENTITY_TYPE_NAME);
         culturalOfferingTypeDTO.setImageId(EXISTING_ENTITY_IMAGE_MODEL_ID);
+        culturalOfferingTypeDTO.setSubTypeIds(new HashSet<>(Arrays.asList(10l)));
+
 
         mockMvc.perform(
                 put("/cultural-offerings-types/{id}", UPDATE_ENTITY_ID)

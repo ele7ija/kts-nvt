@@ -1,18 +1,26 @@
 package ftn.ktsnvt.culturalofferings.unit.cultural_offering_type;
 
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeUpsertDTO;
 import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingTypeMapper;
+import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.model.ImageModel;
+import ftn.ktsnvt.culturalofferings.model.exceptions.ModelConstraintViolationException;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingSubtypeService;
+import ftn.ktsnvt.culturalofferings.service.CulturalOfferingTypeService;
 import ftn.ktsnvt.culturalofferings.service.ImageService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -27,6 +35,9 @@ public class CulturalOfferingTypeMapperTest {
 
     @Mock
     CulturalOfferingSubtypeService culturalOfferingSubtypeService;
+
+    @Mock
+    CulturalOfferingTypeService culturalOfferingTypeService;
 
     @Before
     public void init(){
@@ -67,5 +78,21 @@ public class CulturalOfferingTypeMapperTest {
         CulturalOfferingTypeDTO culturalOfferingTypeDTO = culturalOfferingTypeMapper.toDto(arg);
         assertEquals(typeName, culturalOfferingTypeDTO.getTypeName());
         assertEquals(imageModelId, culturalOfferingTypeDTO.getImageId().longValue());
+    }
+
+    @Test
+    public void toEntityAddSubTypesTestFail(){
+        CulturalOfferingTypeUpsertDTO arg = new CulturalOfferingTypeUpsertDTO();
+        arg.setId(1l);
+        arg.setTypeName("Name");
+
+        CulturalOfferingType stub = new CulturalOfferingType();
+        stub.setId(2l);
+        stub.setTypeName("Name");
+
+        List<CulturalOfferingType> listStub = new ArrayList<CulturalOfferingType>(Arrays.asList(stub));
+
+        when(culturalOfferingTypeService.findAllByTypeName(arg.getTypeName())).thenReturn(listStub);
+        assertThrows(ModelConstraintViolationException.class, () -> this.culturalOfferingTypeMapper.toEntityAddSubTypes(arg));
     }
 }

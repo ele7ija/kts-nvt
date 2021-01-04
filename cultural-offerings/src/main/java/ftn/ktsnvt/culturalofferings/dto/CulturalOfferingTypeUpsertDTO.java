@@ -2,13 +2,13 @@ package ftn.ktsnvt.culturalofferings.dto;
 
 import java.util.Set;
 
-public class CulturalOfferingTypeUpdateDTO extends CulturalOfferingTypeDTO{
+public class CulturalOfferingTypeUpsertDTO extends CulturalOfferingTypeDTO{
 
     private Set<String> subTypesToAdd;
 
-    public CulturalOfferingTypeUpdateDTO(){}
+    public CulturalOfferingTypeUpsertDTO(){}
 
-    public CulturalOfferingTypeUpdateDTO(Long id, String typeName, Long imageId, Set<Long> subTypeIds, Set<String> subTypesToAdd) {
+    public CulturalOfferingTypeUpsertDTO(Long id, String typeName, Long imageId, Set<Long> subTypeIds, Set<String> subTypesToAdd) {
         super(id, typeName, imageId, subTypeIds);
         this.subTypesToAdd = subTypesToAdd;
     }

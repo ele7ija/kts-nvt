@@ -14,7 +14,7 @@ public class CulturalOfferingType {
     @Column(nullable = false, unique = true)
     private String typeName;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval = true)
     @JoinColumn
     private ImageModel imageModel;
 
