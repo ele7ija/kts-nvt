@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/com
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError, filter, map } from 'rxjs/operators';
+import { PageableRequest } from 'src/app/model/pageable-request/pageable-request';
 
 export enum RequestMethod {
   Get = 'GET',
@@ -26,12 +27,21 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
+  getByPage(path: string, pageableRequest: PageableRequest): Observable<any> {
+    return this.get(
+      `${path}?page=${pageableRequest.page}&size=${pageableRequest.size}&sort=${pageableRequest.sort},${pageableRequest.sortOrder}`);
+  }
+
   get(path: string, customHeaders?: HttpHeaders): Observable<any> {
     return this.request(path, null, RequestMethod.Get, customHeaders);
   }
 
   post(path: string, body: any, customHeaders?: HttpHeaders): Observable<any> {
     return this.request(path, body, RequestMethod.Post, customHeaders);
+  }
+
+  postFile(path: string, body: any): Observable<any> {
+    return this.http.post(path, body);
   }
 
   put(path: string, body: any): Observable<any> {
@@ -56,7 +66,6 @@ export class ApiService {
 
   // Display error if logged in, otherwise redirect to IDP
   private checkError(error: any): any {
-    console.log(error);
     if (error && error.status === 401) {
       // this.redirectIfUnauth(error);
     } else {

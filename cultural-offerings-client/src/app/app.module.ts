@@ -16,6 +16,17 @@ import { ChangePasswordComponent } from './components/forms/change-password/chan
 import { ChangeUserDataComponent } from './components/forms/change-user-data/change-user-data.component';
 import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
 import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { CultrualOfferingTypeDetailsComponent } from './components/forms/cultrual-offering-type-details/cultrual-offering-type-details.component';
+import { CulturalOfferingSubtypeChipsComponent } from './components/forms/cultural-offering-subtype-chips/cultural-offering-subtype-chips.component';
+import { SimpleSnackbarComponent } from './components/snackbar/simple-snackbar/simple-snackbar.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +35,10 @@ import { CulturalOfferingTypeComponent } from './components/pages/cultural-offer
     MustMatchDirective,
     ChangePasswordComponent,
     ChangeUserDataComponent,
-    CulturalOfferingTypeComponent
+    CulturalOfferingTypeComponent,
+    CultrualOfferingTypeDetailsComponent,
+    CulturalOfferingSubtypeChipsComponent,
+    SimpleSnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +47,17 @@ import { CulturalOfferingTypeComponent } from './components/pages/cultural-offer
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    
+    //material design components
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatIconModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}

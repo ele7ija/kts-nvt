@@ -18,15 +18,16 @@ public class CulturalOfferingType {
     @JoinColumn
     private ImageModel imageModel;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "culturalOfferingType")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "culturalOfferingType", orphanRemoval = true)
     private Set<CulturalOfferingSubType> culturalOfferingSubTypes;
 
     public CulturalOfferingType(){}
 
-    public CulturalOfferingType(String typeName, ImageModel imageModel) {
+    public CulturalOfferingType(Long id, String typeName, ImageModel imageModel, Set<CulturalOfferingSubType> culturalOfferingSubTypes) {
+        this.id = id;
         this.typeName = typeName;
         this.imageModel = imageModel;
-        this.culturalOfferingSubTypes = new HashSet<>();
+        this.culturalOfferingSubTypes = culturalOfferingSubTypes;
     }
 
     public Long getId() {

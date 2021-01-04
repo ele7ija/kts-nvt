@@ -5,6 +5,7 @@ import { HomepageComponent } from './components/pages/homepage/homepage.componen
 import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
 import { RegisterComponent } from './components/pages/register/register.component';
 import { SignInComponent } from './components/pages/sign-in/sign-in.component';
+import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' }, // Don't use prefix becasue empty path is a prefix to any path
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'sign-in', component: SignInComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'my-profile', component: MyProfileComponent },
+  { path: 'cultural-offering-types', component: CulturalOfferingTypeComponent },
   { path: '**', redirectTo: '/error404' }
 ];
 

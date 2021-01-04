@@ -1,0 +1,15 @@
+<mat-form-field class="example-chip-list">
+  <mat-label>Podtipovi kulturne ponude</mat-label>
+  <mat-chip-list #chipList aria-label="Cultural offering subtype selection">
+    <mat-chip *ngFor="let culturalOfferingSubType of culturalOfferingSubTypes" [selectable]="selectable"
+              [removable]="removable" (removed)="remove(culturalOfferingSubType)">
+      {{culturalOfferingSubType.subTypeName}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+    <input placeholder="Novi podtip..."
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)">
+  </mat-chip-list>
+</mat-form-field>

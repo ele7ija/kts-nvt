@@ -82,4 +82,8 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
             );
         culturalOfferingSubtypeRepository.deleteById(optional.get().getId());
     }
+
+    public List<CulturalOfferingSubType> getAllByTypeId(Long typeId) {
+        return this.culturalOfferingSubtypeRepository.findAllByCulturalOfferingTypeId(typeId);
+    }
 }

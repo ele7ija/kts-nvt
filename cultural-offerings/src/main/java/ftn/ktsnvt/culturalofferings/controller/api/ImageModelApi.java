@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.api;
 
 import java.io.IOException;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,11 +16,10 @@ import ftn.ktsnvt.culturalofferings.model.ImageModel;
 public interface ImageModelApi {
 	
 	
-	@RequestMapping(value="/upload-image",
-			method = RequestMethod.POST)
-	BodyBuilder uplaodImage(@RequestParam("imageFile") MultipartFile file) throws IOException;		
+	@RequestMapping(method = RequestMethod.POST)
+	ResponseEntity<ImageModel> uploadImage(@RequestParam("imageFile") MultipartFile file) throws Exception;
 	
-	@RequestMapping(value="/get/{imageName}",
+	@RequestMapping(value="/{imageId}",
 			method = RequestMethod.GET)
-	ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException;
+	ResponseEntity<ImageModel> getImage(@PathVariable("imageId") Long imageId) throws IOException;
 }

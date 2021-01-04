@@ -6,6 +6,8 @@ import javax.validation.constraints.Positive;
 
 public class CulturalOfferingSubTypeDTO {
 
+    private Long id;
+
     @NotBlank(message = "Cultural offering subtype name cannot be empty")
     private String subTypeName;
 
@@ -13,9 +15,18 @@ public class CulturalOfferingSubTypeDTO {
     @Positive(message = "Cultural offering type id must be a positive number")
     private Long typeId;
 
-    public CulturalOfferingSubTypeDTO(String subTypeName, Long typeId) {
+    public CulturalOfferingSubTypeDTO(Long id, String subTypeName, Long typeId) {
+        this.id = id;
         this.subTypeName = subTypeName;
         this.typeId = typeId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSubTypeName() {

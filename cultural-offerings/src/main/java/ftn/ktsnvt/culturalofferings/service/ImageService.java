@@ -45,6 +45,8 @@ public class ImageService {
     }
 
     public ImageModel findOne(Long id) {
+        if(id == null)
+            return null;
         Optional<ImageModel> optional = imageRepository.findById(id);
         if (optional.isEmpty())
             throw new EntityNotFoundException(
@@ -131,4 +133,10 @@ public class ImageService {
         return outputStream.toByteArray();
     }
 
+    public ImageModel findById(Long imageId) {
+        Optional<ImageModel> imageModel = this.imageRepository.findById(imageId);
+        if(imageModel.isEmpty())
+            throw new EntityNotFoundException(imageId, ImageModel.class);
+        return imageModel.get();
+    }
 }

@@ -1,0 +1,20 @@
+.snack{
+    border: 1px solid grey;
+    border-radius: 6px;
+    float: right;
+    width: 230px;
+}
+
+.snack div{
+    clear: both;
+}
+
+.snack-title{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+}
+
+.snack-text{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: small;
+}

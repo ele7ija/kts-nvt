@@ -109,4 +109,16 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
         culturalOfferingSubtypeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
+    public ResponseEntity<List<CulturalOfferingSubTypeDTO>> getAllByTypeId(Long typeId){
+        List<CulturalOfferingSubType> culturalOfferingSubTypeList = culturalOfferingSubtypeService.getAllByTypeId(typeId);
+        return new ResponseEntity<>(
+                culturalOfferingSubTypeList.stream().map(
+                        culturalOfferingSubType -> culturalOfferingSubTypeMapper.toDto(culturalOfferingSubType)
+                ).collect(Collectors.toList()),
+                HttpStatus.OK
+        );
+    }
 }

@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.controller.api;
 
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeDTO;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingTypeUpdateDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,9 @@ public interface CulturalOfferingTypeApi {
 
     @RequestMapping(value= "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<CulturalOfferingTypeDTO> update(@RequestBody CulturalOfferingTypeDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
+
+    @RequestMapping(value= "/refreshSubTypes/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<CulturalOfferingTypeDTO> update2(@RequestBody CulturalOfferingTypeUpdateDTO body, BindingResult bindingResult, @PathVariable("id") Long id);
 
     @RequestMapping(value= "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Void> delete(@PathVariable("id") Long id);
