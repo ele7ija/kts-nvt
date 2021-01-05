@@ -1,13 +1,13 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CulturalOfferingSubtype } from 'src/app/model/cultural-offering-subtype/cultural-offering-subtype';
-import { CulturalOfferingType, CulturalOfferingTypeUpsert } from 'src/app/model/cultural-offering-type/cultural-offering-type';
-import { ListChangeEventType } from 'src/app/model/event/list-change-event-type/list-change-event-type.enum';
-import { ListChangeEvent } from 'src/app/model/event/list-change-event/list-change-event';
-import { ImageModel } from 'src/app/model/image-model/image-model';
-import { CulturalOfferingSubtypeService } from 'src/app/services/cultural-offering-subtype/cultural-offering-subtype.service';
-import { CulturalOfferingTypeService } from 'src/app/services/cultural-offering-type/cultural-offering-type.service';
-import { ImageService } from 'src/app/services/image/image.service';
+import { CulturalOfferingSubtype } from 'src/app/core/model/cultural-offering-subtype';
+import { CulturalOfferingType, CulturalOfferingTypeUpsert } from 'src/app/core/model/cultural-offering-type';
+import { ListChangeEventType } from 'src/app/core/model/list-change-event-type.enum';
+import { ListChangeEvent } from 'src/app/core/model/list-change-event';
+import { ImageModel } from 'src/app/core/model/image-model';
+import { CulturalOfferingSubtypeService } from 'src/app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
+import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
+import { ImageService } from 'src/app/core/services/image/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SimpleSnackbarComponent } from '../../snackbar/simple-snackbar/simple-snackbar.component';
 

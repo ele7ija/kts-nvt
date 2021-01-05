@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/security/auth-service/auth.service';
-import { SignInService } from 'src/app/services/security/sign-in-service/sign-in.service';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
+import { SignInService } from 'src/app/core/services/security/sign-in-service/sign-in.service';
 
 @Component({
   selector: 'app-homepage',

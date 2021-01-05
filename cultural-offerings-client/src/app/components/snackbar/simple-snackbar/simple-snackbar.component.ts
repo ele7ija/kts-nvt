@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { SimpleSnackbarProps } from 'src/app/model/snackbar/simple-snackbar-props/simple-snackbar-props';
+import { SimpleSnackbarProps } from 'src/app/core/model/simple-snackbar-props';
 
 @Component({
   selector: 'app-simple-snackbar',

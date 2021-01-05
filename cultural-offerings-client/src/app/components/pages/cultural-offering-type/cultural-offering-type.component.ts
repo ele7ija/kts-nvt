@@ -2,13 +2,13 @@ import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import { CulturalOfferingTypeService } from '../../../services/cultural-offering-type/cultural-offering-type.service';
-import { CulturalOfferingType } from '../../../model/cultural-offering-type/cultural-offering-type';
+import { CulturalOfferingTypeService } from '../../../core/services/cultural-offering-type/cultural-offering-type.service';
+import { CulturalOfferingType } from '../../../core/model/cultural-offering-type';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, MatSortable} from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PageableRequest } from 'src/app/model/pageable-request/pageable-request';
-import { Optional } from 'src/app/model/optional/optional';
+import { PageableRequest } from 'src/app/core/model/pageable-request';
+import { Optional } from 'src/app/core/model/optional/optional';
 import { SimpleSnackbarComponent } from '../../snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({

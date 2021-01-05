@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import { CulturalOfferingSubtype } from 'src/app/model/cultural-offering-subtype/cultural-offering-subtype';
+import { CulturalOfferingSubtype } from 'src/app/core/model/cultural-offering-subtype';
 import { EventEmitter } from '@angular/core';
-import { ListChangeEvent } from 'src/app/model/event/list-change-event/list-change-event';
-import { ListChangeEventType } from 'src/app/model/event/list-change-event-type/list-change-event-type.enum';
+import { ListChangeEvent } from 'src/app/core/model/list-change-event';
+import { ListChangeEventType } from 'src/app/core/model/list-change-event-type.enum';
 
 @Component({
   selector: 'app-cultural-offering-subtype-chips',
@@ -56,9 +56,4 @@ export class CulturalOfferingSubtypeChipsComponent implements OnInit {
       listChangeEventType: ListChangeEventType.REMOVE
     });
   }
-  
-  
-
-
-
 }

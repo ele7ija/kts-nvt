@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SignInUser } from 'src/app/model/sign-in-user/sign-in-user';
-import { AuthService } from 'src/app/services/security/auth-service/auth.service';
-import { SignInService } from 'src/app/services/security/sign-in-service/sign-in.service';
+import { SignInUser } from 'src/app/core/model/sign-in-user';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
+import { SignInService } from 'src/app/core/services/security/sign-in-service/sign-in.service';
 import { of } from 'rxjs';
 
 
@@ -45,7 +45,10 @@ export class SignInComponent implements OnInit {
     this.submitted = true;
     this.errorMsg = undefined;
 
-    this.user = new SignInUser(this.signinForm.value['emailField'], this.signinForm.value['passField']);
+    this.user = {
+      email: this.signinForm.value['emailField'],
+      password: this.signinForm.value['passField']
+    };
 
     this.authService.signin(this.user).subscribe(
       data => {

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { RegisterUser } from 'src/app/model/register-user/register-user';
-import { AuthService } from 'src/app/services/security/auth-service/auth.service';
-import { RegisterService } from 'src/app/services/security/register-service/register.service';
+import { RegisterUser } from 'src/app/core/model/register-user';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
+import { RegisterService } from 'src/app/core/services/security/register-service/register.service';
 import { mustMatchValidator } from 'src/app/shared/validators/must-match/must-match.directive';
 
 @Component({
@@ -46,8 +46,12 @@ export class RegisterComponent implements OnInit {
     this.successMsg = undefined;
 
     let email: string = this.registerForm.value['emailField'];
-    let newUser: RegisterUser = new RegisterUser(this.registerForm.value['nameField'], this.registerForm.value['surnameField'],
-      email, this.registerForm.value['passField']);
+    let newUser: RegisterUser = {
+      firstName: this.registerForm.value['nameField'],
+      lastName: this.registerForm.value['surnameField'],
+      email,
+      password: this.registerForm.value['passField']
+    };
 
     this.registerService.sendRegistrationRequest(newUser).subscribe(
       data => {
