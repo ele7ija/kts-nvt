@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
-import { HomepageComponent } from './components/pages/homepage/homepage.component';
-import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
-import { RegisterComponent } from './components/pages/register/register.component';
-import { SignInComponent } from './components/pages/sign-in/sign-in.component';
-import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
+import { NotFoundComponent } from './shared/components/pages/not-found/not-found.component';
+import { HomepageComponent } from './shared/components/pages/homepage/homepage.component';
+import { MyProfileComponent } from './user-data/my-profile/my-profile.component';
+import { RegisterComponent } from './register/register/register.component';
+import { SignInComponent } from './sign-in/sign-in/sign-in.component';
+import { CulturalOfferingTypeComponent } from './cultural-offering-type/cultural-offering-type/cultural-offering-type.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' }, // Don't use prefix becasue empty path is a prefix to any path
@@ -28,7 +28,4 @@ export class AppRoutingModule { }
 export const routingComponents = [
   HomepageComponent,
   NotFoundComponent,
-  SignInComponent,
-  RegisterComponent,
-  MyProfileComponent
 ]

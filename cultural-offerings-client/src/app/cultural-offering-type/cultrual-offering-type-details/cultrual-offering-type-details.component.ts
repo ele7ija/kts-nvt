@@ -9,7 +9,7 @@ import { CulturalOfferingSubtypeService } from 'src/app/core/services/cultural-o
 import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { ImageService } from 'src/app/core/services/image/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SimpleSnackbarComponent } from '../../snackbar/simple-snackbar/simple-snackbar.component';
+import { SimpleSnackbarComponent } from '../../shared/components/snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
   selector: 'app-cultrual-offering-type-details',

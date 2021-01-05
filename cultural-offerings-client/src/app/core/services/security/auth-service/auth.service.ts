@@ -1,11 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignInUser } from 'src/app/core/model/sign-in-user';
 import { ApiService } from '../api-service/api.service';
-import { catchError, map } from 'rxjs/operators';
-import { SignInService } from '../sign-in-service/sign-in.service';
-import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
 
@@ -21,7 +18,7 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 export class AuthService {
   private signInUrl : string = environment.baseUrl + '/auth/login';
 
-  constructor(private apiService: ApiService, private signInService: SignInService, private router: Router) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   signin(user : SignInUser) {
     const body = {

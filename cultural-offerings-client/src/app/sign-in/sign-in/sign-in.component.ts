@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignInUser } from 'src/app/core/model/sign-in-user';
 import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
 import { SignInService } from 'src/app/core/services/security/sign-in-service/sign-in.service';
-import { of } from 'rxjs';
 
 
 @Component({

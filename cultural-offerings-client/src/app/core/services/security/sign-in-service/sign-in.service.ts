@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
 import { UserData } from 'src/app/core/model/current-user';
-import { SignInUser } from 'src/app/core/model/sign-in-user';
-import { ApiService } from '../api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class SignInService {
 
   private UserData: UserData = undefined;
 
-  constructor(private _apiService: ApiService) { }
+  constructor() { }
 
   // was setupuser method
   changeUserData(user : UserData) : void {

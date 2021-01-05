@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 import { PageableRequest } from 'src/app/core/model/pageable-request';
 import { CulturalOfferingType, CulturalOfferingTypeUpsert } from 'src/app/core/model/cultural-offering-type';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CulturalOfferingTypeService {
 
   private endpoint: string = environment.baseUrl + '/cultural-offerings-types'

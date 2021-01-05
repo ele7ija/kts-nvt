@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { UserData } from 'src/app/core/model/current-user';
 import { ChangeUserDataService } from 'src/app/core/services/security/change-user-data/change-user-data.service';
-import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
 
 @Component({

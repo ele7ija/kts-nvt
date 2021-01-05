@@ -5,9 +5,7 @@ import { ImageModel } from 'src/app/core/model/image-model';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../security/api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ImageService {
 
   private endpoint: string = environment.baseUrl + '/images'

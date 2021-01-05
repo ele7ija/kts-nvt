@@ -4,9 +4,7 @@ import { CulturalOfferingSubtype } from 'src/app/core/model/cultural-offering-su
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../security/api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CulturalOfferingSubtypeService {
 
   endpoint: string = `${environment.baseUrl}/cultural-offering-subtypes`

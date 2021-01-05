@@ -4,9 +4,7 @@ import { UserData } from 'src/app/core/model/current-user';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ChangeUserDataService {
 
   private changerUrl: string = environment.baseUrl + '/users/change-user-data';

@@ -4,9 +4,7 @@ import { RegisterUser } from 'src/app/core/model/register-user';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RegisterService {
 
   private registrationUrl: string = environment.baseUrl + '/auth/register';

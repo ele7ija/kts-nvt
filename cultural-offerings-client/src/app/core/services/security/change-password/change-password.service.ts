@@ -4,9 +4,7 @@ import { ChangePassword } from 'src/app/core/model/change-password';
 import { environment } from 'src/environments/environment';
 import { ApiService } from '../api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ChangePasswordService {
 
   private changerUrl: string = environment.baseUrl + '/users/change-user-password';
