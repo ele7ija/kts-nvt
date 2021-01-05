@@ -5,6 +5,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignInService } from '../core/services/security/sign-in-service/sign-in.service';
+import { SignInRoutingModule } from './sign-in-routing.module';
 
 
 @NgModule({
@@ -15,7 +16,9 @@ import { SignInService } from '../core/services/security/sign-in-service/sign-in
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+
+    SignInRoutingModule
   ],
   providers: [
     SignInService

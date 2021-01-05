@@ -8,8 +8,7 @@ import { ChangeUserDataComponent } from './change-user-data/change-user-data.com
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { ChangePasswordService } from '../core/services/security/change-password/change-password.service';
 import { ChangeUserDataService } from '../core/services/security/change-user-data/change-user-data.service';
-
-
+import { UserDataRoutingModule } from './user-data-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +21,8 @@ import { ChangeUserDataService } from '../core/services/security/change-user-dat
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
+
+    UserDataRoutingModule
   ],
   providers: [
     ChangePasswordService,

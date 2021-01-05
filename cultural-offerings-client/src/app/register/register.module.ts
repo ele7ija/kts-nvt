@@ -5,6 +5,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from '../core/services/security/register-service/register.service';
+import { RegisterRoutingModule } from './register-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,9 @@ import { RegisterService } from '../core/services/security/register-service/regi
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    
+    RegisterRoutingModule
   ],
   providers: [
     RegisterService

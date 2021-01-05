@@ -19,6 +19,7 @@ import { CulturalOfferingTypeService } from '../core/services/cultural-offering-
 import { CulturalOfferingSubtypeService } from '../core/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { SimpleSnackbarComponent } from '../shared/components/snackbar/simple-snackbar/simple-snackbar.component';
 import { CulturalOfferingTypeComponent } from './cultural-offering-type/cultural-offering-type.component';
+import { CulturalOfferingTypeRoutingModule } from './cultural-offering-type-routing.module';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,9 @@ import { CulturalOfferingTypeComponent } from './cultural-offering-type/cultural
     MatIconModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+
+    CulturalOfferingTypeRoutingModule
   ],
   exports: [
     CulturalOfferingTypeComponent
