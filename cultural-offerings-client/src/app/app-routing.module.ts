@@ -1,20 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { NotFoundComponent } from './components/error-pages/not-found/not-found.component';
-import { HomepageComponent } from './components/pages/homepage/homepage.component';
-import { MyProfileComponent } from './components/pages/my-profile/my-profile.component';
-import { RegisterComponent } from './components/pages/register/register.component';
-import { SignInComponent } from './components/pages/sign-in/sign-in.component';
-import { CulturalOfferingTypeComponent } from './components/pages/cultural-offering-type/cultural-offering-type.component';
+import { NotFoundComponent } from './shared/components/pages/not-found/not-found.component';
+import { HomepageComponent } from './shared/components/pages/homepage/homepage.component';
+import { MyProfileComponent } from './user-data/my-profile/my-profile.component';
+import { RegisterComponent } from './register/register/register.component';
+import { SignInComponent } from './sign-in/sign-in/sign-in.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' }, // Don't use prefix becasue empty path is a prefix to any path
   { path: 'homepage', component: HomepageComponent },
   { path: 'error404', component: NotFoundComponent },
-  { path: 'sign-in', component: SignInComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'my-profile', component: MyProfileComponent },
-  { path: 'cultural-offering-types', component: CulturalOfferingTypeComponent },
+  { path: 'sign-in', loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInModule)},
+  { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule)},
+  { path: 'my-profile', loadChildren: () => import('./user-data/user-data.module').then(m => m.UserDataModule)},
+  { path: 'cultural-offering-types', loadChildren: () => import('./cultural-offering-type/cultural-offering-type.module').then(m => m.CulturalOfferingTypeModule)},
   { path: '**', redirectTo: '/error404' }
 ];
 
@@ -28,7 +27,4 @@ export class AppRoutingModule { }
 export const routingComponents = [
   HomepageComponent,
   NotFoundComponent,
-  SignInComponent,
-  RegisterComponent,
-  MyProfileComponent
 ]
