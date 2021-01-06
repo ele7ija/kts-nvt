@@ -1,0 +1,64 @@
+<ng-container>
+    <form [formGroup]="culturalOfferingSubTypeForm" (ngSubmit)="upsert()" *ngIf="!loading">
+        <div class="container-fluid mt-3 mb-2">
+
+            <div class="form-row px-0">
+                
+                <div class="col-5 mx-0 px-2">
+                    
+                    <div class="form-group">
+                        <label for="subTypeName" class="mb-1">Naziv</label>
+                        <input type="text" id="subTypeName" name="subTypeName" formControlName="subTypeName" class="form-control"
+                            mdbInput/>
+                        
+                        <div
+                            *ngIf="culturalOfferingSubTypeForm.controls.subTypeName.invalid && (culturalOfferingSubTypeForm.controls.subTypeName.touched || culturalOfferingSubTypeForm.controls.subTypeName.dirty)">
+                            <small class="text-danger" *ngIf="culturalOfferingSubTypeForm.controls.subTypeName.errors?.required">
+                                Obavezno je uneti naziv.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-5 mx-0 px-2">
+                    
+                    <div class="form-group">
+                        <label for="typeId" class="mb-1">Roditeljska kategorija</label>
+                        <select id="typeId" name="typeId" formControlName="typeId" 
+                            class="form-control" mdbInput>
+                            <option
+                                *ngFor="let culturalOfferingType of culturalOfferingTypes"
+                                [value]="culturalOfferingType.id"
+                            >
+                                {{culturalOfferingType.typeName}}
+                            </option>
+                        </select>
+                        
+                        <div
+                            *ngIf="culturalOfferingSubTypeForm.controls.typeId.invalid && (culturalOfferingSubTypeForm.controls.typeId.touched || culturalOfferingSubTypeForm.controls.typeId.dirty)">
+                            <small class="text-danger" *ngIf="culturalOfferingSubTypeForm.controls.typeId.errors?.required">
+                                Obavezno je uneti Roditeljsku kategoriju.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-2 mx-0 px-2">
+                    <div class="d-flex justify-content-center mt-3">
+                        <button 
+                            class="new-button green-button borderless"
+                            type="submit"
+                            [disabled]="culturalOfferingSubTypeForm.invalid"
+                            (click)="upsert()"
+                            style="width: 100%; margin-top: 0.6rem;"
+                        >{{!!culturalOfferingSubType ? "Sacuvaj izmene" : "Dodaj"}}</button>
+                    </div>
+                </div>
+            
+            </div>
+
+        </div>
+    </form>    
+    <mat-spinner *ngIf="loading" diameter="50" class="align-to-center"></mat-spinner>
+</ng-container>
+

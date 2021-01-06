@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { MustMatchDirective } from './shared/validators/must-match/must-match.directive';
-
 import { CulturalOfferingTypeModule } from './cultural-offering-type/cultural-offering-type.module';
 import { UserDataModule } from './user-data/user-data.module';
 import { RegisterModule } from './register/register.module';

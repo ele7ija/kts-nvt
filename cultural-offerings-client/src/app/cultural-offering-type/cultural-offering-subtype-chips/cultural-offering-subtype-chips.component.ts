@@ -39,6 +39,7 @@ export class CulturalOfferingSubtypeChipsComponent implements OnInit {
     if ((value || '').trim()) {
       this.change.emit({
         item: {
+          id: null,
           subTypeName: value,
           typeId: this.typeId
         },

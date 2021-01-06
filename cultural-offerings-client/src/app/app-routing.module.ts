@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule)},
   { path: 'my-profile', loadChildren: () => import('./user-data/user-data.module').then(m => m.UserDataModule)},
   { path: 'cultural-offering-types', loadChildren: () => import('./cultural-offering-type/cultural-offering-type.module').then(m => m.CulturalOfferingTypeModule)},
+  { path: 'cultural-offering-sub-type', loadChildren: () => import('./cultural-offering-sub-type/cultural-offering-sub-type.module').then(m => m.CulturalOfferingSubTypeModule) },
   { path: '**', redirectTo: '/error404' }
 ];
 
