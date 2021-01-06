@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
-import { SignInService } from 'src/app/core/services/security/sign-in-service/sign-in.service';
 
 @Component({
   selector: 'app-homepage',
@@ -9,7 +8,7 @@ import { SignInService } from 'src/app/core/services/security/sign-in-service/si
 })
 export class HomepageComponent implements OnInit {
 
-  constructor(private authService: AuthService, private signInService: SignInService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
   }
