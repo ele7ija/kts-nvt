@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingSubtypeRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,7 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
     private CulturalOfferingSubtypeRepository culturalOfferingSubtypeRepository;
 
     @Autowired
-    public CulturalOfferingService culturalOfferingService;
+    private CulturalOfferingService culturalOfferingService;
 
     public List<CulturalOfferingSubType> findAll() {
         return culturalOfferingSubtypeRepository.findAll();
@@ -49,11 +50,13 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
     }
 
     @Override
+    @Transactional
     public CulturalOfferingSubType create(CulturalOfferingSubType entity) {
         return culturalOfferingSubtypeRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public CulturalOfferingSubType update(CulturalOfferingSubType entity, Long id) {
         Optional<CulturalOfferingSubType> optional =  culturalOfferingSubtypeRepository.findById(id);
         if(optional.isEmpty()){
@@ -62,11 +65,20 @@ public class CulturalOfferingSubtypeService implements ServiceInterface<Cultural
                     CulturalOfferingSubType.class
             );
         }
+
+        List<CulturalOffering> culturalOfferings = this.culturalOfferingService.findByCulturalOfferingSubTypeId(id);
+        culturalOfferings.forEach(x -> {
+            if(!x.getCulturalOfferingType().equals(entity.getCulturalOfferingType())){
+                x.setCulturalOfferingType(entity.getCulturalOfferingType());
+            }
+        });
+
         entity.setId(id);
         return culturalOfferingSubtypeRepository.save(entity);
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Optional<CulturalOfferingSubType> optional = culturalOfferingSubtypeRepository.findById(id);
         if(optional.isEmpty()){

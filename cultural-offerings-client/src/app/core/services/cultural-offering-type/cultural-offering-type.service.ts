@@ -12,6 +12,10 @@ export class CulturalOfferingTypeService {
 
   constructor(private apiService: ApiService) {}
 
+  getAllEntities(): Observable<CulturalOfferingType[]>{
+    return this.apiService.get(this.endpoint);
+  }
+
   getAll(pageableRequest: PageableRequest): Observable<any>{
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageableRequest);
   }

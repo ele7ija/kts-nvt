@@ -71,6 +71,7 @@
 							<app-cultural-offering-sub-type-details
 								*ngIf="element == expandedItem.value"
 								[culturalOfferingSubType]="element"
+								[culturalOfferingTypes]="culturalOfferingTypes"
 								(upsertLocal)="upsertLocal($event)"
 								style="width: 100%;"
 							></app-cultural-offering-sub-type-details>
@@ -90,16 +91,19 @@
 		</div>
 		<mat-paginator [length]="totalLength" [pageSizeOptions]="[3,5,10,20]"></mat-paginator>
 
-		<div class="mx-3 py-2 pr-1" style="text-align: end;">
-			<button 
-				class="my-button"
-				(click)="addStarted=!addStarted; expandedItem.value=null;"
-				[style.background-color]="addStarted ? '#ca0b00' : '#24a0ed'"
-			>
-				{{addStarted ? "Odustani" : "Dodaj novi podtip"}}
-			</button>
+		<div class="mx-3 py-2 pr-1">
+			<div style="text-align: end;">
+				<button 
+					class="my-button"
+					(click)="addStarted=!addStarted; expandedItem.value=null;"
+					[style.background-color]="addStarted ? '#ca0b00' : '#24a0ed'"
+				>
+					{{addStarted ? "Odustani" : "Dodaj novi podtip"}}
+				</button>
+			</div>
 			<app-cultural-offering-sub-type-details
 				*ngIf="addStarted"
+				[culturalOfferingTypes]="culturalOfferingTypes"
 				(upsertLocal)="upsertLocal($event)"
 				style="width: 100%;"
 			></app-cultural-offering-sub-type-details>

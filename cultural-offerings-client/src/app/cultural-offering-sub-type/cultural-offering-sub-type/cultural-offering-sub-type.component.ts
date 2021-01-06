@@ -5,6 +5,8 @@ import { CulturalOfferingSubtypeService } from 'src/app/core/services/cultural-o
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TableComponent } from 'src/app/shared/modules/table/table/table.component';
 import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
+import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
+import { CulturalOfferingType } from 'src/app/core/model/cultural-offering-type';
 
 @Component({
   selector: 'app-cultural-offering-sub-type',
@@ -26,9 +28,12 @@ import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
 })
 export class CulturalOfferingSubTypeComponent extends TableComponent<CulturalOfferingSubtype> implements AfterViewInit {
 
+  culturalOfferingTypes: CulturalOfferingType[] = [];
+
   constructor(
     public culturalOfferingSubtypeService: AbstractCrudService<CulturalOfferingSubtype>,
-    public matSnackBar: MatSnackBar) {
+    public matSnackBar: MatSnackBar,
+    private culturalOfferingTypeService: CulturalOfferingTypeService) {
       super(culturalOfferingSubtypeService, matSnackBar);
       this.displayedColumns = [{field: 'id', text: 'ID'}, {field: 'subTypeName', text: 'Naziv podkategorije'}, {field: 'Actions', text: 'Akcije'}];
   }
@@ -41,6 +46,12 @@ export class CulturalOfferingSubTypeComponent extends TableComponent<CulturalOff
     super.delete(entity)
       .then(() => this.showSnackbar('USPESNO BRISANJE', `Podtip kategorije pod nazivom ${entity.subTypeName} je uspesno obrisan.`, true))
       .catch(error => this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false));
+  }
+
+  async fetchAditionalEntities(): Promise<void>{
+    this.culturalOfferingTypeService.getAllEntities().subscribe((entities: CulturalOfferingType[]) => {
+      this.culturalOfferingTypes = entities;
+    });
   }
 
 

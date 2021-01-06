@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { CulturalOfferingSubtype } from 'src/app/core/model/cultural-offering-subtype';
+import { CulturalOfferingType } from 'src/app/core/model/cultural-offering-type';
 import { CulturalOfferingSubtypeService } from 'src/app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
+import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { SimpleSnackbarComponent } from 'src/app/shared/components/snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
@@ -19,12 +21,15 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
   @Input()
   culturalOfferingSubType!: CulturalOfferingSubtype;
 
+  @Input()
+  culturalOfferingTypes: CulturalOfferingType[];
+
   @Output()
   upsertLocal: EventEmitter<CulturalOfferingSubtype> = new EventEmitter<CulturalOfferingSubtype>();
 
   culturalOfferingSubTypeForm: FormGroup;
   loading: boolean;
-
+  
   constructor(
     private formBuilder: FormBuilder, 
     private culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
@@ -33,21 +38,24 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.culturalOfferingSubTypeForm = this.formBuilder.group({
       subTypeName: [this.culturalOfferingSubType ? this.culturalOfferingSubType.subTypeName : '', Validators.required],
-    });    
+      typeId: [this.culturalOfferingSubType ? this.culturalOfferingSubType.typeId : '', Validators.required],
+    });
   }
 
   async getUpdateCulturalOfferingSubTypePromises(): Promise<CulturalOfferingSubtype>{
     const culturalOfferingSubType: CulturalOfferingSubtype = {
       id: this.culturalOfferingSubType.id,
       subTypeName: this.culturalOfferingSubTypeForm.value.subTypeName,
+      typeId: this.culturalOfferingSubTypeForm.value.typeId
     };
     return this.culturalOfferingSubTypeService.update(culturalOfferingSubType).toPromise();
   }
 
   async getInsertCulturalOfferingSubTypePromises(): Promise<CulturalOfferingSubtype>{
     const culturalOfferingSubType: CulturalOfferingSubtype = {
-      id: this.culturalOfferingSubType.id,
+      id: null,
       subTypeName: this.culturalOfferingSubTypeForm.value.subTypeName,
+      typeId: this.culturalOfferingSubTypeForm.value.typeId,
     };
     return this.culturalOfferingSubTypeService.insert(culturalOfferingSubType).toPromise();
   }

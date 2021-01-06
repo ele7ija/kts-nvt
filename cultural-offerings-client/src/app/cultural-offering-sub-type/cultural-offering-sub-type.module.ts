@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TableModule } from '../shared/modules/table/table.module';
 import { CulturalOfferingSubTypeDetailsComponent } from './cultural-offering-sub-type-details/cultural-offering-sub-type-details.component';
+import { CulturalOfferingTypeService } from '../core/services/cultural-offering-type/cultural-offering-type.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,9 @@ import { CulturalOfferingSubTypeDetailsComponent } from './cultural-offering-sub
     TableModule,
 
     CulturalOfferingSubTypeRoutingModule
+  ],
+  providers: [
+    CulturalOfferingTypeService
   ]
 })
 export class CulturalOfferingSubTypeModule { }

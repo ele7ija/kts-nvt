@@ -41,13 +41,19 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
     public apiService: AbstractCrudService<T>,
     public matSnackBar: MatSnackBar) {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit(){
+    Promise.all([
+      this.prepareTable(),
+      this.fetchAditionalEntities()
+    ]);
+  }
+
+  protected async prepareTable(): Promise<any>{
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
     });
-
-    merge(this.sort.sortChange, this.paginator.page)
+    return merge(this.sort.sortChange, this.paginator.page)
       .pipe(
         startWith({}),
         switchMap(() => {
@@ -71,8 +77,13 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
           this.fetchFailure = true;
           return observableOf([]);
         })
+        
       )
       .subscribe(data => this.data = data);
+  }
+
+  protected async fetchAditionalEntities(): Promise<void>{
+    //hook method
   }
 
   getHeadersField(): string[]{
@@ -107,7 +118,7 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
     this.data = [...this.data]; //for some reason angular does not detect changes on this array unles we do this
   }
 
-  async delete(entity: T): Promise<any>{
+  protected async delete(entity: T): Promise<any>{
     try{
       await this.apiService.delete(entity.id).toPromise();
       const index = this.data.findIndex((item: T) => item.id == entity.id);
