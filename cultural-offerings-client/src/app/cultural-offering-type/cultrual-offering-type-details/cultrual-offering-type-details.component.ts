@@ -148,6 +148,7 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
 
   async getInsertCulturalOfferingTypePromises(imageModelId: number): Promise<CulturalOfferingType>{
     const culturalOfferingType: CulturalOfferingTypeUpsert = {
+      id: null,
       typeName: this.culturalOfferingTypeForm.value.typeName,
       imageId: imageModelId,
       subTypeIds: [],
