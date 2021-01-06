@@ -21,9 +21,6 @@ import { RegisterRoutingModule } from './register-routing.module';
   ],
   providers: [
     RegisterService
-  ],
-  exports: [
-    RegisterComponent
   ]
 })
 export class RegisterModule { }

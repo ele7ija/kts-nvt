@@ -26,11 +26,7 @@ import { UserDataRoutingModule } from './user-data-routing.module';
   ],
   providers: [
     ChangePasswordService,
-    ChangeUserDataService,
-
-  ],
-  exports: [
-    MyProfileComponent
+    ChangeUserDataService
   ]
 })
 export class UserDataModule { }

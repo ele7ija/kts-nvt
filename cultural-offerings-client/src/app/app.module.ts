@@ -6,10 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './core/interceptor/token.interceptor';
 import { MustMatchDirective } from './shared/validators/must-match/must-match.directive';
-import { CulturalOfferingTypeModule } from './cultural-offering-type/cultural-offering-type.module';
-import { UserDataModule } from './user-data/user-data.module';
-import { RegisterModule } from './register/register.module';
-import { SignInModule } from './sign-in/sign-in.module';
 
 @NgModule({
   declarations: [
@@ -21,12 +17,7 @@ import { SignInModule } from './sign-in/sign-in.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
-
-    CulturalOfferingTypeModule,
-    UserDataModule,
-    RegisterModule,
-    SignInModule
+    HttpClientModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}

@@ -48,9 +48,6 @@ import { CulturalOfferingTypeRoutingModule } from './cultural-offering-type-rout
     MatProgressSpinnerModule,
 
     CulturalOfferingTypeRoutingModule
-  ],
-  exports: [
-    CulturalOfferingTypeComponent
   ]
 })
 export class CulturalOfferingTypeModule { }

@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SignInUser } from 'src/app/core/model/sign-in-user';
 import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
-import { SignInService } from 'src/app/core/services/security/sign-in-service/sign-in.service';
-
 
 @Component({
   selector: 'app-sign-in',
@@ -14,16 +12,12 @@ import { SignInService } from 'src/app/core/services/security/sign-in-service/si
 export class SignInComponent implements OnInit {
 
   signinForm: FormGroup;
-  private emailField: string;
-  private passField: string;
-
   submitted : boolean = false;
   private errorMsg : string;
-
   private user : SignInUser;
 
   constructor(private formBuilder: FormBuilder, private router : Router,
-    private authService : AuthService, private signInService : SignInService) {
+    private authService : AuthService) {
     this.signinForm = this.formBuilder.group({
       "emailField": ["", [Validators.required, Validators.email]],
       "passField": ["", [Validators.required, Validators.minLength(3)]]
