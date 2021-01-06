@@ -1,32 +1,27 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import { CulturalOfferingTypeService } from '../../core/services/cultural-offering-type/cultural-offering-type.service';
-import { CulturalOfferingType } from '../../core/model/cultural-offering-type';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort, MatSortable} from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { PageableRequest } from 'src/app/core/model/pageable-request';
+import { MatSort, MatSortable } from '@angular/material/sort';
 import { Optional } from 'src/app/core/model/optional/optional';
-import { SimpleSnackbarComponent } from '../../shared/components/snackbar/simple-snackbar/simple-snackbar.component';
+import { PageableRequest } from 'src/app/core/model/pageable-request';
+import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
+import { TableColumnDefinition } from 'src/app/core/model/table-column-definition';
+import { SimpleSnackbarComponent } from '../../../components/snackbar/simple-snackbar/simple-snackbar.component';
+
+interface Identifiable{
+  id: number;
+}
 
 @Component({
-  selector: 'app-cultural-offering-type',
-  templateUrl: './cultural-offering-type.component.html',
-  styleUrls: ['./cultural-offering-type.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.scss']
 })
-export class CulturalOfferingTypeComponent implements AfterViewInit {
-  //table headers and data
-  culturalOfferingTypes: CulturalOfferingType[] = [];
-  displayedColumns: any[] = [{field: 'id', text: 'ID'}, {field: 'typeName', text: 'Naziv kategorije'}, {field: 'Actions', text: 'Akcije'}];
+export class TableComponent<T extends Identifiable> implements AfterViewInit {
+  data: T[];
+  displayedColumns: TableColumnDefinition[];
   
   //pagination and sort logic
   fetchFailure: boolean = false;
@@ -34,7 +29,7 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
   totalLength: number = 0;
 
   //row expand logic
-  expandedItem: Optional<CulturalOfferingType> = new Optional<CulturalOfferingType>();
+  expandedItem: Optional<T> = new Optional<T>();
 
   //is add form visible?
   addStarted: boolean = false;
@@ -43,10 +38,10 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
-    private culturalOfferingTypeService: CulturalOfferingTypeService,
-    private matSnackBar: MatSnackBar) { }
+    public apiService: AbstractCrudService<T>,
+    public matSnackBar: MatSnackBar) {}
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
@@ -63,7 +58,7 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
             sort: this.sort.active,
             sortOrder: this.sort.direction ? this.sort.direction : 'asc'
           }
-          return this.culturalOfferingTypeService.getAll(pageableRequest);
+          return this.apiService.getAll(pageableRequest);
         }),
         map(data => {
           this.isLoading = false;
@@ -77,14 +72,14 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
           return observableOf([]);
         })
       )
-      .subscribe(data => this.culturalOfferingTypes = data);
+      .subscribe(data => this.data = data);
   }
 
   getHeadersField(): string[]{
     return this.displayedColumns.map(x => x.field);
   }
 
-  toggleRow(element: CulturalOfferingType){
+  toggleRow(element: T){
     if(this.expandedItem.value != element)
       this.expandedItem.value = element;
     else
@@ -92,8 +87,8 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
     this.addStarted = false;
   }
 
-  upsertLocal(event: CulturalOfferingType){
-    const index = this.culturalOfferingTypes.findIndex((item: CulturalOfferingType) => item.id == event.id);
+  upsertLocal(event: T){
+    const index = this.data.findIndex((item: T) => item.id == event.id);
     if(index == -1){
       //insert
       //this.culturalOfferingTypes.push(event); ne radimo ovo zbog paginacije
@@ -106,19 +101,18 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
       this.totalLength += 1;
     }else{
       //update
-      this.culturalOfferingTypes.splice(index, 1, event);
+      this.data.splice(index, 1, event);
       this.expandedItem.value = null;
     }
-    this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
-
+    this.data = [...this.data]; //for some reason angular does not detect changes on this array unles we do this
   }
 
-  async delete(entity: CulturalOfferingType){
+  async delete(entity: T): Promise<any>{
     try{
-      await this.culturalOfferingTypeService.delete(entity.id).toPromise();
-      const index = this.culturalOfferingTypes.findIndex((item: CulturalOfferingType) => item.id == entity.id);
-      this.culturalOfferingTypes.splice(index, 1);
-      this.culturalOfferingTypes = [...this.culturalOfferingTypes]; //for some reason angular does not detect changes on this array unles we do this
+      await this.apiService.delete(entity.id).toPromise();
+      const index = this.data.findIndex((item: T) => item.id == entity.id);
+      this.data.splice(index, 1);
+      this.data = [...this.data]; //for some reason angular does not detect changes on this array unles we do this
       if(!this.paginator.hasNextPage() && this.totalLength % this.paginator.pageSize == 1){
         this.paginator.previousPage();
       }else{
@@ -131,9 +125,9 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
         }
       }
       this.totalLength -= 1;
-      this.showSnackbar('USPESNO BRISANJE', `Tip kategorije pod nazivom ${entity.typeName} je uspesno obrisan.`, true);
+      return Promise.resolve();
     }catch({error}){
-      this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false);
+      return Promise.reject(error);
     }
   }
 
@@ -150,4 +144,6 @@ export class CulturalOfferingTypeComponent implements AfterViewInit {
 
     });
   }
+  
+
 }

@@ -1,5 +1,5 @@
 export interface CulturalOfferingSubtype {
-  id?: number;
+  id: number;
   typeId?: number;
   subTypeName?: string;
 }

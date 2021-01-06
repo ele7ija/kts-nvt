@@ -1,0 +1,41 @@
+<ng-container>
+    <form [formGroup]="culturalOfferingSubTypeForm" (ngSubmit)="upsert()" *ngIf="!loading">
+        <div class="container-fluid">
+
+            <div class="row">
+                
+                <div class="col-8 mx-0 px-2">
+                    
+                    <div class="md-form">
+                        <input type="text" id="subTypeName" name="subTypeName" formControlName="subTypeName" class="form-control"
+                            mdbInput mdbValidate>
+                        <label for="subTypeName">Naziv</label>
+                        
+                        <div
+                            *ngIf="culturalOfferingSubTypeForm.controls.subTypeName.invalid && (culturalOfferingSubTypeForm.controls.subTypeName.touched || culturalOfferingSubTypeForm.controls.subTypeName.dirty)">
+                            <small class="text-danger" *ngIf="culturalOfferingSubTypeForm.controls.subTypeName.errors?.required">
+                                Obavezno je uneti naziv.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4 mx-0 px-2">
+                    <div class="d-flex justify-content-center mt-3">
+                        <button 
+                            class="new-button green-button borderless"
+                            type="submit"
+                            [disabled]="culturalOfferingSubTypeForm.invalid"
+                            (click)="upsert()"
+                            style="width: 100%; margin-top: 0.8rem;"
+                        >{{!!culturalOfferingSubType ? "Sacuvaj izmene" : "Dodaj"}}</button>
+                    </div>
+                </div>
+            
+            </div>
+
+        </div>
+    </form>    
+    <mat-spinner *ngIf="loading" diameter="50" class="align-to-center"></mat-spinner>
+</ng-container>
+
