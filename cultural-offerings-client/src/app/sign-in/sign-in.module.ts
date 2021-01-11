@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignInRoutingModule } from './sign-in-routing.module';
+import { NavigationModule } from '../navigation/navigation.module';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { SignInRoutingModule } from './sign-in-routing.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NavigationModule,
     MDBBootstrapModule.forRoot(),
 
     SignInRoutingModule

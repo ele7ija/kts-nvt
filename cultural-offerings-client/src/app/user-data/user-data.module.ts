@@ -9,6 +9,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { ChangePasswordService } from '../core/services/security/change-password/change-password.service';
 import { ChangeUserDataService } from '../core/services/security/change-user-data/change-user-data.service';
 import { UserDataRoutingModule } from './user-data-routing.module';
+import { NavigationModule } from '../navigation/navigation.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UserDataRoutingModule } from './user-data-routing.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NavigationModule,
     MDBBootstrapModule.forRoot(),
 
     UserDataRoutingModule

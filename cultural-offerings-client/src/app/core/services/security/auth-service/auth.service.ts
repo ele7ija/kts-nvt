@@ -65,6 +65,8 @@ export class AuthService {
     return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.email;
   }
 
-  
+  getUserRole(): string {
+    return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.userRole;
+  }
 
 }
