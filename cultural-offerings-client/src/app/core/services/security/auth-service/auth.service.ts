@@ -5,6 +5,7 @@ import { ApiService } from '../api-service/api.service';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 const TOKEN_KEY = 'jwt-token';
 const TOKEN_KEY_PARSED = 'jwt-token-parsed';
@@ -17,6 +18,8 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 
 export class AuthService {
   private signInUrl : string = environment.baseUrl + '/auth/login';
+  private isLoggedInVar : boolean = false;
+  public isLoggedIn$ = new BehaviorSubject<boolean>(this.isLoggedInVar);
 
   constructor(private apiService: ApiService, private router: Router) {}
 
@@ -29,14 +32,16 @@ export class AuthService {
       map((res) => {
         console.log('Login success');
         this.saveToken(res.jwt);
+        this.updateIsLoggedIn(true);
         return true;
       })
     );
   }
 
-  logout() {
+  logout() : void {
     // delete all current user information by clearing Browser’s Session Storage when logout
     window.sessionStorage.clear();
+    this.updateIsLoggedIn(false);
     this.router.navigate(['/sign-in']);
   }
 
@@ -62,11 +67,21 @@ export class AuthService {
   }
 
   getEmail(): string {
-    return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.email;
+    if(this.isLoggedIn()) {
+      return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.email;
+    }
+    return "";
   }
 
   getUserRole(): string {
-    return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.userRole;
+    if(this.isLoggedIn()) {
+      return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.userRole;
+    }
+    return "";
+  }
+
+  updateIsLoggedIn(nextVal : boolean) {
+    this.isLoggedIn$.next(nextVal);
   }
 
 }
