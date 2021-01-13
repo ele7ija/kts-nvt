@@ -85,7 +85,7 @@ public class CulturalOfferingMapperTest {
 		when(locationService.findOne(11l)).thenReturn(location);
 		when(locationService.update(location, 11l)).thenReturn(location);
 		
-		CulturalOffering entity = mapper.toEntity(dto, null);
+		CulturalOffering entity = mapper.toEntity(dto);
 		
 		assertNotNull(entity);
 		assertEquals(culturalOffering.getName(), entity.getName());
@@ -114,7 +114,7 @@ public class CulturalOfferingMapperTest {
 		when(locationService.update(location, 11l)).thenReturn(location);
 		when(culturalOfferingService.findOne(id)).thenReturn(culturalOffering);
 		
-		CulturalOffering entity = mapper.toEntity(dto, id);
+		CulturalOffering entity = mapper.toEntity(dto);
 		
 		assertNotNull(entity);
 		assertEquals(culturalOffering.getId(), entity.getId());
@@ -127,22 +127,20 @@ public class CulturalOfferingMapperTest {
 	
 	@Test(expected = EntityNotFoundByNameException.class)
 	public void toEntityTestFailsType() {
-		CulturalOfferingDTO dto = new CulturalOfferingDTO("New name", "Some description", 11l, 20.0f, 45.5f, 
+		CulturalOfferingDTO dto = new CulturalOfferingDTO(32l,"New name", "Some description", 11l, 20.0f, 45.5f,
         		"Trg republike BB, Novi Sad", "wrong type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
 		CulturalOfferingType type = new CulturalOfferingType(1l, "type name", new ImageModel(), new HashSet<>());
 		CulturalOfferingSubType subtype = new CulturalOfferingSubType(1l,"subtype name", type);
 
-		Long id = 32l;
-		
 		when(imageService.findAll(new ArrayList<Long>())).thenReturn(new ArrayList<ImageModel>());
 		when(typeService.findName(" wrong type name")).thenReturn(null);
 		when(subtypeService.findName("subtype name")).thenReturn(subtype);
 		when(locationService.findOne(11l)).thenReturn(location);
 		when(locationService.update(location, 11l)).thenReturn(location);
 				
-		mapper.toEntity(dto, id);		
+		mapper.toEntity(dto);
 	}
 	
 	@Test

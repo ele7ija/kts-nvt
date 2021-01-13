@@ -24,7 +24,7 @@ import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
     ]),
   ],
 })
-export class CulturalOfferingTypeComponent extends TableComponent<CulturalOfferingType> implements AfterViewInit {
+export class CulturalOfferingTypeComponent extends TableComponent<CulturalOfferingType> {
 
   constructor(
     public culturalOfferingTypeService: AbstractCrudService<CulturalOfferingType>,

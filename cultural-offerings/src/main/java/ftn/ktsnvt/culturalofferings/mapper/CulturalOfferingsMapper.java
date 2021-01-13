@@ -45,7 +45,7 @@ public class CulturalOfferingsMapper{
     @Autowired 
     private ImageService imageService;
 
-	public CulturalOffering toEntity(CulturalOfferingDTO dto, Long id) {
+	public CulturalOffering toEntity(CulturalOfferingDTO dto) {
 		Location location = toLocation(dto.getLocationId(), dto.getLongitude(), dto.getLatitude(), dto.getName());
 		
 		List<ImageModel> imgList = imageService.findAll(dto.getImageIds());
@@ -55,7 +55,7 @@ public class CulturalOfferingsMapper{
 		CulturalOfferingSubType subtype = subtypeService.findName(dto.getCulturalOfferingSubtypeName());
 		check(type, dto.getCulturalOfferingTypeName(), subtype, dto.getCulturalOfferingSubtypeName());
 
-		if(id == null) {
+		if(dto.getId() == null) {
 			//if id is unknown create new CulturalOffering
 			return new CulturalOffering(
 					dto.getName(),
@@ -68,7 +68,7 @@ public class CulturalOfferingsMapper{
 		}
 		
 		// else, update existing CulturalOffering
-		CulturalOffering offering = culturalOfferingService.findOne(id);
+		CulturalOffering offering = culturalOfferingService.findOne(dto.getId());
 		offering.setName(dto.getName());
 		offering.setDescription(dto.getDescription());
 		offering.setLocation(location);
@@ -84,6 +84,7 @@ public class CulturalOfferingsMapper{
 		Location location = entity.getLocation();
 		
 		return new CulturalOfferingDTO(
+			entity.getId(),
 			entity.getName(), 
 			entity.getDescription(), 
 			location.getId(), 

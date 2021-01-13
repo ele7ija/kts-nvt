@@ -16,8 +16,7 @@ const routes: Routes = [
   { path: 'sign-in', loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInModule), canActivate: [GuestGuard]},
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule), canActivate: [GuestGuard]},
   { path: 'my-profile', loadChildren: () => import('./user-data/user-data.module').then(m => m.UserDataModule), canActivate: [LoginGuard]},
-  { path: 'cultural-offering-types', loadChildren: () => import('./cultural-offering-type/cultural-offering-type.module').then(m => m.CulturalOfferingTypeModule), canActivate: [AdminGuard]},
-  { path: 'cultural-offering-sub-type', loadChildren: () => import('./cultural-offering-sub-type/cultural-offering-sub-type.module').then(m => m.CulturalOfferingSubTypeModule), canActivate: [AdminGuard] },
+  { path: 'admin', loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule), canActivate: [AdminGuard] },
   { path: '**', redirectTo: '/error404' }
 ];
 
