@@ -5,7 +5,6 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignInRoutingModule } from './sign-in-routing.module';
 
-
 @NgModule({
   declarations: [
     SignInComponent

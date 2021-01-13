@@ -1,0 +1,45 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark default-color" [containerInside]="false" class="shadow-lg">
+
+    <mdb-navbar-brand>
+        <a class="navbar-brand" routerLink="/homepage">
+            <mdb-icon fas icon="home"></mdb-icon> Kulturne ponude Srbije
+        </a>
+    </mdb-navbar-brand>
+
+    <links>
+
+        <!-- Left side links -->
+        <ul class="navbar-nav mr-auto">
+
+        </ul>
+
+        <!-- Right side links -->
+        <ul class="navbar-nav ml-auto nav-flex-icons">
+            <ng-container *ngIf="!isLoggedIn()">
+                <li class="nav-item">
+                    <a class="nav-link waves-light" href="/sign-in" mdbWavesEffect>Prijava</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-light" href="/register" mdbWavesEffect>Registracija</a>
+                </li>
+            </ng-container>
+
+            <ng-container *ngIf="isLoggedIn()">
+                <li class="nav-item dropdown" dropdown>
+                    <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
+                        mdbWavesEffect>
+                        {{userEmail}} <mdb-icon fas icon="user"></mdb-icon> <span class="caret"></span>
+                    </a>
+                    <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+                        <a class="dropdown-item" routerLink="/my-profile">Moj profil</a>
+                        <div class="divider dropdown-divider"></div>
+                        <a class="dropdown-item" href="/sign-in" (click)="logout()">Odjava</a>
+                    </div>
+                </li>
+            </ng-container>
+
+        </ul>
+
+    </links>
+
+</mdb-navbar>

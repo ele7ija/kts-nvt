@@ -4,7 +4,11 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://localhost:8080/api"
+  baseUrl: "http://localhost:8080/api",
+  projectUrl: "https://github.com/ele7ija/kts-nvt",
+  githubUrlIvana: "https://github.com/Ivana98",
+  githubUrlMilan: "https://github.com/djuricmilan",
+  githubUrlBojan: "https://github.com/ele7ija"
 };
 
 /*
