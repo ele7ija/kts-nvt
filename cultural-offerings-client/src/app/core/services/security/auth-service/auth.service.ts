@@ -5,7 +5,6 @@ import { ApiService } from '../api-service/api.service';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
-import { BehaviorSubject } from 'rxjs';
 import { Location } from '@angular/common';
 
 const TOKEN_KEY = 'jwt-token';
@@ -19,10 +18,8 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 
 export class AuthService {
   private signInUrl: string = environment.baseUrl + '/auth/login';
-  private isLoggedInVar: boolean = false;
-  public isLoggedIn$ = new BehaviorSubject<boolean>(this.isLoggedInVar);
 
-  constructor(private apiService: ApiService, private router: Router, private location: Location) { }
+  constructor(private apiService: ApiService, private router: Router, private location: Location) {}
 
   signin(user: SignInUser) {
     const body = {
@@ -31,9 +28,7 @@ export class AuthService {
     };
     return this.apiService.post(this.signInUrl, JSON.stringify(body)).pipe(
       map((res) => {
-        console.log('Login success');
         this.saveToken(res.jwt);
-        this.updateIsLoggedIn(true);
         return true;
       })
     );
@@ -42,8 +37,6 @@ export class AuthService {
   logout(): void {
     // delete all current user information by clearing Browser’s Session Storage when logout
     window.sessionStorage.clear();
-    this.updateIsLoggedIn(false);
-    this.router.navigate(['/sign-in']);
   }
 
   isLoggedIn(): boolean {
@@ -79,10 +72,6 @@ export class AuthService {
       return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.userRole;
     }
     return "";
-  }
-
-  updateIsLoggedIn(nextVal: boolean) {
-    this.isLoggedIn$.next(nextVal);
   }
 
   navigateUnauthorized(): void {

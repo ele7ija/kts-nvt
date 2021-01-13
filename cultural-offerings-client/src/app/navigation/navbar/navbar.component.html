@@ -15,7 +15,7 @@
 
         <!-- Right side links -->
         <ul class="navbar-nav ml-auto nav-flex-icons">
-            <ng-container *ngIf="!isLoggedIn">
+            <ng-container *ngIf="!isLoggedIn()">
                 <li class="nav-item">
                     <a class="nav-link waves-light" href="/sign-in" mdbWavesEffect>Prijava</a>
                 </li>
@@ -24,7 +24,7 @@
                 </li>
             </ng-container>
 
-            <ng-container *ngIf="isLoggedIn">
+            <ng-container *ngIf="isLoggedIn()">
                 <li class="nav-item dropdown" dropdown>
                     <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"
                         mdbWavesEffect>
