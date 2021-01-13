@@ -9,7 +9,9 @@ import javax.validation.constraints.Positive;
 
 
 public class CulturalOfferingDTO {
-	
+
+	private Long id;
+
 	@NotBlank(message = "Cultural offering name cannot be empty")
 	private String name;
 	
@@ -36,9 +38,22 @@ public class CulturalOfferingDTO {
     private List<Long> imageIds;
     
     public CulturalOfferingDTO() {}
-    
+
+	public CulturalOfferingDTO(Long id, String name, String description, Long locationId, float longitude, float latitude, String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName, List<Long> imageIds) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.locationId = locationId;
+		this.longitude = longitude;
+		this.latitude = latitude;
+		this.locationName = locationName;
+		this.culturalOfferingTypeName = culturalOfferingTypeName;
+		this.culturalOfferingSubtypeName = culturalOfferingSubtypeName;
+		this.imageIds = imageIds;
+	}
+
 	public CulturalOfferingDTO(String name, String description, Long locationId, float longitude, float latitude,
-			String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName, List<Long> imageIds) {
+							   String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName, List<Long> imageIds) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -123,4 +138,11 @@ public class CulturalOfferingDTO {
 		this.imageIds = imageIds;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }
