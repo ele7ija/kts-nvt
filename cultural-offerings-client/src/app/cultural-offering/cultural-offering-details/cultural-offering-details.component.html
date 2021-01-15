@@ -5,13 +5,15 @@
             <div class="row pb-3">
                 
                 <div class="col-6">
-                    <div class="row" [class.mt-3]="!!culturalOffering" [class.mt-n5]="!culturalOffering">
+                    <div class="row">
                         <app-carousel class="col px-0" style="text-align: center;" 
                             [images]="images" 
                             [imagesLoading]="imagesLoading"
                             enableAddAndRemove="true"
                             (insertImageLocal)="insertImageLocal($event)"
-                            (removeImageLocal)="removeImageLocal($event)"    
+                            (removeImageLocal)="removeImageLocal($event)"  
+                            maxImageWidth="300"
+                            maxImageHeight="250"  
                         ></app-carousel>
                     </div>
                 </div>

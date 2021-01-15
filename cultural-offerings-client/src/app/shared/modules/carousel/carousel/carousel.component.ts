@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { ImageModel } from '../../../../../app/core/model/image-model';
 import { ClientImage } from '../../../../../app/core/model/client-image';
 
 @Component({
@@ -18,6 +17,12 @@ export class CarouselComponent implements OnInit {
   @Input()
   enableAddAndRemove: boolean;
 
+  @Input()
+  maxImageWidth: number = 600;
+
+  @Input()
+  maxImageHeight: number = 600;
+
   @Output()
   insertImageLocal: EventEmitter<ClientImage> = new EventEmitter<ClientImage>();
 
@@ -30,14 +35,22 @@ export class CarouselComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(this.enableAddAndRemove){
+      if(this.images.length > 0){
+        this.calculateFileButtonWidth(this.images[this.activeSlideIndex].retrievedImage);
+      }else{
+        this.calculateFileButtonWidth(this.defaultImagepath);
+      }
+    }
+  }
 
   calculateFileButtonWidth(path: string){
     const img = new Image();
     let that = this;
     img.onload = function() {
       if(img.width > 280)
-        that.fileButtonWidth = 280;
+        that.fileButtonWidth = that.maxImageWidth;
       else
         that.fileButtonWidth = img.width;
     }
@@ -55,12 +68,30 @@ export class CarouselComponent implements OnInit {
       that.activeSlideIndex = that.images.length - 1;
     };
     reader.readAsDataURL(selectedFile);
+    event.target.value = "";
   }
 
   deselectImage(): void{
     this.removeImageLocal.emit(this.activeSlideIndex);
-    this.calculateFileButtonWidth(this.defaultImagepath);
     if(this.activeSlideIndex != 0)
+      this.activeSlideIndex -= 1;
+    if(this.images.length == 0)
+      this.calculateFileButtonWidth(this.defaultImagepath);
+    else
+      this.calculateFileButtonWidth(this.images[this.activeSlideIndex].retrievedImage);
+  }
+
+  next(){
+    if(this.activeSlideIndex == this.images.length - 1)
+      this.activeSlideIndex = 0;
+    else
+      this.activeSlideIndex += 1;
+  }
+
+  prev(){
+    if(this.activeSlideIndex == 0)
+      this.activeSlideIndex = this.images.length - 1;
+    else
       this.activeSlideIndex -= 1;
   }
 
