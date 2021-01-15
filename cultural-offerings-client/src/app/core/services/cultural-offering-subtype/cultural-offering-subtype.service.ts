@@ -13,6 +13,10 @@ export class CulturalOfferingSubtypeService implements AbstractCrudService<Cultu
 
   constructor(private apiService: ApiService) { }
 
+  getAllEntities(): Observable<CulturalOfferingSubtype[]>{
+    return this.apiService.get(`${this.endpoint}`);
+  }
+
   getAll(pageableRequest: PageableRequest): Observable<any>{
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageableRequest);
   }

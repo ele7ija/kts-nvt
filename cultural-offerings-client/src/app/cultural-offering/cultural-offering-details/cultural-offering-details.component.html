@@ -1,10 +1,10 @@
 <ng-container>
-    <form [formGroup]="culturalOfferingForm" *ngIf="!loading">
+    <form [formGroup]="culturalOfferingForm" *ngIf="!loading" style="text-align: start;">
         <div class="container-fluid">
 
             <div class="row pb-3">
                 
-                <div class="col-6">
+                <div class="col-4">
                     <div class="row">
                         <app-carousel class="col px-0" style="text-align: center;" 
                             [images]="images" 
@@ -18,25 +18,85 @@
                     </div>
                 </div>
                 
-                <div class="col-6">
-                    
+                <div class="col-8">
                     <div class="row">
-                        <div class="col">
-                            <div class="md-form">
-                                <input type="text" id="name" name="name" formControlName="name" class="form-control"
-                                    mdbInput mdbValidate>
-                                <label for="typeName">Naziv</label>
-                        
-                                <div
-                                    *ngIf="culturalOfferingForm.controls.name.invalid && (culturalOfferingForm.controls.name.touched || culturalOfferingForm.controls.name.dirty)">
-                                    <small class="text-danger" *ngIf="culturalOfferingForm.controls.name.errors?.required">
-                                        Obavezno je uneti naziv.
-                                    </small>
-                                </div>
+                        <div class="col-4 form-group">
+                            <label for="name" class="mb-1">Naziv</label>
+                            <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                                mdbInput/>
+                            
+                            <div
+                                *ngIf="culturalOfferingForm.controls.name.invalid && submitAttempted">
+                                <small class="text-danger" *ngIf="culturalOfferingForm.controls.name.errors?.required">
+                                    Obavezno je uneti naziv.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="col-4 form-group">
+                            <label for="culturalOfferingTypeName" class="mb-1">Tip kategorije</label>
+                            <select id="culturalOfferingTypeName" name="culturalOfferingTypeName" formControlName="culturalOfferingTypeName" class="form-control" mdbInput
+                                (change)="fetchCulturalOfferingSubTypes($event.target.value)">
+                                <option
+                                    *ngFor="let culturalOfferingType of culturalOfferingTypes"
+                                    [value]="culturalOfferingType.typeName"
+                                >
+                                    {{culturalOfferingType.typeName}}
+                                </option>
+                            </select>
+                            
+                            <div
+                                *ngIf="culturalOfferingForm.controls.culturalOfferingTypeName.invalid && submitAttempted">
+                                <small class="text-danger" *ngIf="culturalOfferingForm.controls.culturalOfferingTypeName.errors?.required">
+                                    Obavezno je odabrati tip kategorije.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="col-4 form-group">
+                            <label for="culturalOfferingSubtypeName" class="mb-1">Podtip kategorije</label>
+                            <select id="culturalOfferingSubtypeName" name="culturalOfferingSubtypeName" formControlName="culturalOfferingSubtypeName" class="form-control" mdbInput>
+                                <option
+                                    *ngFor="let culturalOfferingSubtype of culturalOfferingSubtypes"
+                                    [value]="culturalOfferingSubtype.subTypeName"
+                                >
+                                    {{culturalOfferingSubtype.subTypeName}}
+                                </option>
+                            </select>
+                            
+                            <div
+                                *ngIf="culturalOfferingForm.controls.culturalOfferingSubtypeName.invalid && submitAttempted">
+                                <small class="text-danger" *ngIf="culturalOfferingForm.controls.culturalOfferingSubtypeName.errors?.required">
+                                    Obavezno je odabrati podtip kategorije.
+                                </small>
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class=" col-8 form-group">
+                            <label for="description">Opis</label>
+                            <textarea id="description" name="description" formControlName="description" class="form-control" rows="3"
+                                mdbValidate></textarea>
+                        </div>
+                        <div class="col-4 form-group">
+                            <label for="location" class="mb-1">Lokacija</label>
+                            <app-google-autocomplete
+                                type="text" 
+                                id="location" 
+                                name="location"
+                                mdbInput
+                                [location]="selectedLocation"
+                                (locationChangedEvent)="locationChangedEvent($event)"
+                            ></app-google-autocomplete>
+                            <div
+                                *ngIf="!selectedLocation.name && submitAttempted">
+                                <small class="text-danger">
+                                    Obavezno je odabrati validnu lokaciju
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!--description, cultural offering type and subtype-->
 
                     <div class="row">
@@ -45,7 +105,6 @@
                                 <button 
                                     class="new-button green-button borderless mt-3"
                                     type="submit"
-                                    [disabled]="culturalOfferingForm.invalid"
                                     (click)="upsert()"
                                 >{{!!culturalOffering ? "Sacuvaj izmene" : "Dodaj"}}</button>
                             </div>

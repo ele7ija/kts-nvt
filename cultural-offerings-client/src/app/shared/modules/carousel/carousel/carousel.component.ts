@@ -9,7 +9,16 @@ import { ClientImage } from '../../../../../app/core/model/client-image';
 export class CarouselComponent implements OnInit {
 
   @Input()
-  images: ClientImage[];
+  get images(){ return this._images; }
+  set images(value: ClientImage[]){
+    this._images = value;
+    if(this._images && this._images.length != 0)
+      this.calculateFileButtonWidth(this._images[this.activeSlideIndex].retrievedImage);
+    else{
+      this.calculateFileButtonWidth(this.defaultImagepath);
+    }
+  }
+  private _images: ClientImage[];
 
   @Input()
   imagesLoading: boolean;

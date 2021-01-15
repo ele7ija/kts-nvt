@@ -1,10 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CulturalOfferingService } from '../../core/services/cultural-offering/cultural-offering.service';
 import { AbstractCrudService } from '../../core/model/abstract-crud-service';
 import { TableComponent } from 'src/app/shared/modules/table/table/table.component';
 import { CulturalOffering } from '../../core/model/cultural-offering';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CulturalOfferingTypeService } from '../../../app/core/services/cultural-offering-type/cultural-offering-type.service';
+import { CulturalOfferingSubtypeService } from '../../../app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
+import { CulturalOfferingType } from '../../../app/core/model/cultural-offering-type';
+import { CulturalOfferingSubtype } from '../../../app/core/model/cultural-offering-subtype';
 
 @Component({
   selector: 'app-cultural-offering-table',
@@ -26,9 +30,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class CulturalOfferingTableComponent extends TableComponent<CulturalOffering> {
 
+  culturalOfferingTypes: CulturalOfferingType[];
+
   constructor(
     private culturalOfferingService: CulturalOfferingService,
-    private matSnackbar: MatSnackBar
+    private matSnackbar: MatSnackBar,
+    private culturalOfferingTypeService: CulturalOfferingTypeService
   ) 
   { 
     super(culturalOfferingService, matSnackbar);
@@ -47,6 +54,10 @@ export class CulturalOfferingTableComponent extends TableComponent<CulturalOffer
 
   openNews(entity: CulturalOffering){
     console.log("Should open new page");
+  }
+
+  async fetchAditionalEntities(): Promise<void>{
+    this.culturalOfferingTypes = await this.culturalOfferingTypeService.getAllEntities().toPromise();
   }
 
 }

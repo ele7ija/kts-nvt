@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClientImage } from '../../../app/core/model/client-image';
 import { CulturalOffering } from '../../../app/core/model/cultural-offering';
@@ -6,11 +6,11 @@ import { CulturalOfferingSubtype } from '../../../app/core/model/cultural-offeri
 import { CulturalOfferingType } from '../../../app/core/model/cultural-offering-type';
 import { ImageService } from '../../../app/core/services/image/image.service';
 import { CulturalOfferingSubtypeService } from '../../../app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
-import { CulturalOfferingTypeService } from '../../../app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CulturalOfferingService } from '../../../app/core/services/cultural-offering/cultural-offering.service';
 import { ImageModel } from '../../../app/core/model/image-model';
 import { SimpleSnackbarComponent } from '../../../app/shared/components/snackbar/simple-snackbar/simple-snackbar.component';
+import { Location } from '../../../app/core/model/location';
 
 @Component({
   selector: 'app-cultural-offering-details',
@@ -36,23 +36,32 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   imageModels: ImageModel[] = []; //image model sa servera
   images: ClientImage[] = []; //reprezentacija slike pogodna za carousel komponentu
   imagesLoading: boolean = false;
+  culturalOfferingSubTypesLoading: boolean = false;
+  selectedLocation: Location;
+  submitAttempted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder, 
     private imageService: ImageService,
     private culturalOfferingService: CulturalOfferingService,
     private culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
-    private culturalOfferingTypeService: CulturalOfferingTypeService,
     private matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.selectedLocation = {
+      id: this.culturalOffering ? this.culturalOffering.locationId : null,
+      name: this.culturalOffering ? this.culturalOffering.locationName : '',
+      longitude: this.culturalOffering ? this.culturalOffering.longitude : null,
+      latitude: this.culturalOffering ? this.culturalOffering.longitude : null
+    };
     this.culturalOfferingForm = this.formBuilder.group({
       name: [this.culturalOffering ? this.culturalOffering.name : '', Validators.required],
       description: [this.culturalOffering ? this.culturalOffering.description : ''],
-      culturalOfferingTypeName: [this.culturalOffering ? this.culturalOffering.culturalOfferingTypeName : ''],
-      culturalOfferingSubtypeName: [this.culturalOffering ? this.culturalOffering.culturalOfferingSubtypeName : ''],
+      culturalOfferingTypeName: [this.culturalOffering ? this.culturalOffering.culturalOfferingTypeName : '', Validators.required],
+      culturalOfferingSubtypeName: [this.culturalOffering ? this.culturalOffering.culturalOfferingSubtypeName : '', Validators.required],
     });
     this.fetchImages();
+    this.fetchCulturalOfferingSubTypes(this.culturalOfferingForm.value.culturalOfferingTypeName);
   }
 
   async fetchImages(): Promise<void> {
@@ -80,17 +89,38 @@ export class CulturalOfferingDetailsComponent implements OnInit {
     this.imageModels.splice(imageIndex, 1);
   }
 
-  async fetchCulturalOfferingSubTypes(): Promise<void>{
-    const {id} = this.culturalOfferingTypes.find(
-      culturalOfferingType => culturalOfferingType.typeName == this.culturalOfferingForm.value.culturalOfferingTypeName
-    );
-    this.culturalOfferingSubtypes = await this.culturalOfferingSubTypeService.getAllByTypeId(id).toPromise();
+  locationChangedEvent(location: Location){
+    if(!location || !location.latitude || !location.longitude || !location.name){
+      this.selectedLocation = {
+        name: '',
+        latitude: null,
+        longitude: null
+      };
+    }else{
+      this.selectedLocation = location;
+    }
   }
 
-  async getUploadImagesPromise(): Promise<ImageModel[]>{
+  isFormInvalid(){
+    return Object.values(this.culturalOfferingForm.controls).find(control => control.errors) || !this.selectedLocation.name;
+  }
+
+  async fetchCulturalOfferingSubTypes(typeName: string): Promise<void>{
+    if(typeName){
+      this.culturalOfferingSubTypesLoading= true;
+      const {id} = this.culturalOfferingTypes.find(
+        culturalOfferingType => culturalOfferingType.typeName == typeName
+      );
+      this.culturalOfferingSubtypes = await this.culturalOfferingSubTypeService.getAllByTypeId(id).toPromise();
+      this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOfferingSubtypes.length == 0 ? '' : this.culturalOfferingSubtypes[0].subTypeName);
+      this.culturalOfferingSubTypesLoading= false;
+    }
+  }
+
+  getUploadImagesPromise(): Promise<ImageModel[]>{
     //upload radimo za slike koje imaju odabran fajl
     const filesForUpload = this.images.filter(clientImage => clientImage.selectedFile).map(clientImage => clientImage.selectedFile);
-    const imageUploadPromises = filesForUpload.map(this.imageService.uploadAsPromise);
+    const imageUploadPromises = filesForUpload.map(file => this.imageService.uploadAsPromise(file));
     return Promise.all(imageUploadPromises);
   }
 
@@ -99,8 +129,11 @@ export class CulturalOfferingDetailsComponent implements OnInit {
       id: this.culturalOffering.id,
       name: this.culturalOfferingForm.value.name,
       description: this.culturalOfferingForm.value.description,
-      locationId: this.culturalOffering.locationId,
-      imageIds: this.culturalOffering.imageIds.concat(imageModelIds),
+      locationId: this.selectedLocation.id,
+      locationName: this.selectedLocation.name,
+      longitude: this.selectedLocation.longitude,
+      latitude: this.selectedLocation.latitude,
+      imageIds: this.culturalOffering.imageIds.filter(imageId => this.imageModels.find(x => x.id == imageId)).concat(imageModelIds),
       culturalOfferingTypeName: this.culturalOfferingForm.value.culturalOfferingTypeName,
       culturalOfferingSubtypeName: this.culturalOfferingForm.value.culturalOfferingSubtypeName
     };
@@ -112,16 +145,21 @@ export class CulturalOfferingDetailsComponent implements OnInit {
       id: null,
       name: this.culturalOfferingForm.value.name,
       description: this.culturalOfferingForm.value.description,
-      locationId: null,
+      locationId: this.selectedLocation.id,
+      locationName: this.selectedLocation.name,
+      longitude: this.selectedLocation.longitude,
+      latitude: this.selectedLocation.latitude,
       imageIds: imageModelIds,
       culturalOfferingTypeName: this.culturalOfferingForm.value.culturalOfferingTypeName,
       culturalOfferingSubtypeName: this.culturalOfferingForm.value.culturalOfferingSubtypeName
     };
-    return this.culturalOfferingTypeService.insert(culturalOffering).toPromise();
+    return this.culturalOfferingService.insert(culturalOffering).toPromise();
   }
 
   upsert(){
-    console.log("USAO GDE NE TREBA");
+    this.submitAttempted = true;
+    if(this.isFormInvalid())
+      return;
     if(this.culturalOffering){
       this.update();
     }else{
@@ -133,14 +171,16 @@ export class CulturalOfferingDetailsComponent implements OnInit {
     this.loading = true;
     try{
       let uploadedImages = await this.getUploadImagesPromise();
+      console.log(uploadedImages);
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const updatedCulturalOffering = await this.getUpdateCulturalOfferingPromise(imageModelIds);
       this.upsertLocal.emit(updatedCulturalOffering);
       this.showSnackbar('USPESNA IZMENA', `Kulturna ponuda pod nazivom ${updatedCulturalOffering.name} je uspesno promenjena`, true);
-    }catch({error}){
+    }catch(error){
       //show toast
+      console.log(error);
       this.upsertLocal.emit(this.culturalOffering);
-      this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
+      //this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
     }
     this.loading = false;
   }

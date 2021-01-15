@@ -76,7 +76,8 @@
 						>
 							<app-cultural-offering-details
 								*ngIf="element == expandedItem.value"
-								[culturalOfferingType]="element"
+								[culturalOffering]="element"
+								[culturalOfferingTypes]="culturalOfferingTypes"
 								(upsertLocal)="upsertLocal($event)"
 								style="width: 100%;"
 							></app-cultural-offering-details>
@@ -106,6 +107,7 @@
 			</button>
 			<app-cultural-offering-details
 				*ngIf="addStarted"
+				[culturalOfferingTypes]="culturalOfferingTypes"
 				(upsertLocal)="upsertLocal($event)"
 				style="width: 100%;"
 			></app-cultural-offering-details>

@@ -16,6 +16,7 @@ import { CulturalOfferingService } from '../core/services/cultural-offering/cult
 import { CulturalOfferingSubtypeService } from '../core/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { CulturalOfferingTypeService } from '../core/services/cultural-offering-type/cultural-offering-type.service';
 import { ImageService } from '../core/services/image/image.service';
+import { GoogleAutocompleteModule } from '../shared/modules/google-autocomplete/google-autocomplete.module';
 
 @NgModule({
   declarations: [
@@ -34,8 +35,8 @@ import { ImageService } from '../core/services/image/image.service';
     MatIconModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-
-    CarouselWrapperModule
+    CarouselWrapperModule,
+    GoogleAutocompleteModule
   ],
   providers: [
     CulturalOfferingService,
