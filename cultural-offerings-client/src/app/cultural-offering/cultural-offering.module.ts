@@ -10,6 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CulturalOfferingDetailsComponent } from './cultural-offering-details/cultural-offering-details.component';
+import { CarouselWrapperModule } from '../shared/modules/carousel/carousel.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CulturalOfferingService } from '../core/services/cultural-offering/cultural-offering.service';
+import { CulturalOfferingSubtypeService } from '../core/services/cultural-offering-subtype/cultural-offering-subtype.service';
+import { CulturalOfferingTypeService } from '../core/services/cultural-offering-type/cultural-offering-type.service';
+import { ImageService } from '../core/services/image/image.service';
 
 @NgModule({
   declarations: [
@@ -18,6 +24,8 @@ import { CulturalOfferingDetailsComponent } from './cultural-offering-details/cu
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     MatSnackBarModule,
     MatTableModule,
@@ -25,7 +33,15 @@ import { CulturalOfferingDetailsComponent } from './cultural-offering-details/cu
     MatSortModule,
     MatIconModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+
+    CarouselWrapperModule
+  ],
+  providers: [
+    CulturalOfferingService,
+    CulturalOfferingTypeService,
+    CulturalOfferingSubtypeService,
+    ImageService
   ],
   exports: [
     CulturalOfferingTableComponent

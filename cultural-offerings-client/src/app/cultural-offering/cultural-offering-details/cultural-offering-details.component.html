@@ -1,1 +1,60 @@
-<p>cultural-offering-details works!</p>
+<ng-container>
+    <form [formGroup]="culturalOfferingForm" *ngIf="!loading">
+        <div class="container-fluid">
+
+            <div class="row pb-3">
+                
+                <div class="col-6">
+                    <div class="row" [class.mt-3]="!!culturalOffering" [class.mt-n5]="!culturalOffering">
+                        <app-carousel class="col px-0" style="text-align: center;" 
+                            [images]="images" 
+                            [imagesLoading]="imagesLoading"
+                            enableAddAndRemove="true"
+                            (insertImageLocal)="insertImageLocal($event)"
+                            (removeImageLocal)="removeImageLocal($event)"    
+                        ></app-carousel>
+                    </div>
+                </div>
+                
+                <div class="col-6">
+                    
+                    <div class="row">
+                        <div class="col">
+                            <div class="md-form">
+                                <input type="text" id="name" name="name" formControlName="name" class="form-control"
+                                    mdbInput mdbValidate>
+                                <label for="typeName">Naziv</label>
+                        
+                                <div
+                                    *ngIf="culturalOfferingForm.controls.name.invalid && (culturalOfferingForm.controls.name.touched || culturalOfferingForm.controls.name.dirty)">
+                                    <small class="text-danger" *ngIf="culturalOfferingForm.controls.name.errors?.required">
+                                        Obavezno je uneti naziv.
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--description, cultural offering type and subtype-->
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex justify-content-center">
+                                <button 
+                                    class="new-button green-button borderless mt-3"
+                                    type="submit"
+                                    [disabled]="culturalOfferingForm.invalid"
+                                    (click)="upsert()"
+                                >{{!!culturalOffering ? "Sacuvaj izmene" : "Dodaj"}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+        </div>
+    </form>    
+    <mat-spinner *ngIf="loading" diameter="50" class="align-to-center"></mat-spinner>
+</ng-container>
+

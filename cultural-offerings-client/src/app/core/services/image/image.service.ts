@@ -27,5 +27,16 @@ export class ImageService {
     return this.apiService.postFile(this.endpoint, uploadImageData);
   }
 
+  uploadAsPromise(selectedFile: File): Promise<ImageModel>{
+    const uploadImageData = new FormData();
+    uploadImageData.append('imageFile', selectedFile, selectedFile.name);
+
+    /*const customHeaders: HttpHeaders = new HttpHeaders({
+      'Content-Type': 'multipart/form-data'
+    });*/
+
+    return this.apiService.postFile(this.endpoint, uploadImageData).toPromise();
+  }
+
 }
 

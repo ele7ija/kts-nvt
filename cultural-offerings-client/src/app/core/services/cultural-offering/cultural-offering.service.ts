@@ -6,9 +6,7 @@ import { CulturalOffering } from '../../model/cultural-offering';
 import { PageableRequest } from '../../model/pageable-request';
 import { ApiService } from '../security/api-service/api.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CulturalOfferingService implements AbstractCrudService<CulturalOffering> {
 
   endpoint: string = `${environment.baseUrl}/cultural-offerings`

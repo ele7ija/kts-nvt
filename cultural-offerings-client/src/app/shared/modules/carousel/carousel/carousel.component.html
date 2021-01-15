@@ -1,0 +1,22 @@
+<ng-container>
+    <mdb-carousel *ngIf="images.length!=0" [animation]="'slide'" interval="0" [(activeSlideIndex)]="activeSlideIndex">
+        <mdb-carousel-item *ngFor="let image of images">
+            <img *ngIf="image.retrievedImage" [src]="image.retrievedImage" class="d-block w-100">
+        </mdb-carousel-item>    
+    </mdb-carousel>
+    <img *ngIf="images.length==0 && !imagesLoading" src="../../../../../assets/images/empty.png">
+    <mat-spinner *ngIf="imagesLoading" diameter="50" class="align-to-center"></mat-spinner>
+    
+    <div *ngIf="enableAddAndRemove" class="row pt-3">
+        <div *ngIf="images.length==0" class="col px-0 button-wrap" style="text-align: center;">
+            <label class ="new-button blue-button" for=file [style.width.px]="fileButtonWidth"> Izaberi </label>
+            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
+        </div>
+        <div *ngIf="images.length!=0" class="col px-0 button-wrap" style="text-align: start;">
+            <label class ="new-button ml-3 blue-button" for=file [style.width.px]="fileButtonWidth/2" style="text-align: center;"> Izaberi </label>
+            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
+            <button class="new-button red-button borderless" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
+        </div>
+    </div>
+</ng-container>
+
