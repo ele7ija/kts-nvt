@@ -26,7 +26,7 @@ import { CulturalOfferingType } from 'src/app/core/model/cultural-offering-type'
     ]),
   ],
 })
-export class CulturalOfferingSubTypeComponent extends TableComponent<CulturalOfferingSubtype> implements AfterViewInit {
+export class CulturalOfferingSubTypeComponent extends TableComponent<CulturalOfferingSubtype>{
 
   culturalOfferingTypes: CulturalOfferingType[] = [];
 

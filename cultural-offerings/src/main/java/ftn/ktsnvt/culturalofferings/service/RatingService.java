@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.repository.RatingRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,6 +49,14 @@ public class RatingService {
         return new PageImpl<>(ratingDTOs, ratingsPage.getPageable(), ratingsPage.getTotalElements());
     }
 
+    public Page<RatingDTO> findAll(Pageable pageable, Long culturalOfferingId) {
+        var ratingsPage = ratingRepository.findAllByCulturalOfferingId(culturalOfferingId, pageable);
+        var ratingsList = ratingsPage.toList();
+        var ratingDTOs = RatingMapper.toDTOs(ratingsList);
+
+        return new PageImpl<>(ratingDTOs, ratingsPage.getPageable(), ratingsPage.getTotalElements());
+    }
+
     public List<Rating> findAll(List<Long> ratingIds) {
         List<Rating> result = ratingIds.stream()
                 .map(ratingId -> this.getEntityById(ratingId))
@@ -76,12 +85,13 @@ public class RatingService {
     }
 
 
+    @Transactional
     public RatingDTO create(RatingDTO dto, String userEmail) throws Exception {
         CulturalOffering culturalOffering = culturalOfferingService.findOne(dto.getCulturalOfferingId());
         User user = userService.findByEmail(userEmail);
 
         Rating entity = RatingMapper.toEntity(dto, culturalOffering, user);
-
+        this.ratingRepository.deleteAllByCulturalOfferingIdAndUserId(dto.getCulturalOfferingId(), dto.getUserId());
         Rating newEntity = ratingRepository.save(entity);
 
         return RatingMapper.toDTO(newEntity);

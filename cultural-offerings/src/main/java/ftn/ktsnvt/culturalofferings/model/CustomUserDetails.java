@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Set;
 
 public class CustomUserDetails implements UserDetails {
-
+    private Long id;
     private String username;
     private String password;
     private Set<SimpleGrantedAuthority> authorities;
@@ -17,12 +17,21 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(){}
 
-    public CustomUserDetails(String username, String password, Set<SimpleGrantedAuthority> authorities, UserRole userRole, boolean enabled) {
+    public CustomUserDetails(Long id, String username, String password, Set<SimpleGrantedAuthority> authorities, UserRole userRole, boolean enabled) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.authorities = authorities;
         this.userRole = userRole;
         this.enabled = enabled;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

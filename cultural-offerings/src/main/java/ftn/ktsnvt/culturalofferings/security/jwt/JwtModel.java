@@ -6,16 +6,26 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Set;
 
 public class JwtModel {
+    private Long id;
     private String email;
     private UserRole userRole;
     private Set<GrantedAuthority> grantedAuthorityList;
 
     public JwtModel(){}
 
-    public JwtModel(String email, UserRole userRole, Set<GrantedAuthority> grantedAuthorityList) {
+    public JwtModel(Long id, String email, UserRole userRole, Set<GrantedAuthority> grantedAuthorityList) {
+        this.id = id;
         this.email = email;
         this.userRole = userRole;
         this.grantedAuthorityList = grantedAuthorityList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {

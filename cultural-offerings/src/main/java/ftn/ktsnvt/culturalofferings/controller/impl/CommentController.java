@@ -50,6 +50,13 @@ public class CommentController implements CommentApi {
     }
 
     @Override
+    public ResponseEntity findAll(Long culturalOfferingId, Pageable pageable) {
+        Page<CommentDTO> commentPage = commentService.findAll(pageable, culturalOfferingId);
+
+        return ok(commentPage);
+    }
+
+    @Override
     public ResponseEntity create(@Valid CommentDTO body, BindingResult bindingResult) {
         DTOValidationHelper.validateDTO(bindingResult);
 

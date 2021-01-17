@@ -1,0 +1,25 @@
+<ng-container>
+    <div *ngIf="!loading" style="overflow: hidden;">
+        <div class="card mt-0 pt-0" style="border-top: none;">
+            <div class="card-body">
+                <app-rating-input (ratingAddedEvent)="ratingAddedEvent($event)"></app-rating-input>
+                <app-rating-item
+                    *ngFor="let rating of ratings"
+                    [rating]="rating"
+                    (removeRatingEvent)="removeRatingEvent($event)"
+                ></app-rating-item>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="loading">
+        <mat-spinner diameter="50" style="margin-left: auto; margin-right: auto;"></mat-spinner>
+    </div>
+    <app-paginator
+        style="margin-left: auto;"
+        (pageEvent)="fetchRatings($event)"
+        [totalLength]="totalLength"
+        [pageIndex]="pageIndex"
+        [pageSizeOptions]="pageSizeOptions"
+    ></app-paginator>
+</ng-container>
+

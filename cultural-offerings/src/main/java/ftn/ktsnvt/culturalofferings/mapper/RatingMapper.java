@@ -14,6 +14,7 @@ public class RatingMapper {
         return new RatingDTO(
                 newEntity.getId(),
                 newEntity.getValue(),
+                newEntity.getDate(),
                 newEntity.getCulturalOffering().getId(),
                 newEntity.getUser().getId()
         );
@@ -23,6 +24,7 @@ public class RatingMapper {
         return new Rating(
                 dto.getId(),
                 dto.getValue(),
+                dto.getDate(),
                 culturalOffering,
                 user
         );

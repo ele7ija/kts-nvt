@@ -22,6 +22,9 @@ public interface CommentApi {
     @GetMapping(value = "/by-page")
     ResponseEntity findAll(Pageable pageable);
 
+    @GetMapping(value = "/by-page/{culturalOfferingId}")
+    ResponseEntity findAll(@PathVariable("culturalOfferingId") Long culturalOfferingId, Pageable pageable);
+
     @PostMapping
     ResponseEntity create(@RequestBody CommentDTO body, BindingResult bindingResult);
 

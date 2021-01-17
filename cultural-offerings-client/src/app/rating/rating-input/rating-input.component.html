@@ -1,0 +1,21 @@
+<ng-container>
+    <div class="row mt-3 mb-4">
+        <div class="col-4"></div>
+        <div class="col-4" style="text-align: center;">
+            <star-rating 
+                [value]="selectedValue"
+                [totalstars]="10"
+                readonly="false"
+                size="30px"
+                checkedcolor="gold"
+                uncheckedcolor="grey"
+                (rate)="onRate($event)"
+            ></star-rating>
+        </div>
+        <div class="col-4 px-0 mx-0">
+            <mat-icon class="m-0 pt-0 my-icon my-icon-add" (click)="add()">add_box</mat-icon>
+        </div>
+    </div>
+    
+</ng-container>
+
