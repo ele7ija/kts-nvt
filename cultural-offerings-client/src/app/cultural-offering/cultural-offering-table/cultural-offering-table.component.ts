@@ -6,9 +6,7 @@ import { TableComponent } from 'src/app/shared/modules/table/table/table.compone
 import { CulturalOffering } from '../../core/model/cultural-offering';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CulturalOfferingTypeService } from '../../../app/core/services/cultural-offering-type/cultural-offering-type.service';
-import { CulturalOfferingSubtypeService } from '../../../app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { CulturalOfferingType } from '../../../app/core/model/cultural-offering-type';
-import { CulturalOfferingSubtype } from '../../../app/core/model/cultural-offering-subtype';
 
 @Component({
   selector: 'app-cultural-offering-table',
@@ -50,10 +48,6 @@ export class CulturalOfferingTableComponent extends TableComponent<CulturalOffer
     super.delete(entity)
       .then(() => this.showSnackbar('USPESNO BRISANJE', `Tip kategorije pod nazivom ${entity.name} je uspesno obrisan.`, true))
       .catch(error => this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false));
-  }
-
-  openNews(entity: CulturalOffering){
-    console.log("Should open new page");
   }
 
   async fetchAditionalEntities(): Promise<void>{

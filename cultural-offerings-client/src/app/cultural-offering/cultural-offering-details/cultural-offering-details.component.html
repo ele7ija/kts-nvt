@@ -9,7 +9,7 @@
                         <app-carousel class="col px-0" style="text-align: center;" 
                             [images]="images" 
                             [imagesLoading]="imagesLoading"
-                            enableAddAndRemove="true"
+                            [enableAddAndRemove]="true"
                             (insertImageLocal)="insertImageLocal($event)"
                             (removeImageLocal)="removeImageLocal($event)"  
                             maxImageWidth="300"

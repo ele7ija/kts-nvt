@@ -1,0 +1,27 @@
+<ng-container>
+    <div class="container" *ngIf="culturalOffering">
+        <div class="row" *ngIf="culturalOffering.imageIds!=0">
+            <app-carousel class="col px-0" style="text-align: center;" 
+                [images]="images" 
+                [imagesLoading]="imagesLoading"
+                [enableAddAndRemove]="false"
+                maxImageWidth="1000"
+                maxImageHeight="400"  
+            ></app-carousel>
+        </div>
+        <div class="row" style="max-width: 1034px; margin-left: auto; margin-right: auto;">
+            <mat-tab-group class="col" mat-align-tabs="center">
+                <mat-tab label="Comments">
+                    <app-comment-list [culturalOfferingId]="culturalOffering.id"></app-comment-list>
+                </mat-tab>
+                <mat-tab label="Ratings">
+                    <app-rating-list [culturalOfferingId]="culturalOffering.id"></app-rating-list>
+                </mat-tab>
+                
+            </mat-tab-group>
+            
+        </div>
+    </div>
+
+    <p *ngIf="!culturalOffering">cultural-offering-page does not work</p>
+</ng-container>

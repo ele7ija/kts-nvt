@@ -48,6 +48,14 @@ public class RatingService {
         return new PageImpl<>(ratingDTOs, ratingsPage.getPageable(), ratingsPage.getTotalElements());
     }
 
+    public Page<RatingDTO> findAll(Pageable pageable, Long culturalOfferingId) {
+        var ratingsPage = ratingRepository.findAllByCulturalOfferingId(culturalOfferingId, pageable);
+        var ratingsList = ratingsPage.toList();
+        var ratingDTOs = RatingMapper.toDTOs(ratingsList);
+
+        return new PageImpl<>(ratingDTOs, ratingsPage.getPageable(), ratingsPage.getTotalElements());
+    }
+
     public List<Rating> findAll(List<Long> ratingIds) {
         List<Rating> result = ratingIds.stream()
                 .map(ratingId -> this.getEntityById(ratingId))

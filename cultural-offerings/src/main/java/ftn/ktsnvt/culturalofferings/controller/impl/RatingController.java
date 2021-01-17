@@ -2,6 +2,8 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.RatingApi;
 
+import ftn.ktsnvt.culturalofferings.dto.CommentDTO;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
@@ -43,6 +45,14 @@ public class RatingController implements RatingApi {
 
         return ok(ratings);
     }
+
+    @Override
+    public ResponseEntity findAll(Long culturalOfferingId, Pageable pageable) {
+        Page<RatingDTO> ratingPage = ratingService.findAll(pageable, culturalOfferingId);
+
+        return ok(ratingPage);
+    }
+
 
     @Override
     public ResponseEntity findOne(Long id) {

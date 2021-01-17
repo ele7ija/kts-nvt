@@ -171,7 +171,6 @@ export class CulturalOfferingDetailsComponent implements OnInit {
     this.loading = true;
     try{
       let uploadedImages = await this.getUploadImagesPromise();
-      console.log(uploadedImages);
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const updatedCulturalOffering = await this.getUpdateCulturalOfferingPromise(imageModelIds);
       this.upsertLocal.emit(updatedCulturalOffering);

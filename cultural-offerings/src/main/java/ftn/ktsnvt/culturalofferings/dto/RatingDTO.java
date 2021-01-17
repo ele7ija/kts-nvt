@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.dto;
 
 
 import javax.validation.constraints.Positive;
+import java.util.Date;
 
 public class RatingDTO {
     private Long id;
@@ -9,12 +10,22 @@ public class RatingDTO {
     @Positive(message = "Value must be greater than zero")
     private int value;
 
+    private Date date;
+
     @Positive(message = "Id for cultural offering is not valid")
     private Long culturalOfferingId;
 
     private Long userId;
 
     public RatingDTO() {}
+
+    public RatingDTO(Long id, int value, Date date, Long culturalOfferingId, Long userId) {
+        this.id = id;
+        this.value = value;
+        this.date = date;
+        this.culturalOfferingId = culturalOfferingId;
+        this.userId = userId;
+    }
 
     public RatingDTO(Long id, int value, Long culturalOfferingId, Long userId) {
         this.id = id;
@@ -55,4 +66,11 @@ public class RatingDTO {
         this.culturalOfferingId = culturalOfferingId;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

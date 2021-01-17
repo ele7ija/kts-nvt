@@ -25,6 +25,7 @@ public class ApplicationUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         }else{
             return new CustomUserDetails(
+                    user.getId(),
                     user.getEmail(),
                     user.getPassword(),
                     user.getRole().getGrantedAuthorities(),

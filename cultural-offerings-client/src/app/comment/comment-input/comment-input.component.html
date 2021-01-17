@@ -1,0 +1,25 @@
+<div class="row">
+    <div [class]="chosenImageFiles.length == 0 ? 'col-3' : 'col-1'"></div>
+    <form [formGroup]="commentForm" class="col-6 mx-0 px-0">
+        <textarea mdbValidate class="form-control my-1 py-2" (keyup)="autoGrowTextZone($event)" placeholder="Type here..." id="comment" name="comment" formControlName="comment"></textarea>
+        <small class="text-danger mt-0 pt-0" *ngIf="commentForm.controls.comment.invalid && addClicked">Obavezno je uneti tekst.</small>
+    </form>
+    <div *ngIf="chosenImageFiles.length != 0" class="col-4 mx-0 px-0 pl-3">
+        <app-image-file-chips [chosenFiles]="chosenImageFiles" (change)="removeImageFile($event)" [chipsHeight]="chipsHeight"></app-image-file-chips>
+    </div>
+    <div [class]="chosenImageFiles.length == 0 ? 'col-3' : 'col-1'" style="margin-top: 2px;">
+        <div class="row m-0 p-0">
+            <div class="col m-0 p-0">
+                <input type="file" name="file" id="file" style="display: none;" (change)="onFileChanged($event)"/>
+                <label for="file" class="m-0 p-0">
+                    <mat-icon class="m-0 pt-0 my-icon my-icon-more">add_a_photo</mat-icon>
+                </label>
+            </div>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col m-0 p-0">
+                <mat-icon class="m-0 pt-0 my-icon my-icon-add" (click)="add()">add_box</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>

@@ -17,26 +17,38 @@ import { CulturalOfferingSubtypeService } from '../core/services/cultural-offeri
 import { CulturalOfferingTypeService } from '../core/services/cultural-offering-type/cultural-offering-type.service';
 import { ImageService } from '../core/services/image/image.service';
 import { GoogleAutocompleteModule } from '../shared/modules/google-autocomplete/google-autocomplete.module';
+import { CulturalOfferingPageComponent } from './cultural-offering-page/cultural-offering-page.component';
+import { RouterModule } from '@angular/router';
+import { CulturalOfferingRoutingModule } from './cultural-offering-routing.module';
+import { CommentModule } from '../comment/comment.module';
+import { RatingModule } from '../rating/rating.module';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
     CulturalOfferingTableComponent,
-    CulturalOfferingDetailsComponent
+    CulturalOfferingDetailsComponent,
+    CulturalOfferingPageComponent
   ],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
     MatSnackBarModule,
     MatTableModule,
-    MatPaginatorModule,
+    MatPaginatorModule, //ovo se koristi za tabelu jer MatTable vec ima odradjenu integraciju sa MatPaginator
     MatSortModule,
     MatIconModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
     CarouselWrapperModule,
-    GoogleAutocompleteModule
+    GoogleAutocompleteModule,
+    CulturalOfferingRoutingModule,
+    MatTabsModule,
+    CommentModule,
+    RatingModule
   ],
   providers: [
     CulturalOfferingService,

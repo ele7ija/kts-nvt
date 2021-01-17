@@ -1,0 +1,40 @@
+<div class="dialogbox row my-2" *ngIf="comment">
+    <div class="col-3 meta-info" style="text-align: end;">
+        <p class="mr-2 pr-2 mb-0 mt-1" *ngIf="user">{{user.firstName}} {{user.lastName}}</p>
+        <p class="mr-2 pr-2 pt-0 mt-0">{{comment.date | date:'dd.MM.yyyy hh:mm'}}</p>
+    </div>
+    <div class="body col-6 my-1 p-2">
+        <span class="tip tip-left"></span>
+        <div class="message">
+            <span>{{comment.text}}</span>
+        </div>
+    </div>
+    <div class="col-3" style="margin-top: 6px;">
+        <div class="row m-0 p-0">
+            <div class="col m-0 p-0">
+                <mat-icon
+                    class="my-icon my-icon-more m-0 pt-0"
+                    (click)="showImages()"
+                    *ngIf="images.length!=0 && !imagesLoading"
+                >
+                    image
+                </mat-icon>
+                <mat-spinner
+                    *ngIf="imagesLoading"
+                    diameter="25"
+                ></mat-spinner>
+            </div>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col m-0 p-0">
+                <mat-icon
+                    class="my-icon my-icon-danger m-0 pt-0"
+                    *ngIf="isUserAdmin()"
+                    (click)="delete()"
+                >
+                    delete
+                </mat-icon>
+            </div>
+        </div>
+    </div>
+ </div>
