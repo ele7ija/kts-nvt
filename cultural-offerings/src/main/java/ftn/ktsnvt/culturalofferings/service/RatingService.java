@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.Rating;
 import ftn.ktsnvt.culturalofferings.repository.RatingRepository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -84,12 +85,13 @@ public class RatingService {
     }
 
 
+    @Transactional
     public RatingDTO create(RatingDTO dto, String userEmail) throws Exception {
         CulturalOffering culturalOffering = culturalOfferingService.findOne(dto.getCulturalOfferingId());
         User user = userService.findByEmail(userEmail);
 
         Rating entity = RatingMapper.toEntity(dto, culturalOffering, user);
-
+        this.ratingRepository.deleteAllByCulturalOfferingIdAndUserId(dto.getCulturalOfferingId(), dto.getUserId());
         Rating newEntity = ratingRepository.save(entity);
 
         return RatingMapper.toDTO(newEntity);

@@ -14,4 +14,5 @@ import java.util.List;
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findAllById(Long id);
     Page<Rating> findAllByCulturalOfferingId(Long culturalOfferingId, Pageable pageable);
+    long deleteAllByCulturalOfferingIdAndUserId(Long culturalOfferingId, Long userId);
 }
