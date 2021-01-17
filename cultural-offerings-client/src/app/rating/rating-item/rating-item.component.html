@@ -1,1 +1,19 @@
-<p>rating-item works!</p>
+<div class="row my-2" *ngIf="rating">
+    <div class="col-4 meta-info" style="text-align: end;">
+        <p class="mb-0 mt-0" *ngIf="user">{{user.firstName}} {{user.lastName}}</p>
+        <p class="pt-0 mt-0">{{rating.date | date:'dd.MM.yyyy hh:mm'}}</p>
+    </div>
+    <div class="col-4 my-1 py-2" style="text-align: center;">
+        <star-rating [value]="rating.value" [totalstars]="10" size="30px" checkedcolor="gold" uncheckedcolor="grey"></star-rating>
+    </div>
+    <div class="col-4 px-0 mx-0" style="margin-top: 6px;">
+        <mat-icon
+            class="my-icon my-icon-danger m-0 pt-1"
+            *ngIf="isUserAdmin()"
+            (click)="delete()"
+        >
+            delete
+        </mat-icon>
+    </div>
+ </div>
+

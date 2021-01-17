@@ -4,17 +4,21 @@ import { RatingListComponent } from './rating-list/rating-list.component';
 import { RatingItemComponent } from './rating-item/rating-item.component';
 import { PaginatorModule } from '../shared/modules/paginator/paginator.module';
 import { RatingService } from '../core/services/rating/rating.service';
-
+import { RatingModule } from 'ng-starrating';
+import { MatIconModule } from '@angular/material/icon';
+import { RatingInputComponent } from './rating-input/rating-input.component';
 
 @NgModule({
-  declarations: [RatingListComponent, RatingItemComponent],
+  declarations: [RatingListComponent, RatingItemComponent, RatingInputComponent],
   imports: [
     CommonModule,
-    PaginatorModule
+    PaginatorModule,
+    RatingModule,
+    MatIconModule
   ],
   providers: [
     RatingService
   ],
   exports: [RatingListComponent]
 })
-export class RatingModule { }
+export class RatingsModule { }

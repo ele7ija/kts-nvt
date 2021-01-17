@@ -21,7 +21,7 @@ import { CulturalOfferingPageComponent } from './cultural-offering-page/cultural
 import { RouterModule } from '@angular/router';
 import { CulturalOfferingRoutingModule } from './cultural-offering-routing.module';
 import { CommentModule } from '../comment/comment.module';
-import { RatingModule } from '../rating/rating.module';
+import { RatingsModule } from '../rating/rating.module';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
@@ -48,7 +48,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     CulturalOfferingRoutingModule,
     MatTabsModule,
     CommentModule,
-    RatingModule
+    RatingsModule
   ],
   providers: [
     CulturalOfferingService,
