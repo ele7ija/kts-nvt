@@ -3,10 +3,10 @@ export interface CulturalOffering {
   name: string;
   description: string;
   locationId: number;
-  longitude: number;
-  latitude: number;
   locationName: string;
+  latitude: number;
+  longitude: number;
   culturalOfferingTypeName: string;
   culturalOfferingSubtypeName: string;
-  imageIds: string[];
+  imageIds: number[];
 }

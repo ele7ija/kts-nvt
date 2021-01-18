@@ -1,0 +1,52 @@
+<ng-container>
+    <div
+        *ngIf="images.length!=0"
+        id="carouselExampleControls"
+        class="carousel slide"
+        style="margin-left: auto; margin-right: auto;"
+        [style.max-width.px]="maxImageWidth"
+        [style.max-height.px]="maxImageHeight"
+    >
+        <ol class="carousel-indicators">
+            <li 
+                *ngFor="let image of images; let imageIndex = index" 
+                data-target="#carouselExampleIndicators"
+                [data-slide-to]="imageIndex"
+                [class.active]="imageIndex==activeSlideIndex">
+            </li>
+          </ol>
+        <div class="carousel-inner">
+            <div 
+                *ngFor="let image of images; let imageIndex = index"
+                class="carousel-item"
+                style="text-align: center;"
+                [class.active]="imageIndex==activeSlideIndex"
+            >
+                <img *ngIf="image.retrievedImage" [src]="image.retrievedImage" class="d-block w-100 my-image" [style.max-width.px]="maxImageWidth" [style.max-height.px]="maxImageHeight">
+            </div>
+        </div>
+        <a class="carousel-control-prev" (click)="prev()" role="button">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" (click)="next()" role="button">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <img *ngIf="images.length==0 && !imagesLoading" src="../../../../../assets/images/empty.png" class="my-image">
+    <mat-spinner *ngIf="imagesLoading" diameter="50" class="align-to-center"></mat-spinner>
+    
+    <div *ngIf="enableAddAndRemove" class="row pt-3" style="margin-right: auto;" [style.margin-left]="images.length == 0 ? 'auto' : ''">
+        <div *ngIf="images.length==0" class="col px-0 button-wrap" style="margin-left: auto; margin-right: auto;">
+            <label class ="new-button blue-button" for=file [style.width.px]="fileButtonWidth"> Izaberi </label>
+            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
+        </div>
+        <div *ngIf="images.length!=0" class="col px-0 button-wrap">
+            <label class ="new-button ml-3 blue-button" for=file [style.width.px]="fileButtonWidth/2"> Izaberi </label>
+            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
+            <button class="new-button red-button borderless" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
+        </div>
+    </div>
+</ng-container>
+

@@ -23,7 +23,8 @@ import { UserGuard } from './core/guards/user.guard';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    NavigationModule
+    NavigationModule,
+    
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},

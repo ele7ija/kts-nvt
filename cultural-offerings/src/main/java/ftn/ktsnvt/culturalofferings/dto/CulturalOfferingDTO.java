@@ -36,8 +36,7 @@ public class CulturalOfferingDTO {
     
     private List<Long> imageIds;
     
-    public CulturalOfferingDTO() {}
-    
+    public CulturalOfferingDTO() {}    
 
 	public CulturalOfferingDTO(Long id, String name, String description, Long locationId, float longitude, float latitude, String locationName, String culturalOfferingTypeName, String culturalOfferingSubtypeName, List<Long> imageIds) {
 		this.id = id;
@@ -133,4 +132,11 @@ public class CulturalOfferingDTO {
 		this.imageIds = imageIds;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

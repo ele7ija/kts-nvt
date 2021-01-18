@@ -75,7 +75,7 @@ public class JwtIssuerFilter extends UsernamePasswordAuthenticationFilter {
 
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
-                .claim("user", new JwtModel(customUserDetails.getUsername(), customUserDetails.getUserRole(), (Set<GrantedAuthority>) customUserDetails.getAuthorities()))
+                .claim("user", new JwtModel(customUserDetails.getId(), customUserDetails.getUsername(), customUserDetails.getUserRole(), (Set<GrantedAuthority>) customUserDetails.getAuthorities()))
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)

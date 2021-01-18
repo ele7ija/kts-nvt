@@ -49,6 +49,15 @@ public class CommentService {
         return new PageImpl<>(commentDTOs, commentsPage.getPageable(), commentsPage.getTotalElements());
     }
 
+    public Page<CommentDTO> findAll(Pageable pageable, Long culturalOfferingId){
+        var commentsPage = commentRepository.findAllByCulturalOfferingId(culturalOfferingId, pageable);
+        List<Comment> commentList = commentsPage.toList();
+
+        var commentDTOs = CommentMapper.toDTOs(commentList);
+
+        return new PageImpl<>(commentDTOs, commentsPage.getPageable(), commentsPage.getTotalElements());
+    }
+
     public List<Comment> findAll(List<Long> commentIds) {
         return commentIds.stream()
                 .map(commentId -> this.getEntityById(commentId))

@@ -17,6 +17,7 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 // This service to manages token and user information inside Browser’s Session Storage.
 
 export class AuthService {
+  
   private signInUrl: string = environment.baseUrl + '/auth/login';
 
   constructor(private apiService: ApiService, private router: Router, private location: Location) {}
@@ -72,6 +73,13 @@ export class AuthService {
       return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.userRole;
     }
     return "";
+  }
+
+  getUserId(): number {
+    if (this.isLoggedIn()) {
+      return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.id;
+    }
+    return -1;
   }
 
   navigateUnauthorized(): void {

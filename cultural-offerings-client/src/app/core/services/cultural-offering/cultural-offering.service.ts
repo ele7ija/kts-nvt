@@ -17,6 +17,11 @@ export class CulturalOfferingService implements AbstractCrudService<CulturalOffe
   getAll(pageRequest: PageableRequest): Observable<any> {
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageRequest);
   }
+
+  getOne(id: string) {
+    return this.apiService.get(`${this.endpoint}/${id}`);
+  }
+
   insert(entity: CulturalOffering): Observable<CulturalOffering> {
     return this.apiService.post(`${this.endpoint}`, entity);
   }

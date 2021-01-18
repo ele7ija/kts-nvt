@@ -31,8 +31,12 @@
                         {{userEmail}} <mdb-icon fas icon="user"></mdb-icon> <span class="caret"></span>
                     </a>
                     <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-                        <a class="dropdown-item" routerLink="/my-profile">Moj profil</a>
+                        <a class="dropdown-item" routerLink="my-profile">Moj profil</a>
                         <div class="divider dropdown-divider"></div>
+                        <ng-container *ngIf="isAdmin()">
+                            <a class="dropdown-item" routerLink="admin">Opcije</a>
+                            <div class="divider dropdown-divider"></div>
+                        </ng-container>
                         <a class="dropdown-item" href="/sign-in" (click)="logout()">Odjava</a>
                     </div>
                 </li>

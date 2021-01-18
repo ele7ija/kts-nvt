@@ -19,6 +19,9 @@ public interface RatingApi {
     @GetMapping(value = "/by-page")
     ResponseEntity findAll(Pageable pageable);
 
+    @GetMapping(value = "/by-page/{culturalOfferingId}")
+    ResponseEntity findAll(@PathVariable("culturalOfferingId") Long culturalOfferingId, Pageable pageable);
+
     @GetMapping(value = "/{id}")
     ResponseEntity findOne(@PathVariable("id") Long id);
 

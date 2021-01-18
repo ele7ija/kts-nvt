@@ -8,6 +8,7 @@ import { SignInComponent } from './sign-in/sign-in/sign-in.component';
 import { AdminGuard } from './core/guards/admin.guard';
 import { LoginGuard } from './core/guards/login.guard';
 import { GuestGuard } from './core/guards/guest.guard';
+import { UserGuard } from './core/guards/user.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' }, // Don't use prefix becasue empty path is a prefix to any path
@@ -16,8 +17,8 @@ const routes: Routes = [
   { path: 'sign-in', loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInModule), canActivate: [GuestGuard]},
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule), canActivate: [GuestGuard]},
   { path: 'my-profile', loadChildren: () => import('./user-data/user-data.module').then(m => m.UserDataModule), canActivate: [LoginGuard]},
-  { path: 'cultural-offering-types', loadChildren: () => import('./cultural-offering-type/cultural-offering-type.module').then(m => m.CulturalOfferingTypeModule), canActivate: [AdminGuard]},
-  { path: 'cultural-offering-sub-type', loadChildren: () => import('./cultural-offering-sub-type/cultural-offering-sub-type.module').then(m => m.CulturalOfferingSubTypeModule), canActivate: [AdminGuard] },
+  { path: 'admin', loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule), canActivate: [AdminGuard] },
+  { path: 'cultural-offering', loadChildren: () => import('./cultural-offering/cultural-offering.module').then(m => m.CulturalOfferingModule) },
   { path: '**', redirectTo: '/error404' }
 ];
 

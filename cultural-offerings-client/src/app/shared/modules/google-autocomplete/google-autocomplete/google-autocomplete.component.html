@@ -1,0 +1,7 @@
+<input 
+    ngx-google-places-autocomplete
+    [value]="location ? location.name: ''"
+    (onAddressChange)="handleAddressChange($event)"
+    class="form-control"
+    (input)="handleAddressClear()"
+/>

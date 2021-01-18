@@ -13,6 +13,9 @@ public class Rating {
     @Column(nullable = false)
     private int value;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private CulturalOffering culturalOffering;
 
@@ -20,6 +23,14 @@ public class Rating {
     private User user;
 
     public Rating() {}
+
+    public Rating(Long id, int value, Date date, CulturalOffering culturalOffering, User user) {
+        this.id = id;
+        this.value = value;
+        this.date = date;
+        this.culturalOffering = culturalOffering;
+        this.user = user;
+    }
 
     public Rating(Long id, int value, CulturalOffering culturalOffering, User user) {
         this.id = id;
@@ -58,5 +69,13 @@ public class Rating {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

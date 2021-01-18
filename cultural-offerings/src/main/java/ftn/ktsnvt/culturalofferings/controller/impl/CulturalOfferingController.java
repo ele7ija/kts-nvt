@@ -56,14 +56,15 @@ public class CulturalOfferingController implements CulturalOfferingApi {
     @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
     public ResponseEntity<CulturalOfferingDTO> createCulturalOffering(@Valid CulturalOfferingDTO body, BindingResult bindingResult) {
     	DTOValidationHelper.validateDTO(bindingResult);
-    	CulturalOffering culturalOffering = culturalOfferingService.create(culturalOfferingsMapper.toEntity(body, null));
+    	CulturalOffering culturalOffering = culturalOfferingService.create(culturalOfferingsMapper.toEntity(body));
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.CREATED);
     }
     
     @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
     public ResponseEntity<CulturalOfferingDTO> updateCulturalOffering(@Valid CulturalOfferingDTO body, BindingResult bindingResult, @PathVariable Long id) {
 		DTOValidationHelper.validateDTO(bindingResult);
-    	CulturalOffering culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body, id), id);
+		body.setId(id);
+    	CulturalOffering culturalOffering = culturalOfferingService.update(culturalOfferingsMapper.toEntity(body), id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 

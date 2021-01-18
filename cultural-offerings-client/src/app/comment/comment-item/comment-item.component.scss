@@ -1,0 +1,48 @@
+.tip {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    background: transparent;
+    border: 10px solid #ccc;
+}
+  
+.tip-left {
+    top: 10px;
+    left: -25px;
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-bottom-color: transparent;  
+}
+
+.dialogbox .body {
+    height: auto;
+    background-color: #DADADA;
+    border-radius: 3px;
+    border: 5px solid #ccc;
+}
+
+.body .message {
+    min-height: 30px;
+    border-radius: 3px;
+    font-family: Arial;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #797979;
+}
+
+.meta-info { padding: 5px; overflow: hidden; }
+
+.meta-info p { font-family: 'Fenix', serif; font-style: italic; color: #666; font-size: 16px; }
+
+.my-icon{
+    font-size: 25px;
+}
+.my-icon-danger{
+    color: #F93154;
+}
+.my-icon-more{
+    color: #39C0ED;
+}
+.my-icon:hover{
+    cursor: pointer;
+}
