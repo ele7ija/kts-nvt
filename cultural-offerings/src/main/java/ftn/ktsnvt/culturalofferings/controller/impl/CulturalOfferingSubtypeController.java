@@ -31,7 +31,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
 
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<List<CulturalOfferingSubTypeDTO>> findAll() {
         return new ResponseEntity<>(
                 culturalOfferingSubtypeService
@@ -44,7 +44,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<Page<CulturalOfferingSubTypeDTO>> findAll(Pageable pageable) {
         Page<CulturalOfferingSubType> page = culturalOfferingSubtypeService.findAll(pageable);
 
@@ -60,7 +60,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<CulturalOfferingSubTypeDTO> get(Long id) {
         CulturalOfferingSubType culturalOfferingSubType = culturalOfferingSubtypeService.findOne(id);
         return new ResponseEntity<>(
@@ -111,7 +111,7 @@ public class CulturalOfferingSubtypeController implements CulturalOfferingSubtyp
     }
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_SUB_TYPE:read')")
     public ResponseEntity<List<CulturalOfferingSubTypeDTO>> getAllByTypeId(Long typeId){
         List<CulturalOfferingSubType> culturalOfferingSubTypeList = culturalOfferingSubtypeService.getAllByTypeId(typeId);
         return new ResponseEntity<>(

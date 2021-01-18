@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
+import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
 import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
@@ -72,14 +73,14 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
     public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id) {
     	CulturalOffering culturalOffering = culturalOfferingService.findOne(id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
     public ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable) {
         Page<CulturalOffering> page = culturalOfferingService.findAll(pageable);
 
@@ -108,6 +109,18 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         return new ResponseEntity<CulturalOffering>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    
+    public ResponseEntity<Page<CulturalOfferingDTO>> searchFilter(Pageable pageable, SearchFilterDTO searchFilterDTO) {
+        Page<CulturalOffering> page = culturalOfferingService.searchFilter(pageable, searchFilterDTO);
+
+        List<CulturalOfferingDTO> culturalOfferingDTO = page
+                .toList()
+                .stream()
+                .map(x -> culturalOfferingsMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<CulturalOfferingDTO> pageCulturalOfferingDTO = new PageImpl<>(culturalOfferingDTO, page.getPageable(), page.getTotalElements());
+        return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
+    }
+
 
 }

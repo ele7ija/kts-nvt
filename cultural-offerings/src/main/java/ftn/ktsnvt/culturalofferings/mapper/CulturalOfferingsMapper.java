@@ -84,6 +84,7 @@ public class CulturalOfferingsMapper{
 		Location location = entity.getLocation();
 		
 		return new CulturalOfferingDTO(
+			entity.getId(),
 			entity.getName(), 
 			entity.getDescription(), 
 			location.getId(), 

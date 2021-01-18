@@ -70,7 +70,7 @@ public class CulturalOfferingMapperTest {
 	
 	@Test
 	public void toEntityTestNull() {
-		CulturalOfferingDTO dto = new CulturalOfferingDTO("New name", "Some description", 11l, 20.0f, 45.5f, 
+		CulturalOfferingDTO dto = new CulturalOfferingDTO(null, "New name", "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", "type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
@@ -97,7 +97,7 @@ public class CulturalOfferingMapperTest {
 	
 	@Test
 	public void toEntityTestId() {
-		CulturalOfferingDTO dto = new CulturalOfferingDTO("New name", "Some description", 11l, 20.0f, 45.5f, 
+		CulturalOfferingDTO dto = new CulturalOfferingDTO(null, "New name", "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", "type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");
@@ -127,7 +127,7 @@ public class CulturalOfferingMapperTest {
 	
 	@Test(expected = EntityNotFoundByNameException.class)
 	public void toEntityTestFailsType() {
-		CulturalOfferingDTO dto = new CulturalOfferingDTO("New name", "Some description", 11l, 20.0f, 45.5f, 
+		CulturalOfferingDTO dto = new CulturalOfferingDTO(null, "New name", "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", "wrong type name", "subtype name", new ArrayList<Long>());
 		
 		Location location = new Location(11l, 20.0f, 45.5f, "Trg republike BB, Novi Sad");

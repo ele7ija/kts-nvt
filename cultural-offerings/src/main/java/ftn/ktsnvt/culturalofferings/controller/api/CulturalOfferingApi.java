@@ -1,6 +1,7 @@
 package ftn.ktsnvt.culturalofferings.controller.api;
 
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
+import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 
 import org.springframework.data.domain.Page;
@@ -50,5 +51,9 @@ public interface CulturalOfferingApi {
     		method = RequestMethod.GET, 
     		produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable);
+
+    
+    @RequestMapping(value = "/search-filter/by-page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<CulturalOfferingDTO>> searchFilter(Pageable pageable, @RequestBody SearchFilterDTO searchFilterDTO);
 }
 

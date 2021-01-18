@@ -27,6 +27,7 @@ public class SubscriptionMapper implements MapperInterface<Subscription, Subscri
     @Override
     public SubscriptionDTO toDto(Subscription entity) {
         SubscriptionDTO dto = new SubscriptionDTO();
+        dto.setId(entity.getId());
         dto.setCulturalOffering(entity.getCulturalOffering().getId());
         dto.setUser(entity.getUser().getId());
         return dto;
