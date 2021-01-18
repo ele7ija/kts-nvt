@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule), canActivate: [GuestGuard]},
   { path: 'my-profile', loadChildren: () => import('./user-data/user-data.module').then(m => m.UserDataModule), canActivate: [LoginGuard]},
   { path: 'admin', loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule), canActivate: [AdminGuard] },
-  { path: 'cultural-offering', loadChildren: () => import('./cultural-offering/cultural-offering.module').then(m => m.CulturalOfferingModule) },
+  { path: 'cultural-offering', loadChildren: () => import('./cultural-offering/cultural-offering.module').then(m => m.CulturalOfferingModule), canActivate: [UserGuard, GuestGuard] },
+  { path: 'super-admin', loadChildren: () => import('./super-admin/super-admin.module').then(m => m.SuperAdminModule) },
   { path: '**', redirectTo: '/error404' }
 ];
 

@@ -3,11 +3,19 @@
         <div class="card mt-0 pt-0" style="border-top: none;">
             <div class="card-body">
                 <app-comment-input (commentAddedEvent)="commentAddedEvent($event)"></app-comment-input>
+                <h3
+                    *ngIf="comments.length==0"
+                    class="text-center font-weight-light mt-2"
+                    style="text-align: right;"
+                >
+                    Budite prvi koji ce komentarisati ovu kulturnu ponudu
+            </h3>
                 <app-comment-item 
                     *ngFor="let comment of comments"
                     [comment]="comment"
                     (removeCommentEvent)="removeCommentEvent($event)"
                 ></app-comment-item>
+                
             </div>
         </div>
     </div>
