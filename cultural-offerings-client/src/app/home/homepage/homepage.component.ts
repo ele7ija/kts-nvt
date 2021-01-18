@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MapInfoWindow, MapMarker, GoogleMap, MapAnchorPoint } from '@angular/google-maps'
+import { Router } from '@angular/router';
 import { MdbCheckboxChange } from 'angular-bootstrap-md';
 import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
 import { CulturalOffering } from 'src/app/core/model/cultural-offering';
@@ -29,7 +30,8 @@ export class HomepageComponent implements OnInit {
     private culturalOfferingTypeService: CulturalOfferingTypeService,
     private culturalOfferingSubtypeService: CulturalOfferingSubtypeService,
     private elRef: ElementRef,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.searchFilterForm = formBuilder.group({
       "termField": [""]
@@ -69,12 +71,13 @@ export class HomepageComponent implements OnInit {
     this.markerPositions.push(event.latLng.toJSON());
   }
 
-  openInfoWindow(marker: MapMarker) {
+  openInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
     this.infoWindow.open(marker);
+    this.router.navigate([`/cultural-offering/${culturalOffering.id}`]);
   }
 
-  openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
-    this.infoWindow.options = {content: this.formatInfoWindowContent(culturalOffering)}
+  async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
+    this.infoWindow.options = {content: this.formatInfoWindowContent(culturalOffering)};
     this.infoWindow.open(marker);
   }
 
@@ -86,7 +89,7 @@ export class HomepageComponent implements OnInit {
     retval += `<h4 style="opacity: 0.7">${culturalOffering.culturalOfferingTypeName} <b>/</b> ${culturalOffering.culturalOfferingSubtypeName}</h4>`
     retval += `<h2>${culturalOffering.name}</h2>`
     retval += `<h4>${culturalOffering.description}</h4>`
-    // TODO SLIKE
+    // TODO SLIKE - ne moze
     return retval;
   }
 
