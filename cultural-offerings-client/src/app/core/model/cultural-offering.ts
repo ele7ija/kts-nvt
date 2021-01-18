@@ -1,4 +1,4 @@
-export interface CulturalOffering{
+export interface CulturalOffering {
   id: number;
   name: string;
   description: string;

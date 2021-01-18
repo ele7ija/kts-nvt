@@ -45,6 +45,7 @@ public class NewsMapper implements MapperInterface<News, NewsDTO> {
     @Override
     public NewsDTO toDto(News entity) {
         NewsDTO dto = new NewsDTO();
+        dto.setId(entity.getId());
         dto.setCulturalOffering(entity.getCulturalOffering().getId());
         dto.setDate(entity.getDate());
         List<Long> images = new ArrayList<Long>();

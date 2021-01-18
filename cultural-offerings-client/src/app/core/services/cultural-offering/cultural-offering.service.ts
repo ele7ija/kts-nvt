@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { AbstractCrudService } from '../../model/abstract-crud-service';
 import { CulturalOffering } from '../../model/cultural-offering';
 import { PageableRequest } from '../../model/pageable-request';
-import { ApiService } from '../security/api-service/api.service';
+import { SearchFilter } from '../../model/search-filter';
+import { ApiService, RequestMethod } from '../security/api-service/api.service';
 
 @Injectable()
 export class CulturalOfferingService implements AbstractCrudService<CulturalOffering> {
@@ -13,8 +14,8 @@ export class CulturalOfferingService implements AbstractCrudService<CulturalOffe
 
   constructor(private apiService: ApiService) { }
 
-  getAll(pageableRequest: PageableRequest): Observable<any>{
-    return this.apiService.getByPage(`${this.endpoint}/by-page`, pageableRequest);
+  getAll(pageRequest: PageableRequest): Observable<any> {
+    return this.apiService.getByPage(`${this.endpoint}/by-page`, pageRequest);
   }
 
   getOne(id: string) {
@@ -29,5 +30,11 @@ export class CulturalOfferingService implements AbstractCrudService<CulturalOffe
   }
   delete(id: number): Observable<void> {
     return this.apiService.delete(`${this.endpoint}/${id}`);
+  }
+
+  searchFilter(searchFilter: SearchFilter, pageRequest: PageableRequest) {
+    return this.apiService.request(`${this.endpoint}/search-filter/by-page?page=${pageRequest.page}&size=${pageRequest.size}&sort=${pageRequest.sort},${pageRequest.sortOrder}`,
+      searchFilter,
+      RequestMethod.Post)
   }
 }

@@ -14,8 +14,8 @@ insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (13, "Muzicki festival za brisanje", 12);
 
 insert into location(id, latitude, longitude, name) values (10, 45.5, 20.0, "Ignjata Pavlasa 10, Novi Sad");
-insert into location(id, latitude, longitude, name) values (11, 45.5, 20.0, "Trg republike BB, Novi Sad");
-insert into location(id, latitude, longitude, name) values (12, 45.5, 20.0, "Vladimira Nazora 1, Petrovaradin");
+insert into location(id, latitude, longitude, name) values (11, 46.5, 20.0, "Trg republike BB, Novi Sad");
+insert into location(id, latitude, longitude, name) values (12, 47.5, 20.0, "Vladimira Nazora 1, Petrovaradin");
 
 insert into cultural_offering(id, description, name, cultural_offering_sub_type_id, cultural_offering_type_id, location_id) values (10, "Muzej savremenih umetnosti je osnovan 1936.", "Muzej savremenih umetnosti", 10, 10, 10);
 insert into cultural_offering(id, description, name, cultural_offering_sub_type_id, cultural_offering_type_id, location_id) values (11, "Spomenik je zvanicno predstavljen 2019.", "Spomenik kralju Peri", 11, 11, 11);

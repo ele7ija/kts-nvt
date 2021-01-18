@@ -111,7 +111,7 @@ public class CulturalOfferingControllerTest {
     @Transactional
     @Rollback(true)
     public void updateTest() throws Exception {
-        CulturalOfferingDTO dto = new CulturalOfferingDTO(EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
+        CulturalOfferingDTO dto = new CulturalOfferingDTO(null, EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", EXISTING_TYPE_NAME, EXISTING_SUBTYPE_NAME, new ArrayList<Long>());
 
         mockMvc.perform(
@@ -128,7 +128,7 @@ public class CulturalOfferingControllerTest {
     @Transactional
     @Rollback(true)
     public void updateTestFailsId() throws Exception {
-        CulturalOfferingDTO dto = new CulturalOfferingDTO(EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
+        CulturalOfferingDTO dto = new CulturalOfferingDTO(null, EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", EXISTING_TYPE_NAME, EXISTING_SUBTYPE_NAME, new ArrayList<Long>());
 
         mockMvc.perform(
@@ -144,7 +144,7 @@ public class CulturalOfferingControllerTest {
     @Transactional
     @Rollback(true)
     public void updateTestFailsSubtypeName() throws Exception {
-        CulturalOfferingDTO dto = new CulturalOfferingDTO(EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
+        CulturalOfferingDTO dto = new CulturalOfferingDTO(null, EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", EXISTING_TYPE_NAME, NON_EXISTING_SUBTYPE_NAME, new ArrayList<Long>());
 
         mockMvc.perform(
@@ -160,7 +160,7 @@ public class CulturalOfferingControllerTest {
     @Transactional
     @Rollback(true)
     public void createTest() throws Exception {
-    	CulturalOfferingDTO dto = new CulturalOfferingDTO(NON_EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
+    	CulturalOfferingDTO dto = new CulturalOfferingDTO(null, NON_EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", EXISTING_TYPE_NAME, EXISTING_SUBTYPE_NAME, new ArrayList<Long>());
 
         mockMvc.perform(
@@ -177,7 +177,7 @@ public class CulturalOfferingControllerTest {
     @Transactional
     @Rollback(true)
     public void createTestFailsName() throws Exception {
-    	CulturalOfferingDTO dto = new CulturalOfferingDTO(EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
+    	CulturalOfferingDTO dto = new CulturalOfferingDTO(null, EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", EXISTING_TYPE_NAME, EXISTING_SUBTYPE_NAME, new ArrayList<Long>());
 
         mockMvc.perform(
@@ -193,7 +193,7 @@ public class CulturalOfferingControllerTest {
     @Transactional
     @Rollback(true)
     public void createTestFailsSubtypeName() throws Exception {
-    	CulturalOfferingDTO dto = new CulturalOfferingDTO(NON_EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
+    	CulturalOfferingDTO dto = new CulturalOfferingDTO(null, NON_EXISTING_ENTITY_NAME, "Some description", 11l, 20.0f, 45.5f, 
         		"Trg republike BB, Novi Sad", EXISTING_TYPE_NAME, NON_EXISTING_SUBTYPE_NAME, new ArrayList<Long>());
 
         mockMvc.perform(

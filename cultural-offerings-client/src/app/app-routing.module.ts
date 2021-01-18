@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { NotFoundComponent } from './shared/components/pages/not-found/not-found.component';
-import { HomepageComponent } from './shared/components/pages/homepage/homepage.component';
+// import { HomepageComponent } from './shared/components/pages/homepage/homepage.component';
 import { MyProfileComponent } from './user-data/my-profile/my-profile.component';
 import { RegisterComponent } from './register/register/register.component';
 import { SignInComponent } from './sign-in/sign-in/sign-in.component';
@@ -12,7 +12,7 @@ import { UserGuard } from './core/guards/user.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'homepage', pathMatch: 'full' }, // Don't use prefix becasue empty path is a prefix to any path
-  { path: 'homepage', component: HomepageComponent },
+  { path: 'homepage', loadChildren: () => import('./home/home.module').then(m => m.HomeModule) },
   { path: 'error404', component: NotFoundComponent },
   { path: 'sign-in', loadChildren: () => import('./sign-in/sign-in.module').then(m => m.SignInModule), canActivate: [GuestGuard]},
   { path: 'register', loadChildren: () => import('./register/register.module').then(m => m.RegisterModule), canActivate: [GuestGuard]},

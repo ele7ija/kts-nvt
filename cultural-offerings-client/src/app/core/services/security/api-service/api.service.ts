@@ -52,7 +52,7 @@ export class ApiService {
     return this.request(path, body, RequestMethod.Delete);
   }
 
-  private request(path: string, body: any, method = RequestMethod.Post, custemHeaders?: HttpHeaders): Observable<any> {
+  request(path: string, body: any, method = RequestMethod.Post, custemHeaders?: HttpHeaders): Observable<any> {
     const req = new HttpRequest(method, path, body, {
       headers: custemHeaders || this.headers,
     });
