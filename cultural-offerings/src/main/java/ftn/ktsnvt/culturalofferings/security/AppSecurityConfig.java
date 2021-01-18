@@ -60,9 +60,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/confirm-registration").permitAll()
                 .antMatchers("/auth/resend-token").permitAll()
                 .antMatchers("/cultural-offerings/by-page").permitAll()
-                .antMatchers("/cultural-offerings/search-filter/by-page").permitAll()
+                .antMatchers("/cultural-offerings/search-filter/by-page/guest").permitAll()
                 .antMatchers("/cultural-offerings-types/by-page").permitAll()
                 .antMatchers("/cultural-offering-subtypes/byTypeId/{typeId}").permitAll()
+                .antMatchers("/subscriptions/all/query").permitAll()
                 
                 .anyRequest().authenticated()
 
@@ -82,9 +83,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
             Custom filters will ignore register endpoint
          */
         web.ignoring().antMatchers(HttpMethod.POST,
-                "/auth/register", "/auth/confirm-registration", "/auth/resend-token", "/cultural-offerings/search-filter/by-page")
+                "/auth/register", "/auth/confirm-registration", "/auth/resend-token", "/cultural-offerings/search-filter/by-page/guest")
                 .antMatchers(HttpMethod.GET,
-                "/cultural-offerings/by-page", "/cultural-offerings-types/by-page", "/cultural-offering-subtypes/byTypeId/{typeId}");
+                "/cultural-offerings/by-page", "/cultural-offerings-types/by-page", "/cultural-offering-subtypes/byTypeId/{typeId}", "/subscriptions/all/query");
 
     }
 

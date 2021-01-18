@@ -7,8 +7,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import ftn.ktsnvt.culturalofferings.dto.ChangeUserDataDTO;
 import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
+import ftn.ktsnvt.culturalofferings.helper.CredentialsHelper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.Subscription;
+import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundByNameException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.UniqueEntityConstraintViolationException;
@@ -23,6 +27,15 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
 
     @Autowired
     private CulturalOfferingRepository culturalOfferingRepository;
+
+    @Autowired
+    private CredentialsHelper credentialsHelper;
+
+    @Autowired
+    private SubscriptionService subscriptionService; 
+
+    @Autowired
+    private UserService userService;
 
     public List<CulturalOffering> findAll() {
         return culturalOfferingRepository.findAll();
@@ -92,8 +105,51 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
         Page<CulturalOffering> p = new PageImpl<CulturalOffering>(searchFilterApplied, pageable, all.size());
         return p;   
     }
+
+    public Page<CulturalOffering> searchFilterGuest(Pageable pageable, SearchFilterDTO searchFilterDTO) {
+        List<CulturalOffering> all = culturalOfferingRepository.findAll();
+        List<CulturalOffering> searchFilterApplied = applySearchFilterGuest(all, searchFilterDTO);
+        Page<CulturalOffering> p = new PageImpl<CulturalOffering>(searchFilterApplied, pageable, all.size());
+        return p;   
+    }
     
     private List<CulturalOffering> applySearchFilter(List<CulturalOffering> all, SearchFilterDTO searchFilterDTO) {
+        List<CulturalOffering> retval = new ArrayList<CulturalOffering>();
+        if (searchFilterDTO.getSubscriptions()) {
+            String email = credentialsHelper.getUserEmailFromToken();
+            User user = userService.findByEmail(email);
+            List<Subscription> subs = subscriptionService.getAllQuery(null, user.getId());
+            List<CulturalOffering> newAll = new ArrayList<>();
+            subs.forEach((Subscription s) -> {
+                newAll.add(s.getCulturalOffering());
+            });
+            all = newAll;
+        }
+        for (CulturalOffering co : all) {
+            // Filter type
+            if (searchFilterDTO.getCulturalOfferingTypeIds().contains(co.getCulturalOfferingType().getId())) {
+                if (searchFilterDTO.getCulturalOfferingSubtypeIds().contains(co.getCulturalOfferingSubType().getId())) {
+                    // filter is okay
+                }
+                else {
+                    // filter not okay
+                    continue;
+                }
+            }
+            else {
+                // filter not okay
+                continue;
+            }
+
+            // Name, description
+            if (stringMatch(searchFilterDTO.getTerm(), co.getName()) || stringMatch(searchFilterDTO.getTerm(), co.getDescription())) {
+                retval.add(co);
+            }
+        }
+        return retval;
+    }
+
+    private List<CulturalOffering> applySearchFilterGuest(List<CulturalOffering> all, SearchFilterDTO searchFilterDTO) {
         List<CulturalOffering> retval = new ArrayList<CulturalOffering>();
         for (CulturalOffering co : all) {
             // Filter type

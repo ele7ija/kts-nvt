@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MapInfoWindow, MapMarker, GoogleMap, MapAnchorPoint } from '@angular/google-maps'
+import { Router } from '@angular/router';
 import { MdbCheckboxChange } from 'angular-bootstrap-md';
 import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
 import { CulturalOffering } from 'src/app/core/model/cultural-offering';
@@ -10,6 +11,7 @@ import { SearchFilter } from 'src/app/core/model/search-filter';
 import { CulturalOfferingSubtypeService } from 'src/app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { CulturalOfferingService } from 'src/app/core/services/cultural-offering/cultural-offering.service';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
 
 declare var ol: any;
 
@@ -29,10 +31,13 @@ export class HomepageComponent implements OnInit {
     private culturalOfferingTypeService: CulturalOfferingTypeService,
     private culturalOfferingSubtypeService: CulturalOfferingSubtypeService,
     private elRef: ElementRef,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService
   ) {
     this.searchFilterForm = formBuilder.group({
-      "termField": [""]
+      "termField": [""],
+      "subscriptionsField": [""]
     })
   }
 
@@ -176,11 +181,11 @@ export class HomepageComponent implements OnInit {
   }
 
   searchFilterApply() {
-    console.log(this.searchFilterForm.value)
     let searchFilter: SearchFilter = {
       term: this.searchFilterForm.value["termField"],
       culturalOfferingSubtypeIds: [],
-      culturalOfferingTypeIds: []
+      culturalOfferingTypeIds: [],
+      subscriptions: this.searchFilterForm.value["subscriptionsField"]
     };
     searchFilter.culturalOfferingTypeIds = [];
     searchFilter.culturalOfferingSubtypeIds = [];
@@ -198,15 +203,38 @@ export class HomepageComponent implements OnInit {
         }
       }
     }
-    this.culturalOfferingService.searchFilter(
-      searchFilter, {
-      page: 0,
-      size: 1000,
-      sort: '',
-      sortOrder: ''
-    })
-    .subscribe((page) => {
-      this.culturalOfferings = [...page.content];
-    })
+    if (this.authService.isLoggedIn()) {
+      this.culturalOfferingService.searchFilter(
+        searchFilter, {
+        page: 0,
+        size: 1000,
+        sort: '',
+        sortOrder: ''
+      })
+      .subscribe((page) => {
+        this.culturalOfferings = [...page.content];
+      })
+    }
+    else {
+      this.culturalOfferingService.searchFilterGuest(
+        searchFilter, {
+        page: 0,
+        size: 1000,
+        sort: '',
+        sortOrder: ''
+      })
+      .subscribe((page) => {
+        this.culturalOfferings = [...page.content];
+      })
+    }
+    
+  }
+
+  openCulturalOffering(culturalOffering: CulturalOffering): void {
+    this.router.navigate([`/cultural-offering/${culturalOffering.id}`])
+  }
+
+  loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

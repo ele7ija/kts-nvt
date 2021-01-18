@@ -132,11 +132,4 @@ public class CulturalOfferingDTO {
 		this.imageIds = imageIds;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 }
