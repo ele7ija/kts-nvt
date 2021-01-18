@@ -7,6 +7,8 @@ import { RatingService } from '../core/services/rating/rating.service';
 import { RatingModule } from 'ng-starrating';
 import { MatIconModule } from '@angular/material/icon';
 import { RatingInputComponent } from './rating-input/rating-input.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [RatingListComponent, RatingItemComponent, RatingInputComponent],
@@ -14,7 +16,9 @@ import { RatingInputComponent } from './rating-input/rating-input.component';
     CommonModule,
     PaginatorModule,
     RatingModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [
     RatingService

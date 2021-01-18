@@ -29,6 +29,7 @@ import { CulturalOfferingType } from '../../../app/core/model/cultural-offering-
 export class CulturalOfferingTableComponent extends TableComponent<CulturalOffering> {
 
   culturalOfferingTypes: CulturalOfferingType[];
+  lastDeleted: CulturalOffering;
 
   constructor(
     private culturalOfferingService: CulturalOfferingService,
@@ -45,9 +46,17 @@ export class CulturalOfferingTableComponent extends TableComponent<CulturalOffer
   }
 
   async delete(entity: CulturalOffering) {
+    this.lastDeleted = entity;
     super.delete(entity)
-      .then(() => this.showSnackbar('USPESNO BRISANJE', `Tip kategorije pod nazivom ${entity.name} je uspesno obrisan.`, true))
-      .catch(error => this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false));
+    .then(() => {
+      this.lastDeleted = null;
+      this.showSnackbar('USPESNO BRISANJE', `Kulturna pomnuda pod nazivom ${entity.name} je uspesno obrisana.`, true)
+    })
+    .catch(error => {
+      this.lastDeleted = null;
+      this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false)
+    });
+    
   }
 
   async fetchAditionalEntities(): Promise<void>{

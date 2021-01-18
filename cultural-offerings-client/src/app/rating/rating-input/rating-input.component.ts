@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { RatingInput } from '../../../app/core/model/rating-input';
 
 @Component({
@@ -8,7 +8,11 @@ import { RatingInput } from '../../../app/core/model/rating-input';
 })
 export class RatingInputComponent implements OnInit {
 
+  @Input()
   selectedValue: number = 0;
+
+  @Input()
+  userRatingBeingUploaded: boolean = false;
 
   @Output()
   ratingAddedEvent: EventEmitter<RatingInput> = new EventEmitter<RatingInput>();
@@ -18,13 +22,8 @@ export class RatingInputComponent implements OnInit {
   ngOnInit(): void {}
 
   onRate($event:{oldValue:number, newValue:number}) {
-    this.selectedValue = $event.newValue
-  }
-  
-
-  add(){
     this.ratingAddedEvent.emit({
-      value: this.selectedValue,
+      value: $event.newValue,
       date: new Date()
     });
   }

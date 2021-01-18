@@ -7,6 +7,8 @@ import { ImageModel } from '../../../app/core/model/image-model';
 import { CommentInput } from '../../../app/core/model/comment-input';
 import { AuthService } from '../../../app/core/services/security/auth-service/auth.service';
 import { PaginatorComponent } from 'src/app/shared/modules/paginator/paginator.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SimpleSnackbarComponent } from 'src/app/shared/components/snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -29,7 +31,8 @@ export class CommentListComponent implements OnChanges {
   constructor(
     private authService: AuthService,
     private commentService: CommentService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private matSnackBar: MatSnackBar
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -87,7 +90,9 @@ export class CommentListComponent implements OnChanges {
         this.pageIndex = 0;
         this.fetchComments({page: this.pageIndex, size: this.paginator.pageSize});
       }
+      this.showSnackbar('USPESNO DODAVANJE', `Uspesno ste dodali komentar za kulturnu ponudu`, true);
     }catch(error){
+      this.showSnackbar('GRESKA', `${error.message}`, false);
       console.log(error);
     }
   }
@@ -98,5 +103,20 @@ export class CommentListComponent implements OnChanges {
       this.pageIndex = Math.max(0, this.pageIndex - 1);
     }
     this.fetchComments({page: this.pageIndex, size: this.paginator.pageSize});
+    this.showSnackbar('USPESNO BRISANJE', `Uspesno ste obrisali komentar za kulturnu ponudu`, true);
+  }
+
+  showSnackbar(title: string, message: string, success: boolean) {
+    this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 4000,
+      data: {
+        title,
+        message,
+        success,
+      },
+
+    });
   }
 }
