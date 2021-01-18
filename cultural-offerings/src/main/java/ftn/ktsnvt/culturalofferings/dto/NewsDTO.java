@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class NewsDTO {
+    private Long id;
+
     @NotBlank(message = "News title cannot be empty")
     private String title;
     @NotBlank(message = "News text cannot be empty")
@@ -70,5 +72,15 @@ public class NewsDTO {
     public void setUser(Long user) {
         this.user = user;
     }
+
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     
 }

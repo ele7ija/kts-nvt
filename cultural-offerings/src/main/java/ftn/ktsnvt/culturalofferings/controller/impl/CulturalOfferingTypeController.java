@@ -31,7 +31,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     private CulturalOfferingTypeMapper culturalOfferingTypeMapper;
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
     public ResponseEntity<List<CulturalOfferingTypeDTO>> findAll() {
         return new ResponseEntity<>(
                 culturalOfferingTypeService
@@ -44,7 +44,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
     public ResponseEntity<Page<CulturalOfferingTypeDTO>> findAll(Pageable pageable){
         Page<CulturalOfferingType> page = culturalOfferingTypeService.findAll(pageable);
 
@@ -60,7 +60,7 @@ public class CulturalOfferingTypeController implements CulturalOfferingTypeApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
+    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING_TYPE:read')")
     public ResponseEntity<CulturalOfferingTypeDTO> findOne(Long id) {
         CulturalOfferingType culturalOfferingType = culturalOfferingTypeService.findOne(id);
         return new ResponseEntity<>(

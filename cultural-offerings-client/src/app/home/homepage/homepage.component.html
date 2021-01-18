@@ -1,0 +1,73 @@
+<google-map height="800px"
+            width="100%"
+            [center]="center"
+            [zoom]="zoom"
+            [options]="options"
+            (mapClick)="addMarker($event)"
+            (idle)="addSearchFilter()">
+  <map-marker #marker="mapMarker"
+              *ngFor="let culturalOffering of culturalOfferings"
+              [position]="formatPosition(culturalOffering)"
+              (mapMouseover)="openPeekInfoWindow(marker, culturalOffering)"
+              (mapMouseout)="closePeekInfoWindow(marker)"
+              (mapClick)="openInfoWindow(marker, culturalOffering)"></map-marker>
+  <map-info-window
+    [options]="infoWindowOptions">
+  </map-info-window>
+</google-map>
+
+<div id="searchFilter">
+  <mdb-card class='shadow-lg mt-4 ml-4'>
+    <mdb-card-body>
+      <form [formGroup]="searchFilterForm" (ngSubmit)="searchFilterApply()">
+          <div class="form-row">
+            <div class="col">
+              <div class="md-form mt-0">
+                <mdb-icon fas icon="search" class="prefix grey-text"></mdb-icon>
+                  <input type="text" id="termField" name="termField"
+                    formControlName="termField" class="form-control" mdbInput>
+                  <label for="termField">Pretraga</label>
+              </div>
+            </div>
+          </div>      
+          <div class="form-row">
+            <div class="col">
+              <!-- Per type -->
+              <div
+                *ngFor="let culturalOfferingType of culturalOfferingTypes"
+                class='mb-4'>
+                <mdb-checkbox 
+                  style="font-size: medium;"
+                  [formControlName]="'type'+culturalOfferingType.id"
+                  (change)="typeChecked($event, culturalOfferingType)"
+                  [default]="true">
+                  {{culturalOfferingType.typeName}}
+                </mdb-checkbox>
+                <div
+                  *ngFor="let culturalOfferingSubtype of culturalOfferingSubtypes.get(culturalOfferingType.id)"
+                  class='ml-3 mt-1'>
+                  <mdb-checkbox 
+                  style="font-size: small;"
+                  [formControlName]="'subtype'+culturalOfferingSubtype.id"
+                  (change)="subtypeChecked($event, culturalOfferingSubtype)"
+                  [default]="true">
+                  {{culturalOfferingSubtype.subTypeName}}
+                </mdb-checkbox>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <div class="d-flex justify-content-center">
+                <button mdbBtn color="default" class="waves-light" type="submit"
+                    mdbWavesEffect>Primeni</button>
+            </div>
+            </div>
+          </div>
+      </form>
+      
+    </mdb-card-body>
+  </mdb-card>
+</div>

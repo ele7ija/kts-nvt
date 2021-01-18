@@ -59,6 +59,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/confirm-registration").permitAll()
                 .antMatchers("/auth/resend-token").permitAll()
+                .antMatchers("/cultural-offerings/by-page").permitAll()
+                .antMatchers("/cultural-offerings/search-filter/by-page").permitAll()
+                .antMatchers("/cultural-offerings-types/by-page").permitAll()
+                .antMatchers("/cultural-offering-subtypes/byTypeId/{typeId}").permitAll()
+                
                 .anyRequest().authenticated()
 
                 .and()
@@ -77,7 +82,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
             Custom filters will ignore register endpoint
          */
         web.ignoring().antMatchers(HttpMethod.POST,
-                "/auth/register", "/auth/confirm-registration", "/auth/resend-token");
+                "/auth/register", "/auth/confirm-registration", "/auth/resend-token", "/cultural-offerings/search-filter/by-page")
+                .antMatchers(HttpMethod.GET,
+                "/cultural-offerings/by-page", "/cultural-offerings-types/by-page", "/cultural-offering-subtypes/byTypeId/{typeId}");
+
     }
 
     @Override
