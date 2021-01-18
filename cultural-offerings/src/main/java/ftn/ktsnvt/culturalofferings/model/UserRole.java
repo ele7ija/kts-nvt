@@ -13,6 +13,7 @@ public enum UserRole {
     USER(new HashSet<>(Arrays.asList(
             CULTURAL_OFFERING_READ,
             NEWS_READ, REVIEW_READ,
+            USER_READ,
             REVIEW_WRITE,
             CULTURAL_OFFERING_TYPE_READ,
             CULTURAL_OFFERING_SUB_TYPE_READ,

@@ -15,19 +15,21 @@ export class UserGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+      const allowedRoles = route.data['allowedRoles'];
       if (this.authService.isLoggedIn()) {
-        if (this.authService.getUserRole() === 'USER') {
+        if(allowedRoles.filter(role => role == this.authService.getUserRole()).length == 1){
           return true;
-        } else {
-          //if other role
+        }else{
           this.authService.navigateUnauthorized();
           return false;
         }
-      }
-      else {
-        //current user does not exist - no one is logged in
-        this.router.navigate(['/sign-in']);
-        return false;
+      }else{
+        if(allowedRoles.find(role => role == 'GUEST')){
+          return true;
+        }else{
+          this.authService.navigateUnauthorized();
+          return false; 
+        }
       }
   }
   

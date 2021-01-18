@@ -1,5 +1,6 @@
 package ftn.ktsnvt.culturalofferings.service;
 
+import ftn.ktsnvt.culturalofferings.model.UserRole;
 import ftn.ktsnvt.culturalofferings.model.VerificationToken;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import ftn.ktsnvt.culturalofferings.model.exceptions.PasswordsNotMatchException;
@@ -45,6 +46,10 @@ public class UserService implements ServiceInterface<User> {
     @Override
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public Page<User> findAllAdmins(Pageable pageable) {
+        return userRepository.findAllByUserRole("ADMIN", pageable);
     }
 
     @Override
@@ -181,5 +186,4 @@ public class UserService implements ServiceInterface<User> {
         			user.getLastName()
         		);
     }
-
 }

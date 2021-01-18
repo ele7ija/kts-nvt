@@ -2,16 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
 import { CultrualOfferingTypeDetailsComponent } from './cultrual-offering-type-details/cultrual-offering-type-details.component';
 import { CulturalOfferingSubtypeChipsComponent } from './cultural-offering-subtype-chips/cultural-offering-subtype-chips.component';
 import { ImageService } from '../core/services/image/image.service';
@@ -20,6 +14,7 @@ import { CulturalOfferingSubtypeService } from '../core/services/cultural-offeri
 import { SimpleSnackbarComponent } from '../shared/components/snackbar/simple-snackbar/simple-snackbar.component';
 import { CulturalOfferingTypeComponent } from './cultural-offering-type/cultural-offering-type.component';
 import { CulturalOfferingTypeRoutingModule } from './cultural-offering-type-routing.module';
+import { TableModule } from '../shared/modules/table/table.module';
 
 @NgModule({
   declarations: [
@@ -38,15 +33,11 @@ import { CulturalOfferingTypeRoutingModule } from './cultural-offering-type-rout
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
-    MatSnackBarModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
     MatIconModule,
     MatChipsModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-
+    TableModule,
     CulturalOfferingTypeRoutingModule
   ]
 })
