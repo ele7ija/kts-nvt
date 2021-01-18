@@ -59,10 +59,15 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/register").permitAll()
                 .antMatchers("/auth/confirm-registration").permitAll()
                 .antMatchers("/auth/resend-token").permitAll()
+                .antMatchers("/cultural-offerings/{id}").permitAll()
                 .antMatchers("/cultural-offerings/by-page").permitAll()
                 .antMatchers("/cultural-offerings/search-filter/by-page").permitAll()
                 .antMatchers("/cultural-offerings-types/by-page").permitAll()
                 .antMatchers("/cultural-offering-subtypes/byTypeId/{typeId}").permitAll()
+                .antMatchers("/comments/by-page/{culturalOfferingId}").permitAll()
+                .antMatchers("/rating/by-page/{culturalOfferingId}").permitAll()
+                .antMatchers("/users/{id}").permitAll()
+                .antMatchers("/images/{imageId}").permitAll()
                 
                 .anyRequest().authenticated()
 

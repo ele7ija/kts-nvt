@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommentInput } from 'src/app/core/model/comment-input';
 import { ListChangeEvent } from 'src/app/core/model/list-change-event';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
 
 @Component({
   selector: 'app-comment-input',
@@ -22,6 +23,7 @@ export class CommentInputComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

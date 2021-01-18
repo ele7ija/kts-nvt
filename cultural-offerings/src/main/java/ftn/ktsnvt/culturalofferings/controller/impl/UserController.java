@@ -72,7 +72,6 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:read')")
     public ResponseEntity<UserDTO> findOne(Long id) {
         User user = userService.findOne(id);
         return new ResponseEntity<>(

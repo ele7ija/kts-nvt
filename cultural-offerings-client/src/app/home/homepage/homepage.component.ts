@@ -11,6 +11,7 @@ import { SearchFilter } from 'src/app/core/model/search-filter';
 import { CulturalOfferingSubtypeService } from 'src/app/core/services/cultural-offering-subtype/cultural-offering-subtype.service';
 import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { CulturalOfferingService } from 'src/app/core/services/cultural-offering/cultural-offering.service';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
 
 declare var ol: any;
 
@@ -31,7 +32,8 @@ export class HomepageComponent implements OnInit {
     private culturalOfferingSubtypeService: CulturalOfferingSubtypeService,
     private elRef: ElementRef,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.searchFilterForm = formBuilder.group({
       "termField": [""]
@@ -73,7 +75,11 @@ export class HomepageComponent implements OnInit {
 
   openInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
     this.infoWindow.open(marker);
-    this.router.navigate([`/cultural-offering/${culturalOffering.id}`]);
+    console.log(culturalOffering);
+    if(this.authService.getUserRole() == 'ADMIN')
+      this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
+    else
+      this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
   }
 
   async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {

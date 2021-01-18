@@ -117,7 +117,7 @@ public class CulturalOfferingsMapper{
     	location.setLongitude(longitude);
     	location.setLatitude(latitude);
     	location.setName(name);
-    	
+
     	return locationService.update(location, id);
     }
     
