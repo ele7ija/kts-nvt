@@ -44,6 +44,10 @@ export class CommentInputComponent implements OnInit {
     }
   }
 
+  isLoggedIn(){
+    return this.authService.isLoggedIn();
+  }
+
   onFileChanged(event){
     this.chosenImageFiles.push(event.target.files[0]);
     event.target.value = "";
