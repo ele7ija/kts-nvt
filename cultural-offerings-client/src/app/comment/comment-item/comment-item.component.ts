@@ -20,6 +20,7 @@ export class CommentItemComponent implements OnInit {
   images: ImageModel[] = [];
   imagesLoading: boolean = false;
   user: User;
+  deleteStarted: boolean = false;
 
   @Output()
   removeCommentEvent: EventEmitter<Comment> = new EventEmitter<Comment>();
@@ -38,6 +39,10 @@ export class CommentItemComponent implements OnInit {
 
   isUserAdmin(): boolean{
     return this.authService.getUserRole() == "ADMIN";
+  }
+
+  userOwnsComment(): boolean{
+    return this.authService.getUserId() == this.comment.userId;
   }
 
   async fetchUser(): Promise<void>{
@@ -65,6 +70,7 @@ export class CommentItemComponent implements OnInit {
   }
 
   delete(){
+    this.deleteStarted = true;
     this.removeCommentEvent.emit(this.comment);
   }
 

@@ -13,6 +13,9 @@ export class RatingItemComponent implements OnInit {
 
   @Input()
   rating: Rating;
+
+  deleteStarted: boolean = false;
+
   user: User;
 
   @Output()
@@ -38,12 +41,7 @@ export class RatingItemComponent implements OnInit {
   }
 
   delete(){
+    this.deleteStarted = true;
     this.removeRatingEvent.emit(this.rating);
   }
-
-  onRate(event){
-    
-  }
-
-
 }

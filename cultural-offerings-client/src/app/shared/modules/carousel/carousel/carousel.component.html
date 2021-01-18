@@ -22,7 +22,7 @@
                 style="text-align: center;"
                 [class.active]="imageIndex==activeSlideIndex"
             >
-                <img *ngIf="image.retrievedImage" [src]="image.retrievedImage" class="d-block w-100" [style.max-width.px]="maxImageWidth" [style.max-height.px]="maxImageHeight">
+                <img *ngIf="image.retrievedImage" [src]="image.retrievedImage" class="d-block w-100 my-image" [style.max-width.px]="maxImageWidth" [style.max-height.px]="maxImageHeight">
             </div>
         </div>
         <a class="carousel-control-prev" (click)="prev()" role="button">
@@ -34,7 +34,7 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
-    <img *ngIf="images.length==0 && !imagesLoading" src="../../../../../assets/images/empty.png">
+    <img *ngIf="images.length==0 && !imagesLoading" src="../../../../../assets/images/empty.png" class="my-image">
     <mat-spinner *ngIf="imagesLoading" diameter="50" class="align-to-center"></mat-spinner>
     
     <div *ngIf="enableAddAndRemove" class="row pt-3" style="margin-right: auto;" [style.margin-left]="images.length == 0 ? 'auto' : ''">

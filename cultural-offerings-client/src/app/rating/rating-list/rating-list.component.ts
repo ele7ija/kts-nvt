@@ -5,6 +5,8 @@ import { PaginatorComponent } from 'src/app/shared/modules/paginator/paginator.c
 import { Rating } from '../../../app/core/model/rating';
 import { RatingService } from '../../../app/core/services/rating/rating.service';
 import { AuthService } from '../../../app/core/services/security/auth-service/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SimpleSnackbarComponent } from 'src/app/shared/components/snackbar/simple-snackbar/simple-snackbar.component';
 
 @Component({
   selector: 'app-rating-list',
@@ -17,6 +19,8 @@ export class RatingListComponent implements OnChanges {
   culturalOfferingId: number;
 
   ratings: Rating[] = [];
+  userRating: Rating;
+  userRatingBeingUploaded: boolean = false;
   totalLength: number;
   loading: boolean = false;
   pageSizeOptions: number[] = [5,10,20];
@@ -27,6 +31,7 @@ export class RatingListComponent implements OnChanges {
   constructor(
     private ratingService: RatingService,
     private authService: AuthService,
+    public matSnackBar: MatSnackBar
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -43,8 +48,13 @@ export class RatingListComponent implements OnChanges {
     if(this.culturalOfferingId){
       try{
         const pageableResponse = await this.ratingService.getAllByCulturalOfferingId(pageableRequest, this.culturalOfferingId).toPromise();
-        this.ratings = pageableResponse.content;
+        const tempRatings: Rating[] = pageableResponse.content;
+        this.ratings = tempRatings.filter(rating => rating.userId != this.authService.getUserId());
+        this.userRating = tempRatings.find(rating => rating.userId == this.authService.getUserId())
         this.totalLength = pageableResponse.totalElements;
+        if(this.userRating){
+          this.totalLength -= 1;
+        }
       }catch{
   
       }
@@ -54,18 +64,19 @@ export class RatingListComponent implements OnChanges {
 
   async ratingAddedEvent(ratingInput: RatingInput){
     try{
-      const newRating = await this.ratingService.insert({value: ratingInput.value, date: ratingInput.date, culturalOfferingId: this.culturalOfferingId, userId: this.authService.getUserId()}).toPromise();
-      if(this.pageIndex == 0){
-        this.ratings.unshift(newRating);
-        if(this.ratings.length > this.paginator.pageSize)
-          this.ratings.splice(this.ratings.length - 1, 1);
-        this.totalLength += 1;
-      }else{
-        this.pageIndex = 0;
-        this.fetchRatings({page: this.pageIndex, size: this.paginator.pageSize});
-      }
+      this.userRatingBeingUploaded = true;
+      this.userRating = await this.ratingService.insert({value: ratingInput.value, date: ratingInput.date, culturalOfferingId: this.culturalOfferingId, userId: this.authService.getUserId()}).toPromise();
+      setTimeout(
+        () => {
+          this.userRatingBeingUploaded = false;
+          this.showSnackbar('USPESNO OCENJIVANJE', `Uspesno ste ocenili kulturnu ponudu`, true);
+        },
+        1000
+      );
+      
     }catch(error){
-
+      this.showSnackbar('GRESKA', `${error.message}`, false);
+      this.userRatingBeingUploaded = false;
     }
   }
 
@@ -75,7 +86,20 @@ export class RatingListComponent implements OnChanges {
       this.pageIndex = Math.max(0, this.pageIndex - 1);
     }
     this.fetchRatings({page: this.pageIndex, size: this.paginator.pageSize});
+    this.showSnackbar('USPESNO BRISANJE', `Uspesno ste obrisali ocenu za kulturnu ponudu`, true);
   }
 
+  showSnackbar(title: string, message: string, success: boolean) {
+    this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      duration: 4000,
+      data: {
+        title,
+        message,
+        success,
+      },
 
+    });
+  }
 }

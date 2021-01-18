@@ -20,6 +20,10 @@ export class NavbarComponent implements OnInit {
     return this.authService.isLoggedIn();
   }
 
+  isAdmin(): boolean{
+    return this.authService.getUserRole() == 'ADMIN';
+  }
+
   logout() : void {
     this.userEmail = "";
     this.authService.logout();

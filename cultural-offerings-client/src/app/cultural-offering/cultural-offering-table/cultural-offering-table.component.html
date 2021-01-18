@@ -5,13 +5,14 @@
 			class="example-loading-shade"
 		>
 			<mat-spinner
-				*ngIf="isLoading">
-			</mat-spinner>
+				diameter="70"
+				*ngIf="isLoading"
+			></mat-spinner>
 			<div 
 				*ngIf="fetchFailure"
 				class="example-fetch-failure"
 			>
-				Failed to fetch data from the API
+				Neuspesno dobavljanje podataka sa servera
 			</div>
 		</div>
 
@@ -53,11 +54,17 @@
 								>expand_more</ng-container>
 							</mat-icon>
 							<mat-icon
+								*ngIf="lastDeleted!=element"
 								class="my-icon pl-1"
 								(click)="delete(element)"
 							>
 								delete
 							</mat-icon>
+							<mat-spinner
+								*ngIf="lastDeleted==element"
+								class="pl-1"
+								diameter="23"
+							></mat-spinner>
 							<a
 								[routerLink]="['./cultural-offering', element.id]"
 							>

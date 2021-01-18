@@ -14,6 +14,7 @@ import { ImageFileChipsComponent } from './image-file-chips/image-file-chips.com
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogModule } from '../shared/modules/dialog/dialog.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [CommentItemComponent, CommentListComponent, CommentInputComponent, ImageFileChipsComponent],
@@ -25,6 +26,7 @@ import { DialogModule } from '../shared/modules/dialog/dialog.module';
     MatIconModule,
     MatChipsModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     PaginatorModule,
     DialogModule
   ],

@@ -1,6 +1,8 @@
 <ng-container>
     <div class="row mt-3 mb-4">
-        <div class="col-4"></div>
+        <div class="col-4 meta-info mt-0 pt-0" style="text-align: end;">
+            <p>Your rating</p>
+        </div>
         <div class="col-4" style="text-align: center;">
             <star-rating 
                 [value]="selectedValue"
@@ -12,10 +14,10 @@
                 (rate)="onRate($event)"
             ></star-rating>
         </div>
-        <div class="col-4 px-0 mx-0">
-            <mat-icon class="m-0 pt-0 my-icon my-icon-add" (click)="add()">add_box</mat-icon>
+        <div class="col-4 px-0 mx-0" *ngIf="userRatingBeingUploaded">
+            <mat-spinner class="m-0 pt-0" diameter="30"></mat-spinner>
         </div>
     </div>
-    
+    <hr>
 </ng-container>
 
