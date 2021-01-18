@@ -74,12 +74,17 @@ export class HomepageComponent implements OnInit {
     this.markerPositions.push(event.latLng.toJSON());
   }
 
-  openInfoWindow(marker: MapMarker) {
+  openInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
     this.infoWindow.open(marker);
+    console.log(culturalOffering);
+    if(this.authService.getUserRole() == 'ADMIN')
+      this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
+    else
+      this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
   }
 
-  openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
-    this.infoWindow.options = {content: this.formatInfoWindowContent(culturalOffering)}
+  async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
+    this.infoWindow.options = {content: this.formatInfoWindowContent(culturalOffering)};
     this.infoWindow.open(marker);
   }
 
@@ -91,7 +96,7 @@ export class HomepageComponent implements OnInit {
     retval += `<h4 style="opacity: 0.7">${culturalOffering.culturalOfferingTypeName} <b>/</b> ${culturalOffering.culturalOfferingSubtypeName}</h4>`
     retval += `<h2>${culturalOffering.name}</h2>`
     retval += `<h4>${culturalOffering.description}</h4>`
-    // TODO SLIKE
+    // TODO SLIKE - ne moze
     return retval;
   }
 

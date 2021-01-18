@@ -12,6 +12,18 @@
                     [rating]="rating"
                     (removeRatingEvent)="removeRatingEvent($event)"
                 ></app-rating-item>
+                <h3
+                    *ngIf="ratings.length==0 && !userRating"
+                    class="text-center font-weight-light"
+                >
+                    Budite prvi koji ce oceniti ovu kulturnu ponudu
+                </h3>
+                <h3
+                    *ngIf="ratings.length==0 && userRating"
+                    class="text-center font-weight-light"
+                >
+                    Vi ste jedini ocenili ovu kulturnu ponudu za sada
+                </h3>
             </div>
         </div>
     </div>

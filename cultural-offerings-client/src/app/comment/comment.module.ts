@@ -15,11 +15,13 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DialogModule } from '../shared/modules/dialog/dialog.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [CommentItemComponent, CommentListComponent, CommentInputComponent, ImageFileChipsComponent],
   imports: [
     CommonModule,
+    RouterModule,
     FormsModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,

@@ -46,7 +46,7 @@ public class CulturalOfferingsMapper{
     private ImageService imageService;
 
 	public CulturalOffering toEntity(CulturalOfferingDTO dto) {
-		Location location = toLocation(dto.getLocationId(), dto.getLongitude(), dto.getLatitude(), dto.getName());
+		Location location = toLocation(dto.getLocationId(), dto.getLongitude(), dto.getLatitude(), dto.getLocationName());
 		
 		List<ImageModel> imgList = imageService.findAll(dto.getImageIds());
 		Set<ImageModel> imgSet = imgList.stream().collect(Collectors.toSet());
@@ -117,7 +117,7 @@ public class CulturalOfferingsMapper{
     	location.setLongitude(longitude);
     	location.setLatitude(latitude);
     	location.setName(name);
-    	
+
     	return locationService.update(location, id);
     }
     

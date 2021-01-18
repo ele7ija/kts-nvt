@@ -17,10 +17,10 @@
         <ul class="navbar-nav ml-auto nav-flex-icons">
             <ng-container *ngIf="!isLoggedIn()">
                 <li class="nav-item">
-                    <a class="nav-link waves-light" href="/sign-in" mdbWavesEffect>Prijava</a>
+                    <a class="nav-link waves-light" routerLink="sign-in" mdbWavesEffect>Prijava</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link waves-light" href="/register" mdbWavesEffect>Registracija</a>
+                    <a class="nav-link waves-light" routerLink="register" mdbWavesEffect>Registracija</a>
                 </li>
             </ng-container>
 
@@ -31,13 +31,15 @@
                         {{userEmail}} <mdb-icon fas icon="user"></mdb-icon> <span class="caret"></span>
                     </a>
                     <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+                        <a class="dropdown-item" routerLink="homepage">Mapa</a>
+                        <div class="divider dropdown-divider"></div>
                         <a class="dropdown-item" routerLink="my-profile">Moj profil</a>
                         <div class="divider dropdown-divider"></div>
                         <ng-container *ngIf="isAdmin()">
                             <a class="dropdown-item" routerLink="admin">Opcije</a>
                             <div class="divider dropdown-divider"></div>
                         </ng-container>
-                        <a class="dropdown-item" href="/sign-in" (click)="logout()">Odjava</a>
+                        <a class="dropdown-item" routerLink="sign-in" (click)="logout()">Odjava</a>
                     </div>
                 </li>
             </ng-container>

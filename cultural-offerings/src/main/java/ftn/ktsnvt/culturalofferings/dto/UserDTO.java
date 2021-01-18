@@ -9,6 +9,8 @@ import java.util.List;
 
 public class UserDTO {
 
+    private Long id;
+
     @NotBlank(message = "User first name cannot be blank!")
     private String firstName;
 
@@ -36,7 +38,8 @@ public class UserDTO {
 
     public UserDTO(){}
 
-    public UserDTO(String firstName, String lastName, String email, String password, UserRole userRole, boolean enabled, List<Long> newsIds, List<Long> subscriptionIds, List<Long> commentIds, List<Long> ratingIds) {
+    public UserDTO(Long id, String firstName, String lastName, String email, String password, UserRole userRole, boolean enabled, List<Long> newsIds, List<Long> subscriptionIds, List<Long> commentIds, List<Long> ratingIds) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -47,6 +50,14 @@ public class UserDTO {
         this.subscriptionIds = subscriptionIds == null ? new ArrayList<>() : subscriptionIds;
         this.commentIds = commentIds == null ? new ArrayList<>() : commentIds;
         this.ratingIds = ratingIds == null ? new ArrayList<>() : ratingIds;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

@@ -58,7 +58,20 @@ public class UserController implements UserApi {
     }
 
     @Override
-    @PreAuthorize("hasAuthority('USER:read')")
+    public ResponseEntity<Page<UserDTO>> findAllAdmins(Pageable pageable) {
+        Page<User> page = userService.findAllAdmins(pageable);
+
+        List<UserDTO> usersDTO = page
+                .toList()
+                .stream()
+                .map(x -> userMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<UserDTO> pageUsersDTO = new PageImpl<>(usersDTO,page.getPageable(),page.getTotalElements());
+        return new ResponseEntity<>(pageUsersDTO, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<UserDTO> findOne(Long id) {
         User user = userService.findOne(id);
         return new ResponseEntity<>(

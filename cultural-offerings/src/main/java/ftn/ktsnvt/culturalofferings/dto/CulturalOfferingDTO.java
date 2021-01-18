@@ -131,5 +131,4 @@ public class CulturalOfferingDTO {
 	public void setImageIds(List<Long> imageIds) {
 		this.imageIds = imageIds;
 	}
-
 }

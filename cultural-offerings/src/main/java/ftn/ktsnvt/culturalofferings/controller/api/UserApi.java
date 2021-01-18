@@ -24,6 +24,9 @@ public interface UserApi {
     @RequestMapping(value = "/by-page", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<UserDTO>> findAll(Pageable pageable);
 
+    @RequestMapping(value = "/admins/by-page", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<UserDTO>> findAllAdmins(Pageable pageable);
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<UserDTO> findOne(@PathVariable("id") Long id);
 

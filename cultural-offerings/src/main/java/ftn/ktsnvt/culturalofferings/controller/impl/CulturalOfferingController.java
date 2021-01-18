@@ -74,14 +74,13 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
+    @Override
     public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id) {
     	CulturalOffering culturalOffering = culturalOfferingService.findOne(id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
 
     @Override
-    // @PreAuthorize("hasAuthority('CULTURAL_OFFERING:read')")
     public ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable) {
         Page<CulturalOffering> page = culturalOfferingService.findAll(pageable);
 

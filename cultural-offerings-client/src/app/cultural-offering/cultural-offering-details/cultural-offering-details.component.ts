@@ -52,7 +52,7 @@ export class CulturalOfferingDetailsComponent implements OnInit {
       id: this.culturalOffering ? this.culturalOffering.locationId : null,
       name: this.culturalOffering ? this.culturalOffering.locationName : '',
       longitude: this.culturalOffering ? this.culturalOffering.longitude : null,
-      latitude: this.culturalOffering ? this.culturalOffering.longitude : null
+      latitude: this.culturalOffering ? this.culturalOffering.latitude : null
     };
     this.culturalOfferingForm = this.formBuilder.group({
       name: [this.culturalOffering ? this.culturalOffering.name : '', Validators.required],
