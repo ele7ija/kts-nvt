@@ -6,10 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.News;
-import ftn.ktsnvt.culturalofferings.model.Subscription;
-import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.repository.NewsRepository;
 
 import java.util.List;
@@ -87,25 +84,13 @@ public class NewsService implements ServiceInterface<News> {
         newsRepository.delete(optional.get());
     }
 
-	public Boolean notifyNews(Long id) {
+	public void notifyNews(Long id) {
         Optional<News> optional = newsRepository.findById(id);
-        if(optional.isEmpty())
-            throw new EntityNotFoundException(
-                    id,
-                    News.class
-            );
-        News n = optional.get();
-        CulturalOffering co = n.getCulturalOffering();
-        if (co == null) {
-            return false;
+        if(optional.isEmpty()) {
+            throw new EntityNotFoundException(id, News.class);
         }
-        for (Subscription s : co.getSubscriptions()) {
-            User u = s.getUser();
-            String message = "We've got some news about " + co.getName() + ".\n\n";
-            message += n.getText() + "\n\n\n";
-            message += "All the best,\nCultural Offering team";
-            emailService.sendMail(u.getEmail(), "Newsletter: " + n.getTitle(), message);
-        }
-        return true;
+        
+        News newsletter = optional.get();
+        emailService.sendNewsLetter(newsletter);        
 	}
 }
