@@ -48,7 +48,7 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
     ]);
   }
 
-  protected async prepareTable(): Promise<any>{
+  public async prepareTable(): Promise<any>{
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
