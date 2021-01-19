@@ -2,6 +2,7 @@ package ftn.ktsnvt.culturalofferings.controller.impl;
 
 import ftn.ktsnvt.culturalofferings.controller.api.CulturalOfferingApi;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingNameDTO;
 import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.helper.DTOValidationHelper;
 import ftn.ktsnvt.culturalofferings.mapper.CulturalOfferingsMapper;
@@ -120,6 +121,11 @@ public class CulturalOfferingController implements CulturalOfferingApi {
 
         Page<CulturalOfferingDTO> pageCulturalOfferingDTO = new PageImpl<>(culturalOfferingDTO, page.getPageable(), page.getTotalElements());
         return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<CulturalOfferingNameDTO>> findAllNames(){
+    	List<CulturalOfferingNameDTO> allNames = culturalOfferingService.findAllOfferingsNames();
+    	return new ResponseEntity<List<CulturalOfferingNameDTO>>(allNames, HttpStatus.OK);    	
     }
 
 
