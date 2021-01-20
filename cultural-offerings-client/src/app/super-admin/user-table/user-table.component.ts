@@ -21,7 +21,7 @@ export class UserTableComponent extends TableComponent<User> {
   lastDeleted: User;
 
   constructor(
-    private userService: UserService,
+    private userService: AbstractCrudService<User>,
     private matSnackbar: MatSnackBar,
   ) 
   { 

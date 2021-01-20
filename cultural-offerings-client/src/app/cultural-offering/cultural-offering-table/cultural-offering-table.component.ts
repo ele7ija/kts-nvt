@@ -32,7 +32,7 @@ export class CulturalOfferingTableComponent extends TableComponent<CulturalOffer
   lastDeleted: CulturalOffering;
 
   constructor(
-    private culturalOfferingService: CulturalOfferingService,
+    private culturalOfferingService: AbstractCrudService<CulturalOffering>,
     private matSnackbar: MatSnackBar,
     private culturalOfferingTypeService: CulturalOfferingTypeService
   ) 
