@@ -61,7 +61,7 @@ export class CulturalOfferingDetailsComponent implements OnInit {
       culturalOfferingSubtypeName: [this.culturalOffering ? this.culturalOffering.culturalOfferingSubtypeName : '', Validators.required],
     });
     this.fetchImages();
-    this.fetchCulturalOfferingSubTypes(this.culturalOfferingForm.value.culturalOfferingTypeName);
+    this.fetchCulturalOfferingSubTypes(this.culturalOfferingForm.value.culturalOfferingTypeName, true);
   }
 
   async fetchImages(): Promise<void> {
@@ -105,14 +105,19 @@ export class CulturalOfferingDetailsComponent implements OnInit {
     return Object.values(this.culturalOfferingForm.controls).find(control => control.errors) || !this.selectedLocation.name;
   }
 
-  async fetchCulturalOfferingSubTypes(typeName: string): Promise<void>{
+  async fetchCulturalOfferingSubTypes(typeName: string, fromRoot: boolean = false): Promise<void>{
     if(typeName){
       this.culturalOfferingSubTypesLoading= true;
       const {id} = this.culturalOfferingTypes.find(
         culturalOfferingType => culturalOfferingType.typeName == typeName
       );
       this.culturalOfferingSubtypes = await this.culturalOfferingSubTypeService.getAllByTypeId(id).toPromise();
-      this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOfferingSubtypes.length == 0 ? '' : this.culturalOfferingSubtypes[0].subTypeName);
+      console.log(this.culturalOffering.culturalOfferingSubtypeName);
+      if(fromRoot && this.culturalOffering && this.culturalOffering.culturalOfferingSubtypeName)
+        this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOffering.culturalOfferingSubtypeName);
+      else
+        this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOfferingSubtypes.length == 0 ? '' : this.culturalOfferingSubtypes[0].subTypeName);
+
       this.culturalOfferingSubTypesLoading= false;
     }
   }

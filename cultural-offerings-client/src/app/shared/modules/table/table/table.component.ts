@@ -50,6 +50,8 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
 
   public async prepareTable(): Promise<any>{
     // If the user changes the sort order, reset back to the first page.
+    if(!this.sort)
+      return;
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
     });
@@ -118,7 +120,7 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
     this.data = [...this.data]; //for some reason angular does not detect changes on this array unles we do this
   }
 
-  protected async delete(entity: T): Promise<any>{
+  public async delete(entity: T): Promise<any>{
     try{
       await this.apiService.delete(entity.id).toPromise();
       const index = this.data.findIndex((item: T) => item.id == entity.id);
