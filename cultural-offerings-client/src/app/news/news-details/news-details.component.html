@@ -1,0 +1,64 @@
+<ng-container>
+    <form [formGroup]="newsForm" *ngIf="!loading" style="text-align: start;">
+        <div class="container-fluid">
+
+            <div class="row pb-3">
+
+                <div class="col-4">
+                    <div class="row">
+                        <app-carousel class="col px-0" style="text-align: center;" [images]="images"
+                            [imagesLoading]="imagesLoading" [enableAddAndRemove]="true"
+                            (insertImageLocal)="insertImageLocal($event)" (removeImageLocal)="removeImageLocal($event)"
+                            maxImageWidth="300" maxImageHeight="250">
+                        </app-carousel>
+                    </div>
+                </div>
+
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-6 form-group">
+                            <label for="title" class="mb-1">Naslov</label>
+                            <input type="text" id="title" name="title" formControlName="title" class="form-control"
+                                mdbInput />
+
+                            <div
+                                *ngIf="newsForm.controls.title.invalid && (newsForm.controls.title.touched || newsForm.controls.title.dirty)">
+                                <small class="text-danger" *ngIf="newsForm.controls.title.errors?.required">
+                                    Obavezno je uneti naslov mejla.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class=" col-8 form-group">
+                            <label for="emailText">Tekst</label>
+                            <textarea id="emailText" name="emailText" formControlName="emailText" class="form-control"
+                                rows="3" mdbValidate></textarea>
+                            <div
+                                *ngIf="newsForm.controls.emailText.invalid && (newsForm.controls.emailText.touched || newsForm.controls.emailText.dirty)">
+                                <small class="text-danger" *ngIf="newsForm.controls.emailText.errors?.required">
+                                    Obavezno je uneti tekst mejla.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex justify-content-center">
+                                <button class="new-button green-button borderless mt-3" type="submit" (click)="upsert()"
+                                    [disabled]="newsForm.invalid">
+                                    {{!!culturalOffering ? "Sacuvaj izmene" : "Dodaj"}}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+    <mat-spinner *ngIf="loading" diameter="50" class="align-to-center"></mat-spinner>
+</ng-container>

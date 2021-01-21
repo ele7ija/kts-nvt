@@ -36,7 +36,7 @@ export class ApiService {
     return this.request(path, null, RequestMethod.Get, customHeaders);
   }
 
-  post(path: string, body: any, customHeaders?: HttpHeaders): Observable<any> {
+  post(path: string, body?: any, customHeaders?: HttpHeaders): Observable<any> {
     return this.request(path, body, RequestMethod.Post, customHeaders);
   }
 

@@ -6,7 +6,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingNameDTO;
 import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundByNameException;
@@ -138,14 +137,4 @@ public class CulturalOfferingService implements ServiceInterface<CulturalOfferin
 		return true;
 	}
 
-	public List<CulturalOfferingNameDTO> findAllOfferingsNames() {
-		List<CulturalOffering> allOfferings = findAll();
-		List<CulturalOfferingNameDTO> allNames = new ArrayList<CulturalOfferingNameDTO>();
-
-		for (CulturalOffering co : allOfferings) {
-			allNames.add(new CulturalOfferingNameDTO(co.getId(), co.getName()));
-		}
-
-		return allNames;
-	}
 }
