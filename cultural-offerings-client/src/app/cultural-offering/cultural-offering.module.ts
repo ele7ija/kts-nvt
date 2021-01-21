@@ -19,13 +19,17 @@ import { CulturalOfferingRoutingModule } from './cultural-offering-routing.modul
 import { CommentModule } from '../comment/comment.module';
 import { RatingsModule } from '../rating/rating.module';
 import { MatTabsModule } from '@angular/material/tabs';
+import { SubscribeButtonComponent } from './subscribe-button/subscribe-button.component';
+import { SubscriptionService } from '../core/services/subscription/subscription.service';
+import { AuthService } from '../core/services/security/auth-service/auth.service';
 import { TableModule } from '../shared/modules/table/table.module';
 
 @NgModule({
   declarations: [
     CulturalOfferingTableComponent,
     CulturalOfferingDetailsComponent,
-    CulturalOfferingPageComponent
+    CulturalOfferingPageComponent,
+    SubscribeButtonComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +52,9 @@ import { TableModule } from '../shared/modules/table/table.module';
     CulturalOfferingService,
     CulturalOfferingTypeService,
     CulturalOfferingSubtypeService,
-    ImageService
+    ImageService,
+    SubscriptionService,
+    AuthService
   ],
   exports: [
     CulturalOfferingTableComponent

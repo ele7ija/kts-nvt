@@ -122,5 +122,16 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
     }
 
+    public ResponseEntity<Page<CulturalOfferingDTO>> searchFilterGuest(Pageable pageable, SearchFilterDTO searchFilterDTO) {
+        Page<CulturalOffering> page = culturalOfferingService.searchFilterGuest(pageable, searchFilterDTO);
 
+        List<CulturalOfferingDTO> culturalOfferingDTO = page
+                .toList()
+                .stream()
+                .map(x -> culturalOfferingsMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<CulturalOfferingDTO> pageCulturalOfferingDTO = new PageImpl<>(culturalOfferingDTO, page.getPageable(), page.getTotalElements());
+        return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
+    }
 }

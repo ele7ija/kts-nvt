@@ -6,13 +6,17 @@ public class SearchFilterDTO {
     private String term;
     private List<Long> culturalOfferingTypeIds;
     private List<Long> culturalOfferingSubtypeIds;
+    private boolean subscriptions;
 
 
-    public SearchFilterDTO(String term, List<Long> culturalOfferingTypeIds, List<Long> culturalOfferingSubtypeIds) {
+
+    public SearchFilterDTO(String term, List<Long> culturalOfferingTypeIds, List<Long> culturalOfferingSubtypeIds, boolean pretplate) {
         this.term = term;
         this.culturalOfferingTypeIds = culturalOfferingTypeIds;
         this.culturalOfferingSubtypeIds = culturalOfferingSubtypeIds;
+        this.subscriptions = pretplate;
     }
+    
 
     public SearchFilterDTO() {
     }
@@ -41,5 +45,19 @@ public class SearchFilterDTO {
     public void setCulturalOfferingSubtypeIds(List<Long> culturalOfferingSubtypeIds) {
         this.culturalOfferingSubtypeIds = culturalOfferingSubtypeIds;
     }
+
+
+    public boolean isSubscriptions() {
+        return this.subscriptions;
+    }
+
+    public boolean getSubscriptions() {
+        return this.subscriptions;
+    }
+
+    public void setSubscriptions(boolean subscriptions) {
+        this.subscriptions = subscriptions;
+    }
+
 
 }
