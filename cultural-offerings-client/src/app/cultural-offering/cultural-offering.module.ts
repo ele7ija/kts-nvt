@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CulturalOfferingTableComponent } from './cultural-offering-table/cultural-offering-table.component';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +22,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SubscribeButtonComponent } from './subscribe-button/subscribe-button.component';
 import { SubscriptionService } from '../core/services/subscription/subscription.service';
 import { AuthService } from '../core/services/security/auth-service/auth.service';
+import { TableModule } from '../shared/modules/table/table.module';
 
 @NgModule({
   declarations: [
@@ -40,10 +37,7 @@ import { AuthService } from '../core/services/security/auth-service/auth.service
     FormsModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
-    MatSnackBarModule,
-    MatTableModule,
-    MatPaginatorModule, //ovo se koristi za tabelu jer MatTable vec ima odradjenu integraciju sa MatPaginator
-    MatSortModule,
+    TableModule,
     MatIconModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,

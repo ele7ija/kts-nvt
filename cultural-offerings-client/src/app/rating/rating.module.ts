@@ -9,11 +9,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { RatingInputComponent } from './rating-input/rating-input.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from '../core/services/security/auth-service/auth.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [RatingListComponent, RatingItemComponent, RatingInputComponent],
   imports: [
     CommonModule,
+    RouterModule,
     PaginatorModule,
     RatingModule,
     MatIconModule,
@@ -21,7 +24,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatSnackBarModule
   ],
   providers: [
-    RatingService
+    RatingService,
+    AuthService
   ],
   exports: [RatingListComponent]
 })
