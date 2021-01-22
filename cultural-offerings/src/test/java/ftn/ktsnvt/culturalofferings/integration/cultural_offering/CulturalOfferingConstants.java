@@ -1,5 +1,8 @@
 package ftn.ktsnvt.culturalofferings.integration.cultural_offering;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CulturalOfferingConstants {
     
     // repository constants
@@ -28,8 +31,34 @@ public class CulturalOfferingConstants {
     // contrpller constants
     static final String READ_AUTHORITY = "CULTURAL_OFFERING:read";
     static final String WRITE_AUTHORITY = "CULTURAL_OFFERING:write";
+
+    static final String FILTER_TERM = "1936";
+    static List<Long> FILTER_TERM_TYPES = null;
+    static List<Long> FILTER_TERM_SUBTYPES = null;
+    static List<Long> FILTER_TYPES = null;
+    static List<Long> FILTER_SUBTYPES = null;
+    static final int FILTERED_BY_TERM = 1;
     
     static final String NON_EXISTING_SUBTYPE_NAME = "Rezervat";
 
+    static {
+        List<Long> types = new ArrayList<Long>();
+        types.add(10L);
+        FILTER_TERM_TYPES = types;
+        List<Long> subtypes = new ArrayList<Long>();
+        subtypes.add(10L);
+        FILTER_TERM_SUBTYPES = subtypes;
+
+        List<Long> typesAll = new ArrayList<Long>();
+        typesAll.add(10L);
+        typesAll.add(11L);
+        typesAll.add(12L);
+        FILTER_TYPES = typesAll;
+        List<Long> subtypesAll = new ArrayList<Long>();
+        subtypesAll.add(10L);
+        subtypesAll.add(11L);
+        subtypesAll.add(12L);
+        FILTER_SUBTYPES = subtypesAll;
+    }
 	
 }

@@ -69,13 +69,13 @@ public class CulturalOfferingController implements CulturalOfferingApi {
     }
 
     @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
-    public ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteCulturalOffering(Long id) {
     	culturalOfferingService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id) {
+    public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(Long id) {
     	CulturalOffering culturalOffering = culturalOfferingService.findOne(id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }

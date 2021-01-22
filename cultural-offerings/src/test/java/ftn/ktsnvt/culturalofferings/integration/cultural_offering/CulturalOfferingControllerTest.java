@@ -29,6 +29,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import ftn.ktsnvt.culturalofferings.TestUtil;
 import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
+import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 
 import static ftn.ktsnvt.culturalofferings.integration.cultural_offering.CulturalOfferingConstants.*;
 
@@ -60,11 +61,11 @@ public class CulturalOfferingControllerTest {
     }
     
     @Test
-    public void findAllPageableFailForbidden() throws Exception {
+    public void findAllPageableSuccess() throws Exception {
         mockMvc.perform(get("/cultural-offerings/by-page")
         		.param("page", "0")
 				.param("size", "2"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk());
     }
     
     @Test
@@ -202,6 +203,37 @@ public class CulturalOfferingControllerTest {
                     .content(TestUtil.json(dto))
                 )
                 .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser(authorities = READ_AUTHORITY)
+    @Transactional
+    @Rollback(true)
+    public void searchFilter() throws Exception {
+        SearchFilterDTO dto = new SearchFilterDTO(FILTER_TERM, FILTER_TYPES, FILTER_SUBTYPES, false);
+
+        mockMvc.perform(
+            post("/cultural-offerings/search-filter/by-page")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(TestUtil.json(dto))
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.size()", is(FILTERED_BY_TERM)));
+    }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void searchFilterGuest() throws Exception {
+        SearchFilterDTO dto = new SearchFilterDTO(FILTER_TERM, FILTER_TYPES, FILTER_SUBTYPES, false);
+
+        mockMvc.perform(
+            post("/cultural-offerings/search-filter/by-page/guest")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(TestUtil.json(dto))
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.content.size()", is(FILTERED_BY_TERM)));
     }
 
 }

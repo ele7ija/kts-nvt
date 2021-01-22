@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
 import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
@@ -175,4 +177,50 @@ public class CulturalOfferingServiceTest {
         assertThrows(EntityNotFoundException.class, () -> culturalOfferingService.delete(NON_EXISTING_ENTITY_ID));
     }
     
+
+    @Test
+    @Transactional
+    @Rollback
+    public void searchFilterTestTerm(){
+        SearchFilterDTO dto = new SearchFilterDTO(FILTER_TERM, FILTER_TYPES, FILTER_SUBTYPES, false);
+        
+        Page<CulturalOffering> res = culturalOfferingService.searchFilter(PageRequest.of(0, 10), dto);
+        assertNotNull(res);
+        assertEquals(1, res.getNumberOfElements());        
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void searchFilterTestType(){
+        SearchFilterDTO dto = new SearchFilterDTO("", FILTER_TERM_TYPES, FILTER_SUBTYPES, false);
+
+        Page<CulturalOffering> res = culturalOfferingService.searchFilter(PageRequest.of(0, 10), dto);
+        assertNotNull(res);
+        assertEquals(1, res.getNumberOfElements());        
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void searchFilterTestSubtype(){
+        SearchFilterDTO dto = new SearchFilterDTO("", FILTER_TYPES, FILTER_TERM_SUBTYPES, false);
+        
+        Page<CulturalOffering> res = culturalOfferingService.searchFilter(PageRequest.of(0, 10), dto);
+        assertNotNull(res);
+        assertEquals(1, res.getNumberOfElements());        
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void searchFilterTestTermType(){
+        List<Long> types = new ArrayList<Long>();
+        types.add(11L);
+        SearchFilterDTO dto = new SearchFilterDTO(FILTER_TERM, new ArrayList<Long>(), types, false);
+        
+        Page<CulturalOffering> res = culturalOfferingService.searchFilter(PageRequest.of(0, 10), dto);
+        assertNotNull(res);
+        assertEquals(0, res.getNumberOfElements());        
+    }
 }
