@@ -41,11 +41,11 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   submitAttempted: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private imageService: ImageService,
-    private culturalOfferingService: CulturalOfferingService,
-    private culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
-    private matSnackBar: MatSnackBar) { }
+    public formBuilder: FormBuilder, 
+    public imageService: ImageService,
+    public culturalOfferingService: CulturalOfferingService,
+    public culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
+    public matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.selectedLocation = {
@@ -112,7 +112,6 @@ export class CulturalOfferingDetailsComponent implements OnInit {
         culturalOfferingType => culturalOfferingType.typeName == typeName
       );
       this.culturalOfferingSubtypes = await this.culturalOfferingSubTypeService.getAllByTypeId(id).toPromise();
-      console.log(this.culturalOffering.culturalOfferingSubtypeName);
       if(fromRoot && this.culturalOffering && this.culturalOffering.culturalOfferingSubtypeName)
         this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOffering.culturalOfferingSubtypeName);
       else

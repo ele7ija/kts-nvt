@@ -11,10 +11,7 @@ import { SimpleSnackbarComponent } from 'src/app/shared/components/snackbar/simp
 @Component({
   selector: 'app-cultural-offering-sub-type-details',
   templateUrl: './cultural-offering-sub-type-details.component.html',
-  styleUrls: ['./cultural-offering-sub-type-details.component.scss'],
-  providers: [
-    CulturalOfferingSubtypeService
-  ]
+  styleUrls: ['./cultural-offering-sub-type-details.component.scss']
 })
 export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
 
@@ -31,9 +28,9 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
   loading: boolean;
   
   constructor(
-    private formBuilder: FormBuilder, 
-    private culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
-    private matSnackBar: MatSnackBar) { }
+    public formBuilder: FormBuilder, 
+    public culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
+    public matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.culturalOfferingSubTypeForm = this.formBuilder.group({
@@ -76,7 +73,6 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
       this.showSnackbar('USPESNA IZMENA', `Podtip kategorije pod nazivom ${updatedCulturalOfferingSubType.subTypeName} je uspesno promenjen`, true);
     }catch({error}){
       //show toast
-      console.log(error);
       this.upsertLocal.emit(this.culturalOfferingSubType);
       this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
     }
