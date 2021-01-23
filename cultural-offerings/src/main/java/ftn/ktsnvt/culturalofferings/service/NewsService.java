@@ -6,18 +6,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
 import ftn.ktsnvt.culturalofferings.mapper.NewsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.News;
+import ftn.ktsnvt.culturalofferings.model.Subscription;
 import ftn.ktsnvt.culturalofferings.repository.NewsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class NewsService implements ServiceInterface<News> {
 
     @Autowired
@@ -95,13 +100,9 @@ public class NewsService implements ServiceInterface<News> {
     }
 
 	public void notifyNews(Long id) {
-        Optional<News> optional = newsRepository.findById(id);
-        if(optional.isEmpty()) {
-            throw new EntityNotFoundException(id, News.class);
-        }
-        
-        News newsletter = optional.get();
-        emailService.sendNewsLetter(newsletter);        
+        News newsletter = findOne(id);
+        String[] recipients = getNewsletterRecipients(newsletter.getCulturalOffering().getSubscriptions());
+        emailService.sendNewsLetter(newsletter, recipients, newsletter.getImages());        
 	}
 	
 	public Page<NewsDTO> findAllNewsById(Pageable pageable, Long id) {
@@ -115,5 +116,17 @@ public class NewsService implements ServiceInterface<News> {
 		Page<NewsDTO> page = new PageImpl<NewsDTO>(list, pageable, list.size());
 
 		return page;
+	}
+	
+	public String[] getNewsletterRecipients(Set<Subscription> subscriptions) {
+		//CulturalOffering offering = culturalOfferingService.findOne(id);
+		//Set<Subscription> subscriptions = offering.getSubscriptions();
+		List<String> list = new ArrayList<String>();
+		
+		for(Subscription s : subscriptions) {
+			list.add(s.getUser().getEmail());
+		}
+		
+		return list.toArray(String[]::new);
 	}
 }
