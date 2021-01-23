@@ -13,11 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -115,5 +118,12 @@ public class NewsController implements NewsApi {
         newsService.notifyNews(id);
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+    
+    @Override
+    public ResponseEntity<Page<NewsDTO>> findAll(@RequestParam(value="id") Long id, Pageable pageable){
+    	Page<NewsDTO> page = newsService.findAllNewsById(pageable, id);
+    	return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
 
 }

@@ -23,6 +23,7 @@ import { CulturalOfferingRoutingModule } from './cultural-offering-routing.modul
 import { CommentModule } from '../comment/comment.module';
 import { RatingsModule } from '../rating/rating.module';
 import { MatTabsModule } from '@angular/material/tabs';
+import { NewsService } from '../core/services/news/news.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     CulturalOfferingService,
     CulturalOfferingTypeService,
     CulturalOfferingSubtypeService,
-    ImageService
+    ImageService,
+    NewsService
   ],
   exports: [
     CulturalOfferingTableComponent

@@ -3,9 +3,13 @@ package ftn.ktsnvt.culturalofferings.service;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
+import ftn.ktsnvt.culturalofferings.mapper.NewsMapper;
+import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.News;
 import ftn.ktsnvt.culturalofferings.repository.NewsRepository;
 
@@ -21,6 +25,12 @@ public class NewsService implements ServiceInterface<News> {
 
     @Autowired
     private EmailServiceImpl emailService;
+    
+    @Autowired
+    private CulturalOfferingService culturalOfferingService;
+    
+    @Autowired
+    private NewsMapper newsMapper;
 
     public List<News> findAll() {
         return newsRepository.findAll();
@@ -92,5 +102,18 @@ public class NewsService implements ServiceInterface<News> {
         
         News newsletter = optional.get();
         emailService.sendNewsLetter(newsletter);        
+	}
+	
+	public Page<NewsDTO> findAllNewsById(Pageable pageable, Long id) {
+		CulturalOffering offering = culturalOfferingService.findOne(id);		
+		
+		List<NewsDTO> list = offering.getNews()
+				.stream()
+				.map(x -> newsMapper.toDto(x))
+				.collect(Collectors.toList());
+
+		Page<NewsDTO> page = new PageImpl<NewsDTO>(list, pageable, list.size());
+
+		return page;
 	}
 }

@@ -25,8 +25,7 @@ export class NewsDetailsComponent implements OnInit {
   @Input()
   news!: News;
 
-  @Input()
-  culturalOffering: CulturalOffering;
+  culturalOfferingId: number;
 
   @Output()
   upsertLocal: EventEmitter<News> = new EventEmitter<News>();
@@ -52,6 +51,7 @@ export class NewsDetailsComponent implements OnInit {
       emailText: [this.news ? this.news.text : '', Validators.required]
     });
     this.fetchImages();
+    this.culturalOfferingId = this.newsService.getSelectedOfferingId();
   }
 
   async fetchImages(): Promise<void> {
@@ -93,7 +93,7 @@ export class NewsDetailsComponent implements OnInit {
       text: this.newsForm.value.emailText,
       date: new Date(),
       images: this.news.images.filter(imageId => this.imageModels.find(x => x.id == imageId)).concat(imageModelIds),
-      culturalOffering: this.culturalOffering.id,
+      culturalOffering: this.culturalOfferingId,
       user: this.author
     };
     return this.newsService.update(updatedNews).toPromise();
@@ -106,7 +106,7 @@ export class NewsDetailsComponent implements OnInit {
       text: this.newsForm.value.emailText,
       date: new Date(),
       images: imageModelIds,
-      culturalOffering: this.culturalOffering.id,
+      culturalOffering: this.culturalOfferingId,
       user: this.author
     };
     return this.newsService.insert(createdNews).toPromise();

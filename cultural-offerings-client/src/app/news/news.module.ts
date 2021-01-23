@@ -17,11 +17,13 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NewsService } from '../core/services/news/news.service';
 import { CulturalOfferingService } from '../core/services/cultural-offering/cultural-offering.service';
 import { ImageService } from '../core/services/image/image.service';
+import { NewsTableComponent } from './news-table/news-table.component';
+import { NewsRoutingModule } from './news-routing.module';
 
 
 
 @NgModule({
-  declarations: [NewsDetailsComponent],
+  declarations: [NewsDetailsComponent, NewsTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -37,7 +39,8 @@ import { ImageService } from '../core/services/image/image.service';
     CarouselWrapperModule,
     GoogleAutocompleteModule,
     CulturalOfferingRoutingModule,
-    MatTabsModule
+    MatTabsModule,
+    NewsRoutingModule
   ],
   providers: [
     NewsService,
