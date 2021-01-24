@@ -19,7 +19,7 @@ export class RatingInputComponent implements OnInit {
   ratingAddedEvent: EventEmitter<RatingInput> = new EventEmitter<RatingInput>();
 
   constructor(
-    private authService: AuthService
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {}

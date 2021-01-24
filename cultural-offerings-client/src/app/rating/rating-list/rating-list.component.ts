@@ -29,8 +29,8 @@ export class RatingListComponent implements OnChanges {
   @ViewChild(PaginatorComponent) paginator: PaginatorComponent;
 
   constructor(
-    private ratingService: RatingService,
-    private authService: AuthService,
+    public ratingService: RatingService,
+    public authService: AuthService,
     public matSnackBar: MatSnackBar
   ) { }
 

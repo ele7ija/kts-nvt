@@ -26,10 +26,10 @@ export class CulturalOfferingPageComponent implements OnInit {
   ratings: Rating[];
 
   constructor(
-    private activeRoute: ActivatedRoute,
-    private culturalOfferingService: CulturalOfferingService,
-    private matSnackbar: MatSnackBar,
-    private imageService: ImageService
+    public activeRoute: ActivatedRoute,
+    public culturalOfferingService: CulturalOfferingService,
+    public matSnackbar: MatSnackBar,
+    public imageService: ImageService
   ) { }
 
   ngOnInit(): void {
