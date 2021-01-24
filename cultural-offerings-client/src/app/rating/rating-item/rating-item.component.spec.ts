@@ -78,6 +78,6 @@ describe('RatingItemComponent', () => {
     spyOn(component.removeRatingEvent, 'emit');
     component.delete();
     expect(component.removeRatingEvent.emit).toHaveBeenCalledWith(component.rating);
-  })
+  });
 
 });
