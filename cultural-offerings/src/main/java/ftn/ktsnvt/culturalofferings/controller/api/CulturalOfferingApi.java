@@ -54,5 +54,8 @@ public interface CulturalOfferingApi {
     
     @RequestMapping(value = "/search-filter/by-page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<CulturalOfferingDTO>> searchFilter(Pageable pageable, @RequestBody SearchFilterDTO searchFilterDTO);
+
+    @RequestMapping(value = "/search-filter/by-page/guest", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<CulturalOfferingDTO>> searchFilterGuest(Pageable pageable, @RequestBody SearchFilterDTO searchFilterDTO);
 }
 

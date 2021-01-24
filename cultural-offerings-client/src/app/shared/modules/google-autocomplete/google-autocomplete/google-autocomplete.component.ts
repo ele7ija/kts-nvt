@@ -28,7 +28,6 @@ export class GoogleAutocompleteComponent implements OnInit {
   }
 
   handleAddressClear(){
-    console.log("Usao");
     this.locationChangedEvent.emit(null);
   }
 }

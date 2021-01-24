@@ -9,6 +9,11 @@ import { ApiService, RequestMethod } from '../security/api-service/api.service';
 
 @Injectable()
 export class CulturalOfferingService implements AbstractCrudService<CulturalOffering> {
+  searchFilterGuest(searchFilter: SearchFilter,  pageRequest: PageableRequest) {
+    return this.apiService.request(`${this.endpoint}/search-filter/by-page/guest?page=${pageRequest.page}&size=${pageRequest.size}&sort=${pageRequest.sort},${pageRequest.sortOrder}`,
+      searchFilter,
+      RequestMethod.Post)
+  }
 
   endpoint: string = `${environment.baseUrl}/cultural-offerings`
 

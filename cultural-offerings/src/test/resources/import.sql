@@ -6,7 +6,7 @@ insert into user(id, email, password, first_name, last_name, role, enabled) valu
 
 insert into image_model(id, name, pic_byte, type) values(1, "Image 1", NULL, "png");
 insert into image_model(id, name, pic_byte, type) values(2, "Image 2", NULL, "png");
-insert into image_model(id, name, pic_byte, type) values(3, "Image 3", NULL, "png");
+insert into image_model(id, name, pic_byte, type) values(3, "Image 3", '9fad5e9eefdfb449', "png");
 insert into image_model(id, name, pic_byte, type) values(4, "Image za brisanje", NULL, "png");
 
 insert into cultural_offering_type(id, type_name, image_model_id) values (10, "Institucija", 1);

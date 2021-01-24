@@ -6,7 +6,7 @@
         <star-rating 
             [value]="selectedValue"
             [totalstars]="10"
-            readonly="false"
+            [readonly]="!isLoggedIn()"
             size="30px"
             checkedcolor="gold"
             uncheckedcolor="grey"
@@ -15,6 +15,18 @@
     </div>
     <div class="col-4 px-0 mx-0" *ngIf="userRatingBeingUploaded">
         <mat-spinner class="m-0 pt-0" diameter="30"></mat-spinner>
+    </div>
+    <div class="col-4 px-0 mx-0" *ngIf="!isLoggedIn()">
+        <div class="row m-0 p-0 mt-n2 mb-1">
+            <div class="col m-0 p-0">
+                <a style="color:#3366BB;" routerLink="/sign-in" mdbWavesEffect>Prijava</a>
+            </div>
+        </div>
+        <div class="row m-0 p-0">
+            <div class="col m-0 p-0">
+                <a style="color:#3366BB;" routerLink="/register" mdbWavesEffect>Registracija</a>
+            </div>
+        </div>
     </div>
 </div>
 

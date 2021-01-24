@@ -68,13 +68,13 @@ public class CulturalOfferingController implements CulturalOfferingApi {
     }
 
     @PreAuthorize("hasAuthority('CULTURAL_OFFERING:write')")
-    public ResponseEntity<Void> deleteCulturalOffering(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteCulturalOffering(Long id) {
     	culturalOfferingService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(@PathVariable("id") Long id) {
+    public ResponseEntity<CulturalOfferingDTO> getCulturalOfferingByID(Long id) {
     	CulturalOffering culturalOffering = culturalOfferingService.findOne(id);
         return new ResponseEntity<>(culturalOfferingsMapper.toDto(culturalOffering), HttpStatus.OK);
     }
@@ -121,4 +121,16 @@ public class CulturalOfferingController implements CulturalOfferingApi {
         return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
     }
 
+    public ResponseEntity<Page<CulturalOfferingDTO>> searchFilterGuest(Pageable pageable, SearchFilterDTO searchFilterDTO) {
+        Page<CulturalOffering> page = culturalOfferingService.searchFilterGuest(pageable, searchFilterDTO);
+
+        List<CulturalOfferingDTO> culturalOfferingDTO = page
+                .toList()
+                .stream()
+                .map(x -> culturalOfferingsMapper.toDto(x))
+                .collect(Collectors.toList());
+
+        Page<CulturalOfferingDTO> pageCulturalOfferingDTO = new PageImpl<>(culturalOfferingDTO, page.getPageable(), page.getTotalElements());
+        return new ResponseEntity<>(pageCulturalOfferingDTO, HttpStatus.OK);
+    }
 }

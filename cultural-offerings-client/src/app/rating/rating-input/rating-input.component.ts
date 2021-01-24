@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AuthService } from '../../../app/core/services/security/auth-service/auth.service';
 import { RatingInput } from '../../../app/core/model/rating-input';
 
 @Component({
@@ -17,7 +18,9 @@ export class RatingInputComponent implements OnInit {
   @Output()
   ratingAddedEvent: EventEmitter<RatingInput> = new EventEmitter<RatingInput>();
 
-  constructor() {}
+  constructor(
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -26,6 +29,10 @@ export class RatingInputComponent implements OnInit {
       value: $event.newValue,
       date: new Date()
     });
+  }
+
+  isLoggedIn(){
+    return this.authService.isLoggedIn();
   }
 
 }

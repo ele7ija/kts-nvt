@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ftn.ktsnvt.culturalofferings.model.Subscription;
 import ftn.ktsnvt.culturalofferings.repository.SubscriptionRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,4 +81,26 @@ public class SubscriptionService implements ServiceInterface<Subscription> {
             );
         subscriptionRepository.delete(optional.get());
     }
+
+	public List<Subscription> getAllQuery(Long culturalOfferingId, Long userId) {
+        List<Subscription> subs = subscriptionRepository.findAll();
+        List<Subscription> retval = new ArrayList<Subscription>();
+        subs.forEach((Subscription s) -> {
+            boolean flag = true;
+            if (culturalOfferingId != null) {
+                if (s.getCulturalOffering().getId() != culturalOfferingId) {
+                    flag = false;
+                }
+            }
+            if (userId != null) {
+                if (s.getUser().getId() != userId) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                retval.add(s);
+            }
+        });
+		return retval;
+	}
 }

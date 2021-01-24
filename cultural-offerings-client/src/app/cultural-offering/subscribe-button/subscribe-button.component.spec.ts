@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GoogleAutocompleteComponent } from './google-autocomplete.component';
+import { SubscribeButtonComponent } from './subscribe-button.component';
 
-describe('GoogleAutocompleteComponent', () => {
-  let component: GoogleAutocompleteComponent;
-  let fixture: ComponentFixture<GoogleAutocompleteComponent>;
+describe('SubscribeButtonComponent', () => {
+  let component: SubscribeButtonComponent;
+  let fixture: ComponentFixture<SubscribeButtonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GoogleAutocompleteComponent ]
+      declarations: [ SubscribeButtonComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GoogleAutocompleteComponent);
+    fixture = TestBed.createComponent(SubscribeButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
