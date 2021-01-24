@@ -36,7 +36,8 @@ export class HomepageComponent implements OnInit {
     private authService: AuthService
   ) {
     this.searchFilterForm = formBuilder.group({
-      "termField": [""]
+      "termField": [""],
+      "subscriptionsField": [""]
     })
   }
 
@@ -185,11 +186,11 @@ export class HomepageComponent implements OnInit {
   }
 
   searchFilterApply() {
-    console.log(this.searchFilterForm.value)
     let searchFilter: SearchFilter = {
       term: this.searchFilterForm.value["termField"],
       culturalOfferingSubtypeIds: [],
-      culturalOfferingTypeIds: []
+      culturalOfferingTypeIds: [],
+      subscriptions: this.searchFilterForm.value["subscriptionsField"]
     };
     searchFilter.culturalOfferingTypeIds = [];
     searchFilter.culturalOfferingSubtypeIds = [];
@@ -207,15 +208,38 @@ export class HomepageComponent implements OnInit {
         }
       }
     }
-    this.culturalOfferingService.searchFilter(
-      searchFilter, {
-      page: 0,
-      size: 1000,
-      sort: '',
-      sortOrder: ''
-    })
-    .subscribe((page) => {
-      this.culturalOfferings = [...page.content];
-    })
+    if (this.authService.isLoggedIn()) {
+      this.culturalOfferingService.searchFilter(
+        searchFilter, {
+        page: 0,
+        size: 1000,
+        sort: '',
+        sortOrder: ''
+      })
+      .subscribe((page) => {
+        this.culturalOfferings = [...page.content];
+      })
+    }
+    else {
+      this.culturalOfferingService.searchFilterGuest(
+        searchFilter, {
+        page: 0,
+        size: 1000,
+        sort: '',
+        sortOrder: ''
+      })
+      .subscribe((page) => {
+        this.culturalOfferings = [...page.content];
+      })
+    }
+    
+  }
+
+  openCulturalOffering(culturalOffering: CulturalOffering): void {
+    this.router.navigate([`/cultural-offering/${culturalOffering.id}`])
+  }
+
+  loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

@@ -20,6 +20,8 @@ import { ApiService } from 'src/app/core/services/security/api-service/api.servi
 import { HttpClient } from '@angular/common/http';
 import { ImageService } from 'src/app/core/services/image/image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SubscriptionService } from 'src/app/core/services/subscription/subscription.service';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
 
 describe('CulturalOfferingPageComponent', () => {
   let component: CulturalOfferingPageComponent;
@@ -45,6 +47,24 @@ describe('CulturalOfferingPageComponent', () => {
       return of({});
     }
   };
+  const subscriptionServiceStub = {
+    getOne: function(){
+      return of({imageIds: []})
+    },
+    insert: function() { 
+      return of(null);
+    },
+    update: function() { 
+      return of(null);
+    },
+    getQuery: function(){
+      return of([]);
+    }
+  };
+
+  const authServiceStub = {
+    getUserId: jasmine.createSpy('getUserId').and.returnValue(null)
+  }
   
   const apiServiceStub = jasmine.createSpy('apiServiceStub');
   const httpClientStub = jasmine.createSpy('httpClientStub');
@@ -76,6 +96,8 @@ describe('CulturalOfferingPageComponent', () => {
       ],
       providers: [
         {provide: CulturalOfferingService, useValue: culturalOfferingServiceStub},
+        {provide: SubscriptionService, useValue: subscriptionServiceStub},
+        {provide: AuthService, useValue: authServiceStub},
         {provide: ApiService, useValue: apiServiceStub},
         {provide: HttpClient, useValue: httpClientStub},
         {provide: ImageService, useValue: imageServiceStub},

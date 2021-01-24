@@ -119,4 +119,11 @@ public class SubscriptionController implements SubscriptionApi {
         Subscription subscription = subscriptionService.update(mapper.toEntity(dto), id);
         return new ResponseEntity<>(mapper.toDto(subscription), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<List<SubscriptionDTO>> getAllQuery(Long culturalOfferingId, Long userId) {
+        System.out.println(culturalOfferingId + " " + userId);
+        List<Subscription> subscriptions = subscriptionService.getAllQuery(culturalOfferingId, userId);
+        return new ResponseEntity<>(toSubscriptionDTOList(subscriptions), HttpStatus.OK);
+    }
 }

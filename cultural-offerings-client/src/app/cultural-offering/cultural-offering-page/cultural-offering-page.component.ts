@@ -11,6 +11,9 @@ import { CommentService } from '../../../app/core/services/comment/comment.servi
 import { CulturalOfferingService } from '../../../app/core/services/cultural-offering/cultural-offering.service';
 import { ImageService } from '../../../app/core/services/image/image.service';
 import { SimpleSnackbarComponent } from '../../../app/shared/components/snackbar/simple-snackbar/simple-snackbar.component';
+import { SubscriptionService } from 'src/app/core/services/subscription/subscription.service';
+import { AuthService } from 'src/app/core/services/security/auth-service/auth.service';
+import { Subscription } from 'src/app/core/model/subscription';
 
 @Component({
   selector: 'app-cultural-offering-page',
@@ -25,11 +28,15 @@ export class CulturalOfferingPageComponent implements OnInit {
   images: ClientImage[] = []; //reprezentacija slike pogodna za carousel komponentu
   ratings: Rating[];
 
+  subscription: Subscription;
+
   constructor(
     public activeRoute: ActivatedRoute,
     public culturalOfferingService: CulturalOfferingService,
     public matSnackbar: MatSnackBar,
-    public imageService: ImageService
+    public imageService: ImageService,
+    public subscriptionService: SubscriptionService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -38,11 +45,19 @@ export class CulturalOfferingPageComponent implements OnInit {
       try{
         this.culturalOffering = await this.culturalOfferingService.getOne(id).toPromise();
         this.fetchImages();
+        let userId: number = this.authService.getUserId();
+        if (userId) {
+          this.subscriptionService.getQuery(this.culturalOffering.id, userId)
+          .subscribe((subscriptions: Subscription[]) => {
+            this.subscription = subscriptions[0];
+          });
+        }
       }catch(error){
         this.showSnackbar(`Error`, `Cultural offering with id ${id} could not be loaded.`, false);
       }
     });
   }
+
 
   async fetchImages(): Promise<void> {
     if(this.culturalOffering){
@@ -71,6 +86,33 @@ export class CulturalOfferingPageComponent implements OnInit {
       },
 
     });
+  }
+
+  subscribeClicked(event: boolean): void {
+    if (this.subscription) {
+      this.subscriptionService.delete(this.subscription.id)
+      .subscribe(() => {
+        this.subscription = null;
+        this.showSnackbar('Odjavili ste pretplatu', '', true);
+      })
+    }
+    else {
+      this.subscriptionService.insert(
+        {
+          id: null,
+          user: this.authService.getUserId(),
+          culturalOffering: this.culturalOffering.id
+        }
+      )
+      .subscribe((s: Subscription) => {
+        this.subscription = s;
+        this.showSnackbar('Pretplatili ste se', '', true);
+      })
+    }
+  }
+
+  loggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
 }

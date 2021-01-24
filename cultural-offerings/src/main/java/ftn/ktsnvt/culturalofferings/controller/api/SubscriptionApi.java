@@ -44,6 +44,12 @@ public interface SubscriptionApi {
     ResponseEntity<Page<SubscriptionDTO>> getAllSubscriptionsByPage(@RequestParam("page") int pageIndex,
                                                                     @RequestParam("size") int pageSize);
 
+    @RequestMapping(value = "/all/query",
+        produces = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<List<SubscriptionDTO>> getAllQuery(@RequestParam("culturalOfferingId") Long culturalOfferingId,
+                                                @RequestParam("userId") Long userId);
+
     @RequestMapping(value = "/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.PUT)

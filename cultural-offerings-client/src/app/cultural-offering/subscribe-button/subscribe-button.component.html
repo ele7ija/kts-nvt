@@ -1,0 +1,24 @@
+<div>
+  <button
+    mdbBtn 
+    style='width: 100%'
+    type="button" 
+    gradient="peach" 
+    rounded="true" 
+    mdbWavesEffect
+    *ngIf="subscription"
+    (click)="clicked()">
+    Odjavi pretplatu
+  </button>
+  <button
+    mdbBtn 
+    style='width: 100%'
+    type="button" 
+    gradient="aqua" 
+    rounded="true" 
+    mdbWavesEffect
+    *ngIf="!subscription"
+    (click)="clicked()">
+    Pretplati se
+  </button>
+</div>
