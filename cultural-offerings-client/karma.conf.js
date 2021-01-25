@@ -27,6 +27,10 @@ module.exports = function (config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    files: [
+      'https://maps.googleapis.com/maps/api/js?sensor=false', //<--this one
+      'maps.googleapis.com-maps-api.js', //<--and this one, changing path as necessary for the mock file you just added
+  ]
   });
 };

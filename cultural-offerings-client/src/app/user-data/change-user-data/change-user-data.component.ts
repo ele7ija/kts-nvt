@@ -20,9 +20,9 @@ export class ChangeUserDataComponent implements OnInit {
   private initialFormValues : UserData;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private changeUserDataService : ChangeUserDataService,
-    private authService : AuthService) {
+    public formBuilder: FormBuilder,
+    public changeUserDataService : ChangeUserDataService,
+    public authService : AuthService) {
   }
 
   ngOnInit(): void {
@@ -38,13 +38,14 @@ export class ChangeUserDataComponent implements OnInit {
     form control name but ignore properties that do not match.*/
 
     this.changeUserDataService.getDataRequest().subscribe(
-        user => {
+      user => {
         this.user = user;
         this.userDataForm.patchValue(user);
         this.initialFormValues = this.userDataForm.value;
         this.user.email = this.authService.getEmail();
       },
       error => {
+        console.log(error);
         this.errorMsg = "Greska prilikom dobavljanja podataka. Molimo Vas pokusajte izmenu malo kasnije.";
       }
     );

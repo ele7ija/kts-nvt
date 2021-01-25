@@ -1,4 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { FooterComponent } from './footer.component';
 
@@ -8,7 +11,12 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FooterComponent ]
+      declarations: [ FooterComponent ],
+      imports: [
+        CommonModule,
+        RouterModule,
+        MDBBootstrapModule.forRoot()
+      ],
     })
     .compileComponents();
   });
@@ -16,7 +24,6 @@ describe('FooterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

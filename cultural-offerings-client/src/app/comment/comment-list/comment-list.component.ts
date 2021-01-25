@@ -29,10 +29,10 @@ export class CommentListComponent implements OnChanges {
   @ViewChild(PaginatorComponent) paginator: PaginatorComponent;
 
   constructor(
-    private authService: AuthService,
-    private commentService: CommentService,
-    private imageService: ImageService,
-    private matSnackBar: MatSnackBar
+    public authService: AuthService,
+    public commentService: CommentService,
+    public imageService: ImageService,
+    public matSnackBar: MatSnackBar
   ) { }
 
   ngOnChanges(changes: SimpleChanges) {
