@@ -1,13 +1,11 @@
 package ftn.ktsnvt.culturalofferings.service;
 
-import org.hibernate.resource.beans.container.internal.ContainerManagedLifecycleStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import ftn.ktsnvt.culturalofferings.dto.ChangeUserDataDTO;
 import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.helper.CredentialsHelper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;

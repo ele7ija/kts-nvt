@@ -51,7 +51,6 @@ public interface CulturalOfferingApi {
     		method = RequestMethod.GET, 
     		produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<CulturalOfferingDTO>> findAll(Pageable pageable);
-
     
     @RequestMapping(value = "/search-filter/by-page", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<CulturalOfferingDTO>> searchFilter(Pageable pageable, @RequestBody SearchFilterDTO searchFilterDTO);

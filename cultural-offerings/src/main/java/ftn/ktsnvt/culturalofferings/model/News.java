@@ -23,7 +23,7 @@ public class News {
     @Temporal(TemporalType.TIME)
     private Date date;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ImageModel> images;
 
     @ManyToOne(fetch = FetchType.EAGER)

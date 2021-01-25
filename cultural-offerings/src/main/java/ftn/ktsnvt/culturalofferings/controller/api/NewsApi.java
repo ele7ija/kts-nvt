@@ -2,10 +2,12 @@ package ftn.ktsnvt.culturalofferings.controller.api;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import ftn.ktsnvt.culturalofferings.dto.CulturalOfferingDTO;
 import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
 
 import java.util.List;
@@ -49,5 +51,11 @@ public interface NewsApi {
     produces = { "application/json" }, 
     method = RequestMethod.POST)
     ResponseEntity<Boolean> notify(@PathVariable("id") Long id);
+    
+    // get all newsletters from one cultural offering
+    @RequestMapping(value = "all/by-page", 
+    		method = RequestMethod.POST, 
+    		produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Page<NewsDTO>> findAll(@RequestParam(value="id") Long id, Pageable pageable);
 
 }

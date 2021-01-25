@@ -74,6 +74,9 @@
 									read_more
 								</mat-icon>
 							</a>
+							<a [routerLink]="['./cultural-offering', element.id, 'news']" (click)="setSelected(element)">
+								<mat-icon class="my-icon pl-3"> email</mat-icon>
+							</a>
 						</td>
 					</ng-container>
 				</ng-container>

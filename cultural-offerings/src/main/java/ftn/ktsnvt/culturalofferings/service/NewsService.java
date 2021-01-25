@@ -3,20 +3,26 @@ package ftn.ktsnvt.culturalofferings.service;
 import ftn.ktsnvt.culturalofferings.model.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
+import ftn.ktsnvt.culturalofferings.mapper.NewsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
 import ftn.ktsnvt.culturalofferings.model.News;
 import ftn.ktsnvt.culturalofferings.model.Subscription;
-import ftn.ktsnvt.culturalofferings.model.User;
 import ftn.ktsnvt.culturalofferings.repository.NewsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class NewsService implements ServiceInterface<News> {
 
     @Autowired
@@ -24,6 +30,12 @@ public class NewsService implements ServiceInterface<News> {
 
     @Autowired
     private EmailServiceImpl emailService;
+    
+    @Autowired
+    private CulturalOfferingService culturalOfferingService;
+    
+    @Autowired
+    private NewsMapper newsMapper;
 
     public List<News> findAll() {
         return newsRepository.findAll();
@@ -87,25 +99,34 @@ public class NewsService implements ServiceInterface<News> {
         newsRepository.delete(optional.get());
     }
 
-	public Boolean notifyNews(Long id) {
-        Optional<News> optional = newsRepository.findById(id);
-        if(optional.isEmpty())
-            throw new EntityNotFoundException(
-                    id,
-                    News.class
-            );
-        News n = optional.get();
-        CulturalOffering co = n.getCulturalOffering();
-        if (co == null) {
-            return false;
-        }
-        for (Subscription s : co.getSubscriptions()) {
-            User u = s.getUser();
-            String message = "We've got some news about " + co.getName() + ".\n\n";
-            message += n.getText() + "\n\n\n";
-            message += "All the best,\nCultural Offering team";
-            emailService.sendMail(u.getEmail(), "Newsletter: " + n.getTitle(), message);
-        }
-        return true;
+	public void notifyNews(Long id) {
+        News newsletter = findOne(id);
+        String[] recipients = getNewsletterRecipients(newsletter.getCulturalOffering().getSubscriptions());
+        emailService.sendNewsLetter(newsletter, recipients, newsletter.getImages());        
+	}
+	
+	public Page<NewsDTO> findAllNewsById(Pageable pageable, Long id) {
+		CulturalOffering offering = culturalOfferingService.findOne(id);		
+		
+		List<NewsDTO> list = offering.getNews()
+				.stream()
+				.map(x -> newsMapper.toDto(x))
+				.collect(Collectors.toList());
+
+		Page<NewsDTO> page = new PageImpl<NewsDTO>(list, pageable, list.size());
+
+		return page;
+	}
+	
+	public String[] getNewsletterRecipients(Set<Subscription> subscriptions) {
+		//CulturalOffering offering = culturalOfferingService.findOne(id);
+		//Set<Subscription> subscriptions = offering.getSubscriptions();
+		List<String> list = new ArrayList<String>();
+		
+		for(Subscription s : subscriptions) {
+			list.add(s.getUser().getEmail());
+		}
+		
+		return list.toArray(String[]::new);
 	}
 }

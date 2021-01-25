@@ -8,15 +8,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CulturalOfferingTypeService } from '../../../app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { CulturalOfferingType } from '../../../app/core/model/cultural-offering-type';
 import { NewsService } from 'src/app/core/services/news/news.service';
+import { News } from 'src/app/core/model/news';
 
 @Component({
-  selector: 'app-cultural-offering-table',
-  templateUrl: './cultural-offering-table.component.html',
-  styleUrls: ['./cultural-offering-table.component.scss'],
+  selector: 'app-news-table',
+  templateUrl: './news-table.component.html',
+  styleUrls: ['./news-table.component.scss'],
   providers: [
-    { 
-      provide: AbstractCrudService, 
-      useClass: CulturalOfferingService
+    {
+      provide: AbstractCrudService,
+      useClass: NewsService
     }
   ],
   animations: [
@@ -25,48 +26,38 @@ import { NewsService } from 'src/app/core/services/news/news.service';
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
-  ],
+  ]
 })
-export class CulturalOfferingTableComponent extends TableComponent<CulturalOffering> {
+export class NewsTableComponent extends TableComponent<News> {
 
-  culturalOfferingTypes: CulturalOfferingType[];
-  lastDeleted: CulturalOffering;
+  lastDeleted: News;
 
   constructor(
-    private culturalOfferingService: AbstractCrudService<CulturalOffering>,
-    private matSnackbar: MatSnackBar,
-    private culturalOfferingTypeService: CulturalOfferingTypeService,
-    private newsService: NewsService
-  ) 
-  { 
-    super(culturalOfferingService, matSnackbar);
-    this.displayedColumns = [{field: 'id', text: 'ID'}, {field: 'name', text: 'Naziv'}, {field: 'Actions', text: 'Akcije'}];
+    private newsService: AbstractCrudService<News>,
+    private matSnackbar: MatSnackBar
+  )
+  {
+    super(newsService, matSnackbar);
+    this.displayedColumns = [{field: 'id', text: 'ID'}, {field: 'title', text: 'Naslov'},
+      {field: 'date', text: 'Datum kreiranja'}, {field: 'Actions', text: 'Akcije'}];
   }
 
   ngAfterViewInit(){
     super.ngAfterViewInit();
   }
 
-  async delete(entity: CulturalOffering) {
+  async delete(entity: News) {
     this.lastDeleted = entity;
     super.delete(entity)
     .then(() => {
       this.lastDeleted = null;
-      this.showSnackbar('USPESNO BRISANJE', `Kulturna pomnuda pod nazivom ${entity.name} je uspesno obrisana.`, true)
+      this.showSnackbar('USPESNO BRISANJE', `Email sa nazivom ${entity.title} je uspesno obrisan.`, true)
     })
     .catch(error => {
       this.lastDeleted = null;
       this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false)
     });
-    
-  }
 
-  async fetchAditionalEntities(): Promise<void>{
-    this.culturalOfferingTypes = await this.culturalOfferingTypeService.getAllEntities().toPromise();
-  }
-
-  setSelected(element: CulturalOffering) : void {
-    this.newsService.setSelectedOfferingId(element.id);
   }
 
 }
