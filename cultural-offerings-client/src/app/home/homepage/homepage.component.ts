@@ -27,13 +27,13 @@ export class HomepageComponent implements OnInit {
   @ViewChild('searchFilter') searchFilter;
 
   constructor(
-    private culturalOfferingService: CulturalOfferingService,
-    private culturalOfferingTypeService: CulturalOfferingTypeService,
-    private culturalOfferingSubtypeService: CulturalOfferingSubtypeService,
-    private elRef: ElementRef,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private authService: AuthService
+    public culturalOfferingService: CulturalOfferingService,
+    public culturalOfferingTypeService: CulturalOfferingTypeService,
+    public culturalOfferingSubtypeService: CulturalOfferingSubtypeService,
+    public elRef: ElementRef,
+    public formBuilder: FormBuilder,
+    public router: Router,
+    public authService: AuthService
   ) {
     this.searchFilterForm = formBuilder.group({
       "termField": [""],

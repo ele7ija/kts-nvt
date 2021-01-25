@@ -16,7 +16,7 @@ export class ChangePasswordComponent implements OnInit {
   errorMsg : string;
   successMsg : string;
 
-  constructor(private formBuilder: FormBuilder, private changePasswordService: ChangePasswordService) {
+  constructor(public formBuilder: FormBuilder, public changePasswordService: ChangePasswordService) {
     this.passwordForm = this.formBuilder.group({
       "oldPassField": ["", Validators.required],
       "passField": ["", [Validators.required, Validators.minLength(3)]],

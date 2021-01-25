@@ -39,11 +39,11 @@ export class NewsDetailsComponent implements OnInit {
   private author: number;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private imageService: ImageService,
-    private newsService: NewsService,
-    private matSnackBar: MatSnackBar,
-    private authService: AuthService) { }
+    public formBuilder: FormBuilder,
+    public imageService: ImageService,
+    public newsService: NewsService,
+    public matSnackBar: MatSnackBar,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     this.newsForm = this.formBuilder.group({
@@ -135,9 +135,8 @@ export class NewsDetailsComponent implements OnInit {
       this.upsertLocal.emit(updatedNews);
       this.newsService.notify(updatedNews.id);
       this.showSnackbar('USPESNA IZMENA', `Email je uspesno izmenjen i poslat svim pretplacenim korisnicima.`, true);
-    }catch(error){
+    }catch({error}){
       //show toast
-      console.log(error);
       this.upsertLocal.emit(this.news);
       this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
     }
