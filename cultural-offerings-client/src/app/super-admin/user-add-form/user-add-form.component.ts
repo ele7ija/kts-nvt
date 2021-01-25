@@ -20,9 +20,9 @@ export class UserAddFormComponent implements OnInit {
   submitAttempted: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private userService: UserService,
-    private matSnackBar: MatSnackBar) { }
+    public formBuilder: FormBuilder,
+    public userService: UserService,
+    public matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({

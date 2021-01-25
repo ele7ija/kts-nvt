@@ -12,6 +12,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TableModule } from '../shared/modules/table/table.module';
 import { CulturalOfferingSubTypeDetailsComponent } from './cultural-offering-sub-type-details/cultural-offering-sub-type-details.component';
 import { CulturalOfferingTypeService } from '../core/services/cultural-offering-type/cultural-offering-type.service';
+import { CulturalOfferingSubtypeService } from '../core/services/cultural-offering-subtype/cultural-offering-subtype.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CulturalOfferingTypeService } from '../core/services/cultural-offering-
     CulturalOfferingSubTypeRoutingModule
   ],
   providers: [
-    CulturalOfferingTypeService
+    CulturalOfferingTypeService,
+    CulturalOfferingSubtypeService
   ]
 })
 export class CulturalOfferingSubTypeModule { }

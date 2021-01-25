@@ -31,12 +31,12 @@ export class CulturalOfferingPageComponent implements OnInit {
   subscription: Subscription;
 
   constructor(
-    private activeRoute: ActivatedRoute,
-    private culturalOfferingService: CulturalOfferingService,
-    private matSnackbar: MatSnackBar,
-    private imageService: ImageService,
-    private subscriptionService: SubscriptionService,
-    private authService: AuthService
+    public activeRoute: ActivatedRoute,
+    public culturalOfferingService: CulturalOfferingService,
+    public matSnackbar: MatSnackBar,
+    public imageService: ImageService,
+    public subscriptionService: SubscriptionService,
+    public authService: AuthService
   ) { }
 
   ngOnInit(): void {

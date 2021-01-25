@@ -22,12 +22,11 @@ export class RatingItemComponent implements OnInit {
   removeRatingEvent: EventEmitter<Rating> = new EventEmitter<Rating>();
 
   constructor(
-    private userService: UserService,
-    private authService: AuthService,
+    public userService: UserService,
+    public authService: AuthService,
   ) { }
 
   ngOnInit(): void {
-    console.log(this.rating.value)
     this.fetchUser();
   }
 

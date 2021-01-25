@@ -36,7 +36,7 @@ describe('CulturalOfferingSubTypeComponent', () => {
   const httpClientStub = jasmine.createSpy('httpClientStub');
 
   const snackbarStub = {
-    openFromComponent: jasmine.createSpy('delete')
+    openFromComponent: jasmine.createSpy('openFromComponent')
   };
 
   beforeEach(async () => {

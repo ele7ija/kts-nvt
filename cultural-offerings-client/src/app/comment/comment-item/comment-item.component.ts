@@ -26,10 +26,10 @@ export class CommentItemComponent implements OnInit {
   removeCommentEvent: EventEmitter<Comment> = new EventEmitter<Comment>();
 
   constructor(
-    private userService: UserService,
-    private authService: AuthService,
-    private imageService: ImageService,
-    private matDialog: MatDialog
+    public userService: UserService,
+    public authService: AuthService,
+    public imageService: ImageService,
+    public matDialog: MatDialog
   ) { }
 
   ngOnInit(): void {

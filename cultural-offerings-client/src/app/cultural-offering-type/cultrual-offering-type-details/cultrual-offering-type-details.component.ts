@@ -41,11 +41,11 @@ export class CultrualOfferingTypeDetailsComponent implements OnInit {
   loading: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private imageService: ImageService,
-    private culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
-    private culturalOfferingTypeService: CulturalOfferingTypeService,
-    private matSnackBar: MatSnackBar) { }
+    public formBuilder: FormBuilder, 
+    public imageService: ImageService,
+    public culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
+    public culturalOfferingTypeService: CulturalOfferingTypeService,
+    public matSnackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.culturalOfferingTypeForm = this.formBuilder.group({

@@ -22,7 +22,7 @@ export class CommentInputComponent implements OnInit {
   commentAddedEvent: EventEmitter<CommentInput> = new EventEmitter<CommentInput>();
 
   constructor(
-    private formBuilder: FormBuilder,
+    public formBuilder: FormBuilder,
     public authService: AuthService
   ) { }
 
