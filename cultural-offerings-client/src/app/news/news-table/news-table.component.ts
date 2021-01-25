@@ -33,8 +33,8 @@ export class NewsTableComponent extends TableComponent<News> {
   lastDeleted: News;
 
   constructor(
-    private newsService: AbstractCrudService<News>,
-    private matSnackbar: MatSnackBar
+    public newsService: AbstractCrudService<News>,
+    public matSnackbar: MatSnackBar
   )
   {
     super(newsService, matSnackbar);

@@ -13,11 +13,11 @@ export class SignInComponent implements OnInit {
 
   signinForm: FormGroup;
   submitted : boolean = false;
-  private errorMsg : string;
+  public errorMsg : string;
   private user : SignInUser;
 
-  constructor(private formBuilder: FormBuilder, private router : Router,
-    private authService : AuthService) {
+  constructor(public formBuilder: FormBuilder, public router : Router,
+    public authService : AuthService) {
     this.signinForm = this.formBuilder.group({
       "emailField": ["", [Validators.required, Validators.email]],
       "passField": ["", [Validators.required, Validators.minLength(3)]]

@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/core/services/security/auth-service/auth.se
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   userEmail : string = "";
 

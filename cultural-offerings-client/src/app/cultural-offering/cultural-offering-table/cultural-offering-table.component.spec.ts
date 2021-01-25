@@ -24,6 +24,7 @@ import { CulturalOfferingTableComponent } from './cultural-offering-table.compon
 import {of} from 'rxjs';
 import { CulturalOfferingTypeService } from 'src/app/core/services/cultural-offering-type/cultural-offering-type.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NewsService } from 'src/app/core/services/news/news.service';
 
 describe('CulturalOfferingTableComponent', () => {
   let component: CulturalOfferingTableComponent;
@@ -41,6 +42,8 @@ describe('CulturalOfferingTableComponent', () => {
   const apiServiceStub =  jasmine.createSpy('apiServiceStub');
 
   const httpClientStub =  jasmine.createSpy('httpClientStub');
+
+  const newsServiceStub =  jasmine.createSpy('newsServiceStub');
 
   const snackbarStub = {
     openFromComponent: jasmine.createSpy('delete')
@@ -73,6 +76,7 @@ describe('CulturalOfferingTableComponent', () => {
         {provide: ApiService, useValue: apiServiceStub},
         {provide: HttpClient, useValue: httpClientStub},
         {provide: MatSnackBar, useValue: snackbarStub},
+        {provide: NewsService, useValue: newsServiceStub},
         MatPaginator,
         MatSort,
       ]
