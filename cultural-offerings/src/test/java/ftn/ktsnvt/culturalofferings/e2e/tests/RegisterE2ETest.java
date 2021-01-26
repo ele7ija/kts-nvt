@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import ftn.ktsnvt.culturalofferings.e2e.pages.RegisterPage;
-import ftn.ktsnvt.culturalofferings.e2e.pages.SigninPage;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -33,7 +32,7 @@ public class RegisterE2ETest {
     }
 
     @Test
-    public void SigninTestSuccess() throws InterruptedException {
+    public void RegisterTestSuccess() throws InterruptedException {
 
         driver.get("http://localhost:4200/register");
 
@@ -43,7 +42,7 @@ public class RegisterE2ETest {
 
         registerPage.getNameField().sendKeys("Nemanja");
         registerPage.getSurnameField().sendKeys("Mikic");
-        registerPage.getEmailField().sendKeys("nemanja.mikic@gmail.com");
+        registerPage.getEmailField().sendKeys("nemaanja74xd@serohiv.com");
         registerPage.getPassField().sendKeys("Nemanja1");
         registerPage.getConfPassField().sendKeys("Nemanja1");
         registerPage.getRegBtn().click();
@@ -59,7 +58,7 @@ public class RegisterE2ETest {
     
     //typed email exists
     @Test
-    public void SigninTestFailed() throws InterruptedException {
+    public void RegisterTestFailed() throws InterruptedException {
 
         driver.get("http://localhost:4200/register");
 
