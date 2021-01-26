@@ -8,9 +8,9 @@ describe('SimpleSnackbarComponent', () => {
   let component: SimpleSnackbarComponent;
   let fixture: ComponentFixture<SimpleSnackbarComponent>;
 
-  const message: string = 'Poruka';
-  const title: string = 'Naslov';
-  let success: boolean;
+  const message = 'Poruka';
+  const title = 'Naslov';
+  const success: boolean = true;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

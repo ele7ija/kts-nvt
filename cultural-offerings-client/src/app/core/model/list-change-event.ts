@@ -1,4 +1,4 @@
-import { ListChangeEventType } from "./list-change-event-type.enum";
+import { ListChangeEventType } from './list-change-event-type.enum';
 
 export interface ListChangeEvent<T> {
   item?: T;

@@ -15,7 +15,7 @@ describe('CarouselDialogComponent', () => {
     enableAddAndRemove: false,
     images: [{retrievedImage: null}, {retrievedImage: null}],
     imagesLoading: false
-  }
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -54,5 +54,5 @@ describe('CarouselDialogComponent', () => {
     expect(carouselComponent.enableAddAndRemove).toBe(carouselProps.enableAddAndRemove);
     expect(carouselComponent.images).toBe(carouselProps.images);
     expect(carouselComponent.imagesLoading).toBe(carouselProps.imagesLoading);
-  })
+  });
 });

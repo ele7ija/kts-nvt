@@ -32,7 +32,7 @@ describe('ChangePasswordComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         NavigationModule,
-        MDBBootstrapModule.forRoot(),    
+        MDBBootstrapModule.forRoot(),
         UserDataRoutingModule
       ],
       providers: [

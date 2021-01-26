@@ -10,7 +10,7 @@ export class FooterComponent implements OnInit {
 
   constructor() { }
 
-  projectUrl : string = environment.projectUrl;
+  projectUrl: string = environment.projectUrl;
   bojanUrl: string = environment.githubUrlBojan;
   milanUrl: string = environment.githubUrlMilan;
   ivanaUrl: string = environment.githubUrlIvana;

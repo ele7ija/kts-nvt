@@ -39,6 +39,7 @@ describe('NewsDetailsComponent', () => {
 
   const newsServiceStub = {
     getSelectedOfferingId: jasmine.createSpy('getSelectedOfferingId').and.returnValue(1),
+    notify: null
   };
 
   const authServiceStub = {
@@ -85,7 +86,7 @@ describe('NewsDetailsComponent', () => {
     fixture = TestBed.createComponent(NewsDetailsComponent);
     component = fixture.componentInstance;
     component.news = {id: 1, culturalOffering: 1, date: new Date(), images: [], text: '', title: '', user: 1};
-    newsServiceStub['notify'] = jasmine.createSpy('notify').and.returnValue(of(true))
+    newsServiceStub.notify = jasmine.createSpy('notify').and.returnValue(of(true));
     component.ngOnInit();
   });
 

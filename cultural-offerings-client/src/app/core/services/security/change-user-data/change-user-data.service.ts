@@ -13,11 +13,11 @@ export class ChangeUserDataService {
   constructor(private apiService: ApiService) { }
 
   // get personal data of logged-in user
-  getDataRequest() : Observable<any>{
+  getDataRequest(): Observable<any>{
     return this.apiService.get(this.getUrl);
   }
 
-  changeDataRequest(request: UserData) : Observable<any>{
+  changeDataRequest(request: UserData): Observable<any>{
     return this.apiService.put(this.changerUrl, request);
   }
 

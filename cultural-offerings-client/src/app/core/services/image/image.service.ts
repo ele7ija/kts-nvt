@@ -8,7 +8,7 @@ import { ApiService } from '../security/api-service/api.service';
 @Injectable()
 export class ImageService {
 
-  private endpoint: string = environment.baseUrl + '/images'
+  private endpoint: string = environment.baseUrl + '/images';
 
   constructor(private apiService: ApiService) {}
 

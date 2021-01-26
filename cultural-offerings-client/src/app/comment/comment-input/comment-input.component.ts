@@ -12,11 +12,11 @@ import { AuthService } from 'src/app/core/services/security/auth-service/auth.se
 export class CommentInputComponent implements OnInit {
 
   commentForm: FormGroup;
-  addClicked: boolean = false;
+  addClicked = false;
 
   chosenImageFiles: File[] = [];
 
-  chipsHeight: number = 50;
+  chipsHeight = 50;
 
   @Output()
   commentAddedEvent: EventEmitter<CommentInput> = new EventEmitter<CommentInput>();
@@ -32,28 +32,28 @@ export class CommentInputComponent implements OnInit {
     });
   }
 
-  autoGrowTextZone(e) {
-    e.target.style.height = "0px";
-    if(e.target.value){
+  autoGrowTextZone(e): void {
+    e.target.style.height = '0px';
+    if (e.target.value) {
       this.chipsHeight = e.target.scrollHeight + 15;
-      e.target.style.height = (e.target.scrollHeight + 15)+"px";
+      e.target.style.height = (e.target.scrollHeight + 15) + 'px';
     }
-    else{
+    else {
       this.chipsHeight = 50;
-      e.target.style.height = "50px";
+      e.target.style.height = '50px';
     }
   }
 
-  isLoggedIn(){
+  isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 
-  onFileChanged(event){
+  onFileChanged(event): void {
     this.chosenImageFiles.push(event.target.files[0]);
-    event.target.value = "";
+    event.target.value = '';
   }
 
-  removeImageFile(event: ListChangeEvent<File>){
+  removeImageFile(event: ListChangeEvent<File>): void {
     this.chosenImageFiles = this.chosenImageFiles.filter(file => file != event.item);
   }
 
@@ -61,17 +61,17 @@ export class CommentInputComponent implements OnInit {
     return !!Object.values(this.commentForm.controls).find(control => control.errors);
   }
 
-  add(){
-    if(!this.isFormInvalid()){
+  add(): void {
+    if (!this.isFormInvalid()) {
       this.commentAddedEvent.emit({
         text: this.commentForm.value.comment,
         date: new Date(),
         images: this.chosenImageFiles
       });
-      this.commentForm.patchValue({comment: ""});
+      this.commentForm.patchValue({comment: ''});
       this.chosenImageFiles = [];
       this.addClicked = false;
-    }else{
+    } else {
       this.addClicked = true;
     }
   }

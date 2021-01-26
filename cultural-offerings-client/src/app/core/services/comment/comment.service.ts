@@ -8,7 +8,7 @@ import { ApiService } from '../security/api-service/api.service';
 @Injectable()
 export class CommentService {
 
-  endpoint: string = `${environment.baseUrl}/comments`
+  endpoint = `${environment.baseUrl}/comments`;
 
   constructor(private apiService: ApiService) { }
 
@@ -20,7 +20,7 @@ export class CommentService {
     return this.apiService.getByPage(`${this.endpoint}/by-page/${culturalOfferingId}`, pageableRequest);
   }
 
-  getOne(id: string) {
+  getOne(id: string): Observable<any> {
     return this.apiService.get(`${this.endpoint}/${id}`);
   }
 

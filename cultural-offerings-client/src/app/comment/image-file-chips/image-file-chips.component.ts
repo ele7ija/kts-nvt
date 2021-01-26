@@ -9,9 +9,9 @@ import { ListChangeEventType } from 'src/app/core/model/list-change-event-type.e
 })
 export class ImageFileChipsComponent implements OnInit {
 
-  visible: boolean = true;
-  selectable: boolean = true;
-  removable: boolean = true;
+  visible = true;
+  selectable = true;
+  removable = true;
 
   @Input()
   chosenFiles: File[];
@@ -20,7 +20,7 @@ export class ImageFileChipsComponent implements OnInit {
   chipsHeight: number;
 
   @Output()
-  change: EventEmitter<ListChangeEvent<File>> = new EventEmitter<ListChangeEvent<File>>();
+  changeEventEmitter: EventEmitter<ListChangeEvent<File>> = new EventEmitter<ListChangeEvent<File>>();
 
   constructor() { }
 
@@ -28,7 +28,7 @@ export class ImageFileChipsComponent implements OnInit {
   }
 
   remove(item: File): void {
-    this.change.emit({
+    this.changeEventEmitter.emit({
       item,
       listChangeEventType: ListChangeEventType.REMOVE
     });

@@ -8,7 +8,7 @@ import { CulturalOfferingType, CulturalOfferingTypeUpsert } from 'src/app/core/m
 @Injectable()
 export class CulturalOfferingTypeService {
 
-  private endpoint: string = environment.baseUrl + '/cultural-offerings-types'
+  private endpoint: string = environment.baseUrl + '/cultural-offerings-types';
 
   constructor(private apiService: ApiService) {}
 

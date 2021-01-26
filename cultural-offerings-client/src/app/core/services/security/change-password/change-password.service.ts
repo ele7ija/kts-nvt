@@ -11,7 +11,7 @@ export class ChangePasswordService {
 
   constructor(private apiService: ApiService) { }
 
-  sendChangePassRequest(request: ChangePassword) : Observable<any>{
+  sendChangePassRequest(request: ChangePassword): Observable<any>{
     return this.apiService.put(this.changerUrl, request);
   }
 

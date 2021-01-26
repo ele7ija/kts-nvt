@@ -10,7 +10,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(public authService: AuthService) { }
 
-  userEmail : string = "";
+  userEmail = '';
 
   ngOnInit(): void {
     this.userEmail = this.authService.getEmail();
@@ -24,8 +24,8 @@ export class NavbarComponent implements OnInit {
     return this.authService.getUserRole() == 'ADMIN';
   }
 
-  logout() : void {
-    this.userEmail = "";
+  logout(): void {
+    this.userEmail = '';
     this.authService.logout();
   }
 

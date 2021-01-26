@@ -26,22 +26,22 @@ describe('CommentListComponent', () => {
     getAllByCulturalOfferingId: jasmine.createSpy('getAllByCulturalOfferingId').and.returnValue(of({contnet: [], totalElements: 0})),
     insert: jasmine.createSpy('insert').and.returnValue(of({})),
     delete: jasmine.createSpy('delete').and.returnValue(of({}))
-  }
+  };
   const authServiceStub = {
     getUserId: jasmine.createSpy('authServiceStub').and.returnValue(1)
   };
   const imageServiceStub = {
-    getById: function() {
+    getById: () => {
       return of({});
     },
-    upload: function() {
+    upload: () => {
       return of({});
     }
   };
   const apiServiceStub = jasmine.createSpy('apiServiceStub');
   const httpClientStub = jasmine.createSpy('httpClientStub');
   const matSnackbarStub = {
-    openFromComponent: jasmine.createSpy("matSnackbarStub").and.callFake(() => {})
+    openFromComponent: jasmine.createSpy('matSnackbarStub').and.callFake(() => {})
   };
 
   beforeEach(async () => {

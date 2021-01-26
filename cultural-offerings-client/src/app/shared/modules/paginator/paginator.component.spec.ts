@@ -33,7 +33,7 @@ describe('PaginatorComponent', () => {
   });
 
   it('should bind data to mat-paginator', () => {
-    //neka vrsta polu unit, polu integracionog testa
+    // neka vrsta polu unit, polu integracionog testa
     const matPaginatorComponent = fixture.debugElement.query(By.css('mat-paginator')).componentInstance;
     expect(matPaginatorComponent.length).toBe(component.totalLength);
     expect(matPaginatorComponent.pageSizeOptions).toEqual(component.pageSizeOptions);

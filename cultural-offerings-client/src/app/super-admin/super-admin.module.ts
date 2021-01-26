@@ -24,7 +24,6 @@ import { UserService } from '../core/services/user/user.service';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     TableModule,
-    
     SuperAdminRoutingModule
   ],
   providers: [

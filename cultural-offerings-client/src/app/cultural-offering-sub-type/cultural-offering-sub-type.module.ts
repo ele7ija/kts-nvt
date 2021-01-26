@@ -29,7 +29,7 @@ import { CulturalOfferingSubtypeService } from '../core/services/cultural-offeri
     MatChipsModule,
     MatFormFieldModule,
     MatProgressSpinnerModule,
-    
+
     TableModule,
 
     CulturalOfferingSubTypeRoutingModule

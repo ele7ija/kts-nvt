@@ -47,7 +47,6 @@ describe('UserTableComponent', () => {
         MatFormFieldModule,
         MatProgressSpinnerModule,
         TableModule,
-        
         SuperAdminRoutingModule
       ],
       providers: [
