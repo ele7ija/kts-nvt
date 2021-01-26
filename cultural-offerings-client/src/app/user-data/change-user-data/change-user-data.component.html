@@ -56,15 +56,15 @@
                 -->
 
                 <div class="d-flex justify-content-center">
-                    <button mdbBtn color="default" class="waves-light" type="submit"
+                    <button mdbBtn color="default" class="waves-light" type="submit" id="dataBtn"
                     [disabled]="userDataForm.invalid || !userDataForm.touched || (userDataForm.valid && userDataForm.pristine)"
                         mdbWavesEffect>Sacuvaj izmene</button>
                 </div>
 
             </form>
 
-            <small *ngIf="successMsg" class="text-success"> {{successMsg}} </small>
-            <small *ngIf="errorMsg" class="text-danger"> {{errorMsg}} </small>
+            <small *ngIf="successMsg" class="text-success" id="dataMsgSuccess"> {{successMsg}} </small>
+            <small *ngIf="errorMsg" class="text-danger" id="dataMsgError"> {{errorMsg}} </small>
 
         </mdb-card-text>
     </mdb-card-body>
