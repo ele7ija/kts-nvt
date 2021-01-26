@@ -32,10 +32,10 @@ public class CulturalOfferingTypePage {
     @FindBy(xpath = "//*[@aria-label=\"Previous page\"]")
     private WebElement PreviousPageButton;
     
-    @FindBy(xpath = "//tr[last()]//*[@id='deleteBtn']")
+    @FindBy(css = ".deleteBtn:last-of-type")
     private WebElement deleteBtn;
     
-    @FindBy(id = "editBtn")
+    @FindBy(css = "editBtn:last-of-type")
     private WebElement editBtn;
 
     public CulturalOfferingTypePage() {

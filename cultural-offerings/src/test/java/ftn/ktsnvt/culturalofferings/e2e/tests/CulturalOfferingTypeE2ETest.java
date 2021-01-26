@@ -150,6 +150,7 @@ public class CulturalOfferingTypeE2ETest {
         	}
         }
         //get last tr
+        justWait(1);
         
         typePage.getDeleteBtn().click();
 
