@@ -51,7 +51,7 @@
                 <mdb-checkbox 
                   style="font-size: small;"
                   [formControlName]="'subtype'+culturalOfferingSubtype.id"
-                  id="{{'subtypeField'+culturalOfferingType.id}}"
+                  id="{{'subtypeField'+culturalOfferingSubtype.id}}"
                   (change)="subtypeChecked($event, culturalOfferingSubtype)"
                   [default]="true">
                   {{culturalOfferingSubtype.subTypeName}}

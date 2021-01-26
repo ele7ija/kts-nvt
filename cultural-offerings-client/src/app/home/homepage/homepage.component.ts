@@ -204,7 +204,9 @@ export class HomepageComponent implements OnInit {
       else if (val.startsWith('subtype')) {
         if (this.searchFilterForm.value[val] == true) {
           let subtypeId = parseInt(val.substring(7));
-        searchFilter.culturalOfferingSubtypeIds.push(subtypeId)
+          searchFilter.culturalOfferingSubtypeIds.push(subtypeId)
+          let type = this.culturalOfferingTypes.filter(t => t.subTypeIds.includes(subtypeId))
+          searchFilter.culturalOfferingTypeIds.push(type[0].id);
         }
       }
     }

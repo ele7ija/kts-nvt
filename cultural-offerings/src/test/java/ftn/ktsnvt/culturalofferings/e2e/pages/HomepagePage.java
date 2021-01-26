@@ -80,10 +80,13 @@ public class HomepagePage {
     public void setTypeField(WebElement typeField) {
         this.typeField = typeField;
     }
-    
+
     public WebElement getDropdownMenuBtn() {
         return this.dropdownMenuBtn;
     }
 
+    public void setDropdownMenuBtn(WebElement dropdownMenuBtn) {
+        this.dropdownMenuBtn = dropdownMenuBtn;
+    }
 
 }
