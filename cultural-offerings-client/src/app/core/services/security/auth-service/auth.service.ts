@@ -83,8 +83,12 @@ export class AuthService {
   }
 
   navigateUnauthorized(): void {
-    //this returns user to previous route from browsers history
-    this.location.back()
+    if(this.getUserRole() == 'ADMIN' || this.getUserRole() == 'USER')
+      this.router.navigate(['homepage']);
+    else if(this.getUserRole() == 'SUPER_ADMIN')
+      this.router.navigate(['super-admin/admins']);
+    else
+      this.router.navigate(['error404']);
   }
 
 }

@@ -16,7 +16,6 @@ export class UserGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const allowedRoles = route.data['allowedRoles'];
-      console.log(allowedRoles);
       if (this.authService.isLoggedIn()) {
         if(allowedRoles.filter(role => role == this.authService.getUserRole()).length == 1){
           return true;

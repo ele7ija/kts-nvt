@@ -47,7 +47,7 @@ const routes: Routes = [
   {
     path: 'super-admin',
     loadChildren: () => import('./super-admin/super-admin.module')
-      .then(m => m.SuperAdminModule), data: { allowedRoles: ['SUPER_ADMIN'] }
+      .then(m => m.SuperAdminModule), canActivate: [UserGuard], data: { allowedRoles: ['SUPER_ADMIN'] }
   },
   {
     path: '**',
