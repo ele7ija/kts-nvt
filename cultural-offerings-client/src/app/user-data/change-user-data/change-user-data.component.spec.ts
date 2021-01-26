@@ -26,12 +26,12 @@ describe('ChangeUserDataComponent', () => {
   const changeUserDataServiceStub = {
     getDataRequest: jasmine.createSpy('getDataRequest').and.returnValue(of({})),
     changeDataRequest: jasmine.createSpy('changeDataRequest').and.returnValue(of({}))
-  }
+  };
   const authServiceStub = {
     getEmail: jasmine.createSpy('getEmail').and.returnValue('pera.pera@gmail.com')
   };
   const apiServiceStub =  jasmine.createSpy('apiServiceStub');
-  const httpClientStub =  jasmine.createSpy('httpClientStub'); 
+  const httpClientStub =  jasmine.createSpy('httpClientStub');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

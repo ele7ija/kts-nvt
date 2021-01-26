@@ -18,7 +18,6 @@ import { NavigationModule } from '../navigation/navigation.module';
     ReactiveFormsModule,
     NavigationModule,
     MDBBootstrapModule.forRoot(),
-    
     RegisterRoutingModule
   ],
   providers: [

@@ -13,27 +13,26 @@ export class ChangeUserDataComponent implements OnInit {
 
   userDataForm: FormGroup;
 
-  errorMsg : string;
+  errorMsg: string;
   successMsg: string;
-  //user : UserData = new UserData("", "");
   user: UserData;
-  private initialFormValues : UserData;
+  private initialFormValues: UserData;
 
   constructor(
     public formBuilder: FormBuilder,
-    public changeUserDataService : ChangeUserDataService,
-    public authService : AuthService) {
+    public changeUserDataService: ChangeUserDataService,
+    public authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.userDataForm = this.formBuilder.group({
-      "firstName": ["", Validators.required],
-      "lastName": ["", Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
     });
     this.prefillForm();
   }
 
-  prefillForm() {
+  prefillForm(): void {
     /*Patch value will take any matching object key and assign its value to the same
     form control name but ignore properties that do not match.*/
 
@@ -46,7 +45,7 @@ export class ChangeUserDataComponent implements OnInit {
       },
       error => {
         console.log(error);
-        this.errorMsg = "Greska prilikom dobavljanja podataka. Molimo Vas pokusajte izmenu malo kasnije.";
+        this.errorMsg = 'Greska prilikom dobavljanja podataka. Molimo Vas pokusajte izmenu malo kasnije.';
       }
     );
 
@@ -54,7 +53,7 @@ export class ChangeUserDataComponent implements OnInit {
 
   changeUserData(): void{
     // if someone tries to send invalid data do not send request
-    if(this.userDataForm.invalid){
+    if (this.userDataForm.invalid) {
       return;
     }
 
@@ -63,11 +62,11 @@ export class ChangeUserDataComponent implements OnInit {
 
     this.changeUserDataService.changeDataRequest(this.userDataForm.value).subscribe(
       data => {
-        this.successMsg = "Uspesno ste izmenili Vase podatke.";
+        this.successMsg = 'Uspesno ste izmenili Vase podatke.';
         this.initialFormValues = this.userDataForm.value;
       },
       error => {
-        this.errorMsg = "Neuspesna izmena podataka. Uneli ste nevalidan tip podataka.";
+        this.errorMsg = 'Neuspesna izmena podataka. Uneli ste nevalidan tip podataka.';
         this.userDataForm.reset(this.initialFormValues);
       }
     );

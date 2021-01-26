@@ -18,9 +18,9 @@ export class CommentItemComponent implements OnInit {
   @Input()
   comment: Comment;
   images: ImageModel[] = [];
-  imagesLoading: boolean = false;
+  imagesLoading = false;
   user: User;
-  deleteStarted: boolean = false;
+  deleteStarted = false;
 
   @Output()
   removeCommentEvent: EventEmitter<Comment> = new EventEmitter<Comment>();
@@ -38,7 +38,7 @@ export class CommentItemComponent implements OnInit {
   }
 
   isUserAdmin(): boolean{
-    return this.authService.getUserRole() == "ADMIN";
+    return this.authService.getUserRole() == 'ADMIN';
   }
 
   userOwnsComment(): boolean{
@@ -46,8 +46,9 @@ export class CommentItemComponent implements OnInit {
   }
 
   async fetchUser(): Promise<void>{
-    if(this.comment)
+    if (this.comment) {
       this.user = await this.userService.getOne(this.comment.userId).toPromise();
+    }
   }
 
   async fetchImages(): Promise<void>{
@@ -57,19 +58,22 @@ export class CommentItemComponent implements OnInit {
     this.imagesLoading = false;
   }
 
-  showImages(){
-    this.matDialog.open(CarouselDialogComponent, {
-      data: {
-        images: this.images.map(imageModel => ({retrievedImage: 'data:image/jpeg;base64,'+imageModel.picByte})),
-        imagesLoading: false,
-        enableAddAndRemove: false,
-        maxImageWidth: 800,
-        maxImageHeight: 800
+  showImages(): void {
+    this.matDialog.open(
+      CarouselDialogComponent,
+      {
+        data: {
+          images: this.images.map(imageModel => ({retrievedImage: 'data:image/jpeg;base64,'+imageModel.picByte})),
+          imagesLoading: false,
+          enableAddAndRemove: false,
+          maxImageWidth: 800,
+          maxImageHeight: 800
+        }
       }
-    });
+    );
   }
 
-  delete(){
+  delete(): void{
     this.deleteStarted = true;
     this.removeCommentEvent.emit(this.comment);
   }

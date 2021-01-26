@@ -76,11 +76,6 @@ export class HomepageComponent implements OnInit {
 
   openInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
     this.infoWindow.open(marker);
-    console.log(culturalOffering);
-    if(this.authService.getUserRole() == 'ADMIN')
-      this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
-    else
-      this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
   }
 
   async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
@@ -238,7 +233,10 @@ export class HomepageComponent implements OnInit {
   }
 
   openCulturalOffering(culturalOffering: CulturalOffering): void {
-    this.router.navigate([`/cultural-offering/${culturalOffering.id}`])
+    if(this.authService.getUserRole() == 'ADMIN')
+      this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
+    else
+      this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
   }
 
   loggedIn(): boolean {

@@ -19,10 +19,12 @@ describe('SignInComponent', () => {
       value: {}
     })
   };
-  const authserviceStub = {}
+  const authserviceStub = {
+    signin: null
+  };
   const routerStub = {
     navigate: jasmine.createSpy('navigate').and.callFake(() => {})
-  }
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -60,7 +62,7 @@ describe('SignInComponent', () => {
   });
 
   it('should attempt sign-in successfully', () => {
-    authserviceStub['signin'] = jasmine.createSpy('signin').and.returnValue(of({}));
+    authserviceStub.signin = jasmine.createSpy('signin').and.returnValue(of({}));
     component.signIn();
     expect(component.submitted).toBeTrue();
     expect(component.errorMsg).toBeFalsy();
@@ -68,7 +70,7 @@ describe('SignInComponent', () => {
   });
 
   it('should attempt sign-in unsuccessfully', () => {
-    authserviceStub['signin'] = jasmine.createSpy('signin').and.returnValue(throwError({}));
+    authserviceStub.signin = jasmine.createSpy('signin').and.returnValue(throwError({}));
     component.signIn();
     expect(component.submitted).toBeFalse();
     expect(component.errorMsg).toBeTruthy();

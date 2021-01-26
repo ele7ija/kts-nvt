@@ -9,15 +9,16 @@ import { ApiService, RequestMethod } from '../security/api-service/api.service';
 
 @Injectable()
 export class CulturalOfferingService implements AbstractCrudService<CulturalOffering> {
+
+  endpoint: string = `${environment.baseUrl}/cultural-offerings`
+
+  constructor(public apiService: ApiService) { }
+
   searchFilterGuest(searchFilter: SearchFilter,  pageRequest: PageableRequest) {
     return this.apiService.request(`${this.endpoint}/search-filter/by-page/guest?page=${pageRequest.page}&size=${pageRequest.size}&sort=${pageRequest.sort},${pageRequest.sortOrder}`,
       searchFilter,
       RequestMethod.Post)
   }
-
-  endpoint: string = `${environment.baseUrl}/cultural-offerings`
-
-  constructor(private apiService: ApiService) { }
 
   getAll(pageRequest: PageableRequest): Observable<any> {
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageRequest);

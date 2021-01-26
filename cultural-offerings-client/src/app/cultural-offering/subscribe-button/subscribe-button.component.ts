@@ -8,16 +8,15 @@ import { Subscription } from 'src/app/core/model/subscription';
 })
 export class SubscribeButtonComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   @Input()
   subscription: Subscription;
 
   @Output()
   subscribedEventEmitter = new EventEmitter<boolean>();
+
+  constructor() { }
+
+  ngOnInit(): void { }
 
   clicked(): void {
     this.subscribedEventEmitter.emit(true);

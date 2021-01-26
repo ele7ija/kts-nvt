@@ -8,15 +8,15 @@ import { ApiService } from '../security/api-service/api.service';
 @Injectable()
 export class RatingService {
 
-  endpoint: string = `${environment.baseUrl}/rating`
+  endpoint = `${environment.baseUrl}/rating`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
-  getAll(pageableRequest: PageableRequest): Observable<any>{
+  getAll(pageableRequest: PageableRequest): Observable<any> {
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageableRequest);
   }
 
-  getAllByCulturalOfferingId(pageableRequest: PageableRequest, culturalOfferingId: number) {
+  getAllByCulturalOfferingId(pageableRequest: PageableRequest, culturalOfferingId: number): Observable<any> {
     return this.apiService.getByPage(`${this.endpoint}/by-page/${culturalOfferingId}`, pageableRequest);
   }
 

@@ -52,7 +52,7 @@ describe('CulturalOfferingSubTypeComponent', () => {
         MatChipsModule,
         MatFormFieldModule,
         MatProgressSpinnerModule,
-        
+
         TableModule,
 
         CulturalOfferingSubTypeRoutingModule

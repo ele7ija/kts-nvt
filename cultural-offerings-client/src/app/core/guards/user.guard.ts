@@ -8,7 +8,7 @@ import { AuthService } from '../services/security/auth-service/auth.service';
 })
 export class UserGuard implements CanActivate {
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(public router: Router, public authService: AuthService) {
   }
 
   // only users with role USER can activate
@@ -16,7 +16,6 @@ export class UserGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const allowedRoles = route.data['allowedRoles'];
-      console.log(allowedRoles);
       if (this.authService.isLoggedIn()) {
         if(allowedRoles.filter(role => role == this.authService.getUserRole()).length == 1){
           return true;

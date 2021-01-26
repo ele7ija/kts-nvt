@@ -14,7 +14,7 @@ export class RatingItemComponent implements OnInit {
   @Input()
   rating: Rating;
 
-  deleteStarted: boolean = false;
+  deleteStarted = false;
 
   user: User;
 
@@ -31,15 +31,16 @@ export class RatingItemComponent implements OnInit {
   }
 
   isUserAdmin(): boolean{
-    return this.authService.getUserRole() == "ADMIN";
+    return this.authService.getUserRole() == 'ADMIN';
   }
 
   async fetchUser(): Promise<void>{
-    if(this.rating)
+    if (this.rating) {
       this.user = await this.userService.getOne(this.rating.userId).toPromise();
+    }
   }
 
-  delete(){
+  delete(): void{
     this.deleteStarted = true;
     this.removeRatingEvent.emit(this.rating);
   }

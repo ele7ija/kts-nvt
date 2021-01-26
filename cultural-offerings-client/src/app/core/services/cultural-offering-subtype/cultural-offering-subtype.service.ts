@@ -9,9 +9,9 @@ import { ApiService } from '../security/api-service/api.service';
 @Injectable()
 export class CulturalOfferingSubtypeService implements AbstractCrudService<CulturalOfferingSubtype> {
 
-  endpoint: string = `${environment.baseUrl}/cultural-offering-subtypes`
+  endpoint = `${environment.baseUrl}/cultural-offering-subtypes`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAllEntities(): Observable<CulturalOfferingSubtype[]>{
     return this.apiService.get(`${this.endpoint}`);

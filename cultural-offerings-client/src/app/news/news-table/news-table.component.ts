@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { CulturalOfferingService } from '../../core/services/cultural-offering/cultural-offering.service';
 import { AbstractCrudService } from '../../core/model/abstract-crud-service';
 import { TableComponent } from 'src/app/shared/modules/table/table/table.component';
@@ -28,7 +28,7 @@ import { News } from 'src/app/core/model/news';
     ]),
   ]
 })
-export class NewsTableComponent extends TableComponent<News> {
+export class NewsTableComponent extends TableComponent<News> implements AfterViewInit {
 
   lastDeleted: News;
 
@@ -42,20 +42,20 @@ export class NewsTableComponent extends TableComponent<News> {
       {field: 'date', text: 'Datum kreiranja'}, {field: 'Actions', text: 'Akcije'}];
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void{
     super.ngAfterViewInit();
   }
 
-  async delete(entity: News) {
+  async delete(entity: News): Promise<void> {
     this.lastDeleted = entity;
     super.delete(entity)
     .then(() => {
       this.lastDeleted = null;
-      this.showSnackbar('USPESNO BRISANJE', `Email sa nazivom ${entity.title} je uspesno obrisan.`, true)
+      this.showSnackbar('USPESNO BRISANJE', `Email sa nazivom ${entity.title} je uspesno obrisan.`, true);
     })
     .catch(error => {
       this.lastDeleted = null;
-      this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false)
+      this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false);
     });
 
   }
