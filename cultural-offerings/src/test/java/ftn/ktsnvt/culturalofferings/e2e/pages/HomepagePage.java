@@ -22,6 +22,9 @@ public class HomepagePage {
 
     @FindBy(xpath = "//*[@id=\"typeField10\"]")
     private WebElement typeField;
+    
+    @FindBy(xpath = "//*[@id=\"dropdownMenuBtn\"]")
+    private WebElement dropdownMenuBtn;
 
     public HomepagePage() {
     }
@@ -76,6 +79,10 @@ public class HomepagePage {
 
     public void setTypeField(WebElement typeField) {
         this.typeField = typeField;
+    }
+    
+    public WebElement getDropdownMenuBtn() {
+        return this.dropdownMenuBtn;
     }
 
 

@@ -21,6 +21,12 @@ public class MyProfilePage {
     @FindBy(xpath = "//*[@id=\"dataBtn\"]")
     private WebElement dataBtn;
     
+    @FindBy(xpath = "//*[@id=\"dataMsgSuccess\"]")
+    private WebElement dataMsgSuccess;
+    
+    @FindBy(xpath = "//*[@id=\"dataMsgError\"]")
+    private WebElement dataMsgError;
+    
     //change password form
     @FindBy(xpath = "//*[@id=\"oldPassField\"]")
     private WebElement oldPassField;
@@ -33,6 +39,12 @@ public class MyProfilePage {
     
     @FindBy(xpath = "//*[@id=\"passBtn\"]")
     private WebElement passBtn;
+    
+    @FindBy(xpath = "//*[@id=\"passMsgSuccess\"]")
+    private WebElement passMsgSuccess;
+    
+    @FindBy(xpath = "//*[@id=\"passMsgError\"]")
+    private WebElement passMsgError;
     
     public void ensureIsDisplayedElement() {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("firstName")));
@@ -72,6 +84,22 @@ public class MyProfilePage {
 	
 	public WebElement getPassBtn() {
 		return passBtn;
+	}
+
+	public WebElement getDataMsgSuccess() {
+		return dataMsgSuccess;
+	}
+
+	public WebElement getDataMsgError() {
+		return dataMsgError;
+	}
+
+	public WebElement getPassMsgSuccess() {
+		return passMsgSuccess;
+	}
+
+	public WebElement getPassMsgError() {
+		return passMsgError;
 	}
     
 }
