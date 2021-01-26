@@ -44,6 +44,7 @@
 							<mat-icon 
 								class="my-icon pr-1"
 								(click)="toggleRow(element)"
+								id="editBtn"
 							>
 								<ng-container
 									*ngIf="expandedItem.value!=element"
@@ -53,6 +54,7 @@
 								>expand_more</ng-container>
 							</mat-icon>
 							<mat-icon
+							id="deleteBtn"
 								class="my-icon pl-1"
 								(click)="delete(element)"
 							>
@@ -92,6 +94,7 @@
 
 		<div class="mx-3 py-2 pr-1" style="text-align: end;">
 			<button 
+				id="addCancelBtn"
 				class="my-button"
 				(click)="addStarted=!addStarted; expandedItem.value=null;"
 				[style.background-color]="addStarted ? '#ca0b00' : '#24a0ed'"

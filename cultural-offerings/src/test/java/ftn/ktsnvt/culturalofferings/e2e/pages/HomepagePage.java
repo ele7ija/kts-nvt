@@ -25,6 +25,12 @@ public class HomepagePage {
     
     @FindBy(xpath = "//*[@id=\"dropdownMenuBtn\"]")
     private WebElement dropdownMenuBtn;
+    
+    @FindBy(linkText = "Moj profil")
+    WebElement myProfileLink;
+    
+    @FindBy(linkText = "Opcije")
+    WebElement optionsLink;
 
     public HomepagePage() {
     }
@@ -85,5 +91,12 @@ public class HomepagePage {
         return this.dropdownMenuBtn;
     }
 
+    public WebElement getMyProfileLink() {
+    	return this.myProfileLink;
+    }
+    
+    public WebElement getOptionsLink() {
+    	return this.optionsLink;
+    }
 
 }
