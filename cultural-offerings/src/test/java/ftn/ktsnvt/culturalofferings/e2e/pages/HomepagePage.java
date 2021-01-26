@@ -46,6 +46,12 @@ public class HomepagePage {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[2]/map/area")));
     }
 
+    public void ensureIsDisplayedNaziv() {
+    	//wait 30s to ensure page is loaded
+        // (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("marker10")));
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"culturalOfferingTypeName\"]")));
+    }
+
 
     public WebDriver getDriver() {
         return this.driver;

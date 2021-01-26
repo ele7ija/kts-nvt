@@ -40,6 +40,7 @@
                                 <option
                                     *ngFor="let culturalOfferingType of culturalOfferingTypes"
                                     [value]="culturalOfferingType.typeName"
+                                    id="typeOption{{culturalOfferingType.id}}"
                                 >
                                     {{culturalOfferingType.typeName}}
                                 </option>
@@ -59,6 +60,7 @@
                                 <option
                                     *ngFor="let culturalOfferingSubtype of culturalOfferingSubtypes"
                                     [value]="culturalOfferingSubtype.subTypeName"
+                                    id="subtypeOption{{culturalOfferingSubtype.id}}"
                                 >
                                     {{culturalOfferingSubtype.subTypeName}}
                                 </option>
@@ -105,6 +107,7 @@
                                 <button 
                                     class="new-button green-button borderless mt-3"
                                     type="submit"
+                                    id="dodajIzmeni"
                                     (click)="upsert()"
                                 >{{!!culturalOffering ? "Sacuvaj izmene" : "Dodaj"}}</button>
                             </div>
