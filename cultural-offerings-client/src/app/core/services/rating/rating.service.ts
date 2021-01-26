@@ -10,7 +10,7 @@ export class RatingService {
 
   endpoint = `${environment.baseUrl}/rating`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAll(pageableRequest: PageableRequest): Observable<any> {
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageableRequest);

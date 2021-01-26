@@ -9,7 +9,7 @@ import { ApiService } from '../security/api-service/api.service';
 export class SubscriptionService {
   endpoint = `${environment.baseUrl}/subscriptions`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAllEntities(): Observable<Subscription>{
     return this.apiService.get(`${this.endpoint}`);

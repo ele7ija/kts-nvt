@@ -24,7 +24,7 @@ export class ApiService {
     'Content-Type': 'application/json'
   });
 
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
   getByPage(path: string, pageableRequest: PageableRequest): Observable<any> {

@@ -7,10 +7,10 @@ import { ApiService } from '../api-service/api.service';
 @Injectable()
 export class ChangeUserDataService {
 
-  private changerUrl: string = environment.baseUrl + '/users/change-user-data';
-  private getUrl: string = environment.baseUrl + '/users/get-user-data';
+  changerUrl: string = environment.baseUrl + '/users/change-user-data';
+  getUrl: string = environment.baseUrl + '/users/get-user-data';
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   // get personal data of logged-in user
   getDataRequest(): Observable<any>{

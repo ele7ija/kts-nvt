@@ -18,9 +18,9 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 
 export class AuthService {
   
-  private signInUrl: string = environment.baseUrl + '/auth/login';
+  signInUrl: string = environment.baseUrl + '/auth/login';
 
-  constructor(private apiService: ApiService, private router: Router, private location: Location) {}
+  constructor(public apiService: ApiService, public router: Router, public location: Location) {}
 
   signin(user: SignInUser) {
     const body = {

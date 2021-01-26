@@ -9,9 +9,9 @@ import { ApiService } from '../security/api-service/api.service';
 @Injectable()
 export class UserService implements AbstractCrudService<User> {
 
-  private endpoint: string = environment.baseUrl + '/users';
+  endpoint: string = environment.baseUrl + '/users';
 
-  constructor(private apiService: ApiService) {}
+  constructor(public apiService: ApiService) {}
 
   getAll(pageRequest: PageableRequest): Observable<any> {
     /*Dobavlja samo admine*/

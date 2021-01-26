@@ -11,7 +11,7 @@ export class CulturalOfferingSubtypeService implements AbstractCrudService<Cultu
 
   endpoint = `${environment.baseUrl}/cultural-offering-subtypes`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAllEntities(): Observable<CulturalOfferingSubtype[]>{
     return this.apiService.get(`${this.endpoint}`);

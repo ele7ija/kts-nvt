@@ -7,9 +7,9 @@ import { ApiService } from '../api-service/api.service';
 @Injectable()
 export class ChangePasswordService {
 
-  private changerUrl: string = environment.baseUrl + '/users/change-user-password';
+  changerUrl: string = environment.baseUrl + '/users/change-user-password';
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   sendChangePassRequest(request: ChangePassword): Observable<any>{
     return this.apiService.put(this.changerUrl, request);

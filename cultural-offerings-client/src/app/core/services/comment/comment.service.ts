@@ -10,7 +10,7 @@ export class CommentService {
 
   endpoint = `${environment.baseUrl}/comments`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAll(pageableRequest: PageableRequest): Observable<any>{
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageableRequest);

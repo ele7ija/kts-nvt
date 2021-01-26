@@ -8,9 +8,9 @@ import { CulturalOfferingType, CulturalOfferingTypeUpsert } from 'src/app/core/m
 @Injectable()
 export class CulturalOfferingTypeService {
 
-  private endpoint: string = environment.baseUrl + '/cultural-offerings-types';
+  endpoint: string = environment.baseUrl + '/cultural-offerings-types';
 
-  constructor(private apiService: ApiService) {}
+  constructor(public apiService: ApiService) {}
 
   getAllEntities(): Observable<CulturalOfferingType[]>{
     return this.apiService.get(this.endpoint);
