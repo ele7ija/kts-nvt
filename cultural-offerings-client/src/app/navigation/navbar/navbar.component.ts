@@ -24,6 +24,10 @@ export class NavbarComponent implements OnInit {
     return this.authService.getUserRole() == 'ADMIN';
   }
 
+  isSuperAdmin(): boolean{
+    return this.authService.getUserRole() == 'SUPER_ADMIN';
+  }
+
   logout(): void {
     this.userEmail = '';
     this.authService.logout();

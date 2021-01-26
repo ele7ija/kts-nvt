@@ -11,7 +11,9 @@ const routes: Routes = [
   }, // Don't use prefix becasue empty path is a prefix to any path
   {
     path: 'homepage',
-    loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+    loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
+    canActivate: [UserGuard],
+    data: { allowedRoles: ['GUEST', 'USER', 'ADMIN'] }
   },
   {
     path: 'error404',
