@@ -54,6 +54,9 @@ public class CulturalOfferingsTablePage {
 	@FindBy(xpath = "//table/tbody/tr[position() = (last()-1)]/td[3]/mat-icon[2]")
     private WebElement deleteBtn;
 
+	@FindBy(xpath = "//table/tbody/tr[5]/td[3]/a[2]/mat-icon")
+	private WebElement newsletterBtn;
+
     public CulturalOfferingsTablePage() {
     }
 
@@ -177,8 +180,6 @@ public class CulturalOfferingsTablePage {
 	public void setPreviousPageButton(WebElement PreviousPageButton) {
 		this.PreviousPageButton = PreviousPageButton;
 	}
-	
-
 
 	public WebElement getDeleteBtn() {
 		return this.deleteBtn;
@@ -187,5 +188,7 @@ public class CulturalOfferingsTablePage {
 	public void setDeleteBtn(WebElement deleteBtn) {
 		this.deleteBtn = deleteBtn;
 	}
+
+	public WebElement getNewsletterBtn() { return this.newsletterBtn; }
 
 }
