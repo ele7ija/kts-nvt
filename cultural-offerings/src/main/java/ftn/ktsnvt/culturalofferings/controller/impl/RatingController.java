@@ -4,6 +4,7 @@ import ftn.ktsnvt.culturalofferings.controller.api.RatingApi;
 
 import ftn.ktsnvt.culturalofferings.dto.CommentDTO;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import ftn.ktsnvt.culturalofferings.dto.RatingDTO;
@@ -62,6 +63,7 @@ public class RatingController implements RatingApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('REVIEW:write')")
     public ResponseEntity create(@Valid RatingDTO body, BindingResult bindingResult) throws Exception {
         DTOValidationHelper.validateDTO(bindingResult);
 
@@ -73,6 +75,7 @@ public class RatingController implements RatingApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('REVIEW:write')")
     public ResponseEntity update(RatingDTO body, BindingResult bindingResult, Long id) throws Exception {
         DTOValidationHelper.validateDTO(bindingResult);
 
@@ -82,6 +85,7 @@ public class RatingController implements RatingApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('REVIEW:write')")
     public ResponseEntity delete(Long id) throws Exception {
         ratingService.delete(id);
 

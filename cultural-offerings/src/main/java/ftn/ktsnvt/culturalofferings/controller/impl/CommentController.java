@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 
@@ -39,14 +40,14 @@ public class CommentController implements CommentApi {
     public ResponseEntity findAll() {
         List<CommentDTO> comments = commentService.findAll();
 
-        return created(comments);
+        return ok(comments);
     }
 
     @Override
     public ResponseEntity findAll(Pageable pageable) {
         Page<CommentDTO> commentPage = commentService.findAll(pageable);
 
-        return created(commentPage);
+        return ok(commentPage);
     }
 
     @Override
@@ -57,6 +58,7 @@ public class CommentController implements CommentApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('REVIEW:write')")
     public ResponseEntity create(@Valid CommentDTO body, BindingResult bindingResult) {
         DTOValidationHelper.validateDTO(bindingResult);
 
@@ -66,6 +68,7 @@ public class CommentController implements CommentApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('REVIEW:write')")
     public ResponseEntity update(@Valid CommentDTO body, BindingResult bindingResult, Long id) {
         DTOValidationHelper.validateDTO(bindingResult);
 
@@ -75,6 +78,7 @@ public class CommentController implements CommentApi {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('REVIEW:write')")
     public ResponseEntity<Void> delete(Long id) {
         commentService.delete(id);
 
