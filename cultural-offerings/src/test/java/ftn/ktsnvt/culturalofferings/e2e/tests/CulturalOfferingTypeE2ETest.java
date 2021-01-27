@@ -21,7 +21,9 @@ import org.openqa.selenium.support.PageFactory;
 
 public class CulturalOfferingTypeE2ETest {
 
-	private WebDriver driver;
+    private static String IMG_PATH = "D:\\Fakultet\\7sms-KTS\\kts-images\\ankete.PNG";
+
+    private WebDriver driver;
 
     private SigninPage signinPage;
     
@@ -105,6 +107,8 @@ public class CulturalOfferingTypeE2ETest {
         
         justWait(2);
         
+        //typePage.getChoseFileBtn().sendKeys();
+        
         typePage.getTypeMatChip().clear();
         typePage.getTypeMatChip().sendKeys("Tip 2");
         typePage.getTypeMatChip().sendKeys(Keys.ENTER);
@@ -119,26 +123,7 @@ public class CulturalOfferingTypeE2ETest {
         
         justWait(5);
         
-        // change
-        /*
-        culturalOfferingsPage.getNextPageButton().click();
-        justWait(1);
-        culturalOfferingsPage.getDeleteBtn().click();
-        justWait(6);*/
-        // delete
-        // loop to the end of table 
-        /*
-        for(int i = 0;i < 100; i++){
-            culturalOfferingsPage.getNextPageButton().click();
-            justWait(1);
-            try{
-                culturalOfferingsPage.getDeleteBtn().click();
-            }
-            catch(NoSuchElementException e){
-                continue;
-            }
-            break;
-        }*/
+        //change 
         //get to the last page
         for(int i = 0;i < 100; i++){
         	justWait(1);
@@ -149,10 +134,197 @@ public class CulturalOfferingTypeE2ETest {
         		break;
         	}
         }
-        //get last tr
-        justWait(1);
+
+        //get button from last tr
+        justWait(2);
+
+        //typePage.ensureIsDisplayedEdit();
+        typePage.getEditBtn().click();
+        
+        justWait(2);
+        
+        typePage.getRemoveSubtypeBtn().click();
+        
+        //typePage.getTypeMatChip().clear();
+        typePage.getTypeMatChip().sendKeys("Tip 4");
+        typePage.getTypeMatChip().sendKeys(Keys.ENTER);
+        
+        justWait(2);
+        
+        typePage.getAddSaveBtn().click();
+        
+        justWait(5);
+        
+        // delete   
         
         typePage.getDeleteBtn().click();
+
+        justWait(5);
+
+    }
+
+    @Test
+    public void AddNewTypeWithImageSuccess() throws InterruptedException {
+        //sign in as admin
+        driver.get("http://localhost:4200/sign-in");
+
+        justWait(2);
+
+        signinPage.ensureIsDisplayedEmail();
+
+        signinPage.getEmail().sendKeys("milan.milan@gmail.com");
+        signinPage.getPassword().sendKeys("Milan");
+        signinPage.getSigninBtn().click();
+
+        justWait(2);
+
+        assertEquals("http://localhost:4200/homepage", driver.getCurrentUrl());
+
+        //chose options from dropdown
+        homepage.getDropdownMenuBtn().click();
+
+        justWait(2);
+
+        homepage.getOptionsLink().click();
+
+        justWait(2);
+
+        assertEquals("http://localhost:4200/admin", driver.getCurrentUrl());
+
+        //navigate to types table from admin dashboard
+        culturalOfferingsPage.getTypesBtn().click();
+
+        justWait(2);
+
+        assertEquals("http://localhost:4200/admin/cultural-offering-type", driver.getCurrentUrl());
+
+        //click Dodaj novi tip button to add new type
+        typePage.getAddCancelBtn().click();
+
+        typePage.ensureIsDisplayedInput();
+
+        typePage.getTypeName().sendKeys("Novi tip kulturne ponude");
+        typePage.getTypeMatChip().sendKeys("Tip 1");
+        typePage.getTypeMatChip().sendKeys(Keys.ENTER);
+
+        justWait(2);
+
+        typePage.getRemoveSubtypeBtn().click();
+
+        justWait(2);
+
+        typePage.getChoseFileBtn().sendKeys("D:\\Fakultet\\7sms-KTS\\kts-images\\ankete.PNG");
+
+        typePage.getTypeMatChip().clear();
+        typePage.getTypeMatChip().sendKeys("Tip 2");
+        typePage.getTypeMatChip().sendKeys(Keys.ENTER);
+
+        typePage.getTypeMatChip().clear();
+        typePage.getTypeMatChip().sendKeys("Tip 3");
+        typePage.getTypeMatChip().sendKeys(Keys.ENTER);
+
+        justWait(5);
+
+        typePage.getAddSaveBtn().click();
+
+        justWait(5);
+
+        //change
+        //get to the last page
+        for(int i = 0;i < 100; i++){
+            justWait(1);
+            if(typePage.getNextPageButton().isEnabled()) {
+                typePage.getNextPageButton().click();
+            }
+            else {
+                break;
+            }
+        }
+
+        //get button from last tr
+        justWait(2);
+
+        //typePage.ensureIsDisplayedEdit();
+        typePage.getEditBtn().click();
+
+        justWait(5);
+
+        typePage.getRemoveSubtypeBtn().click();
+
+        //typePage.getTypeMatChip().clear();
+        typePage.getTypeMatChip().sendKeys("Tip 4");
+        typePage.getTypeMatChip().sendKeys(Keys.ENTER);
+
+        typePage.getDeleteFileBtn().click();
+
+        justWait(5);
+
+        typePage.getAddSaveBtn().click();
+
+        justWait(3);
+
+        // delete
+
+        typePage.getDeleteBtn().click();
+
+        justWait(5);
+
+    }
+
+    //type name exists
+    @Test
+    public void AddNewTypeFailed() throws InterruptedException {
+        //sign in as admin
+        driver.get("http://localhost:4200/sign-in");
+
+        justWait(2);
+
+        signinPage.ensureIsDisplayedEmail();
+
+        signinPage.getEmail().sendKeys("milan.milan@gmail.com");
+        signinPage.getPassword().sendKeys("Milan");
+        signinPage.getSigninBtn().click();
+
+        justWait(2);
+
+        assertEquals("http://localhost:4200/homepage", driver.getCurrentUrl());
+
+        //chose options from dropdown
+        homepage.getDropdownMenuBtn().click();
+
+        justWait(2);
+
+        homepage.getOptionsLink().click();
+
+        justWait(2);
+
+        assertEquals("http://localhost:4200/admin", driver.getCurrentUrl());
+
+        //navigate to types table from admin dashboard
+        culturalOfferingsPage.getTypesBtn().click();
+
+        justWait(2);
+
+        assertEquals("http://localhost:4200/admin/cultural-offering-type", driver.getCurrentUrl());
+
+        //click Dodaj novi tip button to add new type
+        typePage.getAddCancelBtn().click();
+
+        typePage.ensureIsDisplayedInput();
+
+        typePage.getTypeName().sendKeys("Manifestacija");
+
+        justWait(2);
+
+        //typePage.getChoseFileBtn().sendKeys();
+
+        typePage.getTypeMatChip().clear();
+        typePage.getTypeMatChip().sendKeys("Tip 2");
+        typePage.getTypeMatChip().sendKeys(Keys.ENTER);
+
+        justWait(2);
+
+        typePage.getAddSaveBtn().click();
 
         justWait(5);
 

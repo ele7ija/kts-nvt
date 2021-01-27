@@ -16,12 +16,12 @@
                     <div class="row pt-3">
                         <div *ngIf="!retrievedImage" class="col px-0 button-wrap" style="text-align: center;">
                             <label class ="new-button blue-button" for=file [style.width.px]="fileButtonWidth"> Izaberi </label>
-                            <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
+                            <input type="file" name="file" class="choseFile" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
                         </div>
                         <div *ngIf="retrievedImage" class="col px-0 button-wrap" style="text-align: start;">
                             <label class ="new-button ml-3 blue-button" for=file [style.width.px]="fileButtonWidth/2" style="text-align: center;"> Promeni </label>
                             <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
-                            <button class="new-button red-button borderless" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
+                            <button class="new-button red-button borderless deleteFileBtn" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
                         </div>
                     </div>
                 

@@ -31,12 +31,18 @@ public class CulturalOfferingTypePage {
 
     @FindBy(xpath = "//*[@aria-label=\"Previous page\"]")
     private WebElement PreviousPageButton;
-    
-    @FindBy(css = ".deleteBtn:last-of-type")
+
+	@FindBy(xpath = "//table/tbody/tr[position() = (last()-1)]/td[3]/mat-icon[2]")
     private WebElement deleteBtn;
     
-    @FindBy(css = "editBtn:last-of-type")
+    @FindBy(xpath = "//table/tbody/tr[position() = (last()-1)]/td[3]/mat-icon[1]")
     private WebElement editBtn;
+    
+    @FindBy(css = ".choseFile")
+    private WebElement choseFileBtn;
+
+	@FindBy(css = ".deleteFileBtn")
+	private WebElement deleteFileBtn;
 
     public CulturalOfferingTypePage() {
     }
@@ -48,6 +54,10 @@ public class CulturalOfferingTypePage {
     public void ensureIsDisplayedInput() {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("typeName")));
     }
+    /*
+    public void ensureIsDisplayedEdit() {
+    	(new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".editBtn:last-of-type")));
+    }*/
 
 	public WebElement getAddCancelBtn() {
 		return addCancelBtn;
@@ -80,9 +90,17 @@ public class CulturalOfferingTypePage {
 	public WebElement getDeleteBtn() {
 		return deleteBtn;
 	}
+	
+	public WebElement getChoseFileBtn() {
+		return choseFileBtn;
+	}
 
 	public WebElement getEditBtn() {
 		return editBtn;
+	}
+
+	public WebElement getDeleteFileBtn() {
+		return deleteFileBtn;
 	}
 
 }
