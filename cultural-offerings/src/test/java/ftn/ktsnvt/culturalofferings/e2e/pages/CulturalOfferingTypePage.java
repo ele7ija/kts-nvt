@@ -54,10 +54,6 @@ public class CulturalOfferingTypePage {
     public void ensureIsDisplayedInput() {
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("typeName")));
     }
-    /*
-    public void ensureIsDisplayedEdit() {
-    	(new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.cssSelector(".editBtn:last-of-type")));
-    }*/
 
 	public WebElement getAddCancelBtn() {
 		return addCancelBtn;
