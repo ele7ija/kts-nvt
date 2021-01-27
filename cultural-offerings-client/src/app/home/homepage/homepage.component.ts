@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MapInfoWindow, MapMarker, GoogleMap, MapAnchorPoint } from '@angular/google-maps'
+import { MapInfoWindow, MapMarker, GoogleMap, MapAnchorPoint } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { MdbCheckboxChange } from 'angular-bootstrap-md';
 import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
@@ -26,6 +26,22 @@ export class HomepageComponent implements OnInit {
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
   @ViewChild('searchFilter') searchFilter;
 
+  // Mapa
+  center: google.maps.LatLngLiteral = {lat: 44, lng: 20.7};
+  markerPositions: google.maps.LatLngLiteral[] = [];
+  zoom = 7;
+  options: google.maps.MapOptions = {
+    mapTypeControl: false,
+  };
+  infoWindowOptions: google.maps.InfoWindowOptions;
+
+  // Podaci
+  culturalOfferings: CulturalOffering[] = [];
+  culturalOfferingTypes: CulturalOfferingType[] = [];
+  culturalOfferingSubtypes: Map<number, CulturalOfferingSubtype[]> = new Map<number, CulturalOfferingSubtype[]>();
+
+  searchFilterForm: FormGroup;
+
   constructor(
     public culturalOfferingService: CulturalOfferingService,
     public culturalOfferingTypeService: CulturalOfferingTypeService,
@@ -36,9 +52,9 @@ export class HomepageComponent implements OnInit {
     public authService: AuthService
   ) {
     this.searchFilterForm = formBuilder.group({
-      "termField": [""],
-      "subscriptionsField": [""]
-    })
+      termField: [''],
+      subscriptionsField: ['']
+    });
   }
 
   ngOnInit(): void {
@@ -46,56 +62,38 @@ export class HomepageComponent implements OnInit {
     this.fetchAllCulturalOfferingTypes();
   }
 
-  addSearchFilter() {
-    var div = this.elRef.nativeElement.querySelector('#searchFilter');
-    if (this.map.controls[google.maps.ControlPosition.LEFT_TOP].getLength() == 0) {
-      this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(div)
+  addSearchFilter(): void {
+    const div = this.elRef.nativeElement.querySelector('#searchFilter');
+    if (this.map.controls[google.maps.ControlPosition.LEFT_TOP].getLength() === 0) {
+      this.map.controls[google.maps.ControlPosition.LEFT_TOP].push(div);
     }
   }
 
-  // Mapa
-  center: google.maps.LatLngLiteral = {lat: 44, lng: 20.7};
-  markerPositions: google.maps.LatLngLiteral[] = [];
-  zoom = 7;
-  options: google.maps.MapOptions = {
-    mapTypeControl: false,
-  }
-  infoWindowOptions: google.maps.InfoWindowOptions;
-
-  // Podaci
-  culturalOfferings: CulturalOffering[] = [];
-  culturalOfferingTypes: CulturalOfferingType[] = [];
-  culturalOfferingSubtypes: Map<number, CulturalOfferingSubtype[]> = new Map<number, CulturalOfferingSubtype[]>();
-
-  searchFilterForm: FormGroup;
-
-
-  addMarker(event: google.maps.MapMouseEvent) {
+  addMarker(event: google.maps.MapMouseEvent): void {
     this.markerPositions.push(event.latLng.toJSON());
   }
 
-  openInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
+  openInfoWindow(marker: MapMarker): void {
     this.infoWindow.open(marker);
   }
 
-  async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
+  async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering): Promise<void> {
     this.infoWindow.options = {content: this.formatInfoWindowContent(culturalOffering)};
     this.infoWindow.open(marker);
   }
 
-  closePeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
+  closePeekInfoWindow(): void {
     this.infoWindow.close();
   }
   formatInfoWindowContent(culturalOffering: CulturalOffering): string {
     let retval = '';
-    retval += `<h4 style="opacity: 0.7">${culturalOffering.culturalOfferingTypeName} <b>/</b> ${culturalOffering.culturalOfferingSubtypeName}</h4>`
-    retval += `<h2>${culturalOffering.name}</h2>`
-    retval += `<h4>${culturalOffering.description}</h4>`
-    // TODO SLIKE - ne moze
+    retval += `<h4 style="opacity: 0.7">${culturalOffering.culturalOfferingTypeName} <b>/</b> ${culturalOffering.culturalOfferingSubtypeName}</h4>`;
+    retval += `<h2>${culturalOffering.name}</h2>`;
+    retval += `<h4>${culturalOffering.description}</h4>`;
     return retval;
   }
 
-  async fetchAllCulturalOffering() {
+  async fetchAllCulturalOffering(): Promise<void> {
     this.culturalOfferingService.getAll({
       page: 0,
       size: 1000,
@@ -104,10 +102,10 @@ export class HomepageComponent implements OnInit {
     })
     .subscribe((page) => {
       this.culturalOfferings = [...page.content];
-    })
+    });
   }
 
-  async fetchAllCulturalOfferingTypes() {
+  async fetchAllCulturalOfferingTypes(): Promise<void> {
     this.culturalOfferingTypeService.getAll({
       page: 0,
       size: 100,
@@ -117,42 +115,42 @@ export class HomepageComponent implements OnInit {
     .subscribe((page) => {
       this.fetchAllCulturalOfferingSubtypes(page.content);
       this.culturalOfferingTypes = [...page.content];
-      for (let culturalOfferingType of this.culturalOfferingTypes) {
-        let formControlName = `type${culturalOfferingType.id}`
+      for (const culturalOfferingType of this.culturalOfferingTypes) {
+        const formControlName = `type${culturalOfferingType.id}`;
         this.searchFilterForm.addControl(formControlName, new FormControl());
-        let temp = {};
+        const temp = {};
         temp[formControlName] = true;
-        this.searchFilterForm.patchValue(temp)
+        this.searchFilterForm.patchValue(temp);
       }
-    })
+    });
   }
 
-  fetchAllCulturalOfferingSubtypes(types: CulturalOfferingType[]) {
-    for (let culturalOfferingType of types) {
+  fetchAllCulturalOfferingSubtypes(types: CulturalOfferingType[]): void {
+    for (const culturalOfferingType of types) {
       this.culturalOfferingSubtypeService.getAllByTypeId(culturalOfferingType.id)
       .subscribe((culturalOfferingSubtypes: CulturalOfferingSubtype[]) => {
-        this.culturalOfferingSubtypes.set(culturalOfferingType.id, culturalOfferingSubtypes)
-        for (let culturalOfferingSubtype of this.culturalOfferingSubtypes.get(culturalOfferingType.id)) {
-          let formControlName = `subtype${culturalOfferingSubtype.id}`;
+        this.culturalOfferingSubtypes.set(culturalOfferingType.id, culturalOfferingSubtypes);
+        for (const culturalOfferingSubtype of this.culturalOfferingSubtypes.get(culturalOfferingType.id)) {
+          const formControlName = `subtype${culturalOfferingSubtype.id}`;
           this.searchFilterForm.addControl(formControlName, new FormControl());
-          let temp = {};
+          const temp = {};
           temp[formControlName] = true;
-          this.searchFilterForm.patchValue(temp)
+          this.searchFilterForm.patchValue(temp);
         }
-      })
+      });
     }
   }
 
-  formatPosition(culturalOffering: CulturalOffering) {
+  formatPosition(culturalOffering: CulturalOffering): google.maps.LatLng {
     return new google.maps.LatLng(
       culturalOffering.latitude,
       culturalOffering.longitude
-    )
+    );
   }
 
-  typeChecked(event: MdbCheckboxChange, culturalOfferingType: CulturalOfferingType) {
-    let newValue = {};
-    for (let culturalOfferingSubtype of this.culturalOfferingSubtypes.get(culturalOfferingType.id)) {
+  typeChecked(event: MdbCheckboxChange, culturalOfferingType: CulturalOfferingType): void {
+    const newValue = {};
+    for (const culturalOfferingSubtype of this.culturalOfferingSubtypes.get(culturalOfferingType.id)) {
       if (event.checked) {
         newValue[`subtype${culturalOfferingSubtype.id}`] = true;
       }
@@ -163,12 +161,12 @@ export class HomepageComponent implements OnInit {
     this.searchFilterForm.patchValue(newValue);
   }
 
-  subtypeChecked(event: MdbCheckboxChange, culturalOfferingSubtype: CulturalOfferingSubtype) {
-    let newValue = {};
-    let typeId = culturalOfferingSubtype.typeId;
+  subtypeChecked(event: MdbCheckboxChange, culturalOfferingSubtype: CulturalOfferingSubtype): void {
+    const newValue = {};
+    const typeId = culturalOfferingSubtype.typeId;
     if (event.checked) {
-      for (let culturalOfferingSubtype of this.culturalOfferingSubtypes.get(typeId)) {
-        if (this.searchFilterForm.value[`subtype${culturalOfferingSubtype.id}`] == false) {
+      for (const cos of this.culturalOfferingSubtypes.get(typeId)) {
+        if (this.searchFilterForm.value[`subtype${cos.id}`] === false) {
           return;
         }
       }
@@ -180,27 +178,29 @@ export class HomepageComponent implements OnInit {
     this.searchFilterForm.patchValue(newValue);
   }
 
-  searchFilterApply() {
-    let searchFilter: SearchFilter = {
-      term: this.searchFilterForm.value["termField"],
+  searchFilterApply(): void {
+    let termField = 'termField';
+    let subscriptionsField = 'subscriptionsField';
+    const searchFilter: SearchFilter = {
+      term: this.searchFilterForm.value[termField],
       culturalOfferingSubtypeIds: [],
       culturalOfferingTypeIds: [],
-      subscriptions: this.searchFilterForm.value["subscriptionsField"]
+      subscriptions: this.searchFilterForm.value[subscriptionsField]
     };
     searchFilter.culturalOfferingTypeIds = [];
     searchFilter.culturalOfferingSubtypeIds = [];
-    for (let val in this.searchFilterForm.value) {
+    for (const val in this.searchFilterForm.value) {
       if (val.startsWith('type')) {
-        if (this.searchFilterForm.value[val] == true) {
-          let typeId = parseInt(val.substring(4));
+        if (this.searchFilterForm.value[val] === true) {
+          const typeId = parseInt(val.substring(4));
           searchFilter.culturalOfferingTypeIds.push(typeId);
         }
       }
       else if (val.startsWith('subtype')) {
-        if (this.searchFilterForm.value[val] == true) {
-          let subtypeId = parseInt(val.substring(7));
-          searchFilter.culturalOfferingSubtypeIds.push(subtypeId)
-          let type = this.culturalOfferingTypes.filter(t => t.subTypeIds.includes(subtypeId))
+        if (this.searchFilterForm.value[val] === true) {
+          const subtypeId = parseInt(val.substring(7));
+          searchFilter.culturalOfferingSubtypeIds.push(subtypeId);
+          const type = this.culturalOfferingTypes.filter(t => t.subTypeIds.includes(subtypeId));
           searchFilter.culturalOfferingTypeIds.push(type[0].id);
         }
       }
@@ -215,7 +215,7 @@ export class HomepageComponent implements OnInit {
       })
       .subscribe((page) => {
         this.culturalOfferings = [...page.content];
-      })
+      });
     }
     else {
       this.culturalOfferingService.searchFilterGuest(
@@ -227,16 +227,17 @@ export class HomepageComponent implements OnInit {
       })
       .subscribe((page) => {
         this.culturalOfferings = [...page.content];
-      })
+      });
     }
-    
   }
 
   openCulturalOffering(culturalOffering: CulturalOffering): void {
-    if(this.authService.getUserRole() == 'ADMIN')
+    if (this.authService.getUserRole() === 'ADMIN') {
       this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
-    else
+    }
+    else {
       this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
+    }
   }
 
   loggedIn(): boolean {
