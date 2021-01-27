@@ -10,7 +10,6 @@ import ftn.ktsnvt.culturalofferings.e2e.pages.HomepagePage;
 import ftn.ktsnvt.culturalofferings.e2e.pages.MyProfilePage;
 import ftn.ktsnvt.culturalofferings.e2e.pages.SigninPage;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -64,7 +63,7 @@ public class MyProfileE2ETest {
         
         justWait();
         
-        driver.findElement(By.linkText("Moj profil")).click();
+        homepage.getMyProfileLink().click();
         
         justWait();
         
@@ -112,7 +111,7 @@ public class MyProfileE2ETest {
         
         justWait();
         
-        driver.findElement(By.linkText("Moj profil")).click();
+        homepage.getMyProfileLink().click();
         
         justWait();
         
@@ -162,7 +161,7 @@ public class MyProfileE2ETest {
         
         justWait();
         
-        driver.findElement(By.linkText("Moj profil")).click();
+        homepage.getMyProfileLink().click();
         
         justWait();
         

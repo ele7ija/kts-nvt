@@ -25,6 +25,12 @@ public class HomepagePage {
     
     @FindBy(xpath = "//*[@id=\"dropdownMenuBtn\"]")
     private WebElement dropdownMenuBtn;
+    
+    @FindBy(linkText = "Moj profil")
+    WebElement myProfileLink;
+    
+    @FindBy(linkText = "Opcije")
+    WebElement optionsLink;
 
     public HomepagePage() {
     }
@@ -38,6 +44,12 @@ public class HomepagePage {
     	//wait 30s to ensure page is loaded
         // (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("marker10")));
         (new WebDriverWait(driver, 30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[2]/map/area")));
+    }
+
+    public void ensureIsDisplayedNaziv() {
+    	//wait 30s to ensure page is loaded
+        // (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(By.id("marker10")));
+        (new WebDriverWait(driver, 30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"culturalOfferingTypeName\"]")));
     }
 
 
@@ -87,6 +99,14 @@ public class HomepagePage {
 
     public void setDropdownMenuBtn(WebElement dropdownMenuBtn) {
         this.dropdownMenuBtn = dropdownMenuBtn;
+    }
+
+    public WebElement getMyProfileLink() {
+    	return this.myProfileLink;
+    }
+    
+    public WebElement getOptionsLink() {
+    	return this.optionsLink;
     }
 
 }

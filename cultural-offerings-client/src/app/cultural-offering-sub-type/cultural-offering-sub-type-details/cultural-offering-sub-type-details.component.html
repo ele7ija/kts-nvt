@@ -29,6 +29,7 @@
                             <option
                                 *ngFor="let culturalOfferingType of culturalOfferingTypes"
                                 [value]="culturalOfferingType.id"
+                                id="typeOption{{culturalOfferingType.id}}"
                             >
                                 {{culturalOfferingType.typeName}}
                             </option>
@@ -46,6 +47,7 @@
                 <div class="col-2 mx-0 px-2">
                     <div class="d-flex justify-content-center mt-3">
                         <button 
+                            id="addSaveBtn"
                             class="new-button green-button borderless"
                             type="submit"
                             [disabled]="culturalOfferingSubTypeForm.invalid"
