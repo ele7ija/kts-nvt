@@ -40,9 +40,6 @@ import ftn.ktsnvt.culturalofferings.service.ImageService;
 import ftn.ktsnvt.culturalofferings.service.LocationService;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource("classpath:test.properties")
 public class CulturalOfferingMapperTest {
 	
     @InjectMocks

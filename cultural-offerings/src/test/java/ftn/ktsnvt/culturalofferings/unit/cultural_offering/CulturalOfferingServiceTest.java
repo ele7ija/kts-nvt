@@ -7,6 +7,9 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,7 +19,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import ftn.ktsnvt.culturalofferings.dto.SearchFilterDTO;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingSubType;
+import ftn.ktsnvt.culturalofferings.model.CulturalOfferingType;
 import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingRepository;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
 import ftn.ktsnvt.culturalofferings.service.UserService;
@@ -27,24 +33,23 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CulturalOfferingServiceTest {
-    @Autowired
+    @InjectMocks
     private CulturalOfferingService service;
 
-    @MockBean
+    @Mock
     private CulturalOfferingRepository repository;
 
-    @Autowired
+    @Mock
     private UserService userService;
 
-    @Autowired
+    @Mock
     private CulturalOfferingService culturalOfferingService;
 
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
+
         List<CulturalOffering> co = new ArrayList<>();
         co.add(new CulturalOffering());
         co.add(new CulturalOffering());
@@ -125,5 +130,87 @@ public class CulturalOfferingServiceTest {
         // verify(culturalContentCategoryRepository, times(1)).findByNameAndIdNot(NEW_CATEGORY,CATEGORY_ID);
 
         // assertEquals(NEW_CATEGORY, created.getName());
+    }
+
+    @Test
+    public void testSearchFilter() {
+        List<Long> types = new ArrayList<>();
+        types.add(1L);
+        List<Long> subtypes = new ArrayList<>();
+        subtypes.add(1L);
+        SearchFilterDTO dto = new SearchFilterDTO(
+            "1936",
+            types,
+            subtypes,
+            false
+        );
+
+        CulturalOfferingType cot = new CulturalOfferingType();
+        cot.setId(1L);
+        CulturalOfferingSubType cos = new CulturalOfferingSubType();
+        cos.setId(1L);
+        CulturalOffering co = new CulturalOffering();
+        co.setId(1L);
+        co.setCulturalOfferingType(cot);
+        co.setCulturalOfferingSubType(cos);
+        co.setName("Osnovano 1936.");
+        co.setDescription("");
+        CulturalOffering co2 = new CulturalOffering();
+        co2.setId(2L);
+        co2.setCulturalOfferingType(cot);
+        co2.setCulturalOfferingSubType(cos);
+        co2.setName("Osnovano 1937.");
+        co2.setDescription("");
+
+        List<CulturalOffering> allco = new ArrayList<>();
+        allco.add(co);
+        allco.add(co2);
+
+        given(repository.findAll()).willReturn(allco);
+
+        Page<CulturalOffering> page = service.searchFilter(PageRequest.of(0, 10), dto);
+        assertEquals(1, page.getNumberOfElements());
+        assertEquals(Long.valueOf(1L), page.getContent().get(0).getId());
+    }
+
+    @Test
+    public void testSearchFilterGuest() {
+        List<Long> types = new ArrayList<>();
+        types.add(1L);
+        List<Long> subtypes = new ArrayList<>();
+        subtypes.add(1L);
+        SearchFilterDTO dto = new SearchFilterDTO(
+            "1936",
+            types,
+            subtypes,
+            false
+        );
+
+        CulturalOfferingType cot = new CulturalOfferingType();
+        cot.setId(1L);
+        CulturalOfferingSubType cos = new CulturalOfferingSubType();
+        cos.setId(1L);
+        CulturalOffering co = new CulturalOffering();
+        co.setId(1L);
+        co.setCulturalOfferingType(cot);
+        co.setCulturalOfferingSubType(cos);
+        co.setName("Osnovano 1936.");
+        co.setDescription("");
+        CulturalOffering co2 = new CulturalOffering();
+        co2.setId(2L);
+        co2.setCulturalOfferingType(cot);
+        co2.setCulturalOfferingSubType(cos);
+        co2.setName("Osnovano 1937.");
+        co2.setDescription("");
+
+        List<CulturalOffering> allco = new ArrayList<>();
+        allco.add(co);
+        allco.add(co2);
+
+        given(repository.findAll()).willReturn(allco);
+
+        Page<CulturalOffering> page = service.searchFilterGuest(PageRequest.of(0, 10), dto);
+        assertEquals(1, page.getNumberOfElements());
+        assertEquals(Long.valueOf(1L), page.getContent().get(0).getId());
     }
 }

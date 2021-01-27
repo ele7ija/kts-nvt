@@ -39,6 +39,7 @@ export class NewsService implements AbstractCrudService<News>{
   }
 
   notify(id: number): Observable<Boolean> {
+    console.log(id)
     return this.apiService.post(`${this.endpoint}/notify/${id}`);
   }
 

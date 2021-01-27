@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -15,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 
 import static org.hamcrest.CoreMatchers.*;
 import static ftn.ktsnvt.culturalofferings.integration.user.UserConstants.*;
@@ -42,6 +44,8 @@ public class AuthControllerTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void failLoginTest() throws Exception {
         EmailAndPasswordAuthenticationRequest emailAndPasswordAuthenticationRequest = new EmailAndPasswordAuthenticationRequest();
         emailAndPasswordAuthenticationRequest.setEmail(NON_EXISTENT_ENTITY_EMAIL);
@@ -55,6 +59,8 @@ public class AuthControllerTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void successLoginTest() throws Exception {
         EmailAndPasswordAuthenticationRequest emailAndPasswordAuthenticationRequest = new EmailAndPasswordAuthenticationRequest();
         emailAndPasswordAuthenticationRequest.setEmail(EXISTING_ENTITY_EMAIL);
@@ -69,6 +75,8 @@ public class AuthControllerTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void failRegisterTest() throws Exception {
         RegisterDTO registerDTO = new RegisterDTO();
         registerDTO.setEmail(EXISTING_ENTITY_EMAIL);
@@ -84,6 +92,8 @@ public class AuthControllerTest {
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void successRegisterTest() throws Exception {
         RegisterDTO registerDTO = new RegisterDTO();
         registerDTO.setEmail(NEW_ENTITY_EMAIL);

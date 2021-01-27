@@ -133,8 +133,8 @@ export class NewsDetailsComponent implements OnInit {
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const updatedNews = await this.getUpdateNewsPromise(imageModelIds);
       this.upsertLocal.emit(updatedNews);
-      this.newsService.notify(updatedNews.id);
       this.showSnackbar('USPESNA IZMENA', `Email je uspesno izmenjen i poslat svim pretplacenim korisnicima.`, true);
+      await this.newsService.notify(updatedNews.id).toPromise();
     }catch({error}){
       //show toast
       this.upsertLocal.emit(this.news);
@@ -150,8 +150,8 @@ export class NewsDetailsComponent implements OnInit {
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const insertedNews = await this.getInsertNewsPromise(imageModelIds);
       this.upsertLocal.emit(insertedNews);
-      this.newsService.notify(insertedNews.id);
       this.showSnackbar('USPESNO KREIRANJE', `Email je uspesno kreiran i poslat svim pretplacenim korisnicima.`, true);
+      await this.newsService.notify(insertedNews.id).toPromise();
     }catch({error}){
       //show toast
       this.upsertLocal.emit(this.news);
