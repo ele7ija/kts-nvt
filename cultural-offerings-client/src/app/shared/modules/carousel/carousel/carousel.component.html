@@ -45,7 +45,7 @@
         <div *ngIf="images.length!=0" class="col px-0 button-wrap">
             <label class ="new-button ml-3 blue-button" for=file [style.width.px]="fileButtonWidth/2"> Izaberi </label>
             <input type="file" name="file" id="file" style="visibility: hidden;" (change)="onFileChanged($event)"/>
-            <button class="new-button red-button borderless" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
+            <button class="new-button red-button borderless" id="removeFileBtn" [style.width.px]="fileButtonWidth/2" (click)="deselectImage()"> Ukloni </button>
         </div>
     </div>
 </ng-container>

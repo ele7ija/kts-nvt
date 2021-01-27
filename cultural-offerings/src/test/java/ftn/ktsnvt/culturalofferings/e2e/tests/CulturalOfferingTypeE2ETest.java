@@ -213,7 +213,7 @@ public class CulturalOfferingTypeE2ETest {
 
         justWait(2);
 
-        typePage.getChoseFileBtn().sendKeys("D:\\Fakultet\\7sms-KTS\\kts-images\\ankete.PNG");
+        typePage.getChoseFileBtn().sendKeys(IMG_PATH);
 
         typePage.getTypeMatChip().clear();
         typePage.getTypeMatChip().sendKeys("Tip 2");
