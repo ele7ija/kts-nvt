@@ -55,9 +55,10 @@ public class EmailServiceImpl {
 				helper.addAttachment(img.getName(),
 						new ByteArrayResource(imageService.decompressBytes(img.getPicByte())));
 			}
-
+			System.out.println("Usao");
 			javaMailSender.send(message);
 		} catch (MessagingException e) {
+			System.out.println("Nije");
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
