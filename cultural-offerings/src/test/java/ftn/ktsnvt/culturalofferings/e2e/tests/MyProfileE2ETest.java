@@ -50,8 +50,8 @@ public class MyProfileE2ETest {
 
         signinPage.ensureIsDisplayedEmail();
 
-        signinPage.getEmail().sendKeys("ana.ana@gmail.com");
-        signinPage.getPassword().sendKeys("ana");
+        signinPage.getEmail().sendKeys("mika.mika@gmail.com");
+        signinPage.getPassword().sendKeys("Mika");
         signinPage.getSigninBtn().click();
 
         justWait();
@@ -70,7 +70,7 @@ public class MyProfileE2ETest {
         assertEquals("http://localhost:4200/my-profile", driver.getCurrentUrl());
 
         //change user data
-        assertEquals("Ana", myProfilePage.getFirstName().getAttribute("value"));
+        assertEquals("Mika", myProfilePage.getFirstName().getAttribute("value"));
         myProfilePage.getFirstName().clear();
         myProfilePage.getFirstName().sendKeys("Anka");
         //just click anywhere to enable button
@@ -82,7 +82,7 @@ public class MyProfileE2ETest {
 
         //Revert changes
         myProfilePage.getFirstName().clear();
-        myProfilePage.getFirstName().sendKeys("Ana");
+        myProfilePage.getFirstName().sendKeys("Mika");
         myProfilePage.getLastName().click();
         myProfilePage.getDataBtn().click();
         justWait();
@@ -98,8 +98,8 @@ public class MyProfileE2ETest {
 
         signinPage.ensureIsDisplayedEmail();
 
-        signinPage.getEmail().sendKeys("ana.ana@gmail.com");
-        signinPage.getPassword().sendKeys("ana");
+        signinPage.getEmail().sendKeys("mika.mika@gmail.com");
+        signinPage.getPassword().sendKeys("Mika");
         signinPage.getSigninBtn().click();
 
         justWait();
@@ -118,7 +118,7 @@ public class MyProfileE2ETest {
         assertEquals("http://localhost:4200/my-profile", driver.getCurrentUrl());
 
         //change password
-        myProfilePage.getOldPassField().sendKeys("ana");
+        myProfilePage.getOldPassField().sendKeys("Mika");
         myProfilePage.getPassField().sendKeys("123");
         myProfilePage.getConfPassField().sendKeys("123");
         myProfilePage.getPassBtn().click();
@@ -131,8 +131,8 @@ public class MyProfileE2ETest {
         myProfilePage.getPassField().clear();
         myProfilePage.getConfPassField().clear();
         myProfilePage.getOldPassField().sendKeys("123");
-        myProfilePage.getPassField().sendKeys("ana");
-        myProfilePage.getConfPassField().sendKeys("ana");
+        myProfilePage.getPassField().sendKeys("Mika");
+        myProfilePage.getConfPassField().sendKeys("Mika");
         myProfilePage.getPassBtn().click();
         justWait();
     }
@@ -148,8 +148,8 @@ public class MyProfileE2ETest {
 
         signinPage.ensureIsDisplayedEmail();
 
-        signinPage.getEmail().sendKeys("ana.ana@gmail.com");
-        signinPage.getPassword().sendKeys("ana");
+        signinPage.getEmail().sendKeys("mika.mika@gmail.com");
+        signinPage.getPassword().sendKeys("Mika");
         signinPage.getSigninBtn().click();
 
         justWait();
