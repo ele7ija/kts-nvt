@@ -120,5 +120,7 @@ public class CulturalOfferingE2ETest {
 
         culturalOfferingsPage.getDeleteBtn().click();
 
+        justWait(5);
+
     }
 }

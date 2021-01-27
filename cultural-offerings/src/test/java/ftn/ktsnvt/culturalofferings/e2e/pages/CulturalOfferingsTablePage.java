@@ -49,8 +49,9 @@ public class CulturalOfferingsTablePage {
 
     @FindBy(xpath = "//*[@aria-label=\"Previous page\"]")
 	private WebElement PreviousPageButton;
-	
-	@FindBy(css = ".deleteBtn:last-of-type")
+
+	//@FindBy(css = ".deleteBtn:last-of-type")
+	@FindBy(xpath = "//table/tbody/tr[position() = (last()-1)]/td[3]/mat-icon[2]")
     private WebElement deleteBtn;
 
     public CulturalOfferingsTablePage() {
