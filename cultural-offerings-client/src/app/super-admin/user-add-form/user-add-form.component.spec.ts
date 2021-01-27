@@ -40,7 +40,6 @@ describe('UserAddFormComponent', () => {
         MatFormFieldModule,
         MatProgressSpinnerModule,
         TableModule,
-        
         SuperAdminRoutingModule
       ],
       providers: [

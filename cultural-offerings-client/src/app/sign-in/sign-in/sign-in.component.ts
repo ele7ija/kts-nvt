@@ -45,7 +45,10 @@ export class SignInComponent implements OnInit {
 
     this.authService.signin(this.user).subscribe(
       data => {
-        this.router.navigate(['/homepage']);
+        if(this.authService.getUserRole() == 'SUPER_ADMIN')
+          this.router.navigate(['/super-admin/admins']);
+        else
+          this.router.navigate(['/homepage']);
         console.log(`Korisnik ${this.user.email} je uspesno pristupio sistemu.`);
       },
       error => {

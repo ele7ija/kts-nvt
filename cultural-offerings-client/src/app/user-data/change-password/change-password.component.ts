@@ -13,14 +13,14 @@ export class ChangePasswordComponent implements OnInit {
 
   passwordForm: FormGroup;
 
-  errorMsg : string;
-  successMsg : string;
+  errorMsg: string;
+  successMsg: string;
 
   constructor(public formBuilder: FormBuilder, public changePasswordService: ChangePasswordService) {
     this.passwordForm = this.formBuilder.group({
-      "oldPassField": ["", Validators.required],
-      "passField": ["", [Validators.required, Validators.minLength(3)]],
-      "confPassField": ["", [Validators.required]]
+      oldPassField: ['', Validators.required],
+      passField: ['', [Validators.required, Validators.minLength(3)]],
+      confPassField: ['', [Validators.required]]
     }, { validators: mustMatchValidator });
   }
 
@@ -29,24 +29,24 @@ export class ChangePasswordComponent implements OnInit {
 
   changePassword(): void{
     // if someone tries to send invalid data do not send request
-    if(this.passwordForm.invalid){
+    if (this.passwordForm.invalid) {
       return;
     }
 
     this.errorMsg = undefined;
     this.successMsg = undefined;
 
-    let request : ChangePassword = {
-      oldPassword: this.passwordForm.value['oldPassField'], 
-      newPassword: this.passwordForm.value['passField']
+    const request: ChangePassword = {
+      oldPassword: this.passwordForm.value.oldPassField,
+      newPassword: this.passwordForm.value.passField
     };
 
     this.changePasswordService.sendChangePassRequest(request).subscribe(
       data => {
-        this.successMsg = "Uspesno ste izmenili lozinku.";
+        this.successMsg = 'Uspesno ste izmenili lozinku.';
       },
       error => {
-        this.errorMsg = "Neuspesna izmena lozinke. Pogresno uneta trenutna lozinka.";
+        this.errorMsg = 'Neuspesna izmena lozinke. Pogresno uneta trenutna lozinka.';
       }
     );
 

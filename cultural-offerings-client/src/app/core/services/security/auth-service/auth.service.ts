@@ -18,9 +18,9 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 
 export class AuthService {
   
-  private signInUrl: string = environment.baseUrl + '/auth/login';
+  signInUrl: string = environment.baseUrl + '/auth/login';
 
-  constructor(private apiService: ApiService, private router: Router, private location: Location) {}
+  constructor(public apiService: ApiService, public router: Router, public location: Location) {}
 
   signin(user: SignInUser) {
     const body = {
@@ -83,8 +83,12 @@ export class AuthService {
   }
 
   navigateUnauthorized(): void {
-    //this returns user to previous route from browsers history
-    this.location.back()
+    if(this.getUserRole() == 'ADMIN' || this.getUserRole() == 'USER')
+      this.router.navigate(['homepage']);
+    else if(this.getUserRole() == 'SUPER_ADMIN')
+      this.router.navigate(['super-admin/admins']);
+    else
+      this.router.navigate(['error404']);
   }
 
 }

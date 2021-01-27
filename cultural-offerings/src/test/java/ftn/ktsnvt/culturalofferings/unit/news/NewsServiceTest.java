@@ -1,11 +1,16 @@
 package ftn.ktsnvt.culturalofferings.unit.news;
 
+import ftn.ktsnvt.culturalofferings.dto.NewsDTO;
+import ftn.ktsnvt.culturalofferings.mapper.NewsMapper;
 import ftn.ktsnvt.culturalofferings.model.CulturalOffering;
+import ftn.ktsnvt.culturalofferings.model.ImageModel;
 import ftn.ktsnvt.culturalofferings.model.News;
 import ftn.ktsnvt.culturalofferings.model.Subscription;
 import ftn.ktsnvt.culturalofferings.model.User;
+import ftn.ktsnvt.culturalofferings.repository.CulturalOfferingRepository;
 import ftn.ktsnvt.culturalofferings.repository.NewsRepository;
 import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
+import ftn.ktsnvt.culturalofferings.service.EmailServiceImpl;
 import ftn.ktsnvt.culturalofferings.service.ImageService;
 import ftn.ktsnvt.culturalofferings.service.NewsService;
 import ftn.ktsnvt.culturalofferings.service.UserService;
@@ -22,8 +27,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
+import javax.sql.rowset.serial.SerialArray;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -47,6 +56,15 @@ public class NewsServiceTest {
 
     @Autowired
     private ImageService imageService;
+
+    @MockBean
+    private EmailServiceImpl emailService;
+
+    @MockBean
+    private CulturalOfferingRepository repoCo;
+
+    @MockBean
+    private NewsMapper newsMapper;
 
     @Before
     public void setup() {
@@ -132,5 +150,64 @@ public class NewsServiceTest {
 
         verify(repo, times(3)).findById(1L);
         verify(repo, times(1)).save(n_updated);
+    }
+
+    @Test
+    public void testNotifyNews() {
+        CulturalOffering co = new CulturalOffering();
+
+        Set<Subscription> subscriptions = new HashSet<Subscription>();
+
+        Subscription s = new Subscription();
+        s.setCulturalOffering(co);
+        User u = new User();
+        u.setEmail("bpoprzen@gmail.com");
+        String[] users = {u.getEmail()};
+        u.setId(1L);
+        s.setUser(u);
+        s.setId(1L);
+        s.setUser(u);
+        subscriptions.add(s);
+        co.setSubscriptions(subscriptions);
+
+        News n = new News();
+        n.setId(1L);
+        n.setCulturalOffering(co);
+
+        given(repo.findById(1l)).willReturn(Optional.of(n));
+
+        service.notifyNews(1L);
+
+        verify(emailService, times(1)).sendNewsLetter(n, users, null);
+    }
+
+    @Test
+    public void testFindByIdOfCulturalOffering() {
+        CulturalOffering co = new CulturalOffering();
+        co.setId(1L);
+
+        News n = new News();
+        n.setId(1L);
+        n.setCulturalOffering(co);
+
+        Set<News> ns = new HashSet<News>();
+        ns.add(n);
+
+        co.setNews(ns);
+
+        given(repoCo.findById(1l)).willReturn(Optional.of(co));
+
+        List<NewsDTO> dtos = new ArrayList<NewsDTO>();
+        NewsDTO dto = new NewsDTO();
+        dto.setCulturalOffering(1L);
+        dto.setId(1L);
+        dtos.add(dto);
+        Page<NewsDTO> page = new PageImpl<NewsDTO>(dtos);
+
+        given(newsMapper.toDto(n)).willReturn(dto);
+
+        Page<NewsDTO> res = service.findAllNewsById(PageRequest.of(0, 10), 1L);
+
+        assertEquals(1, res.getTotalElements());
     }
 }

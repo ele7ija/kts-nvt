@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule, MDBBootstrapModule } from 'angular-bootstrap-md';
 

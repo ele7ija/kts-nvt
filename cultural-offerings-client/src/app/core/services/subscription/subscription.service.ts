@@ -7,9 +7,9 @@ import { ApiService } from '../security/api-service/api.service';
 
 @Injectable()
 export class SubscriptionService {
-  endpoint: string = `${environment.baseUrl}/subscriptions`
+  endpoint = `${environment.baseUrl}/subscriptions`;
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAllEntities(): Observable<Subscription>{
     return this.apiService.get(`${this.endpoint}`);
@@ -32,6 +32,6 @@ export class SubscriptionService {
   getQuery(culturalOfferingId: number, userId: number): Observable<Subscription[]> {
     return this.apiService.get(
       `${this.endpoint}/all/query?culturalOfferingId=${culturalOfferingId}&userId=${userId}`
-    )
+    );
   }
 }

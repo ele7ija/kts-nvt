@@ -26,7 +26,9 @@ describe('RegisterComponent', () => {
       }
     })
   };
-  const registerServiceStub = {};
+  const registerServiceStub = {
+    sendRegistrationRequest: null
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -63,7 +65,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should attempt registration successfully', () => {
-    registerServiceStub['sendRegistrationRequest'] = jasmine.createSpy('signin').and.returnValue(of({}));
+    registerServiceStub.sendRegistrationRequest = jasmine.createSpy('signin').and.returnValue(of({}));
     component.errorMsg = '';
     component.successMsg = '';
     component.register();
@@ -73,7 +75,7 @@ describe('RegisterComponent', () => {
   });
 
   it('should attempt registration unsuccessfully', () => {
-    registerServiceStub['sendRegistrationRequest'] = jasmine.createSpy('signin').and.returnValue(throwError({}));
+    registerServiceStub.sendRegistrationRequest = jasmine.createSpy('signin').and.returnValue(throwError({}));
     component.errorMsg = '';
     component.successMsg = '';
     component.register();

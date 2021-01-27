@@ -124,6 +124,4 @@ public class NewsController implements NewsApi {
     	Page<NewsDTO> page = newsService.findAllNewsById(pageable, id);
     	return new ResponseEntity<>(page, HttpStatus.OK);
     }
-
-
 }

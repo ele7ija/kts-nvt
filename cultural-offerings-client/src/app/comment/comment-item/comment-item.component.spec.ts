@@ -29,16 +29,16 @@ describe('CommentItemComponent', () => {
     getUserRole: jasmine.createSpy('authServiceStub').and.returnValue('ADMIN')
   };
   const imageServiceStub = {
-    getById: function() {
+    getById: () => {
       return of([]);
     },
-    upload: function() {
+    upload: () => {
       return of([]);
     }
   };
   const apiServiceStub = jasmine.createSpy('apiServiceStub');
   const httpClientStub = jasmine.createSpy('httpClientStub');
-  const matDialogStub = jasmine.createSpy("matDialogStub");
+  const matDialogStub = jasmine.createSpy('matDialogStub');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -71,7 +71,13 @@ describe('CommentItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CommentItemComponent);
     component = fixture.componentInstance;
-    component.comment = {userId: 1, culturalOfferingId: 1, date: new Date(), imageIds: [], text: ''};;
+    component.comment = {
+      userId: 1,
+      culturalOfferingId: 1,
+      date: new Date(),
+      imageIds: [],
+      text: ''
+    };
     component.comment.imageIds = [];
     fixture.detectChanges();
   });

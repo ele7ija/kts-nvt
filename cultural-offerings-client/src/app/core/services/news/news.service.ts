@@ -11,7 +11,7 @@ export class NewsService implements AbstractCrudService<News>{
 
   endpoint: string = `${environment.baseUrl}/news`
 
-  constructor(private apiService: ApiService) { }
+  constructor(public apiService: ApiService) { }
 
   getAll(pageRequest: PageableRequest): Observable<any> {
     var id = this.getSelectedOfferingId();

@@ -8,9 +8,9 @@ import { ApiService } from '../security/api-service/api.service';
 @Injectable()
 export class ImageService {
 
-  private endpoint: string = environment.baseUrl + '/images'
+  endpoint: string = environment.baseUrl + '/images';
 
-  constructor(private apiService: ApiService) {}
+  constructor(public apiService: ApiService) {}
 
   getById(imageId: number): Observable<ImageModel>{
     return this.apiService.get(`${this.endpoint}/${imageId}`);

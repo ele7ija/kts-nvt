@@ -1,4 +1,4 @@
-import { ClientImage } from "./client-image";
+import { ClientImage } from './client-image';
 
 export interface CarouselProps {
   images: ClientImage[];

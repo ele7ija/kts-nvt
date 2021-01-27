@@ -76,11 +76,6 @@ export class HomepageComponent implements OnInit {
 
   openInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
     this.infoWindow.open(marker);
-    console.log(culturalOffering);
-    if(this.authService.getUserRole() == 'ADMIN')
-      this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
-    else
-      this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
   }
 
   async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering) {
@@ -204,7 +199,9 @@ export class HomepageComponent implements OnInit {
       else if (val.startsWith('subtype')) {
         if (this.searchFilterForm.value[val] == true) {
           let subtypeId = parseInt(val.substring(7));
-        searchFilter.culturalOfferingSubtypeIds.push(subtypeId)
+          searchFilter.culturalOfferingSubtypeIds.push(subtypeId)
+          let type = this.culturalOfferingTypes.filter(t => t.subTypeIds.includes(subtypeId))
+          searchFilter.culturalOfferingTypeIds.push(type[0].id);
         }
       }
     }
@@ -236,7 +233,10 @@ export class HomepageComponent implements OnInit {
   }
 
   openCulturalOffering(culturalOffering: CulturalOffering): void {
-    this.router.navigate([`/cultural-offering/${culturalOffering.id}`])
+    if(this.authService.getUserRole() == 'ADMIN')
+      this.router.navigateByUrl(`admin/cultural-offering/${culturalOffering.id}`);
+    else
+      this.router.navigateByUrl(`cultural-offering/${culturalOffering.id}`);
   }
 
   loggedIn(): boolean {

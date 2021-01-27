@@ -42,7 +42,6 @@ describe('CarouselComponent', () => {
 
   it('should change active slide index', () => {
     component.images = carouselProps.images;
-    
     let activeSlideIndex = component.activeSlideIndex;
     component.next();
     expect(component.activeSlideIndex).toBe(activeSlideIndex + 1);
@@ -50,14 +49,13 @@ describe('CarouselComponent', () => {
     activeSlideIndex = component.activeSlideIndex;
     component.prev();
     expect(component.activeSlideIndex).toBe(activeSlideIndex - 1);
-  })
+  });
 
   it('should recalculate file button width', () => {
     spyOn(component, 'calculateFileButtonWidth');
-    
     component.images = carouselProps.images;
     component.deselectImage();
     expect(component.calculateFileButtonWidth).toHaveBeenCalled();
-  })
+  });
 
 });

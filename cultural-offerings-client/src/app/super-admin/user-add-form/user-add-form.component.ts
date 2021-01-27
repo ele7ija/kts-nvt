@@ -15,9 +15,9 @@ export class UserAddFormComponent implements OnInit {
   @Output()
   upsertLocal: EventEmitter<User> = new EventEmitter<User>();
 
-  loading: boolean = false;
+  loading = false;
   userForm: FormGroup;
-  submitAttempted: boolean = false;
+  submitAttempted = false;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -33,7 +33,7 @@ export class UserAddFormComponent implements OnInit {
     });
   }
 
-  isFormInvalid(){
+  isFormInvalid(): any{
     return Object.values(this.userForm.controls).find(control => control.errors);
   }
 
@@ -53,26 +53,28 @@ export class UserAddFormComponent implements OnInit {
     return this.userService.insert(user).toPromise();
   }
 
-  upsert(){
+  upsert(): void{
     this.submitAttempted = true;
-    if(this.isFormInvalid()) return;
+    if (this.isFormInvalid()) {
+      return;
+    }
     this.insert();
   }
 
-  async insert(){
+  async insert(): Promise<void>{
     this.loading = true;
-    try{
+    try {
       const insertedUser = await this.getInsertUserPromise();
       this.upsertLocal.emit(insertedUser);
       this.showSnackbar('USPESNO DODAVANJE', `Korisnik sa email-om ${insertedUser.email} je uspesno dodat`, true);
-    }catch({error}){
-      //show toast
+    } catch ({error}) {
+      // show toast
       this.showSnackbar('NEUSPESNO DODAVANJE', `${error.message}`, false);
     }
     this.loading = false;
   }
 
-  showSnackbar(title: string, message: string, success: boolean) {
+  showSnackbar(title: string, message: string, success: boolean): void {
     this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',
       verticalPosition: 'top',

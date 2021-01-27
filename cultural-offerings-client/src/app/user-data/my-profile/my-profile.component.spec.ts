@@ -18,7 +18,7 @@ describe('MyProfileComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         NavigationModule,
-        MDBBootstrapModule.forRoot(),    
+        MDBBootstrapModule.forRoot(),
         UserDataRoutingModule
       ],
     })

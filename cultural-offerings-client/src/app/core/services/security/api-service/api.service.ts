@@ -20,11 +20,11 @@ export enum RequestMethod {
 export class ApiService {
 
   headers = new HttpHeaders({
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json'
   });
 
-  constructor(private http: HttpClient) {
+  constructor(public http: HttpClient) {
   }
 
   getByPage(path: string, pageableRequest: PageableRequest): Observable<any> {
