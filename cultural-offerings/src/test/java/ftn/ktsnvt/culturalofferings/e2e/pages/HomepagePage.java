@@ -17,6 +17,9 @@ public class HomepagePage {
     @FindBy(xpath = "//*[@id=\"termField\"]")
     private WebElement termField;
 
+    @FindBy(id = "primeni")
+    private WebElement primeniBtn;
+
     @FindBy(xpath = "//*[@id=\"subtypeField10\"]")
     private WebElement subtypeField;
 
@@ -31,6 +34,12 @@ public class HomepagePage {
     
     @FindBy(linkText = "Opcije")
     WebElement optionsLink;
+
+    @FindBy(id = "marker10")
+    WebElement markerFiltered;
+
+    @FindBy(id = "marker11")
+    WebElement markerNotFiltered;
 
     public HomepagePage() {
     }
@@ -107,6 +116,38 @@ public class HomepagePage {
     
     public WebElement getOptionsLink() {
     	return this.optionsLink;
+    }
+
+    public void setMyProfileLink(WebElement myProfileLink) {
+        this.myProfileLink = myProfileLink;
+    }
+    public void setOptionsLink(WebElement optionsLink) {
+        this.optionsLink = optionsLink;
+    }
+
+    public WebElement getMarkerFiltered() {
+        return this.markerFiltered;
+    }
+
+    public void setMarkerFiltered(WebElement markerFiltered) {
+        this.markerFiltered = markerFiltered;
+    }
+
+    public WebElement getMarkerNotFiltered() {
+        return this.markerNotFiltered;
+    }
+
+    public void setMarkerNotFiltered(WebElement markerNotFiltered) {
+        this.markerNotFiltered = markerNotFiltered;
+    }
+
+
+    public WebElement getPrimeniBtn() {
+        return this.primeniBtn;
+    }
+
+    public void setPrimeniBtn(WebElement primeniBtn) {
+        this.primeniBtn = primeniBtn;
     }
 
 }
