@@ -13,6 +13,9 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,24 +33,24 @@ import ftn.ktsnvt.culturalofferings.service.CulturalOfferingService;
 import ftn.ktsnvt.culturalofferings.service.SubscriptionService;
 import ftn.ktsnvt.culturalofferings.service.UserService;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SubscriptionServiceTest {
     
-    @Autowired
+    @InjectMocks
     private SubscriptionService subscriptionService;
 
-    @MockBean
+    @Mock
     private SubscriptionRepository subscriptionRepository;
 
-    @Autowired
+    @Mock
     private UserService userService;
 
-    @Autowired
+    @Mock
     private CulturalOfferingService culturalOfferingService;
 
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
+
         List<Subscription> subscriptions = new ArrayList<>();
         subscriptions.add(new Subscription());
         subscriptions.add(new Subscription());

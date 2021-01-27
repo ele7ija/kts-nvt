@@ -17,6 +17,9 @@ import ftn.ktsnvt.culturalofferings.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,35 +42,32 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NewsServiceTest {
-    @Autowired
+    @InjectMocks
     private NewsService service;
 
-    @MockBean
+    @Mock
     private NewsRepository repo;
 
-    @Autowired
+    @Mock
     private UserService userService;
 
-    @Autowired
+    @Mock
     private CulturalOfferingService culturalOfferingService;
 
-    @Autowired
+    @Mock
     private ImageService imageService;
 
-    @MockBean
+    @Mock
     private EmailServiceImpl emailService;
 
-    @MockBean
-    private CulturalOfferingRepository repoCo;
-
-    @MockBean
+    @Mock
     private NewsMapper newsMapper;
 
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
+        
         News id1 = new News();
         News id1_saved = new News();
         id1_saved.setId(1L);
@@ -195,7 +195,7 @@ public class NewsServiceTest {
 
         co.setNews(ns);
 
-        given(repoCo.findById(1l)).willReturn(Optional.of(co));
+        given(culturalOfferingService.findOne(1L)).willReturn(co);
 
         List<NewsDTO> dtos = new ArrayList<NewsDTO>();
         NewsDTO dto = new NewsDTO();
