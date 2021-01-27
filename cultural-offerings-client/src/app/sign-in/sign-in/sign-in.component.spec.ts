@@ -20,7 +20,8 @@ describe('SignInComponent', () => {
     })
   };
   const authserviceStub = {
-    signin: null
+    signin: null,
+    getUserRole: jasmine.createSpy('getUserRole').and.returnValue('USER')
   };
   const routerStub = {
     navigate: jasmine.createSpy('navigate').and.callFake(() => {})
