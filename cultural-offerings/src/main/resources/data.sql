@@ -6,7 +6,7 @@ insert into user(id, email, password, first_name, last_name, role, enabled) valu
 insert into cultural_offering_type(id, type_name) values (10, "Institucija");
 insert into cultural_offering_type(id, type_name) values (11, "Kulturno dobro");
 insert into cultural_offering_type(id, type_name) values (12, "Manifestacija");
--- insert into cultural_offering_type(id, type_name) values (13, "Manifestacija za brisanje");
+insert into cultural_offering_type(id, type_name) values (13, "Dummy manifestacija");
 
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (10, "Muzej", 10);
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (14, "Galerija", 10);
@@ -17,7 +17,7 @@ insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (12, "Muzicki festival", 12);
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (18, "Filmski festival", 12);
 insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (19, "Sajam", 12);
--- insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (13, "Muzicki festival za brisanje", 12);
+insert into cultural_offering_sub_type(id, sub_type_name, cultural_offering_type_id) values (13, "Muzicki festival za brisanje", 12);
 
 insert into location(id, latitude, longitude, name) values (10, 45.1643711, 19.7208663, "Ignjata Pavlasa 10, Novi Sad");
 insert into location(id, latitude, longitude, name) values (11, 45.2466602, 19.8044225, "Trg republike BB, Novi Sad");

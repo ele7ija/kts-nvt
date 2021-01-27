@@ -36,6 +36,10 @@ public class CulturalOfferingE2ETest {
 
     private CulturalOfferingsTablePage culturalOfferingsPage;
 
+    static {
+        System.setProperty("java.awt.headless", "false");
+    }
+
     @Before
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
