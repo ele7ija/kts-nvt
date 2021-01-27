@@ -179,8 +179,8 @@ export class HomepageComponent implements OnInit {
   }
 
   searchFilterApply(): void {
-    let termField = 'termField';
-    let subscriptionsField = 'subscriptionsField';
+    const termField = 'termField';
+    const subscriptionsField = 'subscriptionsField';
     const searchFilter: SearchFilter = {
       term: this.searchFilterForm.value[termField],
       culturalOfferingSubtypeIds: [],
