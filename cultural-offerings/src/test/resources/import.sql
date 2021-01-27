@@ -31,6 +31,10 @@ insert into comment(id, date, text, cultural_offering_id, user_id) values (10, "
 insert into comment(id, date, text, cultural_offering_id, user_id) values (11, "2020-12-09 22:03:11.547", "Ovo je super spomenik.", 11, 2);
 insert into comment(id, date, text, cultural_offering_id, user_id) values (12, "2020-12-09 22:03:11.547", "Ovo je super festival.", 12, 3);
 
+insert into rating(id, date, value, cultural_offering_id, user_id) values (10, "2020-12-09 22:03:11.547", 10, 10, 1);
+insert into rating(id, date, value, cultural_offering_id, user_id) values (11, "2020-12-09 22:03:11.547", 9, 11, 2);
+insert into rating(id, date, value, cultural_offering_id, user_id) values (12, "2020-12-09 22:03:11.547", 8, 12, 3);
+
 insert into news(id, date, text, title, cultural_offering_id, user_id) values (10, "2020-12-09 22:03:11.547", "Bice otvoreno do x.x.", "Nova izlozba se otvara", 10, 2);
 insert into news(id, date, text, title, cultural_offering_id, user_id) values (11, "2020-12-09 22:03:11.547", "Neki tekst", "Spomenik je obnovljen", 11, 2);
 insert into news(id, date, text, title, cultural_offering_id, user_id) values (12, "2020-12-09 22:03:11.547", "Festival se ne odrzava ove godine", "Festival otkazan", 11, 2);
