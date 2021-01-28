@@ -11,9 +11,9 @@ import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
   templateUrl: './cultural-offering-type.component.html',
   styleUrls: ['./cultural-offering-type.component.scss'],
   providers: [
-    { 
-      provide: AbstractCrudService, 
-      useClass: CulturalOfferingTypeService 
+    {
+      provide: AbstractCrudService,
+      useClass: CulturalOfferingTypeService
     }
   ],
   animations: [
@@ -29,7 +29,7 @@ export class CulturalOfferingTypeComponent extends TableComponent<CulturalOfferi
   constructor(
     public culturalOfferingTypeService: AbstractCrudService<CulturalOfferingType>,
     public matSnackBar: MatSnackBar
-  ){ 
+  ){
     super(culturalOfferingTypeService, matSnackBar);
     this.displayedColumns = [{field: 'id', text: 'ID'}, {field: 'typeName', text: 'Naziv'}, {field: 'Actions', text: 'Akcije'}];
   }
@@ -37,7 +37,7 @@ export class CulturalOfferingTypeComponent extends TableComponent<CulturalOfferi
   ngAfterViewInit(){
     super.ngAfterViewInit();
   }
-  
+
   async delete(entity: CulturalOfferingType) {
     super.delete(entity)
       .then(() => this.showSnackbar('USPESNO BRISANJE', `Tip kategorije pod nazivom ${entity.typeName} je uspesno obrisan.`, true))

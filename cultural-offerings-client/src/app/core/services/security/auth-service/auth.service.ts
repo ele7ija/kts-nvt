@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import jwtDecode from 'jwt-decode';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs';
 
 const TOKEN_KEY = 'jwt-token';
 const TOKEN_KEY_PARSED = 'jwt-token-parsed';
@@ -17,15 +18,15 @@ const TOKEN_KEY_PARSED = 'jwt-token-parsed';
 // This service to manages token and user information inside Browser’s Session Storage.
 
 export class AuthService {
-  
+
   signInUrl: string = environment.baseUrl + '/auth/login';
 
-  constructor(public apiService: ApiService, public router: Router, public location: Location) {}
+  constructor(public apiService: ApiService, public router: Router, public location: Location) { }
 
-  signin(user: SignInUser) {
+  signin(user: SignInUser): Observable<any> {
     const body = {
-      'email': user.email,
-      'password': user.password
+      email: user.email,
+      password: user.password
     };
     return this.apiService.post(this.signInUrl, JSON.stringify(body)).pipe(
       map((res) => {
@@ -65,14 +66,14 @@ export class AuthService {
     if (this.isLoggedIn()) {
       return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.email;
     }
-    return "";
+    return '';
   }
 
   getUserRole(): string {
     if (this.isLoggedIn()) {
       return JSON.parse(sessionStorage.getItem(TOKEN_KEY_PARSED)).user.userRole;
     }
-    return "";
+    return '';
   }
 
   getUserId(): number {
@@ -83,12 +84,15 @@ export class AuthService {
   }
 
   navigateUnauthorized(): void {
-    if(this.getUserRole() == 'ADMIN' || this.getUserRole() == 'USER')
+    if (this.getUserRole() == 'ADMIN' || this.getUserRole() == 'USER') {
       this.router.navigate(['homepage']);
-    else if(this.getUserRole() == 'SUPER_ADMIN')
+    }
+    else if (this.getUserRole() == 'SUPER_ADMIN') {
       this.router.navigate(['super-admin/admins']);
-    else
+    }
+    else {
       this.router.navigate(['error404']);
+    }
   }
 
 }

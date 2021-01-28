@@ -15,20 +15,19 @@ export class RegisterComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  submitted: boolean = false;
+  submitted = false;
   errorMsg: string;
   successMsg: string;
 
   constructor(
     public formBuilder: FormBuilder,
-    public registerService: RegisterService) 
-  {
+    public registerService: RegisterService) {
     this.registerForm = this.formBuilder.group({
-      "nameField": ["", Validators.required],
-      "surnameField": ["", Validators.required],
-      "emailField": ["", [Validators.required, Validators.email]],
-      "passField": ["", [Validators.required, Validators.minLength(3)]],
-      "confPassField": ["", [Validators.required]]
+      nameField: ['', Validators.required],
+      surnameField: ['', Validators.required],
+      emailField: ['', [Validators.required, Validators.email]],
+      passField: ['', [Validators.required, Validators.minLength(3)]],
+      confPassField: ['', [Validators.required]]
     }, { validators: mustMatchValidator });
   }
 
@@ -47,12 +46,12 @@ export class RegisterComponent implements OnInit {
     this.errorMsg = undefined;
     this.successMsg = undefined;
 
-    let email: string = this.registerForm.value['emailField'];
-    let newUser: RegisterUser = {
-      firstName: this.registerForm.value['nameField'],
-      lastName: this.registerForm.value['surnameField'],
+    const email: string = this.registerForm.value.emailField;
+    const newUser: RegisterUser = {
+      firstName: this.registerForm.value.nameField,
+      lastName: this.registerForm.value.surnameField,
       email,
-      password: this.registerForm.value['passField']
+      password: this.registerForm.value.passField
     };
 
     this.registerService.sendRegistrationRequest(newUser).subscribe(
@@ -61,7 +60,7 @@ export class RegisterComponent implements OnInit {
       },
       error => {
         this.submitted = false;
-        this.errorMsg = "Unesena email adresa je zauzeta, molimo Vas unesite neku drugu.";
+        this.errorMsg = 'Unesena email adresa je zauzeta, molimo Vas unesite neku drugu.';
       }
     );
   }

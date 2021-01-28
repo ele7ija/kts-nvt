@@ -20,11 +20,11 @@ export class RatingListComponent implements OnChanges {
 
   ratings: Rating[] = [];
   userRating: Rating;
-  userRatingBeingUploaded: boolean = false;
+  userRatingBeingUploaded = false;
   totalLength: number;
-  loading: boolean = false;
-  pageSizeOptions: number[] = [5,10,20];
-  pageIndex: number = 0;
+  loading = false;
+  pageSizeOptions: number[] = [5, 10, 20];
+  pageIndex = 0;
 
   @ViewChild(PaginatorComponent) paginator: PaginatorComponent;
 
@@ -34,38 +34,38 @@ export class RatingListComponent implements OnChanges {
     public matSnackBar: MatSnackBar
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes.culturalOfferingId.currentValue){
-      this.fetchRatings({page: 0, size: this.pageSizeOptions[0]});  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.culturalOfferingId.currentValue) {
+      this.fetchRatings({ page: 0, size: this.pageSizeOptions[0] });
     }
   }
 
-  async fetchRatings(pageableRequest: PageableRequest){
+  async fetchRatings(pageableRequest: PageableRequest): Promise<void> {
     this.loading = true;
     this.pageIndex = pageableRequest.page;
     pageableRequest.sort = 'date';
     pageableRequest.sortOrder = 'desc';
-    if(this.culturalOfferingId){
-      try{
+    if (this.culturalOfferingId) {
+      try {
         const pageableResponse = await this.ratingService.getAllByCulturalOfferingId(pageableRequest, this.culturalOfferingId).toPromise();
         const tempRatings: Rating[] = pageableResponse.content;
         this.ratings = tempRatings.filter(rating => rating.userId != this.authService.getUserId());
-        this.userRating = tempRatings.find(rating => rating.userId == this.authService.getUserId())
+        this.userRating = tempRatings.find(rating => rating.userId == this.authService.getUserId());
         this.totalLength = pageableResponse.totalElements;
-        if(this.userRating){
+        if (this.userRating) {
           this.totalLength -= 1;
         }
-      }catch{
-  
+      } catch {
+
       }
     }
     this.loading = false;
   }
 
-  async ratingAddedEvent(ratingInput: RatingInput){
-    try{
+  async ratingAddedEvent(ratingInput: RatingInput): Promise<void> {
+    try {
       this.userRatingBeingUploaded = true;
-      this.userRating = await this.ratingService.insert({value: ratingInput.value, date: ratingInput.date, culturalOfferingId: this.culturalOfferingId, userId: this.authService.getUserId()}).toPromise();
+      this.userRating = await this.ratingService.insert({ value: ratingInput.value, date: ratingInput.date, culturalOfferingId: this.culturalOfferingId, userId: this.authService.getUserId() }).toPromise();
       setTimeout(
         () => {
           this.userRatingBeingUploaded = false;
@@ -73,23 +73,23 @@ export class RatingListComponent implements OnChanges {
         },
         1000
       );
-      
-    }catch(error){
+
+    } catch (error) {
       this.showSnackbar('GRESKA', `${error.message}`, false);
       this.userRatingBeingUploaded = false;
     }
   }
 
-  async removeRatingEvent(rating: Rating){
+  async removeRatingEvent(rating: Rating): Promise<void> {
     await this.ratingService.delete(rating.id).toPromise();
-    if(this.totalLength % this.paginator.pageSize == 1 && Math.floor(this.totalLength / this.paginator.pageSize) == this.pageIndex){
+    if (this.totalLength % this.paginator.pageSize == 1 && Math.floor(this.totalLength / this.paginator.pageSize) == this.pageIndex) {
       this.pageIndex = Math.max(0, this.pageIndex - 1);
     }
-    this.fetchRatings({page: this.pageIndex, size: this.paginator.pageSize});
+    this.fetchRatings({ page: this.pageIndex, size: this.paginator.pageSize });
     this.showSnackbar('USPESNO BRISANJE', `Uspesno ste obrisali ocenu za kulturnu ponudu`, true);
   }
 
-  showSnackbar(title: string, message: string, success: boolean) {
+  showSnackbar(title: string, message: string, success: boolean): void {
     this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',
       verticalPosition: 'top',

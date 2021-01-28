@@ -30,12 +30,12 @@ export class NewsDetailsComponent implements OnInit {
   @Output()
   upsertLocal: EventEmitter<News> = new EventEmitter<News>();
 
-  loading: boolean = false;
+  loading = false;
   newsForm: FormGroup;
-  imageModels: ImageModel[] = []; //image model sa servera
-  images: ClientImage[] = []; //reprezentacija slike pogodna za carousel komponentu
-  imagesLoading: boolean = false;
-  submitAttempted: boolean = false;
+  imageModels: ImageModel[] = []; // image model sa servera
+  images: ClientImage[] = []; // reprezentacija slike pogodna za carousel komponentu
+  imagesLoading = false;
+  submitAttempted = false;
   private author: number;
 
   constructor(
@@ -55,7 +55,7 @@ export class NewsDetailsComponent implements OnInit {
   }
 
   async fetchImages(): Promise<void> {
-    if(this.news){
+    if (this.news) {
       this.imagesLoading = true;
       const fetchImagePromises: Promise<ImageModel>[] = [];
       this.news.images.forEach(id => {
@@ -69,24 +69,24 @@ export class NewsDetailsComponent implements OnInit {
     }
   }
 
-  insertImageLocal(clientImage: ClientImage){
+  insertImageLocal(clientImage: ClientImage): void {
     this.images.push(clientImage);
-    this.imageModels.push({picByte: clientImage.retrievedImage});
+    this.imageModels.push({ picByte: clientImage.retrievedImage });
   }
 
-  removeImageLocal(imageIndex: number){
+  removeImageLocal(imageIndex: number): void {
     this.images.splice(imageIndex, 1);
     this.imageModels.splice(imageIndex, 1);
   }
 
-  getUploadImagesPromise(): Promise<ImageModel[]>{
-    //upload radimo za slike koje imaju odabran fajl
+  getUploadImagesPromise(): Promise<ImageModel[]> {
+    // upload radimo za slike koje imaju odabran fajl
     const filesForUpload = this.images.filter(clientImage => clientImage.selectedFile).map(clientImage => clientImage.selectedFile);
     const imageUploadPromises = filesForUpload.map(file => this.imageService.uploadAsPromise(file));
     return Promise.all(imageUploadPromises);
   }
 
-  async getUpdateNewsPromise(imageModelIds: number[]): Promise<News>{
+  async getUpdateNewsPromise(imageModelIds: number[]): Promise<News> {
     const updatedNews: News = {
       id: this.news.id,
       title: this.newsForm.value.title,
@@ -99,7 +99,7 @@ export class NewsDetailsComponent implements OnInit {
     return this.newsService.update(updatedNews).toPromise();
   }
 
-  async getInsertNewsPromise(imageModelIds: number[]): Promise<News>{
+  async getInsertNewsPromise(imageModelIds: number[]): Promise<News> {
     const createdNews: News = {
       id: null,
       title: this.newsForm.value.title,
@@ -112,55 +112,56 @@ export class NewsDetailsComponent implements OnInit {
     return this.newsService.insert(createdNews).toPromise();
   }
 
-  upsert(){
+  upsert(): void {
     this.submitAttempted = true;
-    if(this.newsForm.invalid)
+    if (this.newsForm.invalid) {
       return;
+    }
 
     this.author = this.authService.getUserId();
 
-    if(this.news){
+    if (this.news) {
       this.update();
-    }else{
+    } else {
       this.insert();
     }
   }
 
   async update(): Promise<void> {
     this.loading = true;
-    try{
-      let uploadedImages = await this.getUploadImagesPromise();
+    try {
+      const uploadedImages = await this.getUploadImagesPromise();
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const updatedNews = await this.getUpdateNewsPromise(imageModelIds);
       this.upsertLocal.emit(updatedNews);
       this.showSnackbar('USPESNA IZMENA', `Email je uspesno izmenjen i poslat svim pretplacenim korisnicima.`, true);
       await this.newsService.notify(updatedNews.id).toPromise();
-    }catch({error}){
-      //show toast
+    } catch ({ error }) {
+      // show toast
       this.upsertLocal.emit(this.news);
       this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
     }
     this.loading = false;
   }
 
-  async insert(){
+  async insert(): Promise<void> {
     this.loading = true;
-    try{
-      let uploadedImages = await this.getUploadImagesPromise();
+    try {
+      const uploadedImages = await this.getUploadImagesPromise();
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const insertedNews = await this.getInsertNewsPromise(imageModelIds);
       this.upsertLocal.emit(insertedNews);
       this.showSnackbar('USPESNO KREIRANJE', `Email je uspesno kreiran i poslat svim pretplacenim korisnicima.`, true);
       await this.newsService.notify(insertedNews.id).toPromise();
-    }catch({error}){
-      //show toast
+    } catch ({ error }) {
+      // show toast
       this.upsertLocal.emit(this.news);
       this.showSnackbar('NEUSPESNO DODAVANJE', `${error.message}`, false);
     }
     this.loading = false;
   }
 
-  showSnackbar(title: string, message: string, success: boolean) {
+  showSnackbar(title: string, message: string, success: boolean): void {
     this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',
       verticalPosition: 'top',

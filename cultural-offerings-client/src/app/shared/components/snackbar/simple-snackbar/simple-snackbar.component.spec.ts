@@ -10,23 +10,23 @@ describe('SimpleSnackbarComponent', () => {
 
   const message = 'Poruka';
   const title = 'Naslov';
-  const success: boolean = true;
+  const success = true;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SimpleSnackbarComponent ],
+      declarations: [SimpleSnackbarComponent],
       providers: [
         {
           provide: MatSnackBarRef,
           useValue: {}
-        }, 
+        },
         {
           provide: MAT_SNACK_BAR_DATA,
-          useValue: {message, title, success}
+          useValue: { message, title, success }
         }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -42,10 +42,10 @@ describe('SimpleSnackbarComponent', () => {
   it('should have sync html with component variables', () => {
     const htmlTitle = fixture.debugElement.query(By.css('h3')).nativeElement;
     const htmlMessage = fixture.debugElement.query(By.css('p')).nativeElement;
-    
+
     expect(htmlTitle.innerHTML).toBe(title);
     expect(htmlMessage.innerHTML).toBe(message);
-    
+
     component.data.message = 'Nova poruka';
     fixture.detectChanges();
 

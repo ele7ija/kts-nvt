@@ -4,7 +4,7 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { User } from 'src/app/core/model/user';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
 
 import { TableComponent } from './table.component';
 import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
@@ -13,19 +13,19 @@ import { EventEmitter } from '@angular/core';
 describe('TableComponent', () => {
   let component: TableComponent<User>;
   let fixture: ComponentFixture<TableComponent<User>>;
-  
+
   const snackbarStub = {
     openFromComponent: jasmine.createSpy('delete')
   };
 
   beforeEach(async () => {
     const apiServiceStub = {
-      getAll: jasmine.createSpy('getAll').and.returnValue(of({content: [{id: 1}, {id: 2}], totalElements: 2})),
+      getAll: jasmine.createSpy('getAll').and.returnValue(of({ content: [{ id: 1 }, { id: 2 }], totalElements: 2 })),
       delete: jasmine.createSpy('delete').and.returnValue(of(true))
     };
 
     await TestBed.configureTestingModule({
-      declarations: [ TableComponent ],
+      declarations: [TableComponent],
       imports: [
         CommonModule,
         MatPaginatorModule,
@@ -33,13 +33,13 @@ describe('TableComponent', () => {
         MatSnackBarModule
       ],
       providers: [
-        {provide: AbstractCrudService, useValue: apiServiceStub},
-        {provide: MatSnackBar, useValue: snackbarStub},
+        { provide: AbstractCrudService, useValue: apiServiceStub },
+        { provide: MatSnackBar, useValue: snackbarStub },
         MatPaginator,
         MatSort,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -73,26 +73,26 @@ describe('TableComponent', () => {
   });
 
   it('should set data attribute', async () => {
-    //mockovanje ViewChild preko Jasmine spy ne radi
+    // mockovanje ViewChild preko Jasmine spy ne radi
     await component.prepareTable();
     expect(component.isLoading).toBeFalsy();
     expect(component.fetchFailure).toBeFalsy();
     expect(component.totalLength).toBe(2);
-    expect(component.data.length).toBe(2); 
+    expect(component.data.length).toBe(2);
   });
 
   it('should update element from data array', async () => {
     await component.prepareTable();
-    component.upsertLocal({id: 1, firstName: "Ime", lastName: "Prezime", email: "Email"});
-    expect(component.data[0].firstName).toBe("Ime");
-    expect(component.data[0].lastName).toBe("Prezime");
-    expect(component.data[0].email).toBe("Email");
+    component.upsertLocal({ id: 1, firstName: 'Ime', lastName: 'Prezime', email: 'Email' });
+    expect(component.data[0].firstName).toBe('Ime');
+    expect(component.data[0].lastName).toBe('Prezime');
+    expect(component.data[0].email).toBe('Email');
   });
 
   it('should increase total length', async () => {
     await component.prepareTable();
     const totalLength = component.totalLength;
-    component.upsertLocal({id: 15, firstName: "Ime", lastName: "Prezime", email: "Email"});
+    component.upsertLocal({ id: 15, firstName: 'Ime', lastName: 'Prezime', email: 'Email' });
     expect(component.totalLength).toBe(totalLength + 1);
   });
 
@@ -100,7 +100,7 @@ describe('TableComponent', () => {
     await component.prepareTable();
     const totalLength = component.totalLength;
     expect(component.data.find(element => element.id == 1)).toBeTruthy();
-    await component.delete({id: 1, firstName: "Ime", lastName: "Prezime", email: "Email"});
+    await component.delete({ id: 1, firstName: 'Ime', lastName: 'Prezime', email: 'Email' });
     expect(component.totalLength).toBe(totalLength - 1);
     expect(component.data.find(element => element.id == 1)).toBeFalsy();
   });
@@ -109,7 +109,7 @@ describe('TableComponent', () => {
     await component.prepareTable();
     const totalLength = component.totalLength;
     expect(component.data.find(element => element.id == 1)).toBeTruthy();
-    expect(await component.delete({id: 12, firstName: "Ime", lastName: "Prezime", email: "Email"})).toBeFalsy();
+    expect(await component.delete({ id: 12, firstName: 'Ime', lastName: 'Prezime', email: 'Email' })).toBeFalsy();
     expect(component.data.find(element => element.id == 1)).toBeTruthy();
   });
 });

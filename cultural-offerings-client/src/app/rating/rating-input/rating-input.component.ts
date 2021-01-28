@@ -10,28 +10,28 @@ import { RatingInput } from '../../../app/core/model/rating-input';
 export class RatingInputComponent implements OnInit {
 
   @Input()
-  selectedValue: number = 0;
+  selectedValue = 0;
 
   @Input()
-  userRatingBeingUploaded: boolean = false;
+  userRatingBeingUploaded = false;
 
   @Output()
   ratingAddedEvent: EventEmitter<RatingInput> = new EventEmitter<RatingInput>();
 
   constructor(
     public authService: AuthService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  onRate($event:{oldValue:number, newValue:number}) {
+  onRate($event: { oldValue: number, newValue: number }): void {
     this.ratingAddedEvent.emit({
       value: $event.newValue,
       date: new Date()
     });
   }
 
-  isLoggedIn(){
+  isLoggedIn(): boolean {
     return this.authService.isLoggedIn();
   }
 

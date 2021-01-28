@@ -10,7 +10,7 @@ describe('RegisterService', () => {
 
   const apiServiceStub = {
     post: jasmine.createSpy('post').and.returnValue(of({}))
-  }
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

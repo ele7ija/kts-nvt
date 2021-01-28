@@ -12,13 +12,13 @@ export class GoogleAutocompleteComponent implements OnInit {
   location: Location;
 
   @Output()
-  locationChangedEvent: EventEmitter<Location> = new EventEmitter<Location>()
+  locationChangedEvent: EventEmitter<Location> = new EventEmitter<Location>();
 
-  constructor(){}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  handleAddressChange(event){
+  handleAddressChange(event): void {
     const newLocation: Location = {
       name: event.name,
       latitude: event.geometry && event.geometry.location ? event.geometry.location.lat() : null,
@@ -27,7 +27,7 @@ export class GoogleAutocompleteComponent implements OnInit {
     this.locationChangedEvent.emit(newLocation);
   }
 
-  handleAddressClear(){
+  handleAddressClear(): void {
     this.locationChangedEvent.emit(null);
   }
 }

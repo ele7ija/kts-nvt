@@ -22,9 +22,9 @@ export class CommentListComponent implements OnChanges {
 
   comments: Comment[] = [];
   totalLength: number;
-  loading: boolean = false;
-  pageSizeOptions: number[] = [5,10,20];
-  pageIndex: number = 0;
+  loading = false;
+  pageSizeOptions: number[] = [5, 10, 20];
+  pageIndex = 0;
 
   @ViewChild(PaginatorComponent) paginator: PaginatorComponent;
 
@@ -35,41 +35,41 @@ export class CommentListComponent implements OnChanges {
     public matSnackBar: MatSnackBar
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if(changes.culturalOfferingId.currentValue){
-      this.fetchComments({page: 0, size: this.pageSizeOptions[0]});  
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.culturalOfferingId.currentValue) {
+      this.fetchComments({ page: 0, size: this.pageSizeOptions[0] });
     }
   }
 
-  async fetchComments(pageableRequest: PageableRequest){
+  async fetchComments(pageableRequest: PageableRequest): Promise<void> {
     this.loading = true;
     this.pageIndex = pageableRequest.page;
     pageableRequest.sort = 'date';
     pageableRequest.sortOrder = 'desc';
-    if(this.culturalOfferingId){
-      try{
+    if (this.culturalOfferingId) {
+      try {
         const pageableResponse = await this.commentService.getAllByCulturalOfferingId(pageableRequest, this.culturalOfferingId).toPromise();
         this.comments = pageableResponse.content;
         this.totalLength = pageableResponse.totalElements;
-      }catch{
-  
+      } catch {
+
       }
     }
     this.loading = false;
   }
 
-  async getUploadImagesPromise(files: File[]): Promise<ImageModel[]>{
+  async getUploadImagesPromise(files: File[]): Promise<ImageModel[]> {
     return Promise.all(
-        files.map(
-          file => this.imageService.upload(file).toPromise()
-        )
+      files.map(
+        file => this.imageService.upload(file).toPromise()
+      )
     );
   }
 
-  async commentAddedEvent(event: CommentInput){
-    try{
+  async commentAddedEvent(event: CommentInput): Promise<void> {
+    try {
       let imageIds: number[] = [];
-      if(event.images.length != 0){
+      if (event.images.length != 0) {
         const imageModels = await this.getUploadImagesPromise(event.images);
         imageIds = imageModels.map(imageModel => imageModel.id);
       }
@@ -81,32 +81,33 @@ export class CommentListComponent implements OnChanges {
         userId: this.authService.getUserId()
       };
       newComment = await this.commentService.insert(newComment).toPromise();
-      if(this.pageIndex == 0){
+      if (this.pageIndex == 0) {
         this.comments.unshift(newComment);
-        if(this.comments.length > this.paginator.pageSize)
+        if (this.comments.length > this.paginator.pageSize) {
           this.comments.splice(this.comments.length - 1, 1);
+        }
         this.totalLength += 1;
-      }else{
+      } else {
         this.pageIndex = 0;
-        this.fetchComments({page: this.pageIndex, size: this.paginator.pageSize});
+        this.fetchComments({ page: this.pageIndex, size: this.paginator.pageSize });
       }
       this.showSnackbar('USPESNO DODAVANJE', `Uspesno ste dodali komentar za kulturnu ponudu`, true);
-    }catch(error){
+    } catch (error) {
       this.showSnackbar('GRESKA', `${error.message}`, false);
       console.log(error);
     }
   }
 
-  async removeCommentEvent(comment: Comment){
+  async removeCommentEvent(comment: Comment): Promise<void> {
     await this.commentService.delete(comment.id).toPromise();
-    if(this.totalLength % this.paginator.pageSize == 1 && Math.floor(this.totalLength / this.paginator.pageSize) == this.pageIndex){
+    if (this.totalLength % this.paginator.pageSize == 1 && Math.floor(this.totalLength / this.paginator.pageSize) == this.pageIndex) {
       this.pageIndex = Math.max(0, this.pageIndex - 1);
     }
-    this.fetchComments({page: this.pageIndex, size: this.paginator.pageSize});
+    this.fetchComments({ page: this.pageIndex, size: this.paginator.pageSize });
     this.showSnackbar('USPESNO BRISANJE', `Uspesno ste obrisali komentar za kulturnu ponudu`, true);
   }
 
-  showSnackbar(title: string, message: string, success: boolean) {
+  showSnackbar(title: string, message: string, success: boolean): void {
     this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',
       verticalPosition: 'top',

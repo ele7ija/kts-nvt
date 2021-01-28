@@ -24,8 +24,8 @@ export class CulturalOfferingPageComponent implements OnInit {
 
   culturalOffering: CulturalOffering;
 
-  imagesLoading: boolean = false;
-  images: ClientImage[] = []; //reprezentacija slike pogodna za carousel komponentu
+  imagesLoading = false;
+  images: ClientImage[] = []; // reprezentacija slike pogodna za carousel komponentu
   ratings: Rating[];
 
   subscription: Subscription;
@@ -42,17 +42,17 @@ export class CulturalOfferingPageComponent implements OnInit {
   ngOnInit(): void {
     this.activeRoute.paramMap.subscribe(async params => {
       const id = params.get('id');
-      try{
+      try {
         this.culturalOffering = await this.culturalOfferingService.getOne(id).toPromise();
         this.fetchImages();
-        let userId: number = this.authService.getUserId();
+        const userId: number = this.authService.getUserId();
         if (userId) {
           this.subscriptionService.getQuery(this.culturalOffering.id, userId)
-          .subscribe((subscriptions: Subscription[]) => {
-            this.subscription = subscriptions[0];
-          });
+            .subscribe((subscriptions: Subscription[]) => {
+              this.subscription = subscriptions[0];
+            });
         }
-      }catch(error){
+      } catch (error) {
         this.showSnackbar(`Error`, `Cultural offering with id ${id} could not be loaded.`, false);
       }
     });
@@ -60,7 +60,7 @@ export class CulturalOfferingPageComponent implements OnInit {
 
 
   async fetchImages(): Promise<void> {
-    if(this.culturalOffering){
+    if (this.culturalOffering) {
       this.imagesLoading = true;
       const fetchImagePromises: Promise<ImageModel>[] = [];
       this.culturalOffering.imageIds.forEach(id => {
@@ -74,7 +74,7 @@ export class CulturalOfferingPageComponent implements OnInit {
     }
   }
 
-  showSnackbar(title: string, message: string, success: boolean) {
+  showSnackbar(title: string, message: string, success: boolean): void {
     this.matSnackbar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
@@ -91,10 +91,10 @@ export class CulturalOfferingPageComponent implements OnInit {
   subscribeClicked(event: boolean): void {
     if (this.subscription) {
       this.subscriptionService.delete(this.subscription.id)
-      .subscribe(() => {
-        this.subscription = null;
-        this.showSnackbar('Odjavili ste pretplatu', '', true);
-      })
+        .subscribe(() => {
+          this.subscription = null;
+          this.showSnackbar('Odjavili ste pretplatu', '', true);
+        });
     }
     else {
       this.subscriptionService.insert(
@@ -104,10 +104,10 @@ export class CulturalOfferingPageComponent implements OnInit {
           culturalOffering: this.culturalOffering.id
         }
       )
-      .subscribe((s: Subscription) => {
-        this.subscription = s;
-        this.showSnackbar('Pretplatili ste se', '', true);
-      })
+        .subscribe((s: Subscription) => {
+          this.subscription = s;
+          this.showSnackbar('Pretplatili ste se', '', true);
+        });
     }
   }
 

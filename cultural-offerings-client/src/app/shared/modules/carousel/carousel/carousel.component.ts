@@ -9,12 +9,13 @@ import { ClientImage } from '../../../../../app/core/model/client-image';
 export class CarouselComponent implements OnInit {
 
   @Input()
-  get images(){ return this._images; }
-  set images(value: ClientImage[]){
+  get images(): ClientImage[] { return this._images; }
+  set images(value: ClientImage[]) {
     this._images = value;
-    if(this._images && this._images.length != 0)
+    if (this._images && this._images.length != 0) {
       this.calculateFileButtonWidth(this._images[this.activeSlideIndex].retrievedImage);
-    else{
+    }
+    else {
       this.calculateFileButtonWidth(this.defaultImagepath);
     }
   }
@@ -27,10 +28,10 @@ export class CarouselComponent implements OnInit {
   enableAddAndRemove: boolean;
 
   @Input()
-  maxImageWidth: number = 600;
+  maxImageWidth = 600;
 
   @Input()
-  maxImageHeight: number = 600;
+  maxImageHeight = 600;
 
   @Output()
   insertImageLocal: EventEmitter<ClientImage> = new EventEmitter<ClientImage>();
@@ -38,70 +39,79 @@ export class CarouselComponent implements OnInit {
   @Output()
   removeImageLocal: EventEmitter<number> = new EventEmitter<number>();
 
-  activeSlideIndex: number = 0;
+  activeSlideIndex = 0;
   fileButtonWidth: any;
-  defaultImagepath: string = "../../../../assets/images/empty.png";
+  defaultImagepath = '../../../../assets/images/empty.png';
 
   constructor() { }
 
   ngOnInit(): void {
-    if(this.enableAddAndRemove){
-      if(this.images.length > 0){
+    if (this.enableAddAndRemove) {
+      if (this.images.length > 0) {
         this.calculateFileButtonWidth(this.images[this.activeSlideIndex].retrievedImage);
-      }else{
+      } else {
         this.calculateFileButtonWidth(this.defaultImagepath);
       }
     }
   }
 
-  calculateFileButtonWidth(path: string){
+  calculateFileButtonWidth(path: string): void {
     const img = new Image();
-    let that = this;
-    img.onload = function() {
-      if(img.width > 280)
+    const that = this;
+    img.onload = function () {
+      if (img.width > 280) {
         that.fileButtonWidth = that.maxImageWidth;
-      else
+      }
+      else {
         that.fileButtonWidth = img.width;
-    }
+      }
+    };
     img.src = path;
   }
 
-  onFileChanged(event): void{
-    var reader = new FileReader();
-    let that = this;
+  onFileChanged(event): void {
+    const reader = new FileReader();
+    const that = this;
     const selectedFile: File = event.target.files[0];
     reader.onload = function (e) {
       const retrievedImage: any = e.target.result;
-      that.insertImageLocal.emit({retrievedImage, selectedFile});
+      that.insertImageLocal.emit({ retrievedImage, selectedFile });
       that.calculateFileButtonWidth(retrievedImage);
       that.activeSlideIndex = that.images.length - 1;
     };
     reader.readAsDataURL(selectedFile);
-    event.target.value = "";
+    event.target.value = '';
   }
 
-  deselectImage(): void{
+  deselectImage(): void {
     this.removeImageLocal.emit(this.activeSlideIndex);
-    if(this.activeSlideIndex != 0)
+    if (this.activeSlideIndex != 0) {
       this.activeSlideIndex -= 1;
-    if(this.images.length == 0)
+    }
+    if (this.images.length == 0) {
       this.calculateFileButtonWidth(this.defaultImagepath);
-    else
+    }
+    else {
       this.calculateFileButtonWidth(this.images[this.activeSlideIndex].retrievedImage);
+    }
   }
 
-  next(){
-    if(this.activeSlideIndex == this.images.length - 1)
+  next(): void {
+    if (this.activeSlideIndex == this.images.length - 1) {
       this.activeSlideIndex = 0;
-    else
+    }
+    else {
       this.activeSlideIndex += 1;
+    }
   }
 
-  prev(){
-    if(this.activeSlideIndex == 0)
+  prev(): void {
+    if (this.activeSlideIndex == 0) {
       this.activeSlideIndex = this.images.length - 1;
-    else
+    }
+    else {
       this.activeSlideIndex -= 1;
+    }
   }
 
 }

@@ -12,15 +12,15 @@ import { AuthService } from 'src/app/core/services/security/auth-service/auth.se
 export class SignInComponent implements OnInit {
 
   signinForm: FormGroup;
-  submitted : boolean = false;
-  public errorMsg : string;
-  private user : SignInUser;
+  submitted = false;
+  public errorMsg: string;
+  private user: SignInUser;
 
-  constructor(public formBuilder: FormBuilder, public router : Router,
-    public authService : AuthService) {
+  constructor(public formBuilder: FormBuilder, public router: Router,
+              public authService: AuthService) {
     this.signinForm = this.formBuilder.group({
-      "emailField": ["", [Validators.required, Validators.email]],
-      "passField": ["", [Validators.required, Validators.minLength(3)]]
+      emailField: ['', [Validators.required, Validators.email]],
+      passField: ['', [Validators.required, Validators.minLength(3)]]
     });
   }
 
@@ -28,9 +28,9 @@ export class SignInComponent implements OnInit {
 
   }
 
-  signIn(): void{
+  signIn(): void {
     // if someone tries to send invalid data do not send request
-    if(this.signinForm.invalid){
+    if (this.signinForm.invalid) {
       return;
     }
 
@@ -39,16 +39,18 @@ export class SignInComponent implements OnInit {
     this.errorMsg = undefined;
 
     this.user = {
-      email: this.signinForm.value['emailField'],
-      password: this.signinForm.value['passField']
+      email: this.signinForm.value.emailField,
+      password: this.signinForm.value.passField
     };
 
     this.authService.signin(this.user).subscribe(
       data => {
-        if(this.authService.getUserRole() == 'SUPER_ADMIN')
+        if (this.authService.getUserRole() == 'SUPER_ADMIN') {
           this.router.navigate(['/super-admin/admins']);
-        else
+        }
+        else {
           this.router.navigate(['/homepage']);
+        }
         console.log(`Korisnik ${this.user.email} je uspesno pristupio sistemu.`);
       },
       error => {

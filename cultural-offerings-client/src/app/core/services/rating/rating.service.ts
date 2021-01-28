@@ -20,7 +20,7 @@ export class RatingService {
     return this.apiService.getByPage(`${this.endpoint}/by-page/${culturalOfferingId}`, pageableRequest);
   }
 
-  getOne(id: string) {
+  getOne(id: string): any {
     return this.apiService.get(`${this.endpoint}/${id}`);
   }
 

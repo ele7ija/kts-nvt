@@ -14,7 +14,7 @@ import { GoogleAutocompleteModule } from 'src/app/shared/modules/google-autocomp
 import { TableModule } from 'src/app/shared/modules/table/table.module';
 import { CulturalOfferingRoutingModule } from '../cultural-offering-routing.module';
 import { CulturalOfferingPageComponent } from './cultural-offering-page.component';
-import {of} from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CulturalOfferingService } from 'src/app/core/services/cultural-offering/cultural-offering.service';
 import { ApiService } from 'src/app/core/services/security/api-service/api.service';
 import { HttpClient } from '@angular/common/http';
@@ -26,46 +26,46 @@ import { AuthService } from 'src/app/core/services/security/auth-service/auth.se
 describe('CulturalOfferingPageComponent', () => {
   let component: CulturalOfferingPageComponent;
   let fixture: ComponentFixture<CulturalOfferingPageComponent>;
-  
+
   const snackbarStub = jasmine.createSpy('snackbarStub');
   const culturalOfferingServiceStub = {
-    getOne: function(){
-      return of({imageIds: []})
+    getOne(): Observable<{ imageIds: any[]; }> {
+      return of({ imageIds: [] });
     },
-    insert: function() { 
+    insert() {
       return of(null);
     },
-    update: function() { 
+    update() {
       return of(null);
     },
   };
   const imageServiceStub = {
-    getById: function() {
+    getById() {
       return of({});
     },
-    upload: function() {
+    upload() {
       return of({});
     }
   };
   const subscriptionServiceStub = {
-    getOne: function(){
-      return of({imageIds: []})
+    getOne() {
+      return of({ imageIds: [] });
     },
-    insert: function() { 
+    insert() {
       return of(null);
     },
-    update: function() { 
+    update() {
       return of(null);
     },
-    getQuery: function(){
+    getQuery() {
       return of([]);
     }
   };
 
   const authServiceStub = {
     getUserId: jasmine.createSpy('getUserId').and.returnValue(null)
-  }
-  
+  };
+
   const apiServiceStub = jasmine.createSpy('apiServiceStub');
   const httpClientStub = jasmine.createSpy('httpClientStub');
   const activatedRouteStub = {
@@ -76,7 +76,7 @@ describe('CulturalOfferingPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CulturalOfferingPageComponent ],
+      declarations: [CulturalOfferingPageComponent],
       imports: [
         CommonModule,
         RouterModule,
@@ -95,17 +95,17 @@ describe('CulturalOfferingPageComponent', () => {
         RatingsModule
       ],
       providers: [
-        {provide: CulturalOfferingService, useValue: culturalOfferingServiceStub},
-        {provide: SubscriptionService, useValue: subscriptionServiceStub},
-        {provide: AuthService, useValue: authServiceStub},
-        {provide: ApiService, useValue: apiServiceStub},
-        {provide: HttpClient, useValue: httpClientStub},
-        {provide: ImageService, useValue: imageServiceStub},
-        {provide: MatSnackBar, useValue: snackbarStub},
-        {provide: ActivatedRoute, useValue: activatedRouteStub}
+        { provide: CulturalOfferingService, useValue: culturalOfferingServiceStub },
+        { provide: SubscriptionService, useValue: subscriptionServiceStub },
+        { provide: AuthService, useValue: authServiceStub },
+        { provide: ApiService, useValue: apiServiceStub },
+        { provide: HttpClient, useValue: httpClientStub },
+        { provide: ImageService, useValue: imageServiceStub },
+        { provide: MatSnackBar, useValue: snackbarStub },
+        { provide: ActivatedRoute, useValue: activatedRouteStub }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -125,7 +125,7 @@ describe('CulturalOfferingPageComponent', () => {
   });
 
   it('should fetch images', async () => {
-    component.culturalOffering = {id: 1, imageIds: [1,2,3], culturalOfferingSubtypeName: '', culturalOfferingTypeName: '', description: '', locationId: null, latitude: null, locationName: '', longitude: null, name: null};
+    component.culturalOffering = { id: 1, imageIds: [1, 2, 3], culturalOfferingSubtypeName: '', culturalOfferingTypeName: '', description: '', locationId: null, latitude: null, locationName: '', longitude: null, name: null };
     await component.fetchImages();
     expect(component.images.length).toBe(3);
   });

@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core';
-import {merge, of as observableOf} from 'rxjs';
-import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { merge, of as observableOf } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort, MatSortable } from '@angular/material/sort';
@@ -10,7 +10,7 @@ import { AbstractCrudService } from 'src/app/core/model/abstract-crud-service';
 import { TableColumnDefinition } from 'src/app/core/model/table-column-definition';
 import { SimpleSnackbarComponent } from '../../../components/snackbar/simple-snackbar/simple-snackbar.component';
 
-interface Identifiable{
+interface Identifiable {
   id: number;
 }
 
@@ -22,36 +22,37 @@ interface Identifiable{
 export class TableComponent<T extends Identifiable> implements AfterViewInit {
   data: T[];
   displayedColumns: TableColumnDefinition[];
-  
-  //pagination and sort logic
-  fetchFailure: boolean = false;
-  isLoading: boolean = true;
-  totalLength: number = 0;
 
-  //row expand logic
+  // pagination and sort logic
+  fetchFailure = false;
+  isLoading = true;
+  totalLength = 0;
+
+  // row expand logic
   expandedItem: Optional<T> = new Optional<T>();
 
-  //is add form visible?
-  addStarted: boolean = false;
+  // is add form visible?
+  addStarted = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     public apiService: AbstractCrudService<T>,
-    public matSnackBar: MatSnackBar) {}
+    public matSnackBar: MatSnackBar) { }
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void {
     Promise.all([
       this.prepareTable(),
       this.fetchAditionalEntities()
     ]);
   }
 
-  public async prepareTable(): Promise<any>{
+  public async prepareTable(): Promise<any> {
     // If the user changes the sort order, reset back to the first page.
-    if(!this.sort)
+    if (!this.sort) {
       return;
+    }
     this.sort.sortChange.subscribe(() => {
       this.paginator.pageIndex = 0;
     });
@@ -65,7 +66,7 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
             size: this.paginator.pageSize,
             sort: this.sort.active,
             sortOrder: this.sort.direction ? this.sort.direction : 'asc'
-          }
+          };
           return this.apiService.getAll(pageableRequest);
         }),
         map(data => {
@@ -79,72 +80,74 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
           this.fetchFailure = true;
           return observableOf([]);
         })
-        
+
       )
       .subscribe(data => this.data = data);
   }
 
-  protected async fetchAditionalEntities(): Promise<void>{
-    //hook method
+  protected async fetchAditionalEntities(): Promise<void> {
+    // hook method
   }
 
-  getHeadersField(): string[]{
+  getHeadersField(): string[] {
     return this.displayedColumns.map(x => x.field);
   }
 
-  toggleRow(element: T){
-    if(this.expandedItem.value != element)
+  toggleRow(element: T): void {
+    if (this.expandedItem.value != element) {
       this.expandedItem.value = element;
-    else
+    }
+    else {
       this.expandedItem.value = null;
+    }
     this.addStarted = false;
   }
 
-  upsertLocal(event: T){
+  upsertLocal(event: T): void {
     const index = this.data.findIndex((item: T) => item.id == event.id);
-    if(index == -1){
-      //insert
-      //this.culturalOfferingTypes.push(event); ne radimo ovo zbog paginacije
+    if (index == -1) {
+      // insert
+      // this.culturalOfferingTypes.push(event); ne radimo ovo zbog paginacije
       this.addStarted = false;
 
-      let sortable: MatSortable = this.sort.sortables.get(this.sort.active);
+      const sortable: MatSortable = this.sort.sortables.get(this.sort.active);
       this.sort.direction = this.sort.getNextSortDirection(sortable);
       this.sort.sort(sortable);
-      
+
       this.totalLength += 1;
-    }else{
-      //update
+    } else {
+      // update
       this.data.splice(index, 1, event);
       this.expandedItem.value = null;
     }
-    this.data = [...this.data]; //for some reason angular does not detect changes on this array unles we do this
+    this.data = [...this.data]; // for some reason angular does not detect changes on this array unles we do this
   }
 
-  public async delete(entity: T): Promise<any>{
-    try{
+  public async delete(entity: T): Promise<any> {
+    try {
       await this.apiService.delete(entity.id).toPromise();
       const index = this.data.findIndex((item: T) => item.id == entity.id);
       this.data.splice(index, 1);
-      this.data = [...this.data]; //for some reason angular does not detect changes on this array unles we do this
-      if(!this.paginator.hasNextPage() && this.totalLength % this.paginator.pageSize == 1){
+      this.data = [...this.data]; // for some reason angular does not detect changes on this array unles we do this
+      if (!this.paginator.hasNextPage() && this.totalLength % this.paginator.pageSize == 1) {
         this.paginator.previousPage();
-      }else{
-        if(this.paginator.hasPreviousPage()){
+      } else {
+        if (this.paginator.hasPreviousPage()) {
           this.paginator.previousPage();
           this.paginator.nextPage();
-        }else{
+        } else {
           this.paginator.nextPage();
           this.paginator.previousPage();
         }
       }
       this.totalLength -= 1;
       return Promise.resolve();
-    }catch({error}){
+    } catch ({ error }) {
       return Promise.reject(error);
     }
   }
 
-  showSnackbar(title: string, message: string, success: boolean) {
+  showSnackbar(title: string, message: string, success: boolean): void {
     this.matSnackBar.openFromComponent(SimpleSnackbarComponent, {
       horizontalPosition: 'end',
       verticalPosition: 'top',
@@ -157,6 +160,6 @@ export class TableComponent<T extends Identifiable> implements AfterViewInit {
 
     });
   }
-  
+
 
 }

@@ -26,23 +26,23 @@ describe('CultrualOfferingTypeDetailsComponent', () => {
   };
   const snackbarStub = jasmine.createSpy('snackbarStub');
   const culturalOfferingSubTypeServiceStub = {
-    getAllByTypeId: function() { 
+    getAllByTypeId() {
       return of([]);
     }
   };
   const imageServiceStub = {
-    getById: function() {
+    getById() {
       return of([]);
     },
-    upload: function() {
+    upload() {
       return of([]);
     }
   };
   const culturalOfferingTypeServiceStub = {
-    insert: function() { 
+    insert() {
       return of(null);
     },
-    update: function() { 
+    update() {
       return of(null);
     },
   };
@@ -133,7 +133,7 @@ describe('CultrualOfferingTypeDetailsComponent', () => {
 
   it('should fail insert', async () => {
     const toInsert = {imageId: 1};
-    spyOn(component, 'getUploadImagePromise').and.callFake(() => Promise.resolve({id:toInsert.imageId}));
+    spyOn(component, 'getUploadImagePromise').and.callFake(() => Promise.resolve({id: toInsert.imageId}));
     spyOn(component, 'getInsertCulturalOfferingTypePromises').and.callFake(() => Promise.reject({error: {message: ''}}));
     spyOn(component.upsertLocal, 'emit').and.callThrough();
     spyOn(component, 'showSnackbar').and.callFake(() => {});
@@ -153,7 +153,7 @@ describe('CultrualOfferingTypeDetailsComponent', () => {
 
   it('should fail update', async () => {
     const toUpdate = {id: 1, imageId: 1};
-    spyOn(component, 'getUploadImagePromise').and.callFake(() => Promise.resolve({id:toUpdate.imageId}));
+    spyOn(component, 'getUploadImagePromise').and.callFake(() => Promise.resolve({id: toUpdate.imageId}));
     spyOn(component, 'getUpdateCulturalOfferingTypePromises').and.callFake(() => Promise.reject({error: {message: ''}}));
     spyOn(component.upsertLocal, 'emit').and.callThrough();
     spyOn(component, 'showSnackbar').and.callFake(() => {});
@@ -163,7 +163,7 @@ describe('CultrualOfferingTypeDetailsComponent', () => {
 
   it('should succeed update', async () => {
     const toUpdate = {id: 1, imageId: 1};
-    spyOn(component, 'getUploadImagePromise').and.callFake(() => Promise.resolve({id:toUpdate.imageId}));
+    spyOn(component, 'getUploadImagePromise').and.callFake(() => Promise.resolve({id: toUpdate.imageId}));
     spyOn(component, 'getUpdateCulturalOfferingTypePromises').and.callFake(() => Promise.resolve(toUpdate));
     spyOn(component.upsertLocal, 'emit').and.callThrough();
     spyOn(component, 'showSnackbar').and.callFake(() => {});

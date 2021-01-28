@@ -18,16 +18,16 @@ import {of} from 'rxjs';
 describe('CulturalOfferingSubTypeDetailsComponent', () => {
   let component: CulturalOfferingSubTypeDetailsComponent;
   let fixture: ComponentFixture<CulturalOfferingSubTypeDetailsComponent>;
-  
+
   const formBuilderStub = {
     group: jasmine.createSpy('group').and.returnValue({value: {}})
   };
   const snackbarStub = jasmine.createSpy('snackbarStub');
   const culturalOfferingSubTypeServiceStub = {
-    insert: function() { 
+    insert() {
       return of(null);
     },
-    update: function() { 
+    update() {
       return of(null);
     },
   };
@@ -47,7 +47,7 @@ describe('CulturalOfferingSubTypeDetailsComponent', () => {
         MatChipsModule,
         MatFormFieldModule,
         MatProgressSpinnerModule,
-        
+
         TableModule,
 
         CulturalOfferingSubTypeRoutingModule
@@ -71,8 +71,8 @@ describe('CulturalOfferingSubTypeDetailsComponent', () => {
   });
 
   afterAll(() => {
-    
-  })
+
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

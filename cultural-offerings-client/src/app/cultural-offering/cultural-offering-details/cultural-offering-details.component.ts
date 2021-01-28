@@ -31,17 +31,17 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   @Output()
   upsertLocal: EventEmitter<CulturalOffering> = new EventEmitter<CulturalOffering>();
 
-  loading: boolean = false;
+  loading = false;
   culturalOfferingForm: FormGroup;
-  imageModels: ImageModel[] = []; //image model sa servera
-  images: ClientImage[] = []; //reprezentacija slike pogodna za carousel komponentu
-  imagesLoading: boolean = false;
-  culturalOfferingSubTypesLoading: boolean = false;
+  imageModels: ImageModel[] = []; // image model sa servera
+  images: ClientImage[] = []; // reprezentacija slike pogodna za carousel komponentu
+  imagesLoading = false;
+  culturalOfferingSubTypesLoading = false;
   selectedLocation: Location;
-  submitAttempted: boolean = false;
+  submitAttempted = false;
 
   constructor(
-    public formBuilder: FormBuilder, 
+    public formBuilder: FormBuilder,
     public imageService: ImageService,
     public culturalOfferingService: CulturalOfferingService,
     public culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
@@ -65,7 +65,7 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   }
 
   async fetchImages(): Promise<void> {
-    if(this.culturalOffering){
+    if (this.culturalOffering){
       this.imagesLoading = true;
       const fetchImagePromises: Promise<ImageModel>[] = [];
       this.culturalOffering.imageIds.forEach(id => {
@@ -90,7 +90,7 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   }
 
   locationChangedEvent(location: Location){
-    if(!location || !location.latitude || !location.longitude || !location.name){
+    if (!location || !location.latitude || !location.longitude || !location.name){
       this.selectedLocation = {
         name: '',
         latitude: null,
@@ -106,23 +106,25 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   }
 
   async fetchCulturalOfferingSubTypes(typeName: string, fromRoot: boolean = false): Promise<void>{
-    if(typeName){
-      this.culturalOfferingSubTypesLoading= true;
+    if (typeName){
+      this.culturalOfferingSubTypesLoading = true;
       const {id} = this.culturalOfferingTypes.find(
         culturalOfferingType => culturalOfferingType.typeName == typeName
       );
       this.culturalOfferingSubtypes = await this.culturalOfferingSubTypeService.getAllByTypeId(id).toPromise();
-      if(fromRoot && this.culturalOffering && this.culturalOffering.culturalOfferingSubtypeName)
+      if (fromRoot && this.culturalOffering && this.culturalOffering.culturalOfferingSubtypeName) {
         this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOffering.culturalOfferingSubtypeName);
-      else
+      }
+      else {
         this.culturalOfferingForm.controls.culturalOfferingSubtypeName.patchValue(this.culturalOfferingSubtypes.length == 0 ? '' : this.culturalOfferingSubtypes[0].subTypeName);
+      }
 
-      this.culturalOfferingSubTypesLoading= false;
+      this.culturalOfferingSubTypesLoading = false;
     }
   }
 
   getUploadImagesPromise(): Promise<ImageModel[]>{
-    //upload radimo za slike koje imaju odabran fajl
+    // upload radimo za slike koje imaju odabran fajl
     const filesForUpload = this.images.filter(clientImage => clientImage.selectedFile).map(clientImage => clientImage.selectedFile);
     const imageUploadPromises = filesForUpload.map(file => this.imageService.uploadAsPromise(file));
     return Promise.all(imageUploadPromises);
@@ -162,9 +164,10 @@ export class CulturalOfferingDetailsComponent implements OnInit {
 
   upsert(){
     this.submitAttempted = true;
-    if(this.isFormInvalid())
+    if (this.isFormInvalid()) {
       return;
-    if(this.culturalOffering){
+    }
+    if (this.culturalOffering){
       this.update();
     }else{
       this.insert();
@@ -174,16 +177,16 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   async update(): Promise<void> {
     this.loading = true;
     try{
-      let uploadedImages = await this.getUploadImagesPromise();
+      const uploadedImages = await this.getUploadImagesPromise();
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const updatedCulturalOffering = await this.getUpdateCulturalOfferingPromise(imageModelIds);
       this.upsertLocal.emit(updatedCulturalOffering);
       this.showSnackbar('USPESNA IZMENA', `Kulturna ponuda pod nazivom ${updatedCulturalOffering.name} je uspesno promenjena`, true);
-    }catch(error){
-      //show toast
+    }catch (error){
+      // show toast
       console.log(error);
       this.upsertLocal.emit(this.culturalOffering);
-      //this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
+      // this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
     }
     this.loading = false;
   }
@@ -191,13 +194,13 @@ export class CulturalOfferingDetailsComponent implements OnInit {
   async insert(){
     this.loading = true;
     try{
-      let uploadedImages = await this.getUploadImagesPromise();
+      const uploadedImages = await this.getUploadImagesPromise();
       const imageModelIds = uploadedImages.map(imageModel => imageModel.id);
       const insertedCulturalOffering = await this.getInsertCulturalOfferingPromise(imageModelIds);
       this.upsertLocal.emit(insertedCulturalOffering);
       this.showSnackbar('USPESNO DODAVANJE', `Kulturna ponuda pod nazivom ${insertedCulturalOffering.name} je uspesno dodata`, true);
-    }catch({error}){
-      //show toast
+    }catch ({error}){
+      // show toast
       this.upsertLocal.emit(this.culturalOffering);
       this.showSnackbar('NEUSPESNO DODAVANJE', `${error.message}`, false);
     }

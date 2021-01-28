@@ -26,9 +26,9 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
 
   culturalOfferingSubTypeForm: FormGroup;
   loading: boolean;
-  
+
   constructor(
-    public formBuilder: FormBuilder, 
+    public formBuilder: FormBuilder,
     public culturalOfferingSubTypeService: CulturalOfferingSubtypeService,
     public matSnackBar: MatSnackBar) { }
 
@@ -58,7 +58,7 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
   }
 
   upsert(){
-    if(this.culturalOfferingSubType){
+    if (this.culturalOfferingSubType){
       this.update();
     }else{
       this.insert();
@@ -68,11 +68,11 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
   async update(): Promise<void> {
     this.loading = true;
     try{
-      let updatedCulturalOfferingSubType: CulturalOfferingSubtype = await this.getUpdateCulturalOfferingSubTypePromises();
+      const updatedCulturalOfferingSubType: CulturalOfferingSubtype = await this.getUpdateCulturalOfferingSubTypePromises();
       this.upsertLocal.emit(updatedCulturalOfferingSubType);
       this.showSnackbar('USPESNA IZMENA', `Podtip kategorije pod nazivom ${updatedCulturalOfferingSubType.subTypeName} je uspesno promenjen`, true);
-    }catch({error}){
-      //show toast
+    }catch ({error}){
+      // show toast
       this.upsertLocal.emit(this.culturalOfferingSubType);
       this.showSnackbar('NEUSPESNA IZMENA', `${error.message}`, false);
     }
@@ -82,11 +82,11 @@ export class CulturalOfferingSubTypeDetailsComponent implements OnInit {
   async insert(){
     this.loading = true;
     try{
-      let insertedCulturalOfferingSubType: CulturalOfferingSubtype = await this.getInsertCulturalOfferingSubTypePromises();
+      const insertedCulturalOfferingSubType: CulturalOfferingSubtype = await this.getInsertCulturalOfferingSubTypePromises();
       this.upsertLocal.emit(insertedCulturalOfferingSubType);
       this.showSnackbar('USPESNO DODAVANJE', `Podtip kategorije pod nazivom ${insertedCulturalOfferingSubType.subTypeName} je uspesno dodat`, true);
-    }catch({error}){
-      //show toast
+    }catch ({error}){
+      // show toast
       this.upsertLocal.emit(this.culturalOfferingSubType);
       this.showSnackbar('NEUSPESNO DODAVANJE', `${error.message}`, false);
     }

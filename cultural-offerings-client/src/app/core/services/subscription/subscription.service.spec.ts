@@ -64,5 +64,5 @@ describe('SubscriptionService', () => {
     await service.delete(obj).toPromise();
     expect(apiServiceStub.delete).toHaveBeenCalledWith(`${service.endpoint}/${obj}`);
   });
-  
+
 });

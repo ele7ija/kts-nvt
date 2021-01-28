@@ -14,15 +14,15 @@ import { NewsService } from 'src/app/core/services/news/news.service';
   templateUrl: './cultural-offering-table.component.html',
   styleUrls: ['./cultural-offering-table.component.scss'],
   providers: [
-    { 
-      provide: AbstractCrudService, 
+    {
+      provide: AbstractCrudService,
       useClass: CulturalOfferingService
     }
   ],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -37,35 +37,34 @@ export class CulturalOfferingTableComponent extends TableComponent<CulturalOffer
     private matSnackbar: MatSnackBar,
     private culturalOfferingTypeService: CulturalOfferingTypeService,
     private newsService: NewsService
-  ) 
-  { 
+  ) {
     super(culturalOfferingService, matSnackbar);
-    this.displayedColumns = [{field: 'id', text: 'ID'}, {field: 'name', text: 'Naziv'}, {field: 'Actions', text: 'Akcije'}];
+    this.displayedColumns = [{ field: 'id', text: 'ID' }, { field: 'name', text: 'Naziv' }, { field: 'Actions', text: 'Akcije' }];
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit(): void {
     super.ngAfterViewInit();
   }
 
   async delete(entity: CulturalOffering) {
     this.lastDeleted = entity;
     super.delete(entity)
-    .then(() => {
-      this.lastDeleted = null;
-      this.showSnackbar('USPESNO BRISANJE', `Kulturna pomnuda pod nazivom ${entity.name} je uspesno obrisana.`, true)
-    })
-    .catch(error => {
-      this.lastDeleted = null;
-      this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false)
-    });
-    
+      .then(() => {
+        this.lastDeleted = null;
+        this.showSnackbar('USPESNO BRISANJE', `Kulturna pomnuda pod nazivom ${entity.name} je uspesno obrisana.`, true);
+      })
+      .catch(error => {
+        this.lastDeleted = null;
+        this.showSnackbar('NEUSPESNO BRISANJE', `${error.message}`, false);
+      });
+
   }
 
-  async fetchAditionalEntities(): Promise<void>{
+  async fetchAditionalEntities(): Promise<void> {
     this.culturalOfferingTypes = await this.culturalOfferingTypeService.getAllEntities().toPromise();
   }
 
-  setSelected(element: CulturalOffering) : void {
+  setSelected(element: CulturalOffering): void {
     this.newsService.setSelectedOfferingId(element.id);
   }
 

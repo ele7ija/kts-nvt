@@ -27,7 +27,7 @@ export class HomepageComponent implements OnInit {
   @ViewChild('searchFilter') searchFilter;
 
   // Mapa
-  center: google.maps.LatLngLiteral = {lat: 44, lng: 20.7};
+  center: google.maps.LatLngLiteral = { lat: 44, lng: 20.7 };
   markerPositions: google.maps.LatLngLiteral[] = [];
   zoom = 7;
   options: google.maps.MapOptions = {
@@ -78,7 +78,7 @@ export class HomepageComponent implements OnInit {
   }
 
   async openPeekInfoWindow(marker: MapMarker, culturalOffering: CulturalOffering): Promise<void> {
-    this.infoWindow.options = {content: this.formatInfoWindowContent(culturalOffering)};
+    this.infoWindow.options = { content: this.formatInfoWindowContent(culturalOffering) };
     this.infoWindow.open(marker);
   }
 
@@ -100,9 +100,9 @@ export class HomepageComponent implements OnInit {
       sort: '',
       sortOrder: ''
     })
-    .subscribe((page) => {
-      this.culturalOfferings = [...page.content];
-    });
+      .subscribe((page) => {
+        this.culturalOfferings = [...page.content];
+      });
   }
 
   async fetchAllCulturalOfferingTypes(): Promise<void> {
@@ -112,32 +112,32 @@ export class HomepageComponent implements OnInit {
       sort: '',
       sortOrder: ''
     })
-    .subscribe((page) => {
-      this.fetchAllCulturalOfferingSubtypes(page.content);
-      this.culturalOfferingTypes = [...page.content];
-      for (const culturalOfferingType of this.culturalOfferingTypes) {
-        const formControlName = `type${culturalOfferingType.id}`;
-        this.searchFilterForm.addControl(formControlName, new FormControl());
-        const temp = {};
-        temp[formControlName] = true;
-        this.searchFilterForm.patchValue(temp);
-      }
-    });
-  }
-
-  fetchAllCulturalOfferingSubtypes(types: CulturalOfferingType[]): void {
-    for (const culturalOfferingType of types) {
-      this.culturalOfferingSubtypeService.getAllByTypeId(culturalOfferingType.id)
-      .subscribe((culturalOfferingSubtypes: CulturalOfferingSubtype[]) => {
-        this.culturalOfferingSubtypes.set(culturalOfferingType.id, culturalOfferingSubtypes);
-        for (const culturalOfferingSubtype of this.culturalOfferingSubtypes.get(culturalOfferingType.id)) {
-          const formControlName = `subtype${culturalOfferingSubtype.id}`;
+      .subscribe((page) => {
+        this.fetchAllCulturalOfferingSubtypes(page.content);
+        this.culturalOfferingTypes = [...page.content];
+        for (const culturalOfferingType of this.culturalOfferingTypes) {
+          const formControlName = `type${culturalOfferingType.id}`;
           this.searchFilterForm.addControl(formControlName, new FormControl());
           const temp = {};
           temp[formControlName] = true;
           this.searchFilterForm.patchValue(temp);
         }
       });
+  }
+
+  fetchAllCulturalOfferingSubtypes(types: CulturalOfferingType[]): void {
+    for (const culturalOfferingType of types) {
+      this.culturalOfferingSubtypeService.getAllByTypeId(culturalOfferingType.id)
+        .subscribe((culturalOfferingSubtypes: CulturalOfferingSubtype[]) => {
+          this.culturalOfferingSubtypes.set(culturalOfferingType.id, culturalOfferingSubtypes);
+          for (const culturalOfferingSubtype of this.culturalOfferingSubtypes.get(culturalOfferingType.id)) {
+            const formControlName = `subtype${culturalOfferingSubtype.id}`;
+            this.searchFilterForm.addControl(formControlName, new FormControl());
+            const temp = {};
+            temp[formControlName] = true;
+            this.searchFilterForm.patchValue(temp);
+          }
+        });
     }
   }
 
@@ -192,13 +192,13 @@ export class HomepageComponent implements OnInit {
     for (const val in this.searchFilterForm.value) {
       if (val.startsWith('type')) {
         if (this.searchFilterForm.value[val] === true) {
-          const typeId = parseInt(val.substring(4));
+          const typeId = parseInt(val.substring(4), 10);
           searchFilter.culturalOfferingTypeIds.push(typeId);
         }
       }
       else if (val.startsWith('subtype')) {
         if (this.searchFilterForm.value[val] === true) {
-          const subtypeId = parseInt(val.substring(7));
+          const subtypeId = parseInt(val.substring(7), 10);
           searchFilter.culturalOfferingSubtypeIds.push(subtypeId);
           const type = this.culturalOfferingTypes.filter(t => t.subTypeIds.includes(subtypeId));
           searchFilter.culturalOfferingTypeIds.push(type[0].id);
@@ -213,9 +213,9 @@ export class HomepageComponent implements OnInit {
         sort: '',
         sortOrder: ''
       })
-      .subscribe((page) => {
-        this.culturalOfferings = [...page.content];
-      });
+        .subscribe((page) => {
+          this.culturalOfferings = [...page.content];
+        });
     }
     else {
       this.culturalOfferingService.searchFilterGuest(
@@ -225,9 +225,9 @@ export class HomepageComponent implements OnInit {
         sort: '',
         sortOrder: ''
       })
-      .subscribe((page) => {
-        this.culturalOfferings = [...page.content];
-      });
+        .subscribe((page) => {
+          this.culturalOfferings = [...page.content];
+        });
     }
   }
 

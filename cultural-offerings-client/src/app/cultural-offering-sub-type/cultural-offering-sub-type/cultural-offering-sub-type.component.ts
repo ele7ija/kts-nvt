@@ -13,9 +13,9 @@ import { CulturalOfferingType } from 'src/app/core/model/cultural-offering-type'
   templateUrl: './cultural-offering-sub-type.component.html',
   styleUrls: ['./cultural-offering-sub-type.component.scss'],
   providers: [
-    { 
-      provide: AbstractCrudService, 
-      useClass: CulturalOfferingSubtypeService 
+    {
+      provide: AbstractCrudService,
+      useClass: CulturalOfferingSubtypeService
     }
   ],
   animations: [

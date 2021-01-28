@@ -37,21 +37,21 @@ export class CommentItemComponent implements OnInit {
     this.fetchImages();
   }
 
-  isUserAdmin(): boolean{
+  isUserAdmin(): boolean {
     return this.authService.getUserRole() == 'ADMIN';
   }
 
-  userOwnsComment(): boolean{
+  userOwnsComment(): boolean {
     return this.authService.getUserId() == this.comment.userId;
   }
 
-  async fetchUser(): Promise<void>{
+  async fetchUser(): Promise<void> {
     if (this.comment) {
       this.user = await this.userService.getOne(this.comment.userId).toPromise();
     }
   }
 
-  async fetchImages(): Promise<void>{
+  async fetchImages(): Promise<void> {
     this.imagesLoading = true;
     const getImagesPromises: Promise<ImageModel>[] = this.comment.imageIds.map(imageId => this.imageService.getById(imageId).toPromise());
     this.images = await Promise.all(getImagesPromises);
@@ -63,7 +63,7 @@ export class CommentItemComponent implements OnInit {
       CarouselDialogComponent,
       {
         data: {
-          images: this.images.map(imageModel => ({retrievedImage: 'data:image/jpeg;base64,'+imageModel.picByte})),
+          images: this.images.map(imageModel => ({ retrievedImage: 'data:image/jpeg;base64,' + imageModel.picByte })),
           imagesLoading: false,
           enableAddAndRemove: false,
           maxImageWidth: 800,
@@ -73,7 +73,7 @@ export class CommentItemComponent implements OnInit {
     );
   }
 
-  delete(): void{
+  delete(): void {
     this.deleteStarted = true;
     this.removeCommentEvent.emit(this.comment);
   }

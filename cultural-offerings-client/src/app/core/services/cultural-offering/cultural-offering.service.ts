@@ -10,21 +10,21 @@ import { ApiService, RequestMethod } from '../security/api-service/api.service';
 @Injectable()
 export class CulturalOfferingService implements AbstractCrudService<CulturalOffering> {
 
-  endpoint: string = `${environment.baseUrl}/cultural-offerings`
+  endpoint = `${environment.baseUrl}/cultural-offerings`;
 
   constructor(public apiService: ApiService) { }
 
-  searchFilterGuest(searchFilter: SearchFilter,  pageRequest: PageableRequest) {
+  searchFilterGuest(searchFilter: SearchFilter, pageRequest: PageableRequest): Observable<any> {
     return this.apiService.request(`${this.endpoint}/search-filter/by-page/guest?page=${pageRequest.page}&size=${pageRequest.size}&sort=${pageRequest.sort},${pageRequest.sortOrder}`,
       searchFilter,
-      RequestMethod.Post)
+      RequestMethod.Post);
   }
 
   getAll(pageRequest: PageableRequest): Observable<any> {
     return this.apiService.getByPage(`${this.endpoint}/by-page`, pageRequest);
   }
 
-  getOne(id: string) {
+  getOne(id: string): any {
     return this.apiService.get(`${this.endpoint}/${id}`);
   }
 
@@ -38,9 +38,9 @@ export class CulturalOfferingService implements AbstractCrudService<CulturalOffe
     return this.apiService.delete(`${this.endpoint}/${id}`);
   }
 
-  searchFilter(searchFilter: SearchFilter, pageRequest: PageableRequest) {
+  searchFilter(searchFilter: SearchFilter, pageRequest: PageableRequest): any {
     return this.apiService.request(`${this.endpoint}/search-filter/by-page?page=${pageRequest.page}&size=${pageRequest.size}&sort=${pageRequest.sort},${pageRequest.sortOrder}`,
       searchFilter,
-      RequestMethod.Post)
+      RequestMethod.Post);
   }
 }

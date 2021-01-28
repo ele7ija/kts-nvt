@@ -9,12 +9,12 @@ import { ApiService, RequestMethod } from '../security/api-service/api.service';
 @Injectable()
 export class NewsService implements AbstractCrudService<News>{
 
-  endpoint: string = `${environment.baseUrl}/news`
+  endpoint = `${environment.baseUrl}/news`;
 
   constructor(public apiService: ApiService) { }
 
   getAll(pageRequest: PageableRequest): Observable<any> {
-    var id = this.getSelectedOfferingId();
+    const id = this.getSelectedOfferingId();
     return this.apiService.request(
       `${this.endpoint}/all/by-page?id=${id}&page=${pageRequest.page}&size=${pageRequest.size}&sort=${pageRequest.sort},${pageRequest.sortOrder}`,
       {},
@@ -22,7 +22,7 @@ export class NewsService implements AbstractCrudService<News>{
     );
   }
 
-  getOne(id: string) {
+  getOne(id: string): any {
     return this.apiService.get(`${this.endpoint}/${id}`);
   }
 
@@ -38,16 +38,16 @@ export class NewsService implements AbstractCrudService<News>{
     return this.apiService.delete(`${this.endpoint}/${id}`);
   }
 
-  notify(id: number): Observable<Boolean> {
-    console.log(id)
+  notify(id: number): Observable<boolean> {
+    console.log(id);
     return this.apiService.post(`${this.endpoint}/notify/${id}`);
   }
 
-  getSelectedOfferingId() : number {
+  getSelectedOfferingId(): number {
     return JSON.parse(localStorage.getItem('SELECTED_OFFERING'));
   }
 
-  setSelectedOfferingId(id: number) : void {
+  setSelectedOfferingId(id: number): void {
     localStorage.setItem('SELECTED_OFFERING', JSON.stringify(id));
   }
 }

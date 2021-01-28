@@ -13,10 +13,10 @@ import { ListChangeEventType } from 'src/app/core/model/list-change-event-type.e
 })
 export class CulturalOfferingSubtypeChipsComponent implements OnInit {
 
-  visible: boolean = true;
-  selectable: boolean = true;
-  removable: boolean = true;
-  addOnBlur: boolean = true;
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   @Input()
